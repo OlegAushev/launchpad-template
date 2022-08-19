@@ -15,8 +15,8 @@ const char* PROMPT_END = CLI_PROMPT_END;
 
 
 emb::IUart* Server::m_uart = static_cast<emb::IUart*>(NULL);
-emb::IGpio* Server::m_pinRTS = static_cast<emb::IGpio*>(NULL);
-emb::IGpio* Server::m_pinCTS = static_cast<emb::IGpio*>(NULL);
+emb::IGpioOutput* Server::m_pinRTS = static_cast<emb::IGpioOutput*>(NULL);
+emb::IGpioInput* Server::m_pinCTS = static_cast<emb::IGpioInput*>(NULL);
 
 char Server::PROMPT[CLI_PROMPT_MAX_LENGTH] = {0};
 emb::String<CLI_CMDLINE_MAX_LENGTH> Server::m_cmdline;
@@ -47,7 +47,7 @@ const size_t ESCSEQ_LIST_SIZE = sizeof(Server::ESCSEQ_LIST) / sizeof(Server::ESC
 ///
 ///
 ///
-Server::Server(const char* deviceName, emb::IUart* uart, emb::IGpio* pinRTS, emb::IGpio* pinCTS)
+Server::Server(const char* deviceName, emb::IUart* uart, emb::IGpioOutput* pinRTS, emb::IGpioInput* pinCTS)
 {
 	m_uart = uart;
 	m_pinRTS = pinRTS;	// output
