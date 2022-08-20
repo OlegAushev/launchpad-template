@@ -96,7 +96,7 @@ void main()
 	cli::nextline_blocking();
 	cli::nextline_blocking();
 	cli::nextline_blocking();
-	cli::print_blocking("================================");
+	cli::print_blocking(CLI_WELCOME_STRING);
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 has booted successfully");
 
