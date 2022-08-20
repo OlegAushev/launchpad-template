@@ -27,14 +27,12 @@
 #define CLI_ENDL	"\r\n"
 
 #define CLI_COLOR_OFF		"\033[0m"	// Text Reset
+#define CLI_COLOR_RED		"\033[1;31m"	// Green
 #define CLI_COLOR_GREEN 	"\033[1;32m"	// Green
 #define CLI_COLOR_YELLOW	"\033[1;33m"	// Yellow
 #define CLI_COLOR_PURPLE	"\033[1;35m"	// Purple
 
 #define CLI_PROMPT_BEGIN CLI_COLOR_PURPLE"[root@"
 #define CLI_PROMPT_END "]> "CLI_COLOR_OFF
-
-
-#define CLI_OUTPUT_LENGTH CLI_OUTBUT_BUFFER_LENGTH
 
 

@@ -12,6 +12,10 @@
 #include "emb/emb_algorithm.h"
 
 
+#define CLI_CMD_OUTPUT_LENGTH CLI_OUTBUT_BUFFER_LENGTH
+extern char CLI_CMD_OUTPUT[CLI_CMD_OUTPUT_LENGTH];
+
+
 namespace cli {
 /// @addtogroup cli
 /// @{

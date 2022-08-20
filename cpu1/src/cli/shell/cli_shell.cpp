@@ -13,6 +13,10 @@
 int cli_sysinfo(int argc, const char** argv);
 int cli_reboot(int argc, const char** argv);
 int cli_uptime(int argc, const char** argv);
+int cli_syslog(int argc, const char** argv);
+
+
+extern char CLI_CMD_OUTPUT[CLI_CMD_OUTPUT_LENGTH] = {0};
 
 
 namespace cli {
@@ -24,6 +28,7 @@ Cmd Shell::COMMANDS[] =
 {"sysinfo",		cli_sysinfo,		"Prints basic information about system."},
 {"reboot",		cli_reboot,		"Reboots device."},
 {"uptime",		cli_uptime,		"Shows system uptime."},
+{"syslog",		cli_syslog,		"Syslog control utility."},
 };
 
 const size_t Shell::COMMANDS_COUNT = sizeof(Shell::COMMANDS) / sizeof(Shell::COMMANDS[0]);
