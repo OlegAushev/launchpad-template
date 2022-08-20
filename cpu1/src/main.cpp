@@ -90,7 +90,7 @@ void main()
 			mcu::GpioConfig(18, GPIO_18_SCITXDB),
 			sciBConfig);
 
-	cli::Server cliServer("launchxl", &sciB, NULL, NULL);
+	cli::Server cliServer("launchpad", &sciB, NULL, NULL);
 	cli::Shell::init();
 	cliServer.registerExecCallback(cli::Shell::exec);
 	cli::nextline_blocking();
