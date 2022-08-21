@@ -28,8 +28,8 @@ emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> Server::s_outputBuf;
 
 #ifdef CLI_USE_HISTORY
 emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> Server::s_history;
-int Server::s_lastCmdHistoryPos = -1;
-int Server::s_historyPosition = -1;
+size_t Server::s_lastCmdHistoryPos = 0;
+size_t Server::s_historyPosition = 0;
 bool Server::s_newCmdSaved = false;
 #endif
 
@@ -46,10 +46,8 @@ const Server::EscSeq Server::ESCSEQ_LIST[] = {
 {.str = "\x08",		.len = 1,	.handler = Server::_escBack},
 {.str = "\x7F",		.len = 1,	.handler = Server::_escBack},
 {.str = CLI_ESC"[3~",	.len = 4,	.handler = Server::_escDel},
-#ifdef CLI_USE_HISTORY
 {.str = CLI_ESC"[A",	.len = 3,	.handler = Server::_escUp},
 {.str = CLI_ESC"[B",	.len = 3,	.handler = Server::_escDown},
-#endif
 };
 
 const size_t ESCSEQ_LIST_SIZE = sizeof(Server::ESCSEQ_LIST) / sizeof(Server::ESCSEQ_LIST[0]);
@@ -248,6 +246,11 @@ int Server::tokenize(const char** argv, emb::String<CLI_CMDLINE_MAX_LENGTH>& cmd
 	int argc = 0;
 	size_t idx = 0;
 
+	if (cmdline.empty())
+	{
+		return 0;
+	}
+
 	// replace all ' ' with '\0'
 	for (size_t i = 0; i < cmdline.lenght(); ++i)
 	{
@@ -281,12 +284,13 @@ int Server::tokenize(const char** argv, emb::String<CLI_CMDLINE_MAX_LENGTH>& cmd
 }
 
 
+#ifdef CLI_USE_HISTORY
 ///
 ///
 ///
 void Server::searchHistory(HistorySearchDirection dir)
 {
-	int pos;
+	static size_t pos;
 
 	switch (dir)
 	{
@@ -309,10 +313,29 @@ void Server::searchHistory(HistorySearchDirection dir)
 
 	s_newCmdSaved = false;
 
-	// TODO
-}
+	// move cursor to line beginning
+	if (s_cursorPos > 0)
+	{
+		moveCursor(-s_cursorPos);
+		s_cursorPos = 0;
+	}
 
+	int remainder = s_cmdline.size() - s_history.data()[pos].size();
+	s_cmdline = s_history.data()[pos];
+	print(s_cmdline.data());
+	s_cursorPos = s_cmdline.size();
+
+	// clear remaining symbols
+	saveCursorPos();
+	for (int i = 0; i < remainder; ++i)
+	{
+		print(" ");
+	}
+	loadCursorPos();
+}
+#endif
 
 
 } // namespace cli
+
 

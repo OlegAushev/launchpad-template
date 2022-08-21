@@ -45,8 +45,8 @@ private:
 
 #ifdef CLI_USE_HISTORY
 	static emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> s_history;
-	static int s_lastCmdHistoryPos;
-	static int s_historyPosition;
+	static size_t s_lastCmdHistoryPos;
+	static size_t s_historyPosition;
 	static bool s_newCmdSaved;
 #endif
 
@@ -111,12 +111,14 @@ private:
 	static void _escDown();
 
 private:
+#ifdef CLI_USE_HISTORY
 	enum HistorySearchDirection
 	{
 		CLI_HISTORY_SEARCH_UP,
 		CLI_HISTORY_SEARCH_DOWN,
 	};
 	static void searchHistory(HistorySearchDirection dir);
+#endif
 };
 
 

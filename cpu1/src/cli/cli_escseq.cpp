@@ -16,10 +16,21 @@ namespace cli {
 void Server::_escReturn()
 {
 #ifdef CLI_USE_HISTORY
-	s_history.push(s_cmdline);
-	s_lastCmdHistoryPos = (s_lastCmdHistoryPos + 1) % s_history.capacity();
-	s_historyPosition = s_lastCmdHistoryPos;
+	if (!s_cmdline.empty())
+	{
+		if (s_history.empty())
+		{
+			s_history.push(s_cmdline);
+			s_lastCmdHistoryPos = 0;
+		}
+		else if (s_cmdline != s_history.back())
+		{
+			s_history.push(s_cmdline);
+			s_lastCmdHistoryPos = (s_lastCmdHistoryPos + 1) % s_history.capacity();
+		}
+	}
 	s_newCmdSaved = true;
+	s_historyPosition = s_lastCmdHistoryPos;
 #endif
 
 	const char* argv[CLI_TOKEN_MAX_COUNT];
