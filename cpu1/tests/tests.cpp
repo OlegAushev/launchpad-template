@@ -3,7 +3,7 @@
 #include "emb/tests/emb_test.h"
 
 #include "sys/syslog/syslog.h"
-#include "mcu_c28x/adc/mcu_adc.h"
+#include "mcu/adc/mcu_adc.h"
 #include "mcu_test/mcu_test.h"
 
 

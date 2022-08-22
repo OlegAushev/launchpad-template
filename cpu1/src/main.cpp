@@ -1,6 +1,6 @@
 ///
-#define FIRMWARE_VERSION_STRDEF "v22.08.1"
-#define FIRMWARE_VERSION_NUMDEF 22081
+#define FIRMWARE_VERSION_STRDEF "v22.08.2"
+#define FIRMWARE_VERSION_NUMDEF 22082
 
 #include "F28x_Project.h"
 #include "device.h"
@@ -9,19 +9,19 @@
 #include "emb/emb_profiler/emb_profiler.h"
 #include "profiler/profiler.h"
 
-#include "mcu_c28x/system/mcu_system.h"
-#include "mcu_c28x/ipc/mcu_ipc.h"
-#include "mcu_c28x/cputimers/mcu_cputimers.h"
-#include "mcu_c28x/adc/mcu_adc.h"
-#include "mcu_c28x/can/mcu_can.h"
-#include "mcu_c28x/spi/mcu_spi.h"
-#include "mcu_c28x/support/mcu_support.h"
+#include "mcu/system/mcu_system.h"
+#include "mcu/ipc/mcu_ipc.h"
+#include "mcu/cputimers/mcu_cputimers.h"
+#include "mcu/adc/mcu_adc.h"
+#include "mcu/can/mcu_can.h"
+#include "mcu/spi/mcu_spi.h"
+#include "mcu/support/mcu_support.h"
 
 #include "sys/syslog/syslog.h"
 #include "sys/sysinfo/sysinfo.h"
 #include "clocktasks/cpu1clocktasks.h"
 
-#include "mcu_c28x/sci/mcu_sci.h"
+#include "mcu/sci/mcu_sci.h"
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
 
