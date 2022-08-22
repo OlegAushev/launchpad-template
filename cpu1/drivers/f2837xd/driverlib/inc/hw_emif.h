@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the EMIF registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -78,6 +76,7 @@
 #define EMIF_RCSR_MODULE_ID_M        0x3FFF0000U   // EMIF module ID.
 #define EMIF_RCSR_FR                 0x40000000U   // EMIF is running in full rate or half rate.
 #define EMIF_RCSR_BE                 0x80000000U   // EMIF endian mode.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ASYNC_WCCR register
@@ -86,6 +85,7 @@
 #define EMIF_ASYNC_WCCR_MAX_EXT_WAIT_S   0U
 #define EMIF_ASYNC_WCCR_MAX_EXT_WAIT_M   0xFFU         // Maximum Extended Wait cycles.
 #define EMIF_ASYNC_WCCR_WP0              0x10000000U   //  Polarity for EMxWAIT.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDRAM_CR register
@@ -103,6 +103,7 @@
 #define EMIF_SDRAM_CR_PDWR            0x20000000U   // Perform refreshes during Power Down.
 #define EMIF_SDRAM_CR_PD              0x40000000U   // Power Down.
 #define EMIF_SDRAM_CR_SR              0x80000000U   // Self Refresh.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDRAM_RCR register
@@ -110,6 +111,7 @@
 //*************************************************************************************************
 #define EMIF_SDRAM_RCR_REFRESH_RATE_S   0U
 #define EMIF_SDRAM_RCR_REFRESH_RATE_M   0x1FFFU   // Refresh Rate.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ASYNC_CS2_CR register
@@ -133,6 +135,7 @@
 #define EMIF_ASYNC_CS2_CR_W_SETUP_M    0x3C000000U   // Write Strobe Setup cycles.
 #define EMIF_ASYNC_CS2_CR_EW           0x40000000U   // Extend Wait mode.
 #define EMIF_ASYNC_CS2_CR_SS           0x80000000U   // Select Strobe mode.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ASYNC_CS3_CR register
@@ -156,6 +159,7 @@
 #define EMIF_ASYNC_CS3_CR_W_SETUP_M    0x3C000000U   // Write Strobe Setup cycles.
 #define EMIF_ASYNC_CS3_CR_EW           0x40000000U   // Extend Wait mode.
 #define EMIF_ASYNC_CS3_CR_SS           0x80000000U   // Select Strobe mode.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ASYNC_CS4_CR register
@@ -179,6 +183,7 @@
 #define EMIF_ASYNC_CS4_CR_W_SETUP_M    0x3C000000U   // Write Strobe Setup cycles.
 #define EMIF_ASYNC_CS4_CR_EW           0x40000000U   // Extend Wait mode.
 #define EMIF_ASYNC_CS4_CR_SS           0x80000000U   // Select Strobe mode.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDRAM_TR register
@@ -198,6 +203,7 @@
 #define EMIF_SDRAM_TR_T_RP_M    0x7000000U    // Precharge to Activate/Refresh timing.
 #define EMIF_SDRAM_TR_T_RFC_S   27U
 #define EMIF_SDRAM_TR_T_RFC_M   0xF8000000U   // Refresh/Load Mode to Refresh/Activate timing
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDR_EXT_TMNG register
@@ -205,6 +211,7 @@
 //*************************************************************************************************
 #define EMIF_SDR_EXT_TMNG_T_XS_S   0U
 #define EMIF_SDR_EXT_TMNG_T_XS_M   0x1FU   // Self Refresh exit to new command timing.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INT_RAW register
@@ -214,6 +221,7 @@
 #define EMIF_INT_RAW_LT     0x2U    // Line Trap.
 #define EMIF_INT_RAW_WR_S   2U
 #define EMIF_INT_RAW_WR_M   0x3CU   // Wait Rise.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INT_MSK register
@@ -223,6 +231,7 @@
 #define EMIF_INT_MSK_LT_MASKED     0x2U    // Line Trap.
 #define EMIF_INT_MSK_WR_MASKED_S   2U
 #define EMIF_INT_MSK_WR_MASKED_M   0x3CU   // Wait Rise.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INT_MSK_SET register
@@ -232,6 +241,7 @@
 #define EMIF_INT_MSK_SET_LT_MASK_SET     0x2U    // Line Trap.
 #define EMIF_INT_MSK_SET_WR_MASK_SET_S   2U
 #define EMIF_INT_MSK_SET_WR_MASK_SET_M   0x3CU   // Wait Rise.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INT_MSK_CLR register
@@ -241,6 +251,7 @@
 #define EMIF_INT_MSK_CLR_LT_MASK_CLR     0x2U    // Line Trap.
 #define EMIF_INT_MSK_CLR_WR_MASK_CLR_S   2U
 #define EMIF_INT_MSK_CLR_WR_MASK_CLR_M   0x3CU   // Wait Rise.
+
 
 
 #endif

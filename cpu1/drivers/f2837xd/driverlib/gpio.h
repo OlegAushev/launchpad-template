@@ -5,10 +5,8 @@
 // TITLE:  C28x GPIO driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -148,7 +146,7 @@ typedef enum
 //*****************************************************************************
 typedef enum
 {
-    GPIO_QUAL_SYNC,                     //!< Synchronization to SYSCLKOUT
+    GPIO_QUAL_SYNC,                     //!< Synchronization to SYSCLK
     GPIO_QUAL_3SAMPLE,                  //!< Qualified with 3 samples
     GPIO_QUAL_6SAMPLE,                  //!< Qualified with 6 samples
     GPIO_QUAL_ASYNC                     //!< No synchronization

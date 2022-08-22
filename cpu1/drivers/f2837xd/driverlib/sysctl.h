@@ -5,10 +5,8 @@
 // TITLE:  C28x system control driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -78,6 +76,7 @@ extern "C"
 // code.
 //
 //*****************************************************************************
+
 //
 // Shifted pattern for WDCR register's WDCHK field.
 //
@@ -159,6 +158,8 @@ extern "C"
 //
 // System clock divider (SYSDIV)
 //
+
+
 #define SYSCTL_SYSDIV_M     0x00001F80U // Mask for SYSDIV value in config
 #define SYSCTL_SYSDIV_S     7U          // Shift for SYSDIV value in config
 
@@ -467,8 +468,7 @@ typedef enum
 //*****************************************************************************
 //
 //! The following are values that can be passed to
-//! SysCtl_selectCPUForPeripheral() & SysCtl_lockCPUSelectRegs()
-//! as the \e peripheral parameter.
+//! SysCtl_lockCPUSelectRegs() as the \e peripheral parameter.
 //
 //*****************************************************************************
 typedef enum
@@ -498,6 +498,67 @@ typedef enum
     //! Configure CPU Select for DAC
     SYSCTL_CPUSEL14_DAC      = 0xEU
 } SysCtl_CPUSelPeripheral;
+
+//*****************************************************************************
+//
+//! The following are values that can be passed to
+//! SysCtl_selectCPUForPeripheralInstance() as the \e peripheral parameter.
+//
+//*****************************************************************************
+typedef enum
+{
+    SYSCTL_CPUSEL_EPWM1 = 0x0000,
+    SYSCTL_CPUSEL_EPWM2 = 0x0100,
+    SYSCTL_CPUSEL_EPWM3 = 0x0200,
+    SYSCTL_CPUSEL_EPWM4 = 0x0300,
+    SYSCTL_CPUSEL_EPWM5 = 0x0400,
+    SYSCTL_CPUSEL_EPWM6 = 0x0500,
+    SYSCTL_CPUSEL_EPWM7 = 0x0600,
+    SYSCTL_CPUSEL_EPWM8 = 0x0700,
+    SYSCTL_CPUSEL_EPWM9 = 0x0800,
+    SYSCTL_CPUSEL_EPWM10 = 0x0900,
+    SYSCTL_CPUSEL_EPWM11 = 0x0A00,
+    SYSCTL_CPUSEL_EPWM12 = 0x0B00,
+    SYSCTL_CPUSEL_ECAP1 = 0x0001,
+    SYSCTL_CPUSEL_ECAP2 = 0x0101,
+    SYSCTL_CPUSEL_ECAP3 = 0x0201,
+    SYSCTL_CPUSEL_ECAP4 = 0x0301,
+    SYSCTL_CPUSEL_ECAP5 = 0x0401,
+    SYSCTL_CPUSEL_ECAP6 = 0x0501,
+    SYSCTL_CPUSEL_EQEP1 = 0x0002,
+    SYSCTL_CPUSEL_EQEP2 = 0x0102,
+    SYSCTL_CPUSEL_EQEP3 = 0x0202,
+    SYSCTL_CPUSEL_SD1 = 0x0004,
+    SYSCTL_CPUSEL_SD2 = 0x0104,
+    SYSCTL_CPUSEL_SCIA = 0x0005,
+    SYSCTL_CPUSEL_SCIB = 0x0105,
+    SYSCTL_CPUSEL_SCIC = 0x0205,
+    SYSCTL_CPUSEL_SCID = 0x0305,
+    SYSCTL_CPUSEL_SPIA = 0x0006,
+    SYSCTL_CPUSEL_SPIB = 0x0106,
+    SYSCTL_CPUSEL_SPIC = 0x0206,
+    SYSCTL_CPUSEL_I2CA = 0x0007,
+    SYSCTL_CPUSEL_I2CB = 0x0107,
+    SYSCTL_CPUSEL_CANA = 0x0008,
+    SYSCTL_CPUSEL_CANB = 0x0108,
+    SYSCTL_CPUSEL_MCBSPA = 0x0009,
+    SYSCTL_CPUSEL_MCBSPB = 0x0109,
+    SYSCTL_CPUSEL_ADCA = 0x000B,
+    SYSCTL_CPUSEL_ADCB = 0x010B,
+    SYSCTL_CPUSEL_ADCC = 0x020B,
+    SYSCTL_CPUSEL_ADCD = 0x030B,
+    SYSCTL_CPUSEL_CMPSS1 = 0x000C,
+    SYSCTL_CPUSEL_CMPSS2 = 0x010C,
+    SYSCTL_CPUSEL_CMPSS3 = 0x020C,
+    SYSCTL_CPUSEL_CMPSS4 = 0x030C,
+    SYSCTL_CPUSEL_CMPSS5 = 0x040C,
+    SYSCTL_CPUSEL_CMPSS6 = 0x050C,
+    SYSCTL_CPUSEL_CMPSS7 = 0x060C,
+    SYSCTL_CPUSEL_CMPSS8 = 0x070C,
+    SYSCTL_CPUSEL_DACA = 0x100E,
+    SYSCTL_CPUSEL_DACB = 0x110E,
+    SYSCTL_CPUSEL_DACC = 0x120E
+} SysCtl_CPUSelPeriphInstance;
 
 //*****************************************************************************
 //
@@ -767,7 +828,8 @@ typedef enum
 //! \param None
 //!
 //! This is a wrapper function for the Device_cal function available in the OTP
-//! memory. The function saves and restores the core registers which are being
+//! memory.
+//! The function saves and restores the core registers which are being
 //! used by the Device_cal function
 //!
 //! \return None.
@@ -847,8 +909,8 @@ SysCtl_resetPeripheral(SysCtl_PeripheralSOFTPRES peripheral)
     //
     // Call Device_cal function
     //
-    if(((peripheral & SYSCTL_PERIPH_REG_M) == 0xDU) ||      // ADCx
-       ((peripheral & SYSCTL_PERIPH_REG_M) == 0x10U)        // DACx
+    if((((uint16_t)peripheral & SYSCTL_PERIPH_REG_M) == 0xDU) ||      // ADCx
+       (((uint16_t)peripheral & SYSCTL_PERIPH_REG_M) == 0x10U)        // DACx
        )
     {
         SysCtl_deviceCal();
@@ -970,7 +1032,7 @@ SysCtl_resetDevice(void)
     // The device should have reset, so this should never be reached.  Just in
     // case, loop forever.
     //
-    while(1)
+    while((bool)1)
     {
     }
 }
@@ -1082,8 +1144,8 @@ SysCtl_setLowSpeedClock(SysCtl_LSPCLKPrescaler prescaler)
     //
     EALLOW;
     HWREG(CLKCFG_BASE + SYSCTL_O_LOSPCP) =
-        (HWREG(CLKCFG_BASE + SYSCTL_O_LOSPCP) & ~SYSCTL_LOSPCP_LSPCLKDIV_M) |
-        (uint32_t)prescaler;
+        (HWREG(CLKCFG_BASE + SYSCTL_O_LOSPCP) &
+         ~(uint32_t)SYSCTL_LOSPCP_LSPCLKDIV_M) | (uint32_t)prescaler;
     EDIS;
 }
 
@@ -1369,8 +1431,8 @@ SysCtl_enterIdleMode(void)
     // Configure the device to go into IDLE mode when IDLE is executed.
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-                SYSCTL_LPM_IDLE;
+                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+                 ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_IDLE;
 
     EDIS;
 
@@ -1407,8 +1469,8 @@ SysCtl_enterStandbyMode(void)
     // Configure the device to go into STANDBY mode when IDLE is executed.
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-                SYSCTL_LPM_STANDBY;
+                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+                 ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_STANDBY;
 
     EDIS;
 
@@ -1445,8 +1507,8 @@ SysCtl_enterHaltMode(void)
     // Configure the device to go into IDLE mode when IDLE is executed.
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-            SYSCTL_LPM_IDLE;
+            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+             ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_IDLE;
 
     EDIS;
     asm(" IDLE");
@@ -1458,8 +1520,8 @@ SysCtl_enterHaltMode(void)
     // Configure the device to go into HALT mode when IDLE is executed.
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-                SYSCTL_LPM_HALT;
+                (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+                 ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_HALT;
 
     HWREGH(CLKCFG_BASE + SYSCTL_O_SYSPLLCTL1) &=
                 ~(SYSCTL_SYSPLLCTL1_PLLCLKEN | SYSCTL_SYSPLLCTL1_PLLEN);
@@ -1504,8 +1566,8 @@ SysCtl_enterHibernateMode(void)
     // Configure the device to go into STANDBY mode when IDLE is executed.
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-            SYSCTL_LPM_STANDBY;
+            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+             ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_STANDBY;
 
     EDIS;
     asm(" IDLE");
@@ -1516,8 +1578,8 @@ SysCtl_enterHibernateMode(void)
     // Configure the device to go into Hibernate mode when IDLE is executed
     //
     HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) =
-            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) & ~SYSCTL_LPMCR_LPM_M) |
-            SYSCTL_LPM_HIB;
+            (HWREG(CPUSYS_BASE + SYSCTL_O_LPMCR) &
+             ~(uint32_t)SYSCTL_LPMCR_LPM_M) | SYSCTL_LPM_HIB;
 
     HWREGH(CLKCFG_BASE + SYSCTL_O_SYSPLLCTL1) &=
             ~(SYSCTL_SYSPLLCTL1_PLLCLKEN | SYSCTL_SYSPLLCTL1_PLLEN);
@@ -2777,6 +2839,53 @@ SysCtl_lockSyncSelect(void)
 //! Configures whether a peripheral is connected to CPU1 or CPU2.
 //!
 //! \param peripheral is the peripheral for which CPU needs to be configured.
+//! \param cpuInst is the CPU to which the peripheral instance need to be
+//!                connected.
+//!
+//! The \e peripheral parameter can have one enumerated value from
+//! SysCtl_CPUSelPeriphInstance
+//!
+//! The \e cpuInst parameter can have one the following values:
+//! - \b SYSCTL_CPUSEL_CPU1 - to connect to CPU1
+//! - \b SYSCTL_CPUSEL_CPU2 - to connect to CPU2
+//!
+//! \note This API is applicable only for the CPU1 subsystem.
+//!
+//! \return None.
+//
+//*****************************************************************************
+static inline void
+SysCtl_selectCPUForPeripheralInstance(SysCtl_CPUSelPeriphInstance peripheral,
+                                      SysCtl_CPUSel cpuInst)
+{
+    uint16_t regIndex;
+    uint16_t bitIndex;
+
+    //
+    // Identify the register index and bit position
+    //
+    regIndex = (uint16_t)2U * ((uint16_t)peripheral &
+                               (uint16_t)SYSCTL_PERIPH_REG_M);
+    bitIndex = ((uint16_t)peripheral & SYSCTL_PERIPH_BIT_M) >>
+               SYSCTL_PERIPH_BIT_S;
+
+    EALLOW;
+
+    //
+    // Configure the CPU owner for the specified peripheral instance
+    //
+    HWREG(DEVCFG_BASE + SYSCTL_O_CPUSEL0 + regIndex) =
+       (HWREG(DEVCFG_BASE + SYSCTL_O_CPUSEL0 + regIndex) & ~(1UL << bitIndex)) |
+       ((uint32_t)cpuInst << bitIndex);
+
+    EDIS;
+
+}
+//*****************************************************************************
+//
+//! Configures whether a peripheral is connected to CPU1 or CPU2.
+//!
+//! \param peripheral is the peripheral for which CPU needs to be configured.
 //! \param peripheralInst is the instance for which CPU needs to be configured.
 //! \param cpuInst is the CPU to which the peripheral instance need to be
 //!                connected.
@@ -2794,6 +2903,9 @@ SysCtl_lockSyncSelect(void)
 //! - \b SYSCTL_CPUSEL_CPU2 - to connect to CPU2
 //!
 //! \note This API is applicable only for the CPU1 subsystem.
+//!
+//! \note This function is retained for compatibility puposes. Recommended to
+//! to use the function \e SysCtl_selectCPUForPeripheralInstance()
 //!
 //! \return None.
 //
@@ -3071,6 +3183,9 @@ SysCtl_isPresentUSBPHY(void)
 //! \note If count is equal to zero, the loop will underflow and run for a
 //! very long time.
 //!
+//! \note Refer to the macro DEVICE_DELAY_US(x) in device.h which can be used to
+//! insert a delay in microseconds.
+//!
 //! \return None.
 //
 //*****************************************************************************
@@ -3162,6 +3277,26 @@ SysCtl_getAuxClock(uint32_t clockInHz);
 //*****************************************************************************
 extern bool
 SysCtl_setClock(uint32_t config);
+
+//*****************************************************************************
+//
+//! Configures the external oscillator for the clocking of the device.
+//!
+//! This function configures the external oscillator (XTAL) to be used for the
+//! clocking of the device in crystal mode. It follows the procedure to turn on
+//! the oscillator, wait for it to power up, and select it as the source of the
+//! system clock.
+//!
+//! Please note that this function blocks while it waits for the XTAL to power
+//! up. If the XTAL does not manage to power up properly, the function will
+//! loop for a long time. It is recommended that you modify this function to
+//! add an appropriate timeout and error-handling procedure.
+//!
+//! \return None.
+//
+//*****************************************************************************
+extern void
+SysCtl_selectXTAL(void);
 
 //*****************************************************************************
 //

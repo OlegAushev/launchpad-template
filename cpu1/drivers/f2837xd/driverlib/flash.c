@@ -5,10 +5,8 @@
 // TITLE:  C28x Flash driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -45,6 +43,7 @@
 #ifndef __cplusplus
 #pragma CODE_SECTION(Flash_initModule, ".TI.ramfunc");
 #pragma CODE_SECTION(Flash_powerDown, ".TI.ramfunc");
+#pragma CODE_SECTION(Flash_wakeFromLPM, ".TI.ramfunc");
 #endif
 
 //*****************************************************************************
@@ -144,3 +143,29 @@ Flash_powerDown(uint32_t ctrlBase)
     Flash_setPumpPowerMode(ctrlBase, FLASH_PUMP_PWR_SLEEP);
 }
 
+//*****************************************************************************
+//
+// Flash_wakeFromLPM
+//
+//*****************************************************************************
+#ifdef __cplusplus
+#pragma CODE_SECTION(".TI.ramfunc");
+#endif
+void
+Flash_wakeFromLPM(uint32_t ctrlBase)
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT(Flash_isCtrlBaseValid(ctrlBase));
+
+    //
+    // Set the bank fallback power modes to active.
+    //
+    Flash_setBankPowerMode(ctrlBase, FLASH_BANK, FLASH_BANK_PWR_ACTIVE);
+
+    //
+    // Set the flash pump power mode to active.
+    //
+    Flash_setPumpPowerMode(ctrlBase, FLASH_PUMP_PWR_ACTIVE);
+}

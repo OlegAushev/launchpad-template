@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the GPIO registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -189,6 +187,7 @@
 #define GPIO_GPACTRL_QUALPRD3_S   24U
 #define GPIO_GPACTRL_QUALPRD3_M   0xFF000000U   // Qualification sampling period for GPIO24 to
                                                 // GPIO31
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAQSEL1 register
@@ -226,6 +225,7 @@
 #define GPIO_GPAQSEL1_GPIO14_M   0x30000000U   // Select input qualification type for GPIO14
 #define GPIO_GPAQSEL1_GPIO15_S   30U
 #define GPIO_GPAQSEL1_GPIO15_M   0xC0000000U   // Select input qualification type for GPIO15
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAQSEL2 register
@@ -263,6 +263,7 @@
 #define GPIO_GPAQSEL2_GPIO30_M   0x30000000U   // Select input qualification type for GPIO30
 #define GPIO_GPAQSEL2_GPIO31_S   30U
 #define GPIO_GPAQSEL2_GPIO31_M   0xC0000000U   // Select input qualification type for GPIO31
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAMUX1 register
@@ -300,6 +301,7 @@
 #define GPIO_GPAMUX1_GPIO14_M   0x30000000U   // Defines pin-muxing selection for GPIO14
 #define GPIO_GPAMUX1_GPIO15_S   30U
 #define GPIO_GPAMUX1_GPIO15_M   0xC0000000U   // Defines pin-muxing selection for GPIO15
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAMUX2 register
@@ -337,6 +339,7 @@
 #define GPIO_GPAMUX2_GPIO30_M   0x30000000U   // Defines pin-muxing selection for GPIO30
 #define GPIO_GPAMUX2_GPIO31_S   30U
 #define GPIO_GPAMUX2_GPIO31_M   0xC0000000U   // Defines pin-muxing selection for GPIO31
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPADIR register
@@ -374,6 +377,7 @@
 #define GPIO_GPADIR_GPIO29   0x20000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPADIR_GPIO30   0x40000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPADIR_GPIO31   0x80000000U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAPUD register
@@ -411,6 +415,7 @@
 #define GPIO_GPAPUD_GPIO29   0x20000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPAPUD_GPIO30   0x40000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPAPUD_GPIO31   0x80000000U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAINV register
@@ -448,6 +453,7 @@
 #define GPIO_GPAINV_GPIO29   0x20000000U   // Input inversion control for this pin
 #define GPIO_GPAINV_GPIO30   0x40000000U   // Input inversion control for this pin
 #define GPIO_GPAINV_GPIO31   0x80000000U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAODR register
@@ -485,6 +491,7 @@
 #define GPIO_GPAODR_GPIO29   0x20000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPAODR_GPIO30   0x40000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPAODR_GPIO31   0x80000000U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAGMUX1 register
@@ -522,6 +529,7 @@
 #define GPIO_GPAGMUX1_GPIO14_M   0x30000000U   // Defines pin-muxing selection for GPIO14
 #define GPIO_GPAGMUX1_GPIO15_S   30U
 #define GPIO_GPAGMUX1_GPIO15_M   0xC0000000U   // Defines pin-muxing selection for GPIO15
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPAGMUX2 register
@@ -559,6 +567,7 @@
 #define GPIO_GPAGMUX2_GPIO30_M   0x30000000U   // Defines pin-muxing selection for GPIO30
 #define GPIO_GPAGMUX2_GPIO31_S   30U
 #define GPIO_GPAGMUX2_GPIO31_M   0xC0000000U   // Defines pin-muxing selection for GPIO31
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACSEL1 register
@@ -580,6 +589,7 @@
 #define GPIO_GPACSEL1_GPIO6_M   0xF000000U    // GPIO6 Master CPU Select
 #define GPIO_GPACSEL1_GPIO7_S   28U
 #define GPIO_GPACSEL1_GPIO7_M   0xF0000000U   // GPIO7 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACSEL2 register
@@ -601,6 +611,7 @@
 #define GPIO_GPACSEL2_GPIO14_M   0xF000000U    // GPIO14 Master CPU Select
 #define GPIO_GPACSEL2_GPIO15_S   28U
 #define GPIO_GPACSEL2_GPIO15_M   0xF0000000U   // GPIO15 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACSEL3 register
@@ -622,6 +633,7 @@
 #define GPIO_GPACSEL3_GPIO22_M   0xF000000U    // GPIO22 Master CPU Select
 #define GPIO_GPACSEL3_GPIO23_S   28U
 #define GPIO_GPACSEL3_GPIO23_M   0xF0000000U   // GPIO23 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACSEL4 register
@@ -643,6 +655,7 @@
 #define GPIO_GPACSEL4_GPIO30_M   0xF000000U    // GPIO30 Master CPU Select
 #define GPIO_GPACSEL4_GPIO31_S   28U
 #define GPIO_GPACSEL4_GPIO31_M   0xF0000000U   // GPIO31 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPALOCK register
@@ -680,6 +693,7 @@
 #define GPIO_GPALOCK_GPIO29   0x20000000U   // Configuration Lock bit for this pin
 #define GPIO_GPALOCK_GPIO30   0x40000000U   // Configuration Lock bit for this pin
 #define GPIO_GPALOCK_GPIO31   0x80000000U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACR register
@@ -717,6 +731,7 @@
 #define GPIO_GPACR_GPIO29   0x20000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPACR_GPIO30   0x40000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPACR_GPIO31   0x80000000U   // Configuration lock commit bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCTRL register
@@ -734,6 +749,7 @@
 #define GPIO_GPBCTRL_QUALPRD3_S   24U
 #define GPIO_GPBCTRL_QUALPRD3_M   0xFF000000U   // Qualification sampling period for GPIO56 to
                                                 // GPIO63
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBQSEL1 register
@@ -771,6 +787,7 @@
 #define GPIO_GPBQSEL1_GPIO46_M   0x30000000U   // Select input qualification type for GPIO46
 #define GPIO_GPBQSEL1_GPIO47_S   30U
 #define GPIO_GPBQSEL1_GPIO47_M   0xC0000000U   // Select input qualification type for GPIO47
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBQSEL2 register
@@ -808,6 +825,7 @@
 #define GPIO_GPBQSEL2_GPIO62_M   0x30000000U   // Select input qualification type for GPIO62
 #define GPIO_GPBQSEL2_GPIO63_S   30U
 #define GPIO_GPBQSEL2_GPIO63_M   0xC0000000U   // Select input qualification type for GPIO63
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBMUX1 register
@@ -845,6 +863,7 @@
 #define GPIO_GPBMUX1_GPIO46_M   0x30000000U   // Defines pin-muxing selection for GPIO46
 #define GPIO_GPBMUX1_GPIO47_S   30U
 #define GPIO_GPBMUX1_GPIO47_M   0xC0000000U   // Defines pin-muxing selection for GPIO47
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBMUX2 register
@@ -882,6 +901,7 @@
 #define GPIO_GPBMUX2_GPIO62_M   0x30000000U   // Defines pin-muxing selection for GPIO62
 #define GPIO_GPBMUX2_GPIO63_S   30U
 #define GPIO_GPBMUX2_GPIO63_M   0xC0000000U   // Defines pin-muxing selection for GPIO63
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBDIR register
@@ -919,6 +939,7 @@
 #define GPIO_GPBDIR_GPIO61   0x20000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPBDIR_GPIO62   0x40000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPBDIR_GPIO63   0x80000000U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBPUD register
@@ -956,6 +977,7 @@
 #define GPIO_GPBPUD_GPIO61   0x20000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPBPUD_GPIO62   0x40000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPBPUD_GPIO63   0x80000000U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBINV register
@@ -993,6 +1015,7 @@
 #define GPIO_GPBINV_GPIO61   0x20000000U   // Input inversion control for this pin
 #define GPIO_GPBINV_GPIO62   0x40000000U   // Input inversion control for this pin
 #define GPIO_GPBINV_GPIO63   0x80000000U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBODR register
@@ -1030,6 +1053,7 @@
 #define GPIO_GPBODR_GPIO61   0x20000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPBODR_GPIO62   0x40000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPBODR_GPIO63   0x80000000U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBAMSEL register
@@ -1037,6 +1061,7 @@
 //*************************************************************************************************
 #define GPIO_GPBAMSEL_GPIO42   0x400U   // Analog Mode select for this pin
 #define GPIO_GPBAMSEL_GPIO43   0x800U   // Analog Mode select for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBGMUX1 register
@@ -1074,6 +1099,7 @@
 #define GPIO_GPBGMUX1_GPIO46_M   0x30000000U   // Defines pin-muxing selection for GPIO46
 #define GPIO_GPBGMUX1_GPIO47_S   30U
 #define GPIO_GPBGMUX1_GPIO47_M   0xC0000000U   // Defines pin-muxing selection for GPIO47
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBGMUX2 register
@@ -1111,6 +1137,7 @@
 #define GPIO_GPBGMUX2_GPIO62_M   0x30000000U   // Defines pin-muxing selection for GPIO62
 #define GPIO_GPBGMUX2_GPIO63_S   30U
 #define GPIO_GPBGMUX2_GPIO63_M   0xC0000000U   // Defines pin-muxing selection for GPIO63
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCSEL1 register
@@ -1132,6 +1159,7 @@
 #define GPIO_GPBCSEL1_GPIO38_M   0xF000000U    // GPIO38 Master CPU Select
 #define GPIO_GPBCSEL1_GPIO39_S   28U
 #define GPIO_GPBCSEL1_GPIO39_M   0xF0000000U   // GPIO39 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCSEL2 register
@@ -1153,6 +1181,7 @@
 #define GPIO_GPBCSEL2_GPIO46_M   0xF000000U    // GPIO46 Master CPU Select
 #define GPIO_GPBCSEL2_GPIO47_S   28U
 #define GPIO_GPBCSEL2_GPIO47_M   0xF0000000U   // GPIO47 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCSEL3 register
@@ -1174,6 +1203,7 @@
 #define GPIO_GPBCSEL3_GPIO54_M   0xF000000U    // GPIO54 Master CPU Select
 #define GPIO_GPBCSEL3_GPIO55_S   28U
 #define GPIO_GPBCSEL3_GPIO55_M   0xF0000000U   // GPIO55 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCSEL4 register
@@ -1195,6 +1225,7 @@
 #define GPIO_GPBCSEL4_GPIO62_M   0xF000000U    // GPIO62 Master CPU Select
 #define GPIO_GPBCSEL4_GPIO63_S   28U
 #define GPIO_GPBCSEL4_GPIO63_M   0xF0000000U   // GPIO63 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBLOCK register
@@ -1232,6 +1263,7 @@
 #define GPIO_GPBLOCK_GPIO61   0x20000000U   // Configuration Lock bit for this pin
 #define GPIO_GPBLOCK_GPIO62   0x40000000U   // Configuration Lock bit for this pin
 #define GPIO_GPBLOCK_GPIO63   0x80000000U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCR register
@@ -1269,6 +1301,7 @@
 #define GPIO_GPBCR_GPIO61   0x20000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPBCR_GPIO62   0x40000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPBCR_GPIO63   0x80000000U   // Configuration lock commit bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCTRL register
@@ -1286,6 +1319,7 @@
 #define GPIO_GPCCTRL_QUALPRD3_S   24U
 #define GPIO_GPCCTRL_QUALPRD3_M   0xFF000000U   // Qualification sampling period for GPIO88 to
                                                 // GPIO95
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCQSEL1 register
@@ -1323,6 +1357,7 @@
 #define GPIO_GPCQSEL1_GPIO78_M   0x30000000U   // Select input qualification type for GPIO78
 #define GPIO_GPCQSEL1_GPIO79_S   30U
 #define GPIO_GPCQSEL1_GPIO79_M   0xC0000000U   // Select input qualification type for GPIO79
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCQSEL2 register
@@ -1360,6 +1395,7 @@
 #define GPIO_GPCQSEL2_GPIO94_M   0x30000000U   // Select input qualification type for GPIO94
 #define GPIO_GPCQSEL2_GPIO95_S   30U
 #define GPIO_GPCQSEL2_GPIO95_M   0xC0000000U   // Select input qualification type for GPIO95
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCMUX1 register
@@ -1397,6 +1433,7 @@
 #define GPIO_GPCMUX1_GPIO78_M   0x30000000U   // Defines pin-muxing selection for GPIO78
 #define GPIO_GPCMUX1_GPIO79_S   30U
 #define GPIO_GPCMUX1_GPIO79_M   0xC0000000U   // Defines pin-muxing selection for GPIO79
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCMUX2 register
@@ -1434,6 +1471,7 @@
 #define GPIO_GPCMUX2_GPIO94_M   0x30000000U   // Defines pin-muxing selection for GPIO94
 #define GPIO_GPCMUX2_GPIO95_S   30U
 #define GPIO_GPCMUX2_GPIO95_M   0xC0000000U   // Defines pin-muxing selection for GPIO95
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCDIR register
@@ -1471,6 +1509,7 @@
 #define GPIO_GPCDIR_GPIO93   0x20000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPCDIR_GPIO94   0x40000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPCDIR_GPIO95   0x80000000U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCPUD register
@@ -1508,6 +1547,7 @@
 #define GPIO_GPCPUD_GPIO93   0x20000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPCPUD_GPIO94   0x40000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPCPUD_GPIO95   0x80000000U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCINV register
@@ -1545,6 +1585,7 @@
 #define GPIO_GPCINV_GPIO93   0x20000000U   // Input inversion control for this pin
 #define GPIO_GPCINV_GPIO94   0x40000000U   // Input inversion control for this pin
 #define GPIO_GPCINV_GPIO95   0x80000000U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCODR register
@@ -1582,6 +1623,7 @@
 #define GPIO_GPCODR_GPIO93   0x20000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPCODR_GPIO94   0x40000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPCODR_GPIO95   0x80000000U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCGMUX1 register
@@ -1619,6 +1661,7 @@
 #define GPIO_GPCGMUX1_GPIO78_M   0x30000000U   // Defines pin-muxing selection for GPIO78
 #define GPIO_GPCGMUX1_GPIO79_S   30U
 #define GPIO_GPCGMUX1_GPIO79_M   0xC0000000U   // Defines pin-muxing selection for GPIO79
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCGMUX2 register
@@ -1656,6 +1699,7 @@
 #define GPIO_GPCGMUX2_GPIO94_M   0x30000000U   // Defines pin-muxing selection for GPIO94
 #define GPIO_GPCGMUX2_GPIO95_S   30U
 #define GPIO_GPCGMUX2_GPIO95_M   0xC0000000U   // Defines pin-muxing selection for GPIO95
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCSEL1 register
@@ -1677,6 +1721,7 @@
 #define GPIO_GPCCSEL1_GPIO70_M   0xF000000U    // GPIO70 Master CPU Select
 #define GPIO_GPCCSEL1_GPIO71_S   28U
 #define GPIO_GPCCSEL1_GPIO71_M   0xF0000000U   // GPIO71 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCSEL2 register
@@ -1698,6 +1743,7 @@
 #define GPIO_GPCCSEL2_GPIO78_M   0xF000000U    // GPIO78 Master CPU Select
 #define GPIO_GPCCSEL2_GPIO79_S   28U
 #define GPIO_GPCCSEL2_GPIO79_M   0xF0000000U   // GPIO79 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCSEL3 register
@@ -1719,6 +1765,7 @@
 #define GPIO_GPCCSEL3_GPIO86_M   0xF000000U    // GPIO86 Master CPU Select
 #define GPIO_GPCCSEL3_GPIO87_S   28U
 #define GPIO_GPCCSEL3_GPIO87_M   0xF0000000U   // GPIO87 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCSEL4 register
@@ -1740,6 +1787,7 @@
 #define GPIO_GPCCSEL4_GPIO94_M   0xF000000U    // GPIO94 Master CPU Select
 #define GPIO_GPCCSEL4_GPIO95_S   28U
 #define GPIO_GPCCSEL4_GPIO95_M   0xF0000000U   // GPIO95 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCLOCK register
@@ -1777,6 +1825,7 @@
 #define GPIO_GPCLOCK_GPIO93   0x20000000U   // Configuration Lock bit for this pin
 #define GPIO_GPCLOCK_GPIO94   0x40000000U   // Configuration Lock bit for this pin
 #define GPIO_GPCLOCK_GPIO95   0x80000000U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCR register
@@ -1814,6 +1863,7 @@
 #define GPIO_GPCCR_GPIO93   0x20000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPCCR_GPIO94   0x40000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPCCR_GPIO95   0x80000000U   // Configuration lock commit bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCTRL register
@@ -1831,6 +1881,7 @@
 #define GPIO_GPDCTRL_QUALPRD3_S   24U
 #define GPIO_GPDCTRL_QUALPRD3_M   0xFF000000U   // Qualification sampling period for GPIO120 to
                                                 // GPIO127
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDQSEL1 register
@@ -1868,6 +1919,7 @@
 #define GPIO_GPDQSEL1_GPIO110_M   0x30000000U   // Select input qualification type for GPIO110
 #define GPIO_GPDQSEL1_GPIO111_S   30U
 #define GPIO_GPDQSEL1_GPIO111_M   0xC0000000U   // Select input qualification type for GPIO111
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDQSEL2 register
@@ -1905,6 +1957,7 @@
 #define GPIO_GPDQSEL2_GPIO126_M   0x30000000U   // Select input qualification type for GPIO126
 #define GPIO_GPDQSEL2_GPIO127_S   30U
 #define GPIO_GPDQSEL2_GPIO127_M   0xC0000000U   // Select input qualification type for GPIO127
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDMUX1 register
@@ -1942,6 +1995,7 @@
 #define GPIO_GPDMUX1_GPIO110_M   0x30000000U   // Defines pin-muxing selection for GPIO110
 #define GPIO_GPDMUX1_GPIO111_S   30U
 #define GPIO_GPDMUX1_GPIO111_M   0xC0000000U   // Defines pin-muxing selection for GPIO111
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDMUX2 register
@@ -1979,6 +2033,7 @@
 #define GPIO_GPDMUX2_GPIO126_M   0x30000000U   // Defines pin-muxing selection for GPIO126
 #define GPIO_GPDMUX2_GPIO127_S   30U
 #define GPIO_GPDMUX2_GPIO127_M   0xC0000000U   // Defines pin-muxing selection for GPIO127
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDDIR register
@@ -2016,6 +2071,7 @@
 #define GPIO_GPDDIR_GPIO125   0x20000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPDDIR_GPIO126   0x40000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPDDIR_GPIO127   0x80000000U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDPUD register
@@ -2053,6 +2109,7 @@
 #define GPIO_GPDPUD_GPIO125   0x20000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPDPUD_GPIO126   0x40000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPDPUD_GPIO127   0x80000000U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDINV register
@@ -2090,6 +2147,7 @@
 #define GPIO_GPDINV_GPIO125   0x20000000U   // Input inversion control for this pin
 #define GPIO_GPDINV_GPIO126   0x40000000U   // Input inversion control for this pin
 #define GPIO_GPDINV_GPIO127   0x80000000U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDODR register
@@ -2127,6 +2185,7 @@
 #define GPIO_GPDODR_GPIO125   0x20000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPDODR_GPIO126   0x40000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPDODR_GPIO127   0x80000000U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDGMUX1 register
@@ -2164,6 +2223,7 @@
 #define GPIO_GPDGMUX1_GPIO110_M   0x30000000U   // Defines pin-muxing selection for GPIO110
 #define GPIO_GPDGMUX1_GPIO111_S   30U
 #define GPIO_GPDGMUX1_GPIO111_M   0xC0000000U   // Defines pin-muxing selection for GPIO111
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDGMUX2 register
@@ -2201,6 +2261,7 @@
 #define GPIO_GPDGMUX2_GPIO126_M   0x30000000U   // Defines pin-muxing selection for GPIO126
 #define GPIO_GPDGMUX2_GPIO127_S   30U
 #define GPIO_GPDGMUX2_GPIO127_M   0xC0000000U   // Defines pin-muxing selection for GPIO127
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCSEL1 register
@@ -2222,6 +2283,7 @@
 #define GPIO_GPDCSEL1_GPIO102_M   0xF000000U    // GPIO102 Master CPU Select
 #define GPIO_GPDCSEL1_GPIO103_S   28U
 #define GPIO_GPDCSEL1_GPIO103_M   0xF0000000U   // GPIO103 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCSEL2 register
@@ -2243,6 +2305,7 @@
 #define GPIO_GPDCSEL2_GPIO110_M   0xF000000U    // GPIO110 Master CPU Select
 #define GPIO_GPDCSEL2_GPIO111_S   28U
 #define GPIO_GPDCSEL2_GPIO111_M   0xF0000000U   // GPIO111 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCSEL3 register
@@ -2264,6 +2327,7 @@
 #define GPIO_GPDCSEL3_GPIO118_M   0xF000000U    // GPIO118 Master CPU Select
 #define GPIO_GPDCSEL3_GPIO119_S   28U
 #define GPIO_GPDCSEL3_GPIO119_M   0xF0000000U   // GPIO119 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCSEL4 register
@@ -2285,6 +2349,7 @@
 #define GPIO_GPDCSEL4_GPIO126_M   0xF000000U    // GPIO126 Master CPU Select
 #define GPIO_GPDCSEL4_GPIO127_S   28U
 #define GPIO_GPDCSEL4_GPIO127_M   0xF0000000U   // GPIO127 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDLOCK register
@@ -2322,6 +2387,7 @@
 #define GPIO_GPDLOCK_GPIO125   0x20000000U   // Configuration Lock bit for this pin
 #define GPIO_GPDLOCK_GPIO126   0x40000000U   // Configuration Lock bit for this pin
 #define GPIO_GPDLOCK_GPIO127   0x80000000U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCR register
@@ -2359,6 +2425,7 @@
 #define GPIO_GPDCR_GPIO125   0x20000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPDCR_GPIO126   0x40000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPDCR_GPIO127   0x80000000U   // Configuration lock commit bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECTRL register
@@ -2376,6 +2443,7 @@
 #define GPIO_GPECTRL_QUALPRD3_S   24U
 #define GPIO_GPECTRL_QUALPRD3_M   0xFF000000U   // Qualification sampling period for GPIO152 to
                                                 // GPIO159
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEQSEL1 register
@@ -2413,6 +2481,7 @@
 #define GPIO_GPEQSEL1_GPIO142_M   0x30000000U   // Select input qualification type for GPIO142
 #define GPIO_GPEQSEL1_GPIO143_S   30U
 #define GPIO_GPEQSEL1_GPIO143_M   0xC0000000U   // Select input qualification type for GPIO143
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEQSEL2 register
@@ -2450,6 +2519,7 @@
 #define GPIO_GPEQSEL2_GPIO158_M   0x30000000U   // Select input qualification type for GPIO158
 #define GPIO_GPEQSEL2_GPIO159_S   30U
 #define GPIO_GPEQSEL2_GPIO159_M   0xC0000000U   // Select input qualification type for GPIO159
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEMUX1 register
@@ -2487,6 +2557,7 @@
 #define GPIO_GPEMUX1_GPIO142_M   0x30000000U   // Defines pin-muxing selection for GPIO142
 #define GPIO_GPEMUX1_GPIO143_S   30U
 #define GPIO_GPEMUX1_GPIO143_M   0xC0000000U   // Defines pin-muxing selection for GPIO143
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEMUX2 register
@@ -2524,6 +2595,7 @@
 #define GPIO_GPEMUX2_GPIO158_M   0x30000000U   // Defines pin-muxing selection for GPIO158
 #define GPIO_GPEMUX2_GPIO159_S   30U
 #define GPIO_GPEMUX2_GPIO159_M   0xC0000000U   // Defines pin-muxing selection for GPIO159
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEDIR register
@@ -2561,6 +2633,7 @@
 #define GPIO_GPEDIR_GPIO157   0x20000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPEDIR_GPIO158   0x40000000U   // Defines direction for this pin in GPIO mode
 #define GPIO_GPEDIR_GPIO159   0x80000000U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEPUD register
@@ -2598,6 +2671,7 @@
 #define GPIO_GPEPUD_GPIO157   0x20000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPEPUD_GPIO158   0x40000000U   // Pull-Up Disable control for this pin
 #define GPIO_GPEPUD_GPIO159   0x80000000U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEINV register
@@ -2635,6 +2709,7 @@
 #define GPIO_GPEINV_GPIO157   0x20000000U   // Input inversion control for this pin
 #define GPIO_GPEINV_GPIO158   0x40000000U   // Input inversion control for this pin
 #define GPIO_GPEINV_GPIO159   0x80000000U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEODR register
@@ -2672,6 +2747,7 @@
 #define GPIO_GPEODR_GPIO157   0x20000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPEODR_GPIO158   0x40000000U   // Outpout Open-Drain control for this pin
 #define GPIO_GPEODR_GPIO159   0x80000000U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEGMUX1 register
@@ -2709,6 +2785,7 @@
 #define GPIO_GPEGMUX1_GPIO142_M   0x30000000U   // Defines pin-muxing selection for GPIO142
 #define GPIO_GPEGMUX1_GPIO143_S   30U
 #define GPIO_GPEGMUX1_GPIO143_M   0xC0000000U   // Defines pin-muxing selection for GPIO143
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEGMUX2 register
@@ -2746,6 +2823,7 @@
 #define GPIO_GPEGMUX2_GPIO158_M   0x30000000U   // Defines pin-muxing selection for GPIO158
 #define GPIO_GPEGMUX2_GPIO159_S   30U
 #define GPIO_GPEGMUX2_GPIO159_M   0xC0000000U   // Defines pin-muxing selection for GPIO159
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECSEL1 register
@@ -2767,6 +2845,7 @@
 #define GPIO_GPECSEL1_GPIO134_M   0xF000000U    // GPIO134 Master CPU Select
 #define GPIO_GPECSEL1_GPIO135_S   28U
 #define GPIO_GPECSEL1_GPIO135_M   0xF0000000U   // GPIO135 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECSEL2 register
@@ -2788,6 +2867,7 @@
 #define GPIO_GPECSEL2_GPIO142_M   0xF000000U    // GPIO142 Master CPU Select
 #define GPIO_GPECSEL2_GPIO143_S   28U
 #define GPIO_GPECSEL2_GPIO143_M   0xF0000000U   // GPIO143 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECSEL3 register
@@ -2809,6 +2889,7 @@
 #define GPIO_GPECSEL3_GPIO150_M   0xF000000U    // GPIO150 Master CPU Select
 #define GPIO_GPECSEL3_GPIO151_S   28U
 #define GPIO_GPECSEL3_GPIO151_M   0xF0000000U   // GPIO151 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECSEL4 register
@@ -2830,6 +2911,7 @@
 #define GPIO_GPECSEL4_GPIO158_M   0xF000000U    // GPIO158 Master CPU Select
 #define GPIO_GPECSEL4_GPIO159_S   28U
 #define GPIO_GPECSEL4_GPIO159_M   0xF0000000U   // GPIO159 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPELOCK register
@@ -2867,6 +2949,7 @@
 #define GPIO_GPELOCK_GPIO157   0x20000000U   // Configuration Lock bit for this pin
 #define GPIO_GPELOCK_GPIO158   0x40000000U   // Configuration Lock bit for this pin
 #define GPIO_GPELOCK_GPIO159   0x80000000U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECR register
@@ -2904,6 +2987,7 @@
 #define GPIO_GPECR_GPIO157   0x20000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPECR_GPIO158   0x40000000U   // Configuration lock commit bit for this pin
 #define GPIO_GPECR_GPIO159   0x80000000U   // Configuration lock commit bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFCTRL register
@@ -2913,6 +2997,7 @@
 #define GPIO_GPFCTRL_QUALPRD0_M   0xFFU     // Qualification sampling period for GPIO160 to GPIO167
 #define GPIO_GPFCTRL_QUALPRD1_S   8U
 #define GPIO_GPFCTRL_QUALPRD1_M   0xFF00U   // Qualification sampling period for GPIO168
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFQSEL1 register
@@ -2936,6 +3021,7 @@
 #define GPIO_GPFQSEL1_GPIO167_M   0xC000U    // Select input qualification type for GPIO167
 #define GPIO_GPFQSEL1_GPIO168_S   16U
 #define GPIO_GPFQSEL1_GPIO168_M   0x30000U   // Select input qualification type for GPIO168
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFMUX1 register
@@ -2959,6 +3045,7 @@
 #define GPIO_GPFMUX1_GPIO167_M   0xC000U    // Defines pin-muxing selection for GPIO167
 #define GPIO_GPFMUX1_GPIO168_S   16U
 #define GPIO_GPFMUX1_GPIO168_M   0x30000U   // Defines pin-muxing selection for GPIO168
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFDIR register
@@ -2973,6 +3060,7 @@
 #define GPIO_GPFDIR_GPIO166   0x40U    // Defines direction for this pin in GPIO mode
 #define GPIO_GPFDIR_GPIO167   0x80U    // Defines direction for this pin in GPIO mode
 #define GPIO_GPFDIR_GPIO168   0x100U   // Defines direction for this pin in GPIO mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFPUD register
@@ -2987,6 +3075,7 @@
 #define GPIO_GPFPUD_GPIO166   0x40U    // Pull-Up Disable control for this pin
 #define GPIO_GPFPUD_GPIO167   0x80U    // Pull-Up Disable control for this pin
 #define GPIO_GPFPUD_GPIO168   0x100U   // Pull-Up Disable control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFINV register
@@ -3001,6 +3090,7 @@
 #define GPIO_GPFINV_GPIO166   0x40U    // Input inversion control for this pin
 #define GPIO_GPFINV_GPIO167   0x80U    // Input inversion control for this pin
 #define GPIO_GPFINV_GPIO168   0x100U   // Input inversion control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFODR register
@@ -3015,6 +3105,7 @@
 #define GPIO_GPFODR_GPIO166   0x40U    // Outpout Open-Drain control for this pin
 #define GPIO_GPFODR_GPIO167   0x80U    // Outpout Open-Drain control for this pin
 #define GPIO_GPFODR_GPIO168   0x100U   // Outpout Open-Drain control for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFGMUX1 register
@@ -3038,6 +3129,7 @@
 #define GPIO_GPFGMUX1_GPIO167_M   0xC000U    // Defines pin-muxing selection for GPIO167
 #define GPIO_GPFGMUX1_GPIO168_S   16U
 #define GPIO_GPFGMUX1_GPIO168_M   0x30000U   // Defines pin-muxing selection for GPIO168
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFCSEL1 register
@@ -3059,6 +3151,7 @@
 #define GPIO_GPFCSEL1_GPIO166_M   0xF000000U    // GPIO166 Master CPU Select
 #define GPIO_GPFCSEL1_GPIO167_S   28U
 #define GPIO_GPFCSEL1_GPIO167_M   0xF0000000U   // GPIO167 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFCSEL2 register
@@ -3066,6 +3159,7 @@
 //*************************************************************************************************
 #define GPIO_GPFCSEL2_GPIO168_S   0U
 #define GPIO_GPFCSEL2_GPIO168_M   0xFU   // GPIO168 Master CPU Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFLOCK register
@@ -3080,6 +3174,7 @@
 #define GPIO_GPFLOCK_GPIO166   0x40U    // Configuration Lock bit for this pin
 #define GPIO_GPFLOCK_GPIO167   0x80U    // Configuration Lock bit for this pin
 #define GPIO_GPFLOCK_GPIO168   0x100U   // Configuration Lock bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFCR register
@@ -3094,6 +3189,7 @@
 #define GPIO_GPFCR_GPIO166   0x40U    // Configuration lock commit bit for this pin
 #define GPIO_GPFCR_GPIO167   0x80U    // Configuration lock commit bit for this pin
 #define GPIO_GPFCR_GPIO168   0x100U   // Configuration lock commit bit for this pin
+
 
 //*************************************************************************************************
 //
@@ -3132,6 +3228,7 @@
 #define GPIO_GPADAT_GPIO29   0x20000000U   // Data Register for this pin
 #define GPIO_GPADAT_GPIO30   0x40000000U   // Data Register for this pin
 #define GPIO_GPADAT_GPIO31   0x80000000U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPASET register
@@ -3169,6 +3266,7 @@
 #define GPIO_GPASET_GPIO29   0x20000000U   // Output Set bit for this pin
 #define GPIO_GPASET_GPIO30   0x40000000U   // Output Set bit for this pin
 #define GPIO_GPASET_GPIO31   0x80000000U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPACLEAR register
@@ -3206,6 +3304,7 @@
 #define GPIO_GPACLEAR_GPIO29   0x20000000U   // Output Clear bit for this pin
 #define GPIO_GPACLEAR_GPIO30   0x40000000U   // Output Clear bit for this pin
 #define GPIO_GPACLEAR_GPIO31   0x80000000U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPATOGGLE register
@@ -3243,6 +3342,7 @@
 #define GPIO_GPATOGGLE_GPIO29   0x20000000U   // Output Toggle bit for this pin
 #define GPIO_GPATOGGLE_GPIO30   0x40000000U   // Output Toggle bit for this pin
 #define GPIO_GPATOGGLE_GPIO31   0x80000000U   // Output Toggle bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBDAT register
@@ -3280,6 +3380,7 @@
 #define GPIO_GPBDAT_GPIO61   0x20000000U   // Data Register for this pin
 #define GPIO_GPBDAT_GPIO62   0x40000000U   // Data Register for this pin
 #define GPIO_GPBDAT_GPIO63   0x80000000U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBSET register
@@ -3317,6 +3418,7 @@
 #define GPIO_GPBSET_GPIO61   0x20000000U   // Output Set bit for this pin
 #define GPIO_GPBSET_GPIO62   0x40000000U   // Output Set bit for this pin
 #define GPIO_GPBSET_GPIO63   0x80000000U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBCLEAR register
@@ -3354,6 +3456,7 @@
 #define GPIO_GPBCLEAR_GPIO61   0x20000000U   // Output Clear bit for this pin
 #define GPIO_GPBCLEAR_GPIO62   0x40000000U   // Output Clear bit for this pin
 #define GPIO_GPBCLEAR_GPIO63   0x80000000U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPBTOGGLE register
@@ -3391,6 +3494,7 @@
 #define GPIO_GPBTOGGLE_GPIO61   0x20000000U   // Output Toggle bit for this pin
 #define GPIO_GPBTOGGLE_GPIO62   0x40000000U   // Output Toggle bit for this pin
 #define GPIO_GPBTOGGLE_GPIO63   0x80000000U   // Output Toggle bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCDAT register
@@ -3428,6 +3532,7 @@
 #define GPIO_GPCDAT_GPIO93   0x20000000U   // Data Register for this pin
 #define GPIO_GPCDAT_GPIO94   0x40000000U   // Data Register for this pin
 #define GPIO_GPCDAT_GPIO95   0x80000000U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCSET register
@@ -3465,6 +3570,7 @@
 #define GPIO_GPCSET_GPIO93   0x20000000U   // Output Set bit for this pin
 #define GPIO_GPCSET_GPIO94   0x40000000U   // Output Set bit for this pin
 #define GPIO_GPCSET_GPIO95   0x80000000U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCCLEAR register
@@ -3502,6 +3608,7 @@
 #define GPIO_GPCCLEAR_GPIO93   0x20000000U   // Output Clear bit for this pin
 #define GPIO_GPCCLEAR_GPIO94   0x40000000U   // Output Clear bit for this pin
 #define GPIO_GPCCLEAR_GPIO95   0x80000000U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPCTOGGLE register
@@ -3539,6 +3646,7 @@
 #define GPIO_GPCTOGGLE_GPIO93   0x20000000U   // Output Toggle bit for this pin
 #define GPIO_GPCTOGGLE_GPIO94   0x40000000U   // Output Toggle bit for this pin
 #define GPIO_GPCTOGGLE_GPIO95   0x80000000U   // Output Toggle bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDDAT register
@@ -3576,6 +3684,7 @@
 #define GPIO_GPDDAT_GPIO125   0x20000000U   // Data Register for this pin
 #define GPIO_GPDDAT_GPIO126   0x40000000U   // Data Register for this pin
 #define GPIO_GPDDAT_GPIO127   0x80000000U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDSET register
@@ -3613,6 +3722,7 @@
 #define GPIO_GPDSET_GPIO125   0x20000000U   // Output Set bit for this pin
 #define GPIO_GPDSET_GPIO126   0x40000000U   // Output Set bit for this pin
 #define GPIO_GPDSET_GPIO127   0x80000000U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDCLEAR register
@@ -3650,6 +3760,7 @@
 #define GPIO_GPDCLEAR_GPIO125   0x20000000U   // Output Clear bit for this pin
 #define GPIO_GPDCLEAR_GPIO126   0x40000000U   // Output Clear bit for this pin
 #define GPIO_GPDCLEAR_GPIO127   0x80000000U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPDTOGGLE register
@@ -3687,6 +3798,7 @@
 #define GPIO_GPDTOGGLE_GPIO125   0x20000000U   // Output Toggle bit for this pin
 #define GPIO_GPDTOGGLE_GPIO126   0x40000000U   // Output Toggle bit for this pin
 #define GPIO_GPDTOGGLE_GPIO127   0x80000000U   // Output Toggle bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPEDAT register
@@ -3724,6 +3836,7 @@
 #define GPIO_GPEDAT_GPIO157   0x20000000U   // Data Register for this pin
 #define GPIO_GPEDAT_GPIO158   0x40000000U   // Data Register for this pin
 #define GPIO_GPEDAT_GPIO159   0x80000000U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPESET register
@@ -3761,6 +3874,7 @@
 #define GPIO_GPESET_GPIO157   0x20000000U   // Output Set bit for this pin
 #define GPIO_GPESET_GPIO158   0x40000000U   // Output Set bit for this pin
 #define GPIO_GPESET_GPIO159   0x80000000U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPECLEAR register
@@ -3798,6 +3912,7 @@
 #define GPIO_GPECLEAR_GPIO157   0x20000000U   // Output Clear bit for this pin
 #define GPIO_GPECLEAR_GPIO158   0x40000000U   // Output Clear bit for this pin
 #define GPIO_GPECLEAR_GPIO159   0x80000000U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPETOGGLE register
@@ -3835,6 +3950,7 @@
 #define GPIO_GPETOGGLE_GPIO157   0x20000000U   // Output Toggle bit for this pin
 #define GPIO_GPETOGGLE_GPIO158   0x40000000U   // Output Toggle bit for this pin
 #define GPIO_GPETOGGLE_GPIO159   0x80000000U   // Output Toggle bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFDAT register
@@ -3849,6 +3965,7 @@
 #define GPIO_GPFDAT_GPIO166   0x40U    // Data Register for this pin
 #define GPIO_GPFDAT_GPIO167   0x80U    // Data Register for this pin
 #define GPIO_GPFDAT_GPIO168   0x100U   // Data Register for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFSET register
@@ -3863,6 +3980,7 @@
 #define GPIO_GPFSET_GPIO166   0x40U    // Output Set bit for this pin
 #define GPIO_GPFSET_GPIO167   0x80U    // Output Set bit for this pin
 #define GPIO_GPFSET_GPIO168   0x100U   // Output Set bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFCLEAR register
@@ -3877,6 +3995,7 @@
 #define GPIO_GPFCLEAR_GPIO166   0x40U    // Output Clear bit for this pin
 #define GPIO_GPFCLEAR_GPIO167   0x80U    // Output Clear bit for this pin
 #define GPIO_GPFCLEAR_GPIO168   0x100U   // Output Clear bit for this pin
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPFTOGGLE register
@@ -3891,6 +4010,7 @@
 #define GPIO_GPFTOGGLE_GPIO166   0x40U    // Output Toggle bit for this pin
 #define GPIO_GPFTOGGLE_GPIO167   0x80U    // Output Toggle bit for this pin
 #define GPIO_GPFTOGGLE_GPIO168   0x100U   // Output Toggle bit for this pin
+
 
 
 #endif

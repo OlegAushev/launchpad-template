@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the SDFM registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -104,6 +102,7 @@
 #define SDFM_SDIFLG_AF3    0x4000U       // Acknowledge flag for Filter 3
 #define SDFM_SDIFLG_AF4    0x8000U       // Acknowledge flag for Filter 4
 #define SDFM_SDIFLG_MIF    0x80000000U   // Master Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDIFLGCLR register
@@ -126,18 +125,21 @@
 #define SDFM_SDIFLGCLR_AF3    0x4000U       // Acknowledge flag for Filter 3
 #define SDFM_SDIFLGCLR_AF4    0x8000U       // Acknowledge flag for Filter 4
 #define SDFM_SDIFLGCLR_MIF    0x80000000U   // Master Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCTL register
 //
 //*************************************************************************************************
 #define SDFM_SDCTL_MIE   0x2000U   // Master Interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDMFILEN register
 //
 //*************************************************************************************************
 #define SDFM_SDMFILEN_MFE   0x800U   // Master Filter Enable.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCTLPARM1 register
@@ -145,6 +147,7 @@
 //*************************************************************************************************
 #define SDFM_SDCTLPARM1_MOD_S   0U
 #define SDFM_SDCTLPARM1_MOD_M   0x3U   // Delta-Sigma Modulator mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDFPARM1 register
@@ -157,6 +160,7 @@
 #define SDFM_SDDFPARM1_SST_S      10U
 #define SDFM_SDDFPARM1_SST_M      0xC00U    // Data Filter Structure (DataFast/1/2/3)
 #define SDFM_SDDFPARM1_SDSYNCEN   0x1000U   // Data FILTER Reset Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDPARM1 register
@@ -165,6 +169,7 @@
 #define SDFM_SDDPARM1_DR     0x400U    // Data Representation (0/1 = 16/32b 2's complement)
 #define SDFM_SDDPARM1_SH_S   11U
 #define SDFM_SDDPARM1_SH_M   0xF800U   // Shift Control (# bits to shift in 16b mode)
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPH1 register
@@ -172,6 +177,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPH1_HLT_S   0U
 #define SDFM_SDCMPH1_HLT_M   0x7FFFU   // High-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPL1 register
@@ -179,6 +185,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPL1_LLT_S   0U
 #define SDFM_SDCMPL1_LLT_M   0x7FFFU   // Low-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCPARM1 register
@@ -192,6 +199,7 @@
 #define SDFM_SDCPARM1_CS1_CS0_M   0x180U   // Comparator filter structure
                                            // (Sincfast/Sinc1/Sinc2/Sinc3
 #define SDFM_SDCPARM1_MFIE        0x200U   // Modulator Failure Interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDATA1 register
@@ -202,6 +210,7 @@
                                                 // mode
 #define SDFM_SDDATA1_DATA32HI_S   16U
 #define SDFM_SDDATA1_DATA32HI_M   0xFFFF0000U   // Hi-order 16b in 32b mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCTLPARM2 register
@@ -209,6 +218,7 @@
 //*************************************************************************************************
 #define SDFM_SDCTLPARM2_MOD_S   0U
 #define SDFM_SDCTLPARM2_MOD_M   0x3U   // Delta-Sigma Modulator mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDFPARM2 register
@@ -221,6 +231,7 @@
 #define SDFM_SDDFPARM2_SST_S      10U
 #define SDFM_SDDFPARM2_SST_M      0xC00U    // Data Filter Structure (SincFast/1/2/3)
 #define SDFM_SDDFPARM2_SDSYNCEN   0x1000U   // Data FILTER Reset Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDPARM2 register
@@ -229,6 +240,7 @@
 #define SDFM_SDDPARM2_DR     0x400U    // Data Representation (0/1 = 16/32b 2's complement)
 #define SDFM_SDDPARM2_SH_S   11U
 #define SDFM_SDDPARM2_SH_M   0xF800U   // Shift Control (# bits to shift in 16b mode)
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPH2 register
@@ -236,6 +248,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPH2_HLT_S   0U
 #define SDFM_SDCMPH2_HLT_M   0x7FFFU   // High-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPL2 register
@@ -243,6 +256,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPL2_LLT_S   0U
 #define SDFM_SDCMPL2_LLT_M   0x7FFFU   // Low-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCPARM2 register
@@ -256,6 +270,7 @@
 #define SDFM_SDCPARM2_CS1_CS0_M   0x180U   // Comparator filter structure
                                            // (Sincfast/Sinc1/Sinc2/Sinc3
 #define SDFM_SDCPARM2_MFIE        0x200U   // Modulator Failure Interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDATA2 register
@@ -266,6 +281,7 @@
                                                 // mode
 #define SDFM_SDDATA2_DATA32HI_S   16U
 #define SDFM_SDDATA2_DATA32HI_M   0xFFFF0000U   // Hi-order 16b in 32b mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCTLPARM3 register
@@ -273,6 +289,7 @@
 //*************************************************************************************************
 #define SDFM_SDCTLPARM3_MOD_S   0U
 #define SDFM_SDCTLPARM3_MOD_M   0x3U   // Delta-Sigma Modulator mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDFPARM3 register
@@ -285,6 +302,7 @@
 #define SDFM_SDDFPARM3_SST_S      10U
 #define SDFM_SDDFPARM3_SST_M      0xC00U    // Data filter structure (SincFast/1/2/3)
 #define SDFM_SDDFPARM3_SDSYNCEN   0x1000U   // Data FILTER Reset Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDPARM3 register
@@ -293,6 +311,7 @@
 #define SDFM_SDDPARM3_DR     0x400U    // Data Representation (0/1 = 16/32b 2's complement)
 #define SDFM_SDDPARM3_SH_S   11U
 #define SDFM_SDDPARM3_SH_M   0xF800U   // Shift Control (# bits to shift in 16b mode)
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPH3 register
@@ -300,6 +319,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPH3_HLT_S   0U
 #define SDFM_SDCMPH3_HLT_M   0x7FFFU   // High-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPL3 register
@@ -307,6 +327,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPL3_LLT_S   0U
 #define SDFM_SDCMPL3_LLT_M   0x7FFFU   // Low-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCPARM3 register
@@ -320,6 +341,7 @@
 #define SDFM_SDCPARM3_CS1_CS0_M   0x180U   // Comparator filter structure
                                            // (Sincfast/Sinc1/Sinc2/Sinc3
 #define SDFM_SDCPARM3_MFIE        0x200U   // Modulator Failure Interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDATA3 register
@@ -330,6 +352,7 @@
                                                 // mode
 #define SDFM_SDDATA3_DATA32HI_S   16U
 #define SDFM_SDDATA3_DATA32HI_M   0xFFFF0000U   // Hi-order 16b in 32b mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCTLPARM4 register
@@ -337,6 +360,7 @@
 //*************************************************************************************************
 #define SDFM_SDCTLPARM4_MOD_S   0U
 #define SDFM_SDCTLPARM4_MOD_M   0x3U   // Delta-Sigma Modulator mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDFPARM4 register
@@ -349,6 +373,7 @@
 #define SDFM_SDDFPARM4_SST_S      10U
 #define SDFM_SDDFPARM4_SST_M      0xC00U    // Data filter structure (SincFast/1/2/3)
 #define SDFM_SDDFPARM4_SDSYNCEN   0x1000U   // SINC FILTER Reset Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDPARM4 register
@@ -357,6 +382,7 @@
 #define SDFM_SDDPARM4_DR     0x400U    // Data Representation (0/1 = 16/32b 2's complement)
 #define SDFM_SDDPARM4_SH_S   11U
 #define SDFM_SDDPARM4_SH_M   0xF800U   // Shift Control (# bits to shift in 16b mode)
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPH4 register
@@ -364,6 +390,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPH4_HLT_S   0U
 #define SDFM_SDCMPH4_HLT_M   0x7FFFU   // High-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCMPL4 register
@@ -371,6 +398,7 @@
 //*************************************************************************************************
 #define SDFM_SDCMPL4_LLT_S   0U
 #define SDFM_SDCMPL4_LLT_M   0x7FFFU   // Low-level threshold for the comparator filter output.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDCPARM4 register
@@ -384,6 +412,7 @@
 #define SDFM_SDCPARM4_CS1_CS0_M   0x180U   // Comparator filter structure
                                            // (Sincfast/Sinc1/Sinc2/Sinc3
 #define SDFM_SDCPARM4_MFIE        0x200U   // Modulator Failure Interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SDDATA4 register
@@ -394,6 +423,7 @@
                                                 // mode
 #define SDFM_SDDATA4_DATA32HI_S   16U
 #define SDFM_SDDATA4_DATA32HI_M   0xFFFF0000U   // Hi-order 16b in 32b mode
+
 
 
 #endif

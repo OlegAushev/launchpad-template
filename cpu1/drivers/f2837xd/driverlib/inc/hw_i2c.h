@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the I2C registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -72,6 +70,7 @@
 //*************************************************************************************************
 #define I2C_OAR_OAR_S   0U
 #define I2C_OAR_OAR_M   0x3FFU   // I2C Own address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CIER register
@@ -84,6 +83,7 @@
 #define I2C_IER_XRDY   0x10U   // Transmit-data-ready interrupt enable
 #define I2C_IER_SCD    0x20U   // Stop condition detected interrupt enable
 #define I2C_IER_AAS    0x40U   // Addressed as slave interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CSTR register
@@ -102,6 +102,7 @@
 #define I2C_STR_BB        0x1000U   // Bus busy bit.
 #define I2C_STR_NACKSNT   0x2000U   // NACK sent bit.
 #define I2C_STR_SDIR      0x4000U   // Slave direction bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CDRR register
@@ -109,6 +110,7 @@
 //*************************************************************************************************
 #define I2C_DRR_DATA_S   0U
 #define I2C_DRR_DATA_M   0xFFU   // Receive data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CSAR register
@@ -116,6 +118,7 @@
 //*************************************************************************************************
 #define I2C_SAR_SAR_S   0U
 #define I2C_SAR_SAR_M   0x3FFU   // Slave Address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CDXR register
@@ -123,6 +126,7 @@
 //*************************************************************************************************
 #define I2C_DXR_DATA_S   0U
 #define I2C_DXR_DATA_M   0xFFU   // Transmit data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CMDR register
@@ -142,6 +146,7 @@
 #define I2C_MDR_STT       0x2000U   // START condition bit
 #define I2C_MDR_FREE      0x4000U   // Debug Action
 #define I2C_MDR_NACKMOD   0x8000U   // NACK mode bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CISRC register
@@ -151,12 +156,14 @@
 #define I2C_ISRC_INTCODE_M       0x7U     // Interrupt code bits.
 #define I2C_ISRC_WRITE_ZEROS_S   8U
 #define I2C_ISRC_WRITE_ZEROS_M   0xF00U   // Always write all 0s to this field
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CEMDR register
 //
 //*************************************************************************************************
 #define I2C_EMDR_BC   0x1U   // Backwards compatibility mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CPSC register
@@ -164,6 +171,7 @@
 //*************************************************************************************************
 #define I2C_PSC_IPSC_S   0U
 #define I2C_PSC_IPSC_M   0xFFU   // I2C Prescaler Divide Down
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CFFTX register
@@ -178,6 +186,7 @@
 #define I2C_FFTX_TXFFST_M     0x1F00U   // Transmit FIFO Status
 #define I2C_FFTX_TXFFRST      0x2000U   // Transmit FIFO Reset
 #define I2C_FFTX_I2CFFEN      0x4000U   // Transmit FIFO Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the I2CFFRX register
@@ -191,6 +200,7 @@
 #define I2C_FFRX_RXFFST_S     8U
 #define I2C_FFRX_RXFFST_M     0x1F00U   // Receive FIFO Status
 #define I2C_FFRX_RXFFRST      0x2000U   // Receive FIFO Reset
+
 
 
 #endif

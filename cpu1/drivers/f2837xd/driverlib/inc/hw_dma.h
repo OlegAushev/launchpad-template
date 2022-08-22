@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the DMA registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -86,18 +84,21 @@
 //*************************************************************************************************
 #define DMA_CTRL_HARDRESET       0x1U   // Hard Reset Bit
 #define DMA_CTRL_PRIORITYRESET   0x2U   // Priority Reset Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DEBUGCTRL register
 //
 //*************************************************************************************************
 #define DMA_DEBUGCTRL_FREE   0x8000U   // Debug Mode Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PRIORITYCTRL1 register
 //
 //*************************************************************************************************
 #define DMA_PRIORITYCTRL1_CH1PRIORITY   0x1U   // Ch1 Priority Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PRIORITYSTAT register
@@ -107,6 +108,7 @@
 #define DMA_PRIORITYSTAT_ACTIVESTS_M          0x7U    // Active Channel Status Bits
 #define DMA_PRIORITYSTAT_ACTIVESTS_SHADOW_S   4U
 #define DMA_PRIORITYSTAT_ACTIVESTS_SHADOW_M   0x70U   // Active Channel Status Shadow Bits
+
 
 //*************************************************************************************************
 //
@@ -122,6 +124,7 @@
 #define DMA_MODE_CONTINUOUS    0x800U    // Continuous Mode Bit
 #define DMA_MODE_DATASIZE      0x4000U   // Data Size Mode Bit
 #define DMA_MODE_CHINTE        0x8000U   // Channel Interrupt Enable Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CONTROL register
@@ -138,6 +141,7 @@
 #define DMA_CONTROL_BURSTSTS      0x1000U   // Burst Status Bit
 #define DMA_CONTROL_RUNSTS        0x2000U   // Run Status Bit
 #define DMA_CONTROL_OVRFLG        0x4000U   // Overflow Flag Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the BURST_SIZE register
@@ -145,6 +149,7 @@
 //*************************************************************************************************
 #define DMA_BURST_SIZE_BURSTSIZE_S   0U
 #define DMA_BURST_SIZE_BURSTSIZE_M   0x1FU   // Burst Transfer Size
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the BURST_COUNT register
@@ -152,6 +157,7 @@
 //*************************************************************************************************
 #define DMA_BURST_COUNT_BURSTCOUNT_S   0U
 #define DMA_BURST_COUNT_BURSTCOUNT_M   0x1FU   // Burst Transfer Size
+
 
 
 #endif

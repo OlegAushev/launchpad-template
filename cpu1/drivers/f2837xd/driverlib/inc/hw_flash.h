@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the FLASH registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -87,6 +85,7 @@
 //*************************************************************************************************
 #define FLASH_FRDCNTL_RWAIT_S   8U
 #define FLASH_FRDCNTL_RWAIT_M   0xF00U   // Random Read Waitstate
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FBAC register
@@ -94,6 +93,7 @@
 //*************************************************************************************************
 #define FLASH_FBAC_VREADST_S   0U
 #define FLASH_FBAC_VREADST_M   0xFFU   // VREAD Setup Time Count
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FBFALLBACK register
@@ -101,6 +101,7 @@
 //*************************************************************************************************
 #define FLASH_FBFALLBACK_BNKPWR0_S   0U
 #define FLASH_FBFALLBACK_BNKPWR0_M   0x3U   // Bank Power Mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FBPRDY register
@@ -108,6 +109,7 @@
 //*************************************************************************************************
 #define FLASH_FBPRDY_BANKRDY   0x1U      // Flash Bank Active Power State
 #define FLASH_FBPRDY_PUMPRDY   0x8000U   // Flash Pump Active Power Mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FPAC1 register
@@ -116,6 +118,7 @@
 #define FLASH_FPAC1_PMPPWR     0x1U         // Charge Pump Fallback Power Mode
 #define FLASH_FPAC1_PSLEEP_S   16U
 #define FLASH_FPAC1_PSLEEP_M   0xFFF0000U   // Pump Sleep Down Count
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FMSTAT register
@@ -131,6 +134,7 @@
 #define FLASH_FMSTAT_BUSY       0x100U    // Busy Bit
 #define FLASH_FMSTAT_EV         0x400U    // Erase Verify Status
 #define FLASH_FMSTAT_PGV        0x1000U   // Programming Verify Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FRD_INTF_CTRL register
@@ -139,6 +143,7 @@
 #define FLASH_FRD_INTF_CTRL_PREFETCH_EN     0x1U   // Prefetch Enable
 #define FLASH_FRD_INTF_CTRL_DATA_CACHE_EN   0x2U   // Data Cache Enable
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECC_ENABLE register
@@ -146,6 +151,7 @@
 //*************************************************************************************************
 #define FLASH_ECC_ENABLE_ENABLE_S   0U
 #define FLASH_ECC_ENABLE_ENABLE_M   0xFU   // Enable ECC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_STATUS register
@@ -157,6 +163,7 @@
 #define FLASH_ERR_STATUS_FAIL_0_H    0x10000U   // Upper 64bits Single Bit Error Corrected Value 0
 #define FLASH_ERR_STATUS_FAIL_1_H    0x20000U   // Upper 64bits Single Bit Error Corrected Value 1
 #define FLASH_ERR_STATUS_UNC_ERR_H   0x40000U   // Upper 64 bits Uncorrectable error occurred
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_POS register
@@ -170,6 +177,7 @@
 #define FLASH_ERR_POS_ERR_POS_H_M   0x3F0000U    // Bit Position of Single bit Error in upper 64
                                                  // bits
 #define FLASH_ERR_POS_ERR_TYPE_H    0x1000000U   // Error Type in upper 64 bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_STATUS_CLR register
@@ -187,6 +195,7 @@
                                                         // Value 1 Clear
 #define FLASH_ERR_STATUS_CLR_UNC_ERR_H_CLR   0x40000U   // Upper 64 bits Uncorrectable error
                                                         // occurred Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_CNT register
@@ -194,6 +203,7 @@
 //*************************************************************************************************
 #define FLASH_ERR_CNT_ERR_CNT_S   0U
 #define FLASH_ERR_CNT_ERR_CNT_M   0xFFFFU   // Error counter
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_THRESHOLD register
@@ -201,6 +211,7 @@
 //*************************************************************************************************
 #define FLASH_ERR_THRESHOLD_ERR_THRESHOLD_S   0U
 #define FLASH_ERR_THRESHOLD_ERR_THRESHOLD_M   0xFFFFU   // Error Threshold
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_INTFLG register
@@ -208,6 +219,7 @@
 //*************************************************************************************************
 #define FLASH_ERR_INTFLG_SINGLE_ERR_INTFLG   0x1U   // Single Error Interrupt Flag
 #define FLASH_ERR_INTFLG_UNC_ERR_INTFLG      0x2U   // Uncorrectable Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ERR_INTCLR register
@@ -215,6 +227,7 @@
 //*************************************************************************************************
 #define FLASH_ERR_INTCLR_SINGLE_ERR_INTCLR   0x1U   // Single Error Interrupt Flag Clear
 #define FLASH_ERR_INTCLR_UNC_ERR_INTCLR      0x2U   // Uncorrectable Interrupt Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FADDR_TEST register
@@ -224,6 +237,7 @@
 #define FLASH_FADDR_TEST_ADDRL_M   0xFFF8U     // ECC Address Low
 #define FLASH_FADDR_TEST_ADDRH_S   16U
 #define FLASH_FADDR_TEST_ADDRH_M   0x3F0000U   // ECC Address High
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FECC_TEST register
@@ -231,6 +245,7 @@
 //*************************************************************************************************
 #define FLASH_FECC_TEST_ECC_S   0U
 #define FLASH_FECC_TEST_ECC_M   0xFFU   // ECC Control Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FECC_CTRL register
@@ -239,6 +254,7 @@
 #define FLASH_FECC_CTRL_ECC_TEST_EN   0x1U   // Enable ECC Test Logic
 #define FLASH_FECC_CTRL_ECC_SELECT    0x2U   // ECC Bit Select
 #define FLASH_FECC_CTRL_DO_ECC_CALC   0x4U   // Enable ECC Calculation
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FECC_STATUS register
@@ -249,6 +265,7 @@
 #define FLASH_FECC_STATUS_DATA_ERR_POS_S   2U
 #define FLASH_FECC_STATUS_DATA_ERR_POS_M   0xFCU    // Holds Bit Position of Error
 #define FLASH_FECC_STATUS_ERR_TYPE         0x100U   // Holds Bit Position of 8 Check Bits of Error
+
 
 //*************************************************************************************************
 //
@@ -261,6 +278,7 @@
 #define FLASH_PUMPREQUEST_KEY_S              16U
 #define FLASH_PUMPREQUEST_KEY_M              0xFFFF0000U   // Key Qualifier for writes to this
                                                            // register
+
 
 
 #endif

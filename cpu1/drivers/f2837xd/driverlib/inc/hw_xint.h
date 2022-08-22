@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the XINT registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -66,6 +64,7 @@
 #define XINT_1CR_ENABLE       0x1U   // XINT1 Enable
 #define XINT_1CR_POLARITY_S   2U
 #define XINT_1CR_POLARITY_M   0xCU   // XINT1 Polarity
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XINT2CR register
@@ -74,6 +73,7 @@
 #define XINT_2CR_ENABLE       0x1U   // XINT2 Enable
 #define XINT_2CR_POLARITY_S   2U
 #define XINT_2CR_POLARITY_M   0xCU   // XINT2 Polarity
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XINT3CR register
@@ -82,6 +82,7 @@
 #define XINT_3CR_ENABLE       0x1U   // XINT3 Enable
 #define XINT_3CR_POLARITY_S   2U
 #define XINT_3CR_POLARITY_M   0xCU   // XINT3 Polarity
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XINT4CR register
@@ -90,6 +91,7 @@
 #define XINT_4CR_ENABLE       0x1U   // XINT4 Enable
 #define XINT_4CR_POLARITY_S   2U
 #define XINT_4CR_POLARITY_M   0xCU   // XINT4 Polarity
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XINT5CR register
@@ -98,6 +100,7 @@
 #define XINT_5CR_ENABLE       0x1U   // XINT5 Enable
 #define XINT_5CR_POLARITY_S   2U
 #define XINT_5CR_POLARITY_M   0xCU   // XINT5 Polarity
+
 
 
 #endif

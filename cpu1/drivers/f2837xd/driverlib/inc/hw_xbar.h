@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the XBAR registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -93,6 +91,7 @@
 #define XBAR_FLG1_CMPSS7_CTRIPOUTH   0x20000000U   // Input Flag for CMPSS7.CTRIPOUTH Signal
 #define XBAR_FLG1_CMPSS8_CTRIPOUTL   0x40000000U   // Input Flag for CMPSS8.CTRIPOUTL Signal
 #define XBAR_FLG1_CMPSS8_CTRIPOUTH   0x80000000U   // Input Flag for CMPSS8.CTRIPOUTH Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XBARFLG2 register
@@ -130,6 +129,7 @@
 #define XBAR_FLG2_ADCBEVT3     0x20000000U   // Input Flag for ADCBEVT3 Signal
 #define XBAR_FLG2_ADCBEVT4     0x40000000U   // Input Flag for ADCBEVT4 Signal
 #define XBAR_FLG2_ADCCEVT1     0x80000000U   // Input Flag for ADCCEVT1 Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XBARFLG3 register
@@ -158,6 +158,7 @@
 #define XBAR_FLG3_SD2FLT3_COMPH   0x100000U   // Input Flag for SD2FLT3.COMPH Signal
 #define XBAR_FLG3_SD2FLT4_COMPL   0x200000U   // Input Flag for SD2FLT4.COMPL Signal
 #define XBAR_FLG3_SD2FLT4_COMPH   0x400000U   // Input Flag for SD2FLT4.COMPH Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XBARCLR1 register
@@ -195,6 +196,7 @@
 #define XBAR_CLR1_CMPSS7_CTRIPOUTH   0x20000000U   // Input Flag Clear for CMPSS7.CTRIPOUTH Signal
 #define XBAR_CLR1_CMPSS8_CTRIPOUTL   0x40000000U   // Input Flag Clear for CMPSS8.CTRIPOUTL Signal
 #define XBAR_CLR1_CMPSS8_CTRIPOUTH   0x80000000U   // Input Flag Clear for CMPSS8.CTRIPOUTH Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XBARCLR2 register
@@ -232,6 +234,7 @@
 #define XBAR_CLR2_ADCBEVT3     0x20000000U   // Input Flag Clear for ADCBEVT3 Signal
 #define XBAR_CLR2_ADCBEVT4     0x40000000U   // Input Flag Clear for ADCBEVT4 Signal
 #define XBAR_CLR2_ADCCEVT1     0x80000000U   // Input Flag Clear for ADCCEVT1 Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XBARCLR3 register
@@ -260,6 +263,7 @@
 #define XBAR_CLR3_SD2FLT3_COMPH   0x100000U   // Input Flag Clear for SD2FLT3.COMPH Signal
 #define XBAR_CLR3_SD2FLT4_COMPL   0x200000U   // Input Flag Clear for SD2FLT4.COMPL Signal
 #define XBAR_CLR3_SD2FLT4_COMPH   0x400000U   // Input Flag Clear for SD2FLT4.COMPH Signal
+
 
 
 #endif

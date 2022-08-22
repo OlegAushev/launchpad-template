@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the SYSCTL registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -188,6 +186,7 @@
 #define SYSCTL_DEVCFGLOCK1_CPUSEL12   0x1000U   // Lock bit for CPUSEL12 register
 #define SYSCTL_DEVCFGLOCK1_CPUSEL13   0x2000U   // Lock bit for CPUSEL13 register
 #define SYSCTL_DEVCFGLOCK1_CPUSEL14   0x4000U   // Lock bit for CPUSEL14 register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PARTIDL register
@@ -203,6 +202,7 @@
 #define SYSCTL_PARTIDL_FLASH_SIZE_M               0xFF0000U     // Flash size in KB
 #define SYSCTL_PARTIDL_PARTID_FORMAT_REVISION_S   28U
 #define SYSCTL_PARTIDL_PARTID_FORMAT_REVISION_M   0xF0000000U   // Revision of the PARTID format
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PARTIDH register
@@ -214,12 +214,14 @@
 #define SYSCTL_PARTIDH_PARTNO_M            0xFF0000U     // Device part number
 #define SYSCTL_PARTIDH_DEVICE_CLASS_ID_S   24U
 #define SYSCTL_PARTIDH_DEVICE_CLASS_ID_M   0xFF000000U   // Device class ID
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC0 register
 //
 //*************************************************************************************************
 #define SYSCTL_DC0_SINGLE_CORE   0x1U   // Single Core vs Dual Core
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC1 register
@@ -231,6 +233,7 @@
 #define SYSCTL_DC1_CPU2_VCU       0x8U     // CPU2's VCU
 #define SYSCTL_DC1_CPU1_CLA1      0x40U    // CPU1.CLA1
 #define SYSCTL_DC1_CPU2_CLA1      0x100U   // CPU2.CLA1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC2 register
@@ -238,6 +241,7 @@
 //*************************************************************************************************
 #define SYSCTL_DC2_EMIF1   0x1U   // EMIF1
 #define SYSCTL_DC2_EMIF2   0x2U   // EMIF2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC3 register
@@ -255,6 +259,7 @@
 #define SYSCTL_DC3_EPWM10   0x200U   // EPWM10
 #define SYSCTL_DC3_EPWM11   0x400U   // EPWM11
 #define SYSCTL_DC3_EPWM12   0x800U   // EPWM12
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC4 register
@@ -266,6 +271,7 @@
 #define SYSCTL_DC4_ECAP4   0x8U    // ECAP4
 #define SYSCTL_DC4_ECAP5   0x10U   // ECAP5
 #define SYSCTL_DC4_ECAP6   0x20U   // ECAP6
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC5 register
@@ -274,6 +280,7 @@
 #define SYSCTL_DC5_EQEP1   0x1U   // EQEP1
 #define SYSCTL_DC5_EQEP2   0x2U   // EQEP2
 #define SYSCTL_DC5_EQEP3   0x4U   // EQEP3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC6 register
@@ -283,6 +290,7 @@
 #define SYSCTL_DC6_CLB2   0x2U   // CLB2
 #define SYSCTL_DC6_CLB3   0x4U   // CLB3
 #define SYSCTL_DC6_CLB4   0x8U   // CLB4
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC7 register
@@ -290,6 +298,7 @@
 //*************************************************************************************************
 #define SYSCTL_DC7_SD1   0x1U   // SD1
 #define SYSCTL_DC7_SD2   0x2U   // SD2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC8 register
@@ -299,6 +308,7 @@
 #define SYSCTL_DC8_SCI_B   0x2U   // SCI_B
 #define SYSCTL_DC8_SCI_C   0x4U   // SCI_C
 #define SYSCTL_DC8_SCI_D   0x8U   // SCI_D
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC9 register
@@ -307,6 +317,7 @@
 #define SYSCTL_DC9_SPI_A   0x1U   // SPI_A
 #define SYSCTL_DC9_SPI_B   0x2U   // SPI_B
 #define SYSCTL_DC9_SPI_C   0x4U   // SPI_C
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC10 register
@@ -314,6 +325,7 @@
 //*************************************************************************************************
 #define SYSCTL_DC10_I2C_A   0x1U   // I2C_A
 #define SYSCTL_DC10_I2C_B   0x2U   // I2C_B
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC11 register
@@ -321,6 +333,7 @@
 //*************************************************************************************************
 #define SYSCTL_DC11_CAN_A   0x1U   // CAN_A
 #define SYSCTL_DC11_CAN_B   0x2U   // CAN_B
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC12 register
@@ -330,12 +343,14 @@
 #define SYSCTL_DC12_MCBSP_B   0x2U       // McBSP_B
 #define SYSCTL_DC12_USB_A_S   16U
 #define SYSCTL_DC12_USB_A_M   0x30000U   // Decides the capability of the USB_A Module
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC13 register
 //
 //*************************************************************************************************
 #define SYSCTL_DC13_UPP_A   0x1U   // uPP_A
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC14 register
@@ -345,6 +360,7 @@
 #define SYSCTL_DC14_ADC_B   0x2U   // ADC_B
 #define SYSCTL_DC14_ADC_C   0x4U   // ADC_C
 #define SYSCTL_DC14_ADC_D   0x8U   // ADC_D
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC15 register
@@ -358,6 +374,7 @@
 #define SYSCTL_DC15_CMPSS6   0x20U   // CMPSS6
 #define SYSCTL_DC15_CMPSS7   0x40U   // CMPSS7
 #define SYSCTL_DC15_CMPSS8   0x80U   // CMPSS8
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC17 register
@@ -366,6 +383,7 @@
 #define SYSCTL_DC17_DAC_A   0x10000U   // Buffered-DAC_A
 #define SYSCTL_DC17_DAC_B   0x20000U   // Buffered-DAC_B
 #define SYSCTL_DC17_DAC_C   0x40000U   // Buffered-DAC_C
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC18 register
@@ -377,6 +395,7 @@
 #define SYSCTL_DC18_LS3_1   0x8U    // LS3_1
 #define SYSCTL_DC18_LS4_1   0x10U   // LS4_1
 #define SYSCTL_DC18_LS5_1   0x20U   // LS5_1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC19 register
@@ -388,6 +407,7 @@
 #define SYSCTL_DC19_LS3_2   0x8U    // LS3_2
 #define SYSCTL_DC19_LS4_2   0x10U   // LS4_2
 #define SYSCTL_DC19_LS5_2   0x20U   // LS5_2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DC20 register
@@ -409,6 +429,7 @@
 #define SYSCTL_DC20_GS13   0x2000U   // GS13
 #define SYSCTL_DC20_GS14   0x4000U   // GS14
 #define SYSCTL_DC20_GS15   0x8000U   // GS15
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PERCNF1 register
@@ -419,6 +440,7 @@
 #define SYSCTL_PERCNF1_ADC_C_MODE   0x4U       // ADC_C mode setting bit
 #define SYSCTL_PERCNF1_ADC_D_MODE   0x8U       // ADC_D mode setting bit
 #define SYSCTL_PERCNF1_USB_A_PHY    0x10000U   // USB_A_PHY
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FUSEERR register
@@ -427,6 +449,7 @@
 #define SYSCTL_FUSEERR_ALERR_S   0U
 #define SYSCTL_FUSEERR_ALERR_M   0x1FU   // Efuse Autoload Error Status
 #define SYSCTL_FUSEERR_ERR       0x20U   // Efuse Self Test Error Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES0 register
@@ -434,6 +457,7 @@
 //*************************************************************************************************
 #define SYSCTL_SOFTPRES0_CPU1_CLA1   0x1U   // CPU1_CLA1 software reset bit
 #define SYSCTL_SOFTPRES0_CPU2_CLA1   0x4U   // CPU2_CLA1 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES1 register
@@ -441,6 +465,7 @@
 //*************************************************************************************************
 #define SYSCTL_SOFTPRES1_EMIF1   0x1U   // EMIF1 software reset bit
 #define SYSCTL_SOFTPRES1_EMIF2   0x2U   // EMIF2 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES2 register
@@ -458,6 +483,7 @@
 #define SYSCTL_SOFTPRES2_EPWM10   0x200U   // EPWM10 software reset bit
 #define SYSCTL_SOFTPRES2_EPWM11   0x400U   // EPWM11 software reset bit
 #define SYSCTL_SOFTPRES2_EPWM12   0x800U   // EPWM12 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES3 register
@@ -469,6 +495,7 @@
 #define SYSCTL_SOFTPRES3_ECAP4   0x8U    // ECAP4 software reset bit
 #define SYSCTL_SOFTPRES3_ECAP5   0x10U   // ECAP5 software reset bit
 #define SYSCTL_SOFTPRES3_ECAP6   0x20U   // ECAP6 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES4 register
@@ -477,6 +504,7 @@
 #define SYSCTL_SOFTPRES4_EQEP1   0x1U   // EQEP1 software reset bit
 #define SYSCTL_SOFTPRES4_EQEP2   0x2U   // EQEP2 software reset bit
 #define SYSCTL_SOFTPRES4_EQEP3   0x4U   // EQEP3 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES6 register
@@ -484,6 +512,7 @@
 //*************************************************************************************************
 #define SYSCTL_SOFTPRES6_SD1   0x1U   // SD1 software reset bit
 #define SYSCTL_SOFTPRES6_SD2   0x2U   // SD2 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES7 register
@@ -493,6 +522,7 @@
 #define SYSCTL_SOFTPRES7_SCI_B   0x2U   // SCI_B software reset bit
 #define SYSCTL_SOFTPRES7_SCI_C   0x4U   // SCI_C software reset bit
 #define SYSCTL_SOFTPRES7_SCI_D   0x8U   // SCI_D software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES8 register
@@ -501,6 +531,7 @@
 #define SYSCTL_SOFTPRES8_SPI_A   0x1U   // SPI_A software reset bit
 #define SYSCTL_SOFTPRES8_SPI_B   0x2U   // SPI_B software reset bit
 #define SYSCTL_SOFTPRES8_SPI_C   0x4U   // SPI_C software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES9 register
@@ -508,6 +539,7 @@
 //*************************************************************************************************
 #define SYSCTL_SOFTPRES9_I2C_A   0x1U   // I2C_A software reset bit
 #define SYSCTL_SOFTPRES9_I2C_B   0x2U   // I2C_B software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES11 register
@@ -516,6 +548,7 @@
 #define SYSCTL_SOFTPRES11_MCBSP_A   0x1U       // McBSP_A software reset bit
 #define SYSCTL_SOFTPRES11_MCBSP_B   0x2U       // McBSP_B software reset bit
 #define SYSCTL_SOFTPRES11_USB_A     0x10000U   // USB_A software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES13 register
@@ -525,6 +558,7 @@
 #define SYSCTL_SOFTPRES13_ADC_B   0x2U   // ADC_B software reset bit
 #define SYSCTL_SOFTPRES13_ADC_C   0x4U   // ADC_C software reset bit
 #define SYSCTL_SOFTPRES13_ADC_D   0x8U   // ADC_D software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES14 register
@@ -538,6 +572,7 @@
 #define SYSCTL_SOFTPRES14_CMPSS6   0x20U   // CMPSS6 software reset bit
 #define SYSCTL_SOFTPRES14_CMPSS7   0x40U   // CMPSS7 software reset bit
 #define SYSCTL_SOFTPRES14_CMPSS8   0x80U   // CMPSS8 software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTPRES16 register
@@ -546,6 +581,7 @@
 #define SYSCTL_SOFTPRES16_DAC_A   0x10000U   // Buffered_DAC_A software reset bit
 #define SYSCTL_SOFTPRES16_DAC_B   0x20000U   // Buffered_DAC_B software reset bit
 #define SYSCTL_SOFTPRES16_DAC_C   0x40000U   // Buffered_DAC_C software reset bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL0 register
@@ -563,6 +599,7 @@
 #define SYSCTL_CPUSEL0_EPWM10   0x200U   // EPWM10 CPU select bit
 #define SYSCTL_CPUSEL0_EPWM11   0x400U   // EPWM11 CPU select bit
 #define SYSCTL_CPUSEL0_EPWM12   0x800U   // EPWM12 CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL1 register
@@ -574,6 +611,7 @@
 #define SYSCTL_CPUSEL1_ECAP4   0x8U    // ECAP4 CPU select bit
 #define SYSCTL_CPUSEL1_ECAP5   0x10U   // ECAP5 CPU select bit
 #define SYSCTL_CPUSEL1_ECAP6   0x20U   // ECAP6 CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL2 register
@@ -582,6 +620,7 @@
 #define SYSCTL_CPUSEL2_EQEP1   0x1U   // EQEP1 CPU select bit
 #define SYSCTL_CPUSEL2_EQEP2   0x2U   // EQEP2 CPU select bit
 #define SYSCTL_CPUSEL2_EQEP3   0x4U   // EQEP3 CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL4 register
@@ -589,6 +628,7 @@
 //*************************************************************************************************
 #define SYSCTL_CPUSEL4_SD1   0x1U   // SD1 CPU select bit
 #define SYSCTL_CPUSEL4_SD2   0x2U   // SD2 CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL5 register
@@ -598,6 +638,7 @@
 #define SYSCTL_CPUSEL5_SCI_B   0x2U   // SCI_B CPU select bit
 #define SYSCTL_CPUSEL5_SCI_C   0x4U   // SCI_C CPU select bit
 #define SYSCTL_CPUSEL5_SCI_D   0x8U   // SCI_D CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL6 register
@@ -606,6 +647,7 @@
 #define SYSCTL_CPUSEL6_SPI_A   0x1U   // SPI_A CPU select bit
 #define SYSCTL_CPUSEL6_SPI_B   0x2U   // SPI_B CPU select bit
 #define SYSCTL_CPUSEL6_SPI_C   0x4U   // SPI_C CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL7 register
@@ -613,6 +655,7 @@
 //*************************************************************************************************
 #define SYSCTL_CPUSEL7_I2C_A   0x1U   // I2C_A CPU select bit
 #define SYSCTL_CPUSEL7_I2C_B   0x2U   // I2C_B CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL8 register
@@ -620,6 +663,7 @@
 //*************************************************************************************************
 #define SYSCTL_CPUSEL8_CAN_A   0x1U   // CAN_A CPU select bit
 #define SYSCTL_CPUSEL8_CAN_B   0x2U   // CAN_B CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL9 register
@@ -627,6 +671,7 @@
 //*************************************************************************************************
 #define SYSCTL_CPUSEL9_MCBSP_A   0x1U   // McBSP_A CPU select bit
 #define SYSCTL_CPUSEL9_MCBSP_B   0x2U   // McBSP_B CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL11 register
@@ -636,6 +681,7 @@
 #define SYSCTL_CPUSEL11_ADC_B   0x2U   // ADC_B CPU select bit
 #define SYSCTL_CPUSEL11_ADC_C   0x4U   // ADC_C CPU select bit
 #define SYSCTL_CPUSEL11_ADC_D   0x8U   // ADC_D CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL12 register
@@ -649,6 +695,7 @@
 #define SYSCTL_CPUSEL12_CMPSS6   0x20U   // CMPSS6 CPU select bit
 #define SYSCTL_CPUSEL12_CMPSS7   0x40U   // CMPSS7 CPU select bit
 #define SYSCTL_CPUSEL12_CMPSS8   0x80U   // CMPSS8 CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPUSEL14 register
@@ -657,6 +704,7 @@
 #define SYSCTL_CPUSEL14_DAC_A   0x10000U   // Buffered_DAC_A CPU select bit
 #define SYSCTL_CPUSEL14_DAC_B   0x20000U   // Buffered_DAC_B CPU select bit
 #define SYSCTL_CPUSEL14_DAC_C   0x40000U   // Buffered_DAC_C CPU select bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CPU2RESCTL register
@@ -665,6 +713,7 @@
 #define SYSCTL_CPU2RESCTL_RESET   0x1U          // CPU2 Reset Control bit
 #define SYSCTL_CPU2RESCTL_KEY_S   16U
 #define SYSCTL_CPU2RESCTL_KEY_M   0xFFFF0000U   // Key Qualifier for writes to this register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RSTSTAT register
@@ -677,6 +726,7 @@
                                                // CPU2
 #define SYSCTL_RSTSTAT_CPU2HWBISTRST1   0x8U   // Indicates whether a HWBIST reset was issued to
                                                // CPU2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LPMSTAT register
@@ -684,12 +734,14 @@
 //*************************************************************************************************
 #define SYSCTL_LPMSTAT_CPU2LPMSTAT_S   0U
 #define SYSCTL_LPMSTAT_CPU2LPMSTAT_M   0x3U   // CPU2 LPM Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYSDBGCTL register
 //
 //*************************************************************************************************
 #define SYSCTL_SYSDBGCTL_BIT_0   0x1U   // Used in PLL startup. Only reset by POR.
+
 
 //*************************************************************************************************
 //
@@ -700,6 +752,7 @@
 #define SYSCTL_CLKSEM_SEM_M   0x3U          // Semaphore for CLKCFG Ownership by CPU1 or CPU2
 #define SYSCTL_CLKSEM_KEY_S   16U
 #define SYSCTL_CLKSEM_KEY_M   0xFFFF0000U   // Key Qualifier for writes to this register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLKCFGLOCK1 register
@@ -718,6 +771,7 @@
 #define SYSCTL_CLKCFGLOCK1_AUXCLKDIVSEL   0x1000U   // Lock bit for AUXCLKDIVSEL register
 #define SYSCTL_CLKCFGLOCK1_PERCLKDIVSEL   0x2000U   // Lock bit for PERCLKDIVSEL register
 #define SYSCTL_CLKCFGLOCK1_LOSPCP         0x8000U   // Lock bit for LOSPCP register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLKSRCCTL1 register
@@ -728,6 +782,7 @@
 #define SYSCTL_CLKSRCCTL1_INTOSC2OFF       0x8U    // Internal Oscillator 2 Off Bit
 #define SYSCTL_CLKSRCCTL1_XTALOFF          0x10U   // Crystal (External) Oscillator Off Bit
 #define SYSCTL_CLKSRCCTL1_WDHALTI          0x20U   // Watchdog HALT Mode Ignore Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLKSRCCTL2 register
@@ -739,6 +794,7 @@
 #define SYSCTL_CLKSRCCTL2_CANABCLKSEL_M       0xCU    // CANA Bit Clock Source Select Bit
 #define SYSCTL_CLKSRCCTL2_CANBBCLKSEL_S       4U
 #define SYSCTL_CLKSRCCTL2_CANBBCLKSEL_M       0x30U   // CANB Bit Clock Source Select Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLKSRCCTL3 register
@@ -746,6 +802,7 @@
 //*************************************************************************************************
 #define SYSCTL_CLKSRCCTL3_XCLKOUTSEL_S   0U
 #define SYSCTL_CLKSRCCTL3_XCLKOUTSEL_M   0x7U   // XCLKOUT Source Select Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYSPLLCTL1 register
@@ -753,6 +810,7 @@
 //*************************************************************************************************
 #define SYSCTL_SYSPLLCTL1_PLLEN      0x1U   // SYSPLL enable/disable bit
 #define SYSCTL_SYSPLLCTL1_PLLCLKEN   0x2U   // SYSPLL bypassed or included in the PLLSYSCLK path
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYSPLLMULT register
@@ -762,6 +820,7 @@
 #define SYSCTL_SYSPLLMULT_IMULT_M   0x7FU    // SYSPLL Integer Multiplier
 #define SYSCTL_SYSPLLMULT_FMULT_S   8U
 #define SYSCTL_SYSPLLMULT_FMULT_M   0x300U   // SYSPLL Fractional Multiplier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYSPLLSTS register
@@ -769,6 +828,7 @@
 //*************************************************************************************************
 #define SYSCTL_SYSPLLSTS_LOCKS   0x1U   // SYSPLL Lock Status Bit
 #define SYSCTL_SYSPLLSTS_SLIPS   0x2U   // SYSPLL Slip Status Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXPLLCTL1 register
@@ -776,6 +836,7 @@
 //*************************************************************************************************
 #define SYSCTL_AUXPLLCTL1_PLLEN      0x1U   // AUXPLL enable/disable bit
 #define SYSCTL_AUXPLLCTL1_PLLCLKEN   0x2U   // AUXPLL bypassed or included in the AUXPLLCLK path
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXPLLMULT register
@@ -785,6 +846,7 @@
 #define SYSCTL_AUXPLLMULT_IMULT_M   0x7FU    // AUXPLL Integer Multiplier
 #define SYSCTL_AUXPLLMULT_FMULT_S   8U
 #define SYSCTL_AUXPLLMULT_FMULT_M   0x300U   // AUXPLL Fractional Multiplier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXPLLSTS register
@@ -792,6 +854,7 @@
 //*************************************************************************************************
 #define SYSCTL_AUXPLLSTS_LOCKS   0x1U   // AUXPLL Lock Status Bit
 #define SYSCTL_AUXPLLSTS_SLIPS   0x2U   // AUXPLL Slip Status Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYSCLKDIVSEL register
@@ -799,6 +862,7 @@
 //*************************************************************************************************
 #define SYSCTL_SYSCLKDIVSEL_PLLSYSCLKDIV_S   0U
 #define SYSCTL_SYSCLKDIVSEL_PLLSYSCLKDIV_M   0x3FU   // PLLSYSCLK Divide Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXCLKDIVSEL register
@@ -806,6 +870,7 @@
 //*************************************************************************************************
 #define SYSCTL_AUXCLKDIVSEL_AUXPLLDIV_S   0U
 #define SYSCTL_AUXCLKDIVSEL_AUXPLLDIV_M   0x3U   // AUXPLLCLK Divide Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PERCLKDIVSEL register
@@ -815,6 +880,7 @@
 #define SYSCTL_PERCLKDIVSEL_EPWMCLKDIV_M   0x3U    // EPWM Clock Divide Select
 #define SYSCTL_PERCLKDIVSEL_EMIF1CLKDIV    0x10U   // EMIF1  Clock Divide Select
 #define SYSCTL_PERCLKDIVSEL_EMIF2CLKDIV    0x40U   // EMIF2 Clock Divide Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XCLKOUTDIVSEL register
@@ -822,6 +888,7 @@
 //*************************************************************************************************
 #define SYSCTL_XCLKOUTDIVSEL_XCLKOUTDIV_S   0U
 #define SYSCTL_XCLKOUTDIVSEL_XCLKOUTDIV_M   0x3U   // XCLKOUT Divide Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LOSPCP register
@@ -829,6 +896,7 @@
 //*************************************************************************************************
 #define SYSCTL_LOSPCP_LSPCLKDIV_S   0U
 #define SYSCTL_LOSPCP_LSPCLKDIV_M   0x7U   // LSPCLK Divide Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MCDCR register
@@ -838,6 +906,7 @@
 #define SYSCTL_MCDCR_MCLKCLR   0x2U   // Missing Clock Clear Bit
 #define SYSCTL_MCDCR_MCLKOFF   0x4U   // Missing Clock Detect Off Bit
 #define SYSCTL_MCDCR_OSCOFF    0x8U   // Oscillator Clock Off Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the X1CNT register
@@ -845,6 +914,7 @@
 //*************************************************************************************************
 #define SYSCTL_X1CNT_X1CNT_S   0U
 #define SYSCTL_X1CNT_X1CNT_M   0x3FFU   // X1 Counter
+
 
 //*************************************************************************************************
 //
@@ -875,6 +945,7 @@
 #define SYSCTL_CPUSYSLOCK1_LPMCR           0x200000U   // Lock bit for LPMCR Register
 #define SYSCTL_CPUSYSLOCK1_GPIOLPMSEL0     0x400000U   // Lock bit for GPIOLPMSEL0 Register
 #define SYSCTL_CPUSYSLOCK1_GPIOLPMSEL1     0x800000U   // Lock bit for GPIOLPMSEL1 Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the IORESTOREADDR register
@@ -882,6 +953,7 @@
 //*************************************************************************************************
 #define SYSCTL_IORESTOREADDR_ADDR_S   0U
 #define SYSCTL_IORESTOREADDR_ADDR_M   0x3FFFFFU   // restoreIO() routine address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEVERRADDR register
@@ -889,6 +961,7 @@
 //*************************************************************************************************
 #define SYSCTL_PIEVERRADDR_ADDR_S   0U
 #define SYSCTL_PIEVERRADDR_ADDR_M   0x3FFFFFU   // PIE Vector Fetch Error Handler Routine Address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR0 register
@@ -902,6 +975,7 @@
 #define SYSCTL_PCLKCR0_HRPWM        0x10000U   // HRPWM Clock Enable Bit
 #define SYSCTL_PCLKCR0_TBCLKSYNC    0x40000U   // EPWM Time Base Clock sync
 #define SYSCTL_PCLKCR0_GTBCLKSYNC   0x80000U   // EPWM Time Base Clock Global sync
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR1 register
@@ -909,6 +983,7 @@
 //*************************************************************************************************
 #define SYSCTL_PCLKCR1_EMIF1   0x1U   // EMIF1 Clock Enable bit
 #define SYSCTL_PCLKCR1_EMIF2   0x2U   // EMIF2 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR2 register
@@ -926,6 +1001,7 @@
 #define SYSCTL_PCLKCR2_EPWM10   0x200U   // EPWM10 Clock Enable bit
 #define SYSCTL_PCLKCR2_EPWM11   0x400U   // EPWM11 Clock Enable bit
 #define SYSCTL_PCLKCR2_EPWM12   0x800U   // EPWM12 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR3 register
@@ -937,6 +1013,7 @@
 #define SYSCTL_PCLKCR3_ECAP4   0x8U    // ECAP4 Clock Enable bit
 #define SYSCTL_PCLKCR3_ECAP5   0x10U   // ECAP5 Clock Enable bit
 #define SYSCTL_PCLKCR3_ECAP6   0x20U   // ECAP6 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR4 register
@@ -945,6 +1022,7 @@
 #define SYSCTL_PCLKCR4_EQEP1   0x1U   // EQEP1 Clock Enable bit
 #define SYSCTL_PCLKCR4_EQEP2   0x2U   // EQEP2 Clock Enable bit
 #define SYSCTL_PCLKCR4_EQEP3   0x4U   // EQEP3 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR6 register
@@ -952,6 +1030,7 @@
 //*************************************************************************************************
 #define SYSCTL_PCLKCR6_SD1   0x1U   // SD1 Clock Enable bit
 #define SYSCTL_PCLKCR6_SD2   0x2U   // SD2 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR7 register
@@ -961,6 +1040,7 @@
 #define SYSCTL_PCLKCR7_SCI_B   0x2U   // SCI_B Clock Enable bit
 #define SYSCTL_PCLKCR7_SCI_C   0x4U   // SCI_C Clock Enable bit
 #define SYSCTL_PCLKCR7_SCI_D   0x8U   // SCI_D Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR8 register
@@ -969,6 +1049,7 @@
 #define SYSCTL_PCLKCR8_SPI_A   0x1U   // SPI_A Clock Enable bit
 #define SYSCTL_PCLKCR8_SPI_B   0x2U   // SPI_B Clock Enable bit
 #define SYSCTL_PCLKCR8_SPI_C   0x4U   // SPI_C Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR9 register
@@ -976,6 +1057,7 @@
 //*************************************************************************************************
 #define SYSCTL_PCLKCR9_I2C_A   0x1U   // I2C_A Clock Enable bit
 #define SYSCTL_PCLKCR9_I2C_B   0x2U   // I2C_B Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR10 register
@@ -983,6 +1065,7 @@
 //*************************************************************************************************
 #define SYSCTL_PCLKCR10_CAN_A   0x1U   // CAN_A Clock Enable bit
 #define SYSCTL_PCLKCR10_CAN_B   0x2U   // CAN_B Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR11 register
@@ -991,12 +1074,14 @@
 #define SYSCTL_PCLKCR11_MCBSP_A   0x1U       // McBSP_A Clock Enable bit
 #define SYSCTL_PCLKCR11_MCBSP_B   0x2U       // McBSP_B Clock Enable bit
 #define SYSCTL_PCLKCR11_USB_A     0x10000U   // USB_A Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR12 register
 //
 //*************************************************************************************************
 #define SYSCTL_PCLKCR12_UPP_A   0x1U   // uPP_A Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR13 register
@@ -1006,6 +1091,7 @@
 #define SYSCTL_PCLKCR13_ADC_B   0x2U   // ADC_B Clock Enable bit
 #define SYSCTL_PCLKCR13_ADC_C   0x4U   // ADC_C Clock Enable bit
 #define SYSCTL_PCLKCR13_ADC_D   0x8U   // ADC_D Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR14 register
@@ -1019,6 +1105,7 @@
 #define SYSCTL_PCLKCR14_CMPSS6   0x20U   // CMPSS6 Clock Enable bit
 #define SYSCTL_PCLKCR14_CMPSS7   0x40U   // CMPSS7 Clock Enable bit
 #define SYSCTL_PCLKCR14_CMPSS8   0x80U   // CMPSS8 Clock Enable bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCLKCR16 register
@@ -1027,6 +1114,7 @@
 #define SYSCTL_PCLKCR16_DAC_A   0x10000U   // Buffered_DAC_A Clock Enable Bit
 #define SYSCTL_PCLKCR16_DAC_B   0x20000U   // Buffered_DAC_B Clock Enable Bit
 #define SYSCTL_PCLKCR16_DAC_C   0x40000U   // Buffered_DAC_C Clock Enable Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SECMSEL register
@@ -1036,6 +1124,7 @@
 #define SYSCTL_SECMSEL_PF1SEL_M   0x3U   // Secondary Master Select for VBUS32_1 Bridge
 #define SYSCTL_SECMSEL_PF2SEL_S   2U
 #define SYSCTL_SECMSEL_PF2SEL_M   0xCU   // Secondary Master Select for VBUS32_2 Bridge
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LPMCR register
@@ -1049,6 +1138,7 @@
 #define SYSCTL_LPMCR_M0M1MODE_S    16U
 #define SYSCTL_LPMCR_M0M1MODE_M    0x30000U      // Configuration for M0 and M1 mode during HIB
 #define SYSCTL_LPMCR_IOISODIS      0x80000000U   // IO Isolation Disable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPIOLPMSEL0 register
@@ -1086,6 +1176,7 @@
 #define SYSCTL_GPIOLPMSEL0_GPIO29   0x20000000U   // GPIO29 Enable for LPM Wakeup
 #define SYSCTL_GPIOLPMSEL0_GPIO30   0x40000000U   // GPIO30 Enable for LPM Wakeup
 #define SYSCTL_GPIOLPMSEL0_GPIO31   0x80000000U   // GPIO31 Enable for LPM Wakeup
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GPIOLPMSEL1 register
@@ -1123,6 +1214,7 @@
 #define SYSCTL_GPIOLPMSEL1_GPIO61   0x20000000U   // GPIO61 Enable for LPM Wakeup
 #define SYSCTL_GPIOLPMSEL1_GPIO62   0x40000000U   // GPIO62 Enable for LPM Wakeup
 #define SYSCTL_GPIOLPMSEL1_GPIO63   0x80000000U   // GPIO63 Enable for LPM Wakeup
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TMR2CLKCTL register
@@ -1132,6 +1224,7 @@
 #define SYSCTL_TMR2CLKCTL_TMR2CLKSRCSEL_M     0x7U    // CPU Timer 2 Clock Source Select Bit
 #define SYSCTL_TMR2CLKCTL_TMR2CLKPRESCALE_S   3U
 #define SYSCTL_TMR2CLKCTL_TMR2CLKPRESCALE_M   0x38U   // CPU Timer 2 Clock Pre-Scale Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RESC register
@@ -1147,6 +1240,7 @@
 #define SYSCTL_RESC_XRSN_PIN_STATUS    0x40000000U   // XRSN Pin Status
 #define SYSCTL_RESC_TRSTN_PIN_STATUS   0x80000000U   // TRSTn Status
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SCSR register
@@ -1155,6 +1249,7 @@
 #define SYSCTL_SCSR_WDOVERRIDE   0x1U   // WD Override for WDDIS bit
 #define SYSCTL_SCSR_WDENINT      0x2U   // WD Interrupt Enable
 #define SYSCTL_SCSR_WDINTS       0x4U   // WD Interrupt Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the WDCNTR register
@@ -1162,6 +1257,7 @@
 //*************************************************************************************************
 #define SYSCTL_WDCNTR_WDCNTR_S   0U
 #define SYSCTL_WDCNTR_WDCNTR_M   0xFFU   // WD Counter
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the WDKEY register
@@ -1169,6 +1265,7 @@
 //*************************************************************************************************
 #define SYSCTL_WDKEY_WDKEY_S   0U
 #define SYSCTL_WDKEY_WDKEY_M   0xFFU   // WD KEY
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the WDCR register
@@ -1179,6 +1276,7 @@
 #define SYSCTL_WDCR_WDCHK_S   3U
 #define SYSCTL_WDCR_WDCHK_M   0x38U   // WD Check Bits
 #define SYSCTL_WDCR_WDDIS     0x40U   // WD Disable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the WDWCR register
@@ -1189,6 +1287,7 @@
                                          // functionality
 #define SYSCTL_WDWCR_FIRSTKEY   0x100U   // First Key Detect Flag
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLA1TASKSRCSELLOCK register
@@ -1196,6 +1295,7 @@
 //*************************************************************************************************
 #define SYSCTL_CLA1TASKSRCSELLOCK_CLA1TASKSRCSEL1   0x1U   // CLA1TASKSRCSEL1 Register Lock bit
 #define SYSCTL_CLA1TASKSRCSELLOCK_CLA1TASKSRCSEL2   0x2U   // CLA1TASKSRCSEL2 Register Lock bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DMACHSRCSELLOCK register
@@ -1203,6 +1303,7 @@
 //*************************************************************************************************
 #define SYSCTL_DMACHSRCSELLOCK_DMACHSRCSEL1   0x1U   // DMACHSRCSEL1 Register Lock bit
 #define SYSCTL_DMACHSRCSELLOCK_DMACHSRCSEL2   0x2U   // DMACHSRCSEL2 Register Lock bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLA1TASKSRCSEL1 register
@@ -1220,6 +1321,7 @@
 #define SYSCTL_CLA1TASKSRCSEL1_TASK4_S   24U
 #define SYSCTL_CLA1TASKSRCSEL1_TASK4_M   0xFF000000U   // Selects the Trigger Source for TASK4 of
                                                        // CLA1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLA1TASKSRCSEL2 register
@@ -1237,6 +1339,7 @@
 #define SYSCTL_CLA1TASKSRCSEL2_TASK8_S   24U
 #define SYSCTL_CLA1TASKSRCSEL2_TASK8_M   0xFF000000U   // Selects the Trigger Source for TASK8 of
                                                        // CLA1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DMACHSRCSEL1 register
@@ -1250,6 +1353,7 @@
 #define SYSCTL_DMACHSRCSEL1_CH3_M   0xFF0000U     // Selects the Trigger and Sync Source CH3 of DMA
 #define SYSCTL_DMACHSRCSEL1_CH4_S   24U
 #define SYSCTL_DMACHSRCSEL1_CH4_M   0xFF000000U   // Selects the Trigger and Sync Source CH4 of DMA
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DMACHSRCSEL2 register
@@ -1259,6 +1363,7 @@
 #define SYSCTL_DMACHSRCSEL2_CH5_M   0xFFU     // Selects the Trigger and Sync Source CH5 of DMA
 #define SYSCTL_DMACHSRCSEL2_CH6_S   8U
 #define SYSCTL_DMACHSRCSEL2_CH6_M   0xFF00U   // Selects the Trigger and Sync Source CH6 of DMA
+
 
 //*************************************************************************************************
 //
@@ -1277,6 +1382,7 @@
 #define SYSCTL_SYNCSELECT_ECAP4SYNCIN_M    0x7000U       // Selects Sync Input Source for ECAP4
 #define SYSCTL_SYNCSELECT_SYNCOUT_S        27U
 #define SYSCTL_SYNCSELECT_SYNCOUT_M        0x18000000U   // Select Syncout Source
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ADCSOCOUTSELECT register
@@ -1306,6 +1412,7 @@
 #define SYSCTL_ADCSOCOUTSELECT_PWM10SOCBEN   0x2000000U   // PWM10SOCBEN Enable for ADCSOCBO
 #define SYSCTL_ADCSOCOUTSELECT_PWM11SOCBEN   0x4000000U   // PWM11SOCBEN Enable for ADCSOCBO
 #define SYSCTL_ADCSOCOUTSELECT_PWM12SOCBEN   0x8000000U   // PWM12SOCBEN Enable for ADCSOCBO
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SYNCSOCLOCK register
@@ -1313,6 +1420,7 @@
 //*************************************************************************************************
 #define SYSCTL_SYNCSOCLOCK_SYNCSELECT        0x1U   // SYNCSEL Register Lock bit
 #define SYSCTL_SYNCSOCLOCK_ADCSOCOUTSELECT   0x2U   // ADCSOCOUTSELECT Register Lock bit
+
 
 
 #endif

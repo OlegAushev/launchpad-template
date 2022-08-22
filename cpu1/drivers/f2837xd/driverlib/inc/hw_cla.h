@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the CLA registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -48,7 +46,7 @@
 // The following are defines for the CLA register offsets
 //
 //*************************************************************************************************
-#ifndef __TMS320C28XX_CLA2__
+#ifndef __TMS320C28XX_CLA__
 #define CLA_O_MVECT1     0x0U    // Task Interrupt Vector
 #define CLA_O_MVECT2     0x1U    // Task Interrupt Vector
 #define CLA_O_MVECT3     0x2U    // Task Interrupt Vector
@@ -75,13 +73,13 @@
 #define CLA_O_MR3        0x3CU   // CLA Floating-Point Result Register 3
 #endif
 
-#ifdef __TMS320C28XX_CLA2__
+#ifdef __TMS320C28XX_CLA__
 #define CLA_O_SOFTINTEN    0x0U   // CLA Software Interrupt Enable Register
 #define CLA_O_SOFTINTFRC   0x2U   // CLA Software Interrupt Force Register
 #endif
 
 
-#ifndef __TMS320C28XX_CLA2__
+#ifndef __TMS320C28XX_CLA__
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MCTL register
@@ -90,6 +88,7 @@
 #define CLA_MCTL_HARDRESET   0x1U   // Hard Reset
 #define CLA_MCTL_SOFTRESET   0x2U   // Soft Reset
 #define CLA_MCTL_IACKE       0x4U   // IACK enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MIFR register
@@ -103,6 +102,7 @@
 #define CLA_MIFR_INT6   0x20U   // Task 6 Interrupt Flag
 #define CLA_MIFR_INT7   0x40U   // Task 7 Interrupt Flag
 #define CLA_MIFR_INT8   0x80U   // Task 8 Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MIOVF register
@@ -116,6 +116,7 @@
 #define CLA_MIOVF_INT6   0x20U   // Task 6 Interrupt Overflow Flag
 #define CLA_MIOVF_INT7   0x40U   // Task 7 Interrupt Overflow Flag
 #define CLA_MIOVF_INT8   0x80U   // Task 8 Interrupt Overflow Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MIFRC register
@@ -129,6 +130,7 @@
 #define CLA_MIFRC_INT6   0x20U   // Task 6 Interrupt Force
 #define CLA_MIFRC_INT7   0x40U   // Task 7 Interrupt Force
 #define CLA_MIFRC_INT8   0x80U   // Task 8 Interrupt Force
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MICLR register
@@ -142,6 +144,7 @@
 #define CLA_MICLR_INT6   0x20U   // Task 6 Interrupt Flag Clear
 #define CLA_MICLR_INT7   0x40U   // Task 7 Interrupt Flag Clear
 #define CLA_MICLR_INT8   0x80U   // Task 8 Interrupt Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MICLROVF register
@@ -155,6 +158,7 @@
 #define CLA_MICLROVF_INT6   0x20U   // Task 6 Interrupt Overflow Flag Clear
 #define CLA_MICLROVF_INT7   0x40U   // Task 7 Interrupt Overflow Flag Clear
 #define CLA_MICLROVF_INT8   0x80U   // Task 8 Interrupt Overflow Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MIER register
@@ -168,6 +172,7 @@
 #define CLA_MIER_INT6   0x20U   // Task 6 Interrupt Enable
 #define CLA_MIER_INT7   0x40U   // Task 7 Interrupt Enable
 #define CLA_MIER_INT8   0x80U   // Task 8 Interrupt Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MIRUN register
@@ -181,6 +186,7 @@
 #define CLA_MIRUN_INT6   0x20U   // Task 6 Run Status
 #define CLA_MIRUN_INT7   0x40U   // Task 7 Run Status
 #define CLA_MIRUN_INT8   0x80U   // Task 8 Run Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the _MSTF register
@@ -195,9 +201,10 @@
 #define CLA_MSTF_MEALLOW   0x800U       // MEALLOW Status
 #define CLA_MSTF_RPC_S     12U
 #define CLA_MSTF_RPC_M     0xFFFF000U   // Return PC
+
 #endif
 
-#ifdef __TMS320C28XX_CLA2__
+#ifdef __TMS320C28XX_CLA__
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTINTEN register
@@ -211,6 +218,7 @@
 #define CLA_SOFTINTEN_TASK6   0x20U   // Configure Software Interrupt or End of Task interrupt.
 #define CLA_SOFTINTEN_TASK7   0x40U   // Configure Software Interrupt or End of Task interrupt.
 #define CLA_SOFTINTEN_TASK8   0x80U   // Configure Software Interrupt or End of Task interrupt.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SOFTINTFRC register
@@ -224,6 +232,7 @@
 #define CLA_SOFTINTFRC_TASK6   0x20U   // Force CLA software interrupt for the corresponding task.
 #define CLA_SOFTINTFRC_TASK7   0x40U   // Force CLA software interrupt for the corresponding task.
 #define CLA_SOFTINTFRC_TASK8   0x80U   // Force CLA software interrupt for the corresponding task.
+
 #endif
 
 

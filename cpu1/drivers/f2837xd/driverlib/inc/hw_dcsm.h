@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the DCSM registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -104,6 +102,7 @@
 //*************************************************************************************************
 #define DCSM_Z1_LINKPOINTER_LINKPOINTER_S   0U
 #define DCSM_Z1_LINKPOINTER_LINKPOINTER_M   0x1FFFFFFFU   // Zone1 LINK Pointer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_OTPSECLOCK register
@@ -113,6 +112,7 @@
 #define DCSM_Z1_OTPSECLOCK_PSWDLOCK_M   0xF0U    // Zone1 Password Lock.
 #define DCSM_Z1_OTPSECLOCK_CRCLOCK_S    8U
 #define DCSM_Z1_OTPSECLOCK_CRCLOCK_M    0xF00U   // Zone1 CRC Lock.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_BOOTCTRL register
@@ -126,6 +126,7 @@
 #define DCSM_Z1_BOOTCTRL_BOOTPIN0_M   0xFF0000U     // OTP Boot Pin 0 Mapping
 #define DCSM_Z1_BOOTCTRL_BOOTPIN1_S   24U
 #define DCSM_Z1_BOOTCTRL_BOOTPIN1_M   0xFF000000U   // OTP Boot Pin 1 Mapping
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_CR register
@@ -136,6 +137,7 @@
 #define DCSM_Z1_CR_UNSECURE   0x20U     // CSMPSWD Match CSMKEY
 #define DCSM_Z1_CR_ARMED      0x40U     // CSM Armed
 #define DCSM_Z1_CR_FORCESEC   0x8000U   // Force Secure
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_GRABSECTR register
@@ -169,6 +171,7 @@
 #define DCSM_Z1_GRABSECTR_GRAB_SECTM_M   0x3000000U   // Grab Flash Sector M
 #define DCSM_Z1_GRABSECTR_GRAB_SECTN_S   26U
 #define DCSM_Z1_GRABSECTR_GRAB_SECTN_M   0xC000000U   // Grab Flash Sector N
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_GRABRAMR register
@@ -192,6 +195,7 @@
 #define DCSM_Z1_GRABRAMR_GRAB_RAM7_M   0xC000U       // Grab RAM D1
 #define DCSM_Z1_GRABRAMR_GRAB_CLA1_S   28U
 #define DCSM_Z1_GRABRAMR_GRAB_CLA1_M   0x30000000U   // Grab CLA1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_EXEONLYSECTR register
@@ -211,6 +215,7 @@
 #define DCSM_Z1_EXEONLYSECTR_EXEONLY_SECTL   0x800U    // Execute-Only Flash Sector L
 #define DCSM_Z1_EXEONLYSECTR_EXEONLY_SECTM   0x1000U   // Execute-Only Flash Sector M
 #define DCSM_Z1_EXEONLYSECTR_EXEONLY_SECTN   0x2000U   // Execute-Only Flash Sector N
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z1_EXEONLYRAMR register
@@ -225,6 +230,7 @@
 #define DCSM_Z1_EXEONLYRAMR_EXEONLY_RAM6   0x40U   // Execute-Only RAM D0
 #define DCSM_Z1_EXEONLYRAMR_EXEONLY_RAM7   0x80U   // Execute-Only RAM D1
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_LINKPOINTER register
@@ -232,6 +238,7 @@
 //*************************************************************************************************
 #define DCSM_Z2_LINKPOINTER_LINKPOINTER_S   0U
 #define DCSM_Z2_LINKPOINTER_LINKPOINTER_M   0x1FFFFFFFU   // Zone2 LINK Pointer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_OTPSECLOCK register
@@ -241,6 +248,7 @@
 #define DCSM_Z2_OTPSECLOCK_PSWDLOCK_M   0xF0U    // Zone2 Password Lock.
 #define DCSM_Z2_OTPSECLOCK_CRCLOCK_S    8U
 #define DCSM_Z2_OTPSECLOCK_CRCLOCK_M    0xF00U   // Zone2 CRC Lock.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_BOOTCTRL register
@@ -254,6 +262,7 @@
 #define DCSM_Z2_BOOTCTRL_BOOTPIN0_M   0xFF0000U     // OTP Boot Pin 0 Mapping
 #define DCSM_Z2_BOOTCTRL_BOOTPIN1_S   24U
 #define DCSM_Z2_BOOTCTRL_BOOTPIN1_M   0xFF000000U   // OTP Boot Pin 1 Mapping
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_CR register
@@ -264,6 +273,7 @@
 #define DCSM_Z2_CR_UNSECURE   0x20U     // CSMPSWD Match CSMKEY
 #define DCSM_Z2_CR_ARMED      0x40U     // CSM Armed
 #define DCSM_Z2_CR_FORCESEC   0x8000U   // Force Secure
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_GRABSECTR register
@@ -297,6 +307,7 @@
 #define DCSM_Z2_GRABSECTR_GRAB_SECTM_M   0x3000000U   // Grab Flash Sector M
 #define DCSM_Z2_GRABSECTR_GRAB_SECTN_S   26U
 #define DCSM_Z2_GRABSECTR_GRAB_SECTN_M   0xC000000U   // Grab Flash Sector N
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_GRABRAMR register
@@ -320,6 +331,7 @@
 #define DCSM_Z2_GRABRAMR_GRAB_RAM7_M   0xC000U       // Grab RAM D1
 #define DCSM_Z2_GRABRAMR_GRAB_CLA1_S   28U
 #define DCSM_Z2_GRABRAMR_GRAB_CLA1_M   0x30000000U   // Grab CLA1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_EXEONLYSECTR register
@@ -339,6 +351,7 @@
 #define DCSM_Z2_EXEONLYSECTR_EXEONLY_SECTL   0x800U    // Execute-Only Flash Sector L
 #define DCSM_Z2_EXEONLYSECTR_EXEONLY_SECTM   0x1000U   // Execute-Only Flash Sector M
 #define DCSM_Z2_EXEONLYSECTR_EXEONLY_SECTN   0x2000U   // Execute-Only Flash Sector N
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the Z2_EXEONLYRAMR register
@@ -353,6 +366,7 @@
 #define DCSM_Z2_EXEONLYRAMR_EXEONLY_RAM6   0x40U   // Execute-Only RAM D0
 #define DCSM_Z2_EXEONLYRAMR_EXEONLY_RAM7   0x80U   // Execute-Only RAM D1
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the FLSEM register
@@ -362,6 +376,7 @@
 #define DCSM_FLSEM_SEM_M   0x3U      // Flash Semaphore Bit
 #define DCSM_FLSEM_KEY_S   8U
 #define DCSM_FLSEM_KEY_M   0xFF00U   // Semaphore Key
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SECTSTAT register
@@ -395,6 +410,7 @@
 #define DCSM_SECTSTAT_STATUS_SECTM_M   0x3000000U   // Zone Status Flash Sector M
 #define DCSM_SECTSTAT_STATUS_SECTN_S   26U
 #define DCSM_SECTSTAT_STATUS_SECTN_M   0xC000000U   // Zone Status Flash Sector N
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RAMSTAT register
@@ -418,6 +434,7 @@
 #define DCSM_RAMSTAT_STATUS_RAM7_M   0xC000U       // Zone Status RAM D1
 #define DCSM_RAMSTAT_STATUS_CLA1_S   28U
 #define DCSM_RAMSTAT_STATUS_CLA1_M   0x30000000U   // Zone Status CLA1
+
 
 
 #endif

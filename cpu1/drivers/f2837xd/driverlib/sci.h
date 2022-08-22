@@ -5,10 +5,8 @@
 // TITLE:  C28x SCI driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -280,6 +278,56 @@ SCI_getParityMode(uint32_t base)
     parity = (HWREGH(base + SCI_O_CCR) & (SCI_CONFIG_PAR_MASK));
 
     return((SCI_ParityType)parity);
+}
+
+//*****************************************************************************
+//
+//! Sets the multiprocessor protocol to address-bit mode.
+//!
+//! \param base is the base address of the SCI port.
+//!
+//! This function sets the multi-processor protocol to address-bit mode.
+//!
+//! \return None.
+//
+//*****************************************************************************
+static inline void
+SCI_setAddrMultiProcessorMode(uint32_t base)
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT(SCI_isBaseValid(base));
+
+    //
+    // Enable the address-bit mode protocol
+    //
+    HWREGH(base + SCI_O_CCR) |= SCI_CCR_ADDRIDLE_MODE;
+}
+
+//*****************************************************************************
+//
+//! Sets the multiprocessor protocol to idle-line mode.
+//!
+//! \param base is the base address of the SCI port.
+//!
+//! This function sets the multi-processor protocol to idle-line protocol.
+//!
+//! \return None.
+//
+//*****************************************************************************
+static inline void
+SCI_setIdleMultiProcessorMode(uint32_t base)
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT(SCI_isBaseValid(base));
+
+    //
+    // Disable the address-bit mode protocol
+    //
+    HWREGH(base + SCI_O_CCR) &= ~SCI_CCR_ADDRIDLE_MODE;
 }
 
 //*****************************************************************************
@@ -821,8 +869,8 @@ SCI_isTransmitterBusy(uint32_t base)
         //
         // With FIFO enhancement, determine if the SCI is busy.
         //
-        return(((HWREGH(base + SCI_O_FFTX) & SCI_FFTX_TXFFST_M) ==
-                SCI_FFTX_TXFFST_M) ? true : false);
+        return(((HWREGH(base + SCI_O_FFTX) & SCI_FFTX_TXFFST_M) !=
+                 0) ? true : false);
     }
     else
     {
@@ -863,7 +911,7 @@ SCI_writeCharBlockingFIFO(uint32_t base, uint16_t data)
     //
     // Wait until space is available in the transmit FIFO.
     //
-    while(SCI_getTxFIFOStatus(base) == SCI_FIFO_TX15)
+    while(SCI_getTxFIFOStatus(base) == SCI_FIFO_TX16)
     {
     }
 
@@ -1012,14 +1060,14 @@ SCI_readCharBlockingFIFO(uint32_t base)
         //
         if((SCI_getRxStatus(base) & SCI_RXSTATUS_ERROR) != 0U)
         {
-            return 0U;
+            return(0U);
         }
     }
 
     //
     // Return the character from the receive buffer.
     //
-    return(uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M);
+    return((uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M));
 }
 
 //*****************************************************************************
@@ -1054,7 +1102,7 @@ SCI_readCharBlockingNonFIFO(uint32_t base)
     //
     // Return the character from the receive buffer.
     //
-    return(uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M);
+    return((uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M));
 }
 
 //*****************************************************************************
@@ -1086,7 +1134,7 @@ SCI_readCharNonBlocking(uint32_t base)
     //
     // Return the character from the receive buffer.
     //
-    return(uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M);
+    return((uint16_t)(HWREGH(base + SCI_O_RXBUF) & SCI_RXBUF_SAR_M));
 }
 
 //*****************************************************************************
@@ -1252,6 +1300,13 @@ SCI_clearOverflowStatus(uint32_t base)
 //! hard coded if it is constant and known (to save the code/execution overhead
 //! of a call to SysCtl_getLowSpeedClock()).
 //!
+//! A baud rate divider (BRR) is used in this function to calculate the
+//! baud rate. The value of BRR is calculated in float and type casted as int
+//! to be fed in the \b SCIHBAUD and  \b SCILBAUD registers. This conversion
+//! brings an error in the calculated baud rate and the requested. Error will
+//! be significant when operating at higher baud rates. The error is due to
+//! lower BRR integer value granularity at higher baud rates.
+//!
 //! \return None.
 //
 //*****************************************************************************
@@ -1385,6 +1440,44 @@ SCI_getInterruptStatus(uint32_t base);
 //*****************************************************************************
 extern void
 SCI_clearInterruptStatus(uint32_t base, uint32_t intFlags);
+
+//*****************************************************************************
+//
+//! Sets SCI Baud rate.
+//!
+//! \param base is the base address of the SCI port.
+//! \param lspclkHz is the rate of the clock supplied to the SCI module.  This
+//! is the LSPCLK.
+//! \param baud is the desired baud rate.
+//!
+//! This function configures the SCI for operation in the specified baud rate
+//! The baud rate is provided in the \e baud parameter.
+//!
+//! The peripheral clock is the low speed peripheral clock.  This will be
+//! the value returned by SysCtl_getLowSpeedClock()
+//!
+//! \return None.
+//
+//*****************************************************************************
+extern void
+SCI_setBaud(uint32_t base, uint32_t lspclkHz, uint32_t baud);
+
+//*****************************************************************************
+//
+//! Sets the SCI TXWAKE flag
+//!
+//! \param base is the base address of the SCI port.
+//!
+//! This function sets the TXWAKE flag bit to indicate that the next frame
+//! is an address frame.
+//! TXWAKE bit controls selection of data-transmit feature based on
+//! which mode is selected from idle-line and address-bit.
+//!
+//! \return None.
+//
+//*****************************************************************************
+extern void
+SCI_setWakeFlag(uint32_t base);
 
 //*****************************************************************************
 //

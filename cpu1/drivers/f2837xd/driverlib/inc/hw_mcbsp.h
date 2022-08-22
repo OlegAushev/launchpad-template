@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the MCBSP registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -91,6 +89,7 @@
 #define MCBSP_DRR2_HWLB_M   0xFFU     // High word low byte
 #define MCBSP_DRR2_HWHB_S   8U
 #define MCBSP_DRR2_HWHB_M   0xFF00U   // High word high byte
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DRR1 register
@@ -100,6 +99,7 @@
 #define MCBSP_DRR1_LWLB_M   0xFFU     // Low word low byte
 #define MCBSP_DRR1_LWHB_S   8U
 #define MCBSP_DRR1_LWHB_M   0xFF00U   // Low word high byte
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DXR2 register
@@ -109,6 +109,7 @@
 #define MCBSP_DXR2_HWLB_M   0xFFU     // High word low byte
 #define MCBSP_DXR2_HWHB_S   8U
 #define MCBSP_DXR2_HWHB_M   0xFF00U   // High word high byte
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DXR1 register
@@ -118,6 +119,7 @@
 #define MCBSP_DXR1_LWLB_M   0xFFU     // Low word low byte
 #define MCBSP_DXR1_LWHB_S   8U
 #define MCBSP_DXR1_LWHB_M   0xFF00U   // Low word high byte
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPCR2 register
@@ -133,6 +135,7 @@
 #define MCBSP_SPCR2_FRST       0x80U    // Frame sync logic reset
 #define MCBSP_SPCR2_SOFT       0x100U   // SOFT bit
 #define MCBSP_SPCR2_FREE       0x200U   // FREE bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPCR1 register
@@ -150,6 +153,7 @@
 #define MCBSP_SPCR1_RJUST_S    13U
 #define MCBSP_SPCR1_RJUST_M    0x6000U   // Rx sign extension and justification mode
 #define MCBSP_SPCR1_DLB        0x8000U   // Digital loopback
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RCR2 register
@@ -165,6 +169,7 @@
 #define MCBSP_RCR2_RFRLEN2_S    8U
 #define MCBSP_RCR2_RFRLEN2_M    0x7F00U   // Receive Frame length 2
 #define MCBSP_RCR2_RPHASE       0x8000U   // Receive Phase
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RCR1 register
@@ -174,6 +179,7 @@
 #define MCBSP_RCR1_RWDLEN1_M   0xE0U     // Receive word length 1
 #define MCBSP_RCR1_RFRLEN1_S   8U
 #define MCBSP_RCR1_RFRLEN1_M   0x7F00U   // Receive Frame length 1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XCR2 register
@@ -189,6 +195,7 @@
 #define MCBSP_XCR2_XFRLEN2_S    8U
 #define MCBSP_XCR2_XFRLEN2_M    0x7F00U   // Transmit Frame length 2
 #define MCBSP_XCR2_XPHASE       0x8000U   // Transmit Phase
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the XCR1 register
@@ -198,6 +205,7 @@
 #define MCBSP_XCR1_XWDLEN1_M   0xE0U     // Transmit word length 1
 #define MCBSP_XCR1_XFRLEN1_S   8U
 #define MCBSP_XCR1_XFRLEN1_M   0x7F00U   // Transmit Frame length 1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SRGR2 register
@@ -208,6 +216,7 @@
 #define MCBSP_SRGR2_FSGM     0x1000U   // Frame sync generator mode
 #define MCBSP_SRGR2_CLKSM    0x2000U   // Sample rate generator mode
 #define MCBSP_SRGR2_GSYNC    0x8000U   // CLKG sync
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SRGR1 register
@@ -217,6 +226,7 @@
 #define MCBSP_SRGR1_CLKGDV_M   0xFFU     // CLKG divider
 #define MCBSP_SRGR1_FWID_S     8U
 #define MCBSP_SRGR1_FWID_M     0xFF00U   // Frame width
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MCR2 register
@@ -231,6 +241,7 @@
 #define MCBSP_MCR2_XPBBLK_S   7U
 #define MCBSP_MCR2_XPBBLK_M   0x180U   // Transmit word length 2
 #define MCBSP_MCR2_XMCME      0x200U   // Transmit Frame length 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MCR1 register
@@ -244,6 +255,7 @@
 #define MCBSP_MCR1_RPBBLK_S   7U
 #define MCBSP_MCR1_RPBBLK_M   0x180U   // Receive partition B Block
 #define MCBSP_MCR1_RMCME      0x200U   // Receive multi-channel enhance mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCR register
@@ -258,6 +270,7 @@
 #define MCBSP_PCR_CLKXM    0x200U   // Transmit Clock Mode.
 #define MCBSP_PCR_FSRM     0x400U   // Receive Frame Synchronization Mode
 #define MCBSP_PCR_FSXM     0x800U   // Transmit Frame Synchronization Mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MFFINT register
@@ -265,6 +278,7 @@
 //*************************************************************************************************
 #define MCBSP_MFFINT_XINT   0x1U   // Enable for Receive Interrupt
 #define MCBSP_MFFINT_RINT   0x4U   // Enable for transmit Interrupt
+
 
 
 #endif

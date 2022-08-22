@@ -5,10 +5,8 @@
 // TITLE:  C28x Flash driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -996,7 +994,6 @@ Flash_getHighErrorType(uint32_t eccBase)
 
     return(errorType);
 }
-
 //*****************************************************************************
 //
 //! Clears the errors status of the lower 64-bits.
@@ -1593,9 +1590,7 @@ Flash_releasePumpSemaphore(uint32_t pumpSemBase)
 //!
 //! This function initializes the flash control registers. At reset bank and
 //! pump are in sleep.  A flash access will power up the bank and pump
-//! automatically.  After a flash access, bank and pump go to low power mode
-//! (configurable in FBFALLBACK/FPAC1 registers) if there is no further access
-//! to flash.  This function will power up Flash bank and pump and set the
+//! automatically. This function will power up Flash bank and pump and set the
 //! fallback mode of flash and pump as active.
 //!
 //! This function also sets the number of wait-states for a flash access
@@ -1626,6 +1621,20 @@ Flash_initModule(uint32_t ctrlBase, uint32_t eccBase, uint16_t waitstates);
 extern void
 Flash_powerDown(uint32_t ctrlBase);
 
+//*****************************************************************************
+//
+//! Wakes the flash from low power mode.
+//!
+//! \param ctrlBase is the base address of the flash wrapper control registers.
+//!
+//! This function will power up Flash bank and pump and set the
+//! fallback mode of flash and pump as active.
+//!
+//! \return None.
+//
+//*****************************************************************************
+extern void
+Flash_wakeFromLPM(uint32_t ctrlBase);
 
 //*****************************************************************************
 //

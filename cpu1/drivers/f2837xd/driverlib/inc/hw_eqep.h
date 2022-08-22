@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the EQEP registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -90,6 +88,7 @@
 #define EQEP_QDECCTL_SOEN     0x2000U   // Sync output-enable
 #define EQEP_QDECCTL_QSRC_S   14U
 #define EQEP_QDECCTL_QSRC_M   0xC000U   // Position-counter source selection
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QEPCTL register
@@ -111,6 +110,7 @@
 #define EQEP_QEPCTL_PCRM_M        0x3000U   // Postion counter reset
 #define EQEP_QEPCTL_FREE_SOFT_S   14U
 #define EQEP_QEPCTL_FREE_SOFT_M   0xC000U   // Emulation mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QCAPCTL register
@@ -121,6 +121,7 @@
 #define EQEP_QCAPCTL_CCPS_S   4U
 #define EQEP_QCAPCTL_CCPS_M   0x70U     // eQEP capture timer clock prescaler
 #define EQEP_QCAPCTL_CEN      0x8000U   // Enable eQEP capture
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QPOSCTL register
@@ -132,6 +133,7 @@
 #define EQEP_QPOSCTL_PCPOL     0x2000U   // Polarity of sync output
 #define EQEP_QPOSCTL_PCLOAD    0x4000U   // Position compare of shadow load
 #define EQEP_QPOSCTL_PCSHDW    0x8000U   // Position compare of shadow enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QEINT register
@@ -148,6 +150,7 @@
 #define EQEP_QEINT_SEL   0x200U   // Strobe event latch interrupt enable
 #define EQEP_QEINT_IEL   0x400U   // Index event latch interrupt enable
 #define EQEP_QEINT_UTO   0x800U   // Unit time out interrupt enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QFLG register
@@ -165,6 +168,7 @@
 #define EQEP_QFLG_SEL   0x200U   // Strobe event latch interrupt flag
 #define EQEP_QFLG_IEL   0x400U   // Index event latch interrupt flag
 #define EQEP_QFLG_UTO   0x800U   // Unit time out interrupt flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QCLR register
@@ -182,6 +186,7 @@
 #define EQEP_QCLR_SEL   0x200U   // Clear strobe event latch interrupt flag
 #define EQEP_QCLR_IEL   0x400U   // Clear index event latch interrupt flag
 #define EQEP_QCLR_UTO   0x800U   // Clear unit time out interrupt flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QFRC register
@@ -198,6 +203,7 @@
 #define EQEP_QFRC_SEL   0x200U   // Force strobe event latch interrupt
 #define EQEP_QFRC_IEL   0x400U   // Force index event latch interrupt
 #define EQEP_QFRC_UTO   0x800U   // Force unit time out interrupt
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the QEPSTS register
@@ -211,6 +217,7 @@
 #define EQEP_QEPSTS_QDF      0x20U   // Quadrature direction flag
 #define EQEP_QEPSTS_FIDF     0x40U   // The first index marker
 #define EQEP_QEPSTS_UPEVNT   0x80U   // Unit position event flag
+
 
 
 #endif

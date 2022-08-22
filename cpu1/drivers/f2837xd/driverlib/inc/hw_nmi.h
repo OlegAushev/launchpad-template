@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the NMI registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -63,6 +61,7 @@
 //
 //*************************************************************************************************
 #define NMI_CFG_NMIE   0x1U   // Global NMI Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMIFLG register
@@ -78,6 +77,7 @@
 #define NMI_FLG_CLBNMI          0x100U   // Configurable Logic Block NMI Flag
 #define NMI_FLG_CPU2WDRSN       0x200U   // CPU2 WDRSn Reset Indication Flag
 #define NMI_FLG_CPU2NMIWDRSN    0x400U   // CPU2 NMIWDRSn Reset Indication Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMIFLGCLR register
@@ -94,6 +94,7 @@
 #define NMI_FLGCLR_CPU2WDRSN       0x200U   // CPU2WDRSn Flag Clear
 #define NMI_FLGCLR_CPU2NMIWDRSN    0x400U   // CPU2NMIWDRSn Flag Clear
 #define NMI_FLGCLR_OVF             0x800U   // OVF Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMIFLGFRC register
@@ -109,6 +110,7 @@
 #define NMI_FLGFRC_CPU2WDRSN       0x200U   // CPU2WDRSn Flag Force
 #define NMI_FLGFRC_CPU2NMIWDRSN    0x400U   // CPU2NMIWDRSn Flag Force
 #define NMI_FLGFRC_OVF             0x800U   // OVF Flag Force
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMISHDFLG register
@@ -124,6 +126,7 @@
 #define NMI_SHDFLG_CPU2WDRSN       0x200U   // Shadow CPU2WDRSn Flag
 #define NMI_SHDFLG_CPU2NMIWDRSN    0x400U   // Shadow CPU2NMIWDRSn Flag
 #define NMI_SHDFLG_OVF             0x800U   // Shadow OVF Flag
+
 
 
 #endif

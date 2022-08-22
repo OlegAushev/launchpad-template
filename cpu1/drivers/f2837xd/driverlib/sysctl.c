@@ -5,10 +5,8 @@
 // TITLE:  C28x system control driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -64,6 +62,8 @@
 #define TMR1SYSCLKCTR       0xF0000000U
 #define TMR2INPCLKCTR       0x800U
 
+#define XTAL_CPUTIMER_PERIOD 1023U
+
 
 //
 // Macro used for adding delay between 2 consecutive writes to CLKSRCCTL1
@@ -78,6 +78,55 @@
 //
 //*****************************************************************************
 SYSCTL_DELAY;
+
+
+static void
+SysCtl_pollCpuTimer(void)
+{
+    //
+    // Skip the check if PLLCLKEN = 0
+    //
+    if((HWREGH(CLKCFG_BASE + SYSCTL_O_SYSPLLCTL1) &
+        SYSCTL_SYSPLLCTL1_PLLCLKEN) != 0)
+    {
+        uint16_t loopCount = 0U;
+
+        //
+        // Delay for 1 ms while the XTAL powers up
+        //
+        // 2000 loops, 5 cycles per loop + 9 cycles overhead = 10009 cycles
+        //
+        SysCtl_delay(2000);
+
+        //
+        // Clear and overflow cpu timer 2 4x to guarantee operation
+        //
+        do
+        {
+            //
+            // Wait for cpu timer 2 to overflow
+            //
+            while(CPUTimer_getTimerOverflowStatus(CPUTIMER2_BASE) == false);
+            {
+                //
+                // If your application is stuck in this loop, please check if the
+                // input clock source is valid.
+                //
+            }
+
+            //
+            // Clear cpu timer 2 overflow flag
+            //
+            CPUTimer_clearOverflowFlag(CPUTIMER2_BASE);
+
+            //
+            // Increment the counter
+            //
+            loopCount++;
+
+        }while(loopCount < 4U);
+    }
+}
 
 //*****************************************************************************
 //
@@ -322,7 +371,7 @@ SysCtl_setClock(uint32_t config)
                 HWREGH(CLKCFG_BASE + SYSCTL_O_SYSPLLCTL1) &=
                     ~SYSCTL_SYSPLLCTL1_PLLEN;
 
-                SysCtl_delay(3U);
+                asm(" RPT #60 || NOP");
 
                 //
                 // Write multiplier, which automatically turns on the PLL
@@ -524,7 +573,7 @@ SysCtl_setClock(uint32_t config)
                     //
                     // Clk Src = INT_OSC1
                     //
-                    HWREGH(CPUTIMER2_BASE + SYSCTL_O_TMR2CLKCTL) &=
+                    HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) &=
                         ~SYSCTL_TMR2CLKCTL_TMR2CLKSRCSEL_M;
                     HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) |= 1U;
                     break;
@@ -533,7 +582,7 @@ SysCtl_setClock(uint32_t config)
                     //
                     // Clk Src = INT_OSC2
                     //
-                    HWREGH(CPUTIMER2_BASE + SYSCTL_O_TMR2CLKCTL) &=
+                    HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) &=
                         ~SYSCTL_TMR2CLKCTL_TMR2CLKSRCSEL_M;
                     HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) |= 2U;
                     break;
@@ -542,7 +591,7 @@ SysCtl_setClock(uint32_t config)
                     //
                     // Clk Src = XTAL
                     //
-                    HWREGH(CPUTIMER2_BASE + SYSCTL_O_TMR2CLKCTL) &=
+                    HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) &=
                         ~SYSCTL_TMR2CLKCTL_TMR2CLKSRCSEL_M;
                     HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) |= 3U;
                     break;
@@ -1021,6 +1070,126 @@ void SysCtl_setAuxClock(uint32_t config)
 
 }
 
+
+//*****************************************************************************
+//
+// SysCtl_selectXTAL()
+//
+//*****************************************************************************
+void
+SysCtl_selectXTAL(void)
+{
+    uint16_t t2TCR, t2TPR, t2TPRH, t2CLKCTL;
+    uint32_t t2PRD;
+
+    //
+    // Backup CPU timer2 settings
+    //
+    t2CLKCTL = HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL);
+    t2TCR = HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TCR);
+    t2PRD = HWREG(CPUTIMER2_BASE + CPUTIMER_O_PRD);
+    t2TPR = HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TPR);
+    t2TPRH = HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TPRH);
+
+
+    //
+    // Disable cpu timer 2 interrupt
+    //
+    CPUTimer_disableInterrupt(CPUTIMER2_BASE);
+
+    //
+    // Stop cpu timer 2 if running
+    //
+    CPUTimer_stopTimer(CPUTIMER2_BASE);
+
+    //
+    // Initialize cpu timer 2 period
+    //
+    CPUTimer_setPeriod(CPUTIMER2_BASE, XTAL_CPUTIMER_PERIOD);
+
+    //
+    // Set cpu timer 2 clock source to XTAL
+    //
+    CPUTimer_selectClockSource(CPUTIMER2_BASE, CPUTIMER_CLOCK_SOURCE_XTAL,
+                               CPUTIMER_CLOCK_PRESCALER_1);
+
+    //
+    // Clear cpu timer 2 overflow flag
+    //
+    CPUTimer_clearOverflowFlag(CPUTIMER2_BASE);
+
+    //
+    // Start cpu timer 2
+    //
+    CPUTimer_startTimer(CPUTIMER2_BASE);
+
+    EALLOW;
+    //
+    // Turn on XTAL
+    //
+    HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) &= ~SYSCTL_CLKSRCCTL1_XTALOFF;
+    EDIS;
+
+    //
+    // Wait for the X1 clock to overflow cpu timer 2
+    //
+    SysCtl_pollCpuTimer();
+
+    //
+    // Select XTAL as the oscillator source
+    //
+    EALLOW;
+    HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) =
+    ((HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) &
+      (~SYSCTL_CLKSRCCTL1_OSCCLKSRCSEL_M)) |
+     ((uint32_t)SYSCTL_OSCSRC_XTAL >> SYSCTL_OSCSRC_S));
+    EDIS;
+
+    //
+    // If a missing clock failure was detected, try waiting for the cpu timer 2
+    // to overflow again.
+    //
+    while(SysCtl_isMCDClockFailureDetected())
+    {
+        //
+        // Clear the MCD failure
+        //
+        SysCtl_resetMCD();
+
+        //
+        // Wait for the X1 clock to overflow cpu timer 2
+        //
+        SysCtl_pollCpuTimer();
+
+        //
+        // Select XTAL as the oscillator source
+        //
+        EALLOW;
+        HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) =
+        ((HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) &
+          (~SYSCTL_CLKSRCCTL1_OSCCLKSRCSEL_M)) |
+         ((uint32_t)SYSCTL_OSCSRC_XTAL >> SYSCTL_OSCSRC_S));
+        EDIS;
+    }
+
+    //
+    // Stop cpu timer 2
+    //
+    CPUTimer_stopTimer(CPUTIMER2_BASE);
+
+    //
+    // Restore Timer 2 configuration
+    //
+    EALLOW;
+    HWREGH(CPUSYS_BASE + SYSCTL_O_TMR2CLKCTL) = t2CLKCTL;
+    HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TCR) = t2TCR;
+    HWREG(CPUTIMER2_BASE + CPUTIMER_O_PRD) = t2PRD;
+    HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TPR) = t2TPR;
+    HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TPRH) = t2TPRH;
+    HWREGH(CPUTIMER2_BASE + CPUTIMER_O_TCR) |= CPUTIMER_TCR_TRB;
+    EDIS;
+}
+
 //*****************************************************************************
 //
 // SysCtl_selectOscSource()
@@ -1029,8 +1198,8 @@ void SysCtl_setAuxClock(uint32_t config)
 void
 SysCtl_selectOscSource(uint32_t oscSource)
 {
-    ASSERT((oscSource == SYSCTL_OSCSRC_OSC1) |
-           (oscSource == SYSCTL_OSCSRC_OSC2) |
+    ASSERT((oscSource == SYSCTL_OSCSRC_OSC1) ||
+           (oscSource == SYSCTL_OSCSRC_OSC2) ||
            (oscSource == SYSCTL_OSCSRC_XTAL));
 
     //
@@ -1066,20 +1235,9 @@ SysCtl_selectOscSource(uint32_t oscSource)
 
         case SYSCTL_OSCSRC_XTAL:
             //
-            // Turn on XTALOSC
+            // Select XTAL in crystal mode and wait for it to power up
             //
-            HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) &=
-                ~SYSCTL_CLKSRCCTL1_XTALOFF;
-
-            SYSCTL_CLKSRCCTL1_DELAY;
-
-            //
-            // Clk Src = XTALOSC
-            //
-            HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) =
-                   (HWREGH(CLKCFG_BASE + SYSCTL_O_CLKSRCCTL1) &
-                    ~SYSCTL_CLKSRCCTL1_OSCCLKSRCSEL_M) |
-                   ((uint32_t)SYSCTL_OSCSRC_XTAL >> SYSCTL_OSCSRC_S);
+            SysCtl_selectXTAL();
             break;
 
         case SYSCTL_OSCSRC_OSC1:
@@ -1248,6 +1406,7 @@ SysCtl_getDeviceParametric(SysCtl_DeviceParametric parametric)
                       SYSCTL_PARTIDL_FLASH_SIZE_M) >>
                      SYSCTL_PARTIDL_FLASH_SIZE_S);
             break;
+
         case SYSCTL_DEVICE_PARTID:
             //
             // PARTID Format Revision
@@ -1256,6 +1415,7 @@ SysCtl_getDeviceParametric(SysCtl_DeviceParametric parametric)
                       SYSCTL_PARTIDL_PARTID_FORMAT_REVISION_M) >>
                      SYSCTL_PARTIDL_PARTID_FORMAT_REVISION_S);
             break;
+
         case SYSCTL_DEVICE_FAMILY:
             //
             // Device Family

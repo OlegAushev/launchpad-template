@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the XBAR registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -133,6 +131,7 @@
 #define XBAR_OUTPUT1MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT1MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT1 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT1MUX16TO31CFG register
@@ -186,6 +185,7 @@
 #define XBAR_OUTPUT1MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT1MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT1 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT2MUX0TO15CFG register
@@ -239,6 +239,7 @@
 #define XBAR_OUTPUT2MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT2MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT2 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT2MUX16TO31CFG register
@@ -292,6 +293,7 @@
 #define XBAR_OUTPUT2MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT2MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT2 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT3MUX0TO15CFG register
@@ -345,6 +347,7 @@
 #define XBAR_OUTPUT3MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT3MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT3 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT3MUX16TO31CFG register
@@ -398,6 +401,7 @@
 #define XBAR_OUTPUT3MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT3MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT3 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT4MUX0TO15CFG register
@@ -451,6 +455,7 @@
 #define XBAR_OUTPUT4MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT4MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT4 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT4MUX16TO31CFG register
@@ -504,6 +509,7 @@
 #define XBAR_OUTPUT4MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT4MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT4 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT5MUX0TO15CFG register
@@ -557,6 +563,7 @@
 #define XBAR_OUTPUT5MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT5MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT5 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT5MUX16TO31CFG register
@@ -610,6 +617,7 @@
 #define XBAR_OUTPUT5MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT5MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT5 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT6MUX0TO15CFG register
@@ -663,6 +671,7 @@
 #define XBAR_OUTPUT6MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT6MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT6 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT6MUX16TO31CFG register
@@ -716,6 +725,7 @@
 #define XBAR_OUTPUT6MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT6MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT6 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT7MUX0TO15CFG register
@@ -769,6 +779,7 @@
 #define XBAR_OUTPUT7MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT7MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT7 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT7MUX16TO31CFG register
@@ -822,6 +833,7 @@
 #define XBAR_OUTPUT7MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT7MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT7 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT8MUX0TO15CFG register
@@ -875,6 +887,7 @@
 #define XBAR_OUTPUT8MUX0TO15CFG_MUX15_S   30U
 #define XBAR_OUTPUT8MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for OUTPUT8 of
                                                         // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT8MUX16TO31CFG register
@@ -928,6 +941,7 @@
 #define XBAR_OUTPUT8MUX16TO31CFG_MUX31_S   30U
 #define XBAR_OUTPUT8MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for OUTPUT8 of
                                                          // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT1MUXENABLE register
@@ -965,6 +979,7 @@
 #define XBAR_OUTPUT1MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT1 of OUTPUT-XBAR
 #define XBAR_OUTPUT1MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT1 of OUTPUT-XBAR
 #define XBAR_OUTPUT1MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT1 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT2MUXENABLE register
@@ -1002,6 +1017,7 @@
 #define XBAR_OUTPUT2MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT2 of OUTPUT-XBAR
 #define XBAR_OUTPUT2MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT2 of OUTPUT-XBAR
 #define XBAR_OUTPUT2MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT2 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT3MUXENABLE register
@@ -1039,6 +1055,7 @@
 #define XBAR_OUTPUT3MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT3 of OUTPUT-XBAR
 #define XBAR_OUTPUT3MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT3 of OUTPUT-XBAR
 #define XBAR_OUTPUT3MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT3 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT4MUXENABLE register
@@ -1076,6 +1093,7 @@
 #define XBAR_OUTPUT4MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT4 of OUTPUT-XBAR
 #define XBAR_OUTPUT4MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT4 of OUTPUT-XBAR
 #define XBAR_OUTPUT4MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT4 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT5MUXENABLE register
@@ -1113,6 +1131,7 @@
 #define XBAR_OUTPUT5MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT5 of OUTPUT-XBAR
 #define XBAR_OUTPUT5MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT5 of OUTPUT-XBAR
 #define XBAR_OUTPUT5MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT5 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT6MUXENABLE register
@@ -1150,6 +1169,7 @@
 #define XBAR_OUTPUT6MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUT6MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUT6MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT6 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT7MUXENABLE register
@@ -1187,6 +1207,7 @@
 #define XBAR_OUTPUT7MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUT7MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUT7MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT7 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUT8MUXENABLE register
@@ -1224,6 +1245,7 @@
 #define XBAR_OUTPUT8MUXENABLE_MUX29   0x20000000U   // Mux29 to drive OUTPUT8 of OUTPUT-XBAR
 #define XBAR_OUTPUT8MUXENABLE_MUX30   0x40000000U   // Mux30 to drive OUTPUT8 of OUTPUT-XBAR
 #define XBAR_OUTPUT8MUXENABLE_MUX31   0x80000000U   // Mux31 to drive OUTPUT8 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTLATCH register
@@ -1237,6 +1259,7 @@
 #define XBAR_OUTPUTLATCH_OUTPUT6   0x20U   // Records the OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCH_OUTPUT7   0x40U   // Records the OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCH_OUTPUT8   0x80U   // Records the OUTPUT8 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTLATCHCLR register
@@ -1250,6 +1273,7 @@
 #define XBAR_OUTPUTLATCHCLR_OUTPUT6   0x20U   // Clears the Output-Latch for OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCHCLR_OUTPUT7   0x40U   // Clears the Output-Latch for OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCHCLR_OUTPUT8   0x80U   // Clears the Output-Latch for OUTPUT8 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTLATCHFRC register
@@ -1263,6 +1287,7 @@
 #define XBAR_OUTPUTLATCHFRC_OUTPUT6   0x20U   // Sets the Output-Latch for OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCHFRC_OUTPUT7   0x40U   // Sets the Output-Latch for OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUTLATCHFRC_OUTPUT8   0x80U   // Sets the Output-Latch for OUTPUT8 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTLATCHENABLE register
@@ -1284,6 +1309,7 @@
                                                  // OUTPUT-XBAR
 #define XBAR_OUTPUTLATCHENABLE_OUTPUT8   0x80U   // Selects the output latch to drive OUTPUT8 for
                                                  // OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTINV register
@@ -1297,6 +1323,7 @@
 #define XBAR_OUTPUTINV_OUTPUT6   0x20U   // Selects polarity for OUTPUT6 of OUTPUT-XBAR
 #define XBAR_OUTPUTINV_OUTPUT7   0x40U   // Selects polarity for OUTPUT7 of OUTPUT-XBAR
 #define XBAR_OUTPUTINV_OUTPUT8   0x80U   // Selects polarity for OUTPUT8 of OUTPUT-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the OUTPUTLOCK register
@@ -1305,6 +1332,7 @@
 #define XBAR_OUTPUTLOCK_LOCK    0x1U          // Locks the configuration for OUTPUT-XBAR
 #define XBAR_OUTPUTLOCK_KEY_S   16U
 #define XBAR_OUTPUTLOCK_KEY_M   0xFFFF0000U   // Write Protection KEY
+
 
 
 #endif

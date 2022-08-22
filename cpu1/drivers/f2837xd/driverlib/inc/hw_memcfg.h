@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the MEMCFG registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -136,6 +134,7 @@
                                        // bit
 #define MEMCFG_DXLOCK_LOCK_D1   0x8U   // D1 RAM access protection and master select fields lock
                                        // bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DxCOMMIT register
@@ -145,6 +144,7 @@
                                            // lock
 #define MEMCFG_DXCOMMIT_COMMIT_D1   0x8U   // D1 RAM access protection and master select permanent
                                            // lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DxACCPROT0 register
@@ -154,6 +154,7 @@
 #define MEMCFG_DXACCPROT0_CPUWRPROT_D0   0x20000U     // CPU WR Protection For D0 RAM
 #define MEMCFG_DXACCPROT0_FETCHPROT_D1   0x1000000U   // Fetch Protection For D1 RAM
 #define MEMCFG_DXACCPROT0_CPUWRPROT_D1   0x2000000U   // CPU WR Protection For D1 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DxTEST register
@@ -167,6 +168,7 @@
 #define MEMCFG_DXTEST_TEST_D0_M   0x30U   // Selects the different modes for D0 RAM
 #define MEMCFG_DXTEST_TEST_D1_S   6U
 #define MEMCFG_DXTEST_TEST_D1_M   0xC0U   // Selects the different modes for D1 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DxINIT register
@@ -176,6 +178,7 @@
 #define MEMCFG_DXINIT_INIT_M1   0x2U   // RAM Initialization control for M1 RAM.
 #define MEMCFG_DXINIT_INIT_D0   0x4U   // RAM Initialization control for D0 RAM.
 #define MEMCFG_DXINIT_INIT_D1   0x8U   // RAM Initialization control for D1 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DxINITDONE register
@@ -185,6 +188,7 @@
 #define MEMCFG_DXINITDONE_INITDONE_M1   0x2U   // RAM Initialization status for M1 RAM.
 #define MEMCFG_DXINITDONE_INITDONE_D0   0x4U   // RAM Initialization status for D0 RAM.
 #define MEMCFG_DXINITDONE_INITDONE_D1   0x8U   // RAM Initialization status for D1 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxLOCK register
@@ -202,6 +206,7 @@
                                           // lock bit
 #define MEMCFG_LSXLOCK_LOCK_LS5   0x20U   // LS5 RAM access protection and master select fields
                                           // lock bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxCOMMIT register
@@ -219,6 +224,7 @@
                                               // permanent lock
 #define MEMCFG_LSXCOMMIT_COMMIT_LS5   0x20U   // LS5 RAM access protection and master select
                                               // permanent lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxMSEL register
@@ -236,6 +242,7 @@
 #define MEMCFG_LSXMSEL_MSEL_LS4_M   0x300U   // Master Select for LS4 RAM
 #define MEMCFG_LSXMSEL_MSEL_LS5_S   10U
 #define MEMCFG_LSXMSEL_MSEL_LS5_M   0xC00U   // Master Select for LS5 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxCLAPGM register
@@ -247,6 +254,7 @@
 #define MEMCFG_LSXCLAPGM_CLAPGM_LS3   0x8U    // Selects LS3 RAM as program vs data memory for CLA
 #define MEMCFG_LSXCLAPGM_CLAPGM_LS4   0x10U   // Selects LS4 RAM as program vs data memory for CLA
 #define MEMCFG_LSXCLAPGM_CLAPGM_LS5   0x20U   // Selects LS5 RAM as program vs data memory for CLA
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxACCPROT0 register
@@ -260,6 +268,7 @@
 #define MEMCFG_LSXACCPROT0_CPUWRPROT_LS2   0x20000U     // CPU WR Protection For LS2 RAM
 #define MEMCFG_LSXACCPROT0_FETCHPROT_LS3   0x1000000U   // Fetch Protection For LS3 RAM
 #define MEMCFG_LSXACCPROT0_CPUWRPROT_LS3   0x2000000U   // CPU WR Protection For LS3 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxACCPROT1 register
@@ -269,6 +278,7 @@
 #define MEMCFG_LSXACCPROT1_CPUWRPROT_LS4   0x2U     // CPU WR Protection For LS4 RAM
 #define MEMCFG_LSXACCPROT1_FETCHPROT_LS5   0x100U   // Fetch Protection For LS5 RAM
 #define MEMCFG_LSXACCPROT1_CPUWRPROT_LS5   0x200U   // CPU WR Protection For LS5 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxTEST register
@@ -286,6 +296,7 @@
 #define MEMCFG_LSXTEST_TEST_LS4_M   0x300U   // Selects the different modes for LS4 RAM
 #define MEMCFG_LSXTEST_TEST_LS5_S   10U
 #define MEMCFG_LSXTEST_TEST_LS5_M   0xC00U   // Selects the different modes for LS5 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxINIT register
@@ -297,6 +308,7 @@
 #define MEMCFG_LSXINIT_INIT_LS3   0x8U    // RAM Initialization control for LS3 RAM.
 #define MEMCFG_LSXINIT_INIT_LS4   0x10U   // RAM Initialization control for LS4 RAM.
 #define MEMCFG_LSXINIT_INIT_LS5   0x20U   // RAM Initialization control for LS5 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LSxINITDONE register
@@ -308,6 +320,7 @@
 #define MEMCFG_LSXINITDONE_INITDONE_LS3   0x8U    // RAM Initialization status for LS3 RAM.
 #define MEMCFG_LSXINITDONE_INITDONE_LS4   0x10U   // RAM Initialization status for LS4 RAM.
 #define MEMCFG_LSXINITDONE_INITDONE_LS5   0x20U   // RAM Initialization status for LS5 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxLOCK register
@@ -345,6 +358,7 @@
                                              // lock bit
 #define MEMCFG_GSXLOCK_LOCK_GS15   0x8000U   // GS15 RAM access protection and master select fields
                                              // lock bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxCOMMIT register
@@ -382,6 +396,7 @@
                                                  // permanent lock
 #define MEMCFG_GSXCOMMIT_COMMIT_GS15   0x8000U   // GS15 RAM access protection and master select
                                                  // permanent lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxMSEL register
@@ -403,6 +418,7 @@
 #define MEMCFG_GSXMSEL_MSEL_GS13   0x2000U   // Master Select for GS13 RAM
 #define MEMCFG_GSXMSEL_MSEL_GS14   0x4000U   // Master Select for GS14 RAM
 #define MEMCFG_GSXMSEL_MSEL_GS15   0x8000U   // Master Select for GS15 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxACCPROT0 register
@@ -420,6 +436,7 @@
 #define MEMCFG_GSXACCPROT0_FETCHPROT_GS3   0x1000000U   // Fetch Protection For GS3 RAM
 #define MEMCFG_GSXACCPROT0_CPUWRPROT_GS3   0x2000000U   // CPU WR Protection For GS3 RAM
 #define MEMCFG_GSXACCPROT0_DMAWRPROT_GS3   0x4000000U   // DMA WR Protection For GS3 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxACCPROT1 register
@@ -437,6 +454,7 @@
 #define MEMCFG_GSXACCPROT1_FETCHPROT_GS7   0x1000000U   // Fetch Protection For GS7 RAM
 #define MEMCFG_GSXACCPROT1_CPUWRPROT_GS7   0x2000000U   // CPU WR Protection For GS7 RAM
 #define MEMCFG_GSXACCPROT1_DMAWRPROT_GS7   0x4000000U   // DMA WR Protection For GS7RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxACCPROT2 register
@@ -454,6 +472,7 @@
 #define MEMCFG_GSXACCPROT2_FETCHPROT_GS11   0x1000000U   // Fetch Protection For GS11 RAM
 #define MEMCFG_GSXACCPROT2_CPUWRPROT_GS11   0x2000000U   // CPU WR Protection For GS11 RAM
 #define MEMCFG_GSXACCPROT2_DMAWRPROT_GS11   0x4000000U   // DMA WR Protection For GS11RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxACCPROT3 register
@@ -471,6 +490,7 @@
 #define MEMCFG_GSXACCPROT3_FETCHPROT_GS15   0x1000000U   // Fetch Protection For GS15 RAM
 #define MEMCFG_GSXACCPROT3_CPUWRPROT_GS15   0x2000000U   // CPU WR Protection For GS15 RAM
 #define MEMCFG_GSXACCPROT3_DMAWRPROT_GS15   0x4000000U   // DMA WR Protection For GS15RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxTEST register
@@ -508,6 +528,7 @@
 #define MEMCFG_GSXTEST_TEST_GS14_M   0x30000000U   // Selects the different modes for GS14 RAM
 #define MEMCFG_GSXTEST_TEST_GS15_S   30U
 #define MEMCFG_GSXTEST_TEST_GS15_M   0xC0000000U   // Selects the different modes for GS15 RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxINIT register
@@ -529,6 +550,7 @@
 #define MEMCFG_GSXINIT_INIT_GS13   0x2000U   // RAM Initialization control for GS13 RAM.
 #define MEMCFG_GSXINIT_INIT_GS14   0x4000U   // RAM Initialization control for GS14 RAM.
 #define MEMCFG_GSXINIT_INIT_GS15   0x8000U   // RAM Initialization control for GS15 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GSxINITDONE register
@@ -550,6 +572,7 @@
 #define MEMCFG_GSXINITDONE_INITDONE_GS13   0x2000U   // RAM Initialization status for GS13 RAM.
 #define MEMCFG_GSXINITDONE_INITDONE_GS14   0x4000U   // RAM Initialization status for GS14 RAM.
 #define MEMCFG_GSXINITDONE_INITDONE_GS15   0x8000U   // RAM Initialization status for GS15 RAM.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MSGxTEST register
@@ -561,6 +584,7 @@
 #define MEMCFG_MSGXTEST_TEST_CPUTOCLA1_M   0xCU    // CPU to CLA1 MSG RAM Mode Select
 #define MEMCFG_MSGXTEST_TEST_CLA1TOCPU_S   4U
 #define MEMCFG_MSGXTEST_TEST_CLA1TOCPU_M   0x30U   // CLA1 to CPU MSG RAM Mode Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MSGxINIT register
@@ -569,6 +593,7 @@
 #define MEMCFG_MSGXINIT_INIT_CPUTOCPU    0x1U   // Initialization control for CPU to CPU MSG RAM
 #define MEMCFG_MSGXINIT_INIT_CPUTOCLA1   0x2U   // Initialization control for CPUTOCLA1 MSG RAM
 #define MEMCFG_MSGXINIT_INIT_CLA1TOCPU   0x4U   // Initialization control for CLA1TOCPU MSG RAM
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MSGxINITDONE register
@@ -581,6 +606,7 @@
 #define MEMCFG_MSGXINITDONE_INITDONE_CLA1TOCPU   0x4U   // Initialization status for CLA1 to CPU
                                                         // MSG RAM
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF1LOCK register
@@ -588,6 +614,7 @@
 //*************************************************************************************************
 #define MEMCFG_EMIF1LOCK_LOCK_EMIF1   0x1U   // EMIF1 access protection and master select fields
                                              // lock bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF1COMMIT register
@@ -595,6 +622,7 @@
 //*************************************************************************************************
 #define MEMCFG_EMIF1COMMIT_COMMIT_EMIF1   0x1U   // EMIF1 access protection and master select
                                                  // permanent lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF1MSEL register
@@ -605,6 +633,7 @@
 #define MEMCFG_EMIF1MSEL_KEY_S          4U
 #define MEMCFG_EMIF1MSEL_KEY_M          0xFFFFFFF0U   // KEY to enable the write into MSEL_EMIF1
                                                       // bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF1ACCPROT0 register
@@ -614,6 +643,7 @@
 #define MEMCFG_EMIF1ACCPROT0_CPUWRPROT_EMIF1   0x2U   // CPU WR Protection For EMIF1
 #define MEMCFG_EMIF1ACCPROT0_DMAWRPROT_EMIF1   0x4U   // DMA WR Protection For EMIF1
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF2LOCK register
@@ -621,6 +651,7 @@
 //*************************************************************************************************
 #define MEMCFG_EMIF2LOCK_LOCK_EMIF2   0x1U   // EMIF2 access protection and master select permanent
                                              // lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF2COMMIT register
@@ -628,6 +659,7 @@
 //*************************************************************************************************
 #define MEMCFG_EMIF2COMMIT_COMMIT_EMIF2   0x1U   // EMIF2 access protection and master select
                                                  // permanent lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EMIF2ACCPROT0 register
@@ -635,6 +667,7 @@
 //*************************************************************************************************
 #define MEMCFG_EMIF2ACCPROT0_FETCHPROT_EMIF2   0x1U   // Fetch Protection For EMIF2
 #define MEMCFG_EMIF2ACCPROT0_CPUWRPROT_EMIF2   0x2U   // CPU WR Protection For EMIF2
+
 
 //*************************************************************************************************
 //
@@ -648,6 +681,7 @@
 #define MEMCFG_NMAVFLG_CLA1READ    0x10U   // Non Master CLA1 Read Access Violation Flag
 #define MEMCFG_NMAVFLG_CLA1WRITE   0x20U   // Non Master CLA1 Write Access Violation Flag
 #define MEMCFG_NMAVFLG_CLA1FETCH   0x40U   // Non Master CLA1 Fetch Access Violation Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMAVSET register
@@ -660,6 +694,7 @@
 #define MEMCFG_NMAVSET_CLA1READ    0x10U   // Non Master CLA1 Read Access Violation Flag Set
 #define MEMCFG_NMAVSET_CLA1WRITE   0x20U   // Non Master CLA1 Write Access Violation Flag Set
 #define MEMCFG_NMAVSET_CLA1FETCH   0x40U   // Non Master CLA1 Fetch Access Violation Flag Set
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMAVCLR register
@@ -672,6 +707,7 @@
 #define MEMCFG_NMAVCLR_CLA1READ    0x10U   // Non Master CLA1 Read Access Violation Flag Clear
 #define MEMCFG_NMAVCLR_CLA1WRITE   0x20U   // Non Master CLA1 Write Access Violation Flag Clear
 #define MEMCFG_NMAVCLR_CLA1FETCH   0x40U   // Non Master CLA1 Fetch Access Violation Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the NMAVINTEN register
@@ -691,6 +727,7 @@
                                              // Enable
 #define MEMCFG_NMAVINTEN_CLA1FETCH   0x40U   // Non Master CLA1 Fetch Access Violation Interrupt
                                              // Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MAVFLG register
@@ -699,6 +736,7 @@
 #define MEMCFG_MAVFLG_CPUFETCH   0x1U   // Master CPU Fetch Access Violation Flag
 #define MEMCFG_MAVFLG_CPUWRITE   0x2U   // Master CPU Write Access Violation Flag
 #define MEMCFG_MAVFLG_DMAWRITE   0x4U   // Master DMA Write Access Violation Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MAVSET register
@@ -707,6 +745,7 @@
 #define MEMCFG_MAVSET_CPUFETCH   0x1U   // Master CPU Fetch Access Violation Flag Set
 #define MEMCFG_MAVSET_CPUWRITE   0x2U   // Master CPU Write Access Violation Flag Set
 #define MEMCFG_MAVSET_DMAWRITE   0x4U   // Master DMA Write Access Violation Flag Set
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MAVCLR register
@@ -715,6 +754,7 @@
 #define MEMCFG_MAVCLR_CPUFETCH   0x1U   // Master CPU Fetch Access Violation Flag Clear
 #define MEMCFG_MAVCLR_CPUWRITE   0x2U   // Master CPU Write Access Violation Flag Clear
 #define MEMCFG_MAVCLR_DMAWRITE   0x4U   // Master DMA Write Access Violation Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the MAVINTEN register
@@ -724,6 +764,7 @@
 #define MEMCFG_MAVINTEN_CPUWRITE   0x2U   // Master CPU Write Access Violation Interrupt Enable
 #define MEMCFG_MAVINTEN_DMAWRITE   0x4U   // Master DMA Write Access Violation Interrupt Enable
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the UCERRFLG register
@@ -732,6 +773,7 @@
 #define MEMCFG_UCERRFLG_CPURDERR    0x1U   // CPU Uncorrectable Read Error Flag
 #define MEMCFG_UCERRFLG_DMARDERR    0x2U   // DMA Uncorrectable Read Error Flag
 #define MEMCFG_UCERRFLG_CLA1RDERR   0x4U   // CLA1 Uncorrectable Read Error Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the UCERRSET register
@@ -740,6 +782,7 @@
 #define MEMCFG_UCERRSET_CPURDERR    0x1U   // CPU Uncorrectable Read Error Flag Set
 #define MEMCFG_UCERRSET_DMARDERR    0x2U   // DMA Uncorrectable Read Error Flag Set
 #define MEMCFG_UCERRSET_CLA1RDERR   0x4U   // CLA1 Uncorrectable Read Error Flag Set
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the UCERRCLR register
@@ -748,6 +791,7 @@
 #define MEMCFG_UCERRCLR_CPURDERR    0x1U   // CPU Uncorrectable Read Error Flag Clear
 #define MEMCFG_UCERRCLR_DMARDERR    0x2U   // DMA Uncorrectable Read Error Flag Clear
 #define MEMCFG_UCERRCLR_CLA1RDERR   0x4U   // CLA1 Uncorrectable Read Error Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CERRFLG register
@@ -756,6 +800,7 @@
 #define MEMCFG_CERRFLG_CPURDERR    0x1U   // CPU Correctable Read Error Flag
 #define MEMCFG_CERRFLG_DMARDERR    0x2U   // DMA Correctable Read Error Flag
 #define MEMCFG_CERRFLG_CLA1RDERR   0x4U   // CLA1 Correctable Read Error Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CERRSET register
@@ -764,6 +809,7 @@
 #define MEMCFG_CERRSET_CPURDERR    0x1U   // CPU Correctable Read Error Flag Set
 #define MEMCFG_CERRSET_DMARDERR    0x2U   // DMA Correctable Read Error Flag Set
 #define MEMCFG_CERRSET_CLA1RDERR   0x4U   // CLA1 Correctable Read Error Flag Set
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CERRCLR register
@@ -772,30 +818,35 @@
 #define MEMCFG_CERRCLR_CPURDERR    0x1U   // CPU Correctable Read Error Flag Clear
 #define MEMCFG_CERRCLR_DMARDERR    0x2U   // DMA Correctable Read Error Flag Clear
 #define MEMCFG_CERRCLR_CLA1RDERR   0x4U   // CLA1 Correctable Read Error Flag Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CEINTFLG register
 //
 //*************************************************************************************************
 #define MEMCFG_CEINTFLG_CEINTFLAG   0x1U   // Total corrected error count exceeded threshold flag.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CEINTCLR register
 //
 //*************************************************************************************************
 #define MEMCFG_CEINTCLR_CEINTCLR   0x1U   // CPU Corrected Error Threshold Exceeded Error Clear.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CEINTSET register
 //
 //*************************************************************************************************
 #define MEMCFG_CEINTSET_CEINTSET   0x1U   // Total corrected error count exceeded flag set.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CEINTEN register
 //
 //*************************************************************************************************
 #define MEMCFG_CEINTEN_CEINTEN   0x1U   // CPU/DMA Correctable Error Interrupt Enable.
+
 
 //*************************************************************************************************
 //
@@ -804,12 +855,14 @@
 //*************************************************************************************************
 #define MEMCFG_ROMWAITSTATE_WSDISABLE   0x1U   // C28x ROM Wait State Enable/Disable Control
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ROMPREFETCH register
 //
 //*************************************************************************************************
 #define MEMCFG_ROMPREFETCH_PFENABLE   0x1U   // ROM Prefetch Enable/Disable Control
+
 
 
 #endif

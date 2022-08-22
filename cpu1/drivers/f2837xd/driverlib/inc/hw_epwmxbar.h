@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the XBAR registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -113,6 +111,7 @@
 #define XBAR_TRIP4MUX0TO15CFG_MUX14_M   0x30000000U   // Mux14 Configuration for TRIP4 of EPWM-XBAR
 #define XBAR_TRIP4MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP4MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP4 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP4MUX16TO31CFG register
@@ -166,6 +165,7 @@
 #define XBAR_TRIP4MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP4MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP4 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP5MUX0TO15CFG register
@@ -203,6 +203,7 @@
 #define XBAR_TRIP5MUX0TO15CFG_MUX14_M   0x30000000U   // Mux14 Configuration for TRIP5 of EPWM-XBAR
 #define XBAR_TRIP5MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP5MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP5 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP5MUX16TO31CFG register
@@ -256,6 +257,7 @@
 #define XBAR_TRIP5MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP5MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP5 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP7MUX0TO15CFG register
@@ -293,6 +295,7 @@
 #define XBAR_TRIP7MUX0TO15CFG_MUX14_M   0x30000000U   // Mux14 Configuration for TRIP7 of EPWM-XBAR
 #define XBAR_TRIP7MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP7MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP7 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP7MUX16TO31CFG register
@@ -346,6 +349,7 @@
 #define XBAR_TRIP7MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP7MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP7 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP8MUX0TO15CFG register
@@ -383,6 +387,7 @@
 #define XBAR_TRIP8MUX0TO15CFG_MUX14_M   0x30000000U   // Mux14 Configuration for TRIP8 of EPWM-XBAR
 #define XBAR_TRIP8MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP8MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP8 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP8MUX16TO31CFG register
@@ -436,6 +441,7 @@
 #define XBAR_TRIP8MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP8MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP8 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP9MUX0TO15CFG register
@@ -473,6 +479,7 @@
 #define XBAR_TRIP9MUX0TO15CFG_MUX14_M   0x30000000U   // Mux14 Configuration for TRIP9 of EPWM-XBAR
 #define XBAR_TRIP9MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP9MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP9 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP9MUX16TO31CFG register
@@ -526,6 +533,7 @@
 #define XBAR_TRIP9MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP9MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP9 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP10MUX0TO15CFG register
@@ -579,6 +587,7 @@
 #define XBAR_TRIP10MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP10MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP10 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP10MUX16TO31CFG register
@@ -632,6 +641,7 @@
 #define XBAR_TRIP10MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP10MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP10 of
                                                         // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP11MUX0TO15CFG register
@@ -685,6 +695,7 @@
 #define XBAR_TRIP11MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP11MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP11 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP11MUX16TO31CFG register
@@ -738,6 +749,7 @@
 #define XBAR_TRIP11MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP11MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP11 of
                                                         // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP12MUX0TO15CFG register
@@ -791,6 +803,7 @@
 #define XBAR_TRIP12MUX0TO15CFG_MUX15_S   30U
 #define XBAR_TRIP12MUX0TO15CFG_MUX15_M   0xC0000000U   // Mux15 Configuration for TRIP12 of
                                                        // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP12MUX16TO31CFG register
@@ -844,6 +857,7 @@
 #define XBAR_TRIP12MUX16TO31CFG_MUX31_S   30U
 #define XBAR_TRIP12MUX16TO31CFG_MUX31_M   0xC0000000U   // Mux31 Configuration for TRIP12 of
                                                         // EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP4MUXENABLE register
@@ -881,6 +895,7 @@
 #define XBAR_TRIP4MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP4 of EPWM-XBAR
 #define XBAR_TRIP4MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP4 of EPWM-XBAR
 #define XBAR_TRIP4MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP4 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP5MUXENABLE register
@@ -918,6 +933,7 @@
 #define XBAR_TRIP5MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP5 of EPWM-XBAR
 #define XBAR_TRIP5MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP5 of EPWM-XBAR
 #define XBAR_TRIP5MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP5 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP7MUXENABLE register
@@ -955,6 +971,7 @@
 #define XBAR_TRIP7MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP7 of EPWM-XBAR
 #define XBAR_TRIP7MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP7 of EPWM-XBAR
 #define XBAR_TRIP7MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP7 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP8MUXENABLE register
@@ -992,6 +1009,7 @@
 #define XBAR_TRIP8MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP8 of EPWM-XBAR
 #define XBAR_TRIP8MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP8 of EPWM-XBAR
 #define XBAR_TRIP8MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP8 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP9MUXENABLE register
@@ -1029,6 +1047,7 @@
 #define XBAR_TRIP9MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP9 of EPWM-XBAR
 #define XBAR_TRIP9MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP9 of EPWM-XBAR
 #define XBAR_TRIP9MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP9 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP10MUXENABLE register
@@ -1066,6 +1085,7 @@
 #define XBAR_TRIP10MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP10 of EPWM-XBAR
 #define XBAR_TRIP10MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP10 of EPWM-XBAR
 #define XBAR_TRIP10MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP10 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP11MUXENABLE register
@@ -1103,6 +1123,7 @@
 #define XBAR_TRIP11MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP11 of EPWM-XBAR
 #define XBAR_TRIP11MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP11 of EPWM-XBAR
 #define XBAR_TRIP11MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP11 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIP12MUXENABLE register
@@ -1140,6 +1161,7 @@
 #define XBAR_TRIP12MUXENABLE_MUX29   0x20000000U   // Mux29 to drive TRIP12 of EPWM-XBAR
 #define XBAR_TRIP12MUXENABLE_MUX30   0x40000000U   // Mux30 to drive TRIP12 of EPWM-XBAR
 #define XBAR_TRIP12MUXENABLE_MUX31   0x80000000U   // Mux31 to drive TRIP12 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIPOUTINV register
@@ -1153,6 +1175,7 @@
 #define XBAR_TRIPOUTINV_TRIP10   0x20U   // Selects polarity for TRIP10 of EPWM-XBAR
 #define XBAR_TRIPOUTINV_TRIP11   0x40U   // Selects polarity for TRIP11 of EPWM-XBAR
 #define XBAR_TRIPOUTINV_TRIP12   0x80U   // Selects polarity for TRIP12 of EPWM-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRIPLOCK register
@@ -1161,6 +1184,7 @@
 #define XBAR_TRIPLOCK_LOCK    0x1U          // Locks the configuration for EPWM-XBAR
 #define XBAR_TRIPLOCK_KEY_S   16U
 #define XBAR_TRIPLOCK_KEY_M   0xFFFF0000U   // Write protection KEY
+
 
 
 #endif

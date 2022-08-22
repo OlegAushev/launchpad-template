@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the UPP registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -87,6 +85,7 @@
 #define UPP_PERCTL_PEREN     0x8U    // Peripheral Enable
 #define UPP_PERCTL_SOFTRST   0x10U   // Software Reset
 #define UPP_PERCTL_DMAST     0x80U   // DMA Burst transaction status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHCTL register
@@ -97,6 +96,7 @@
 #define UPP_CHCTL_SDRTXILA   0x8U       // SDR TX Interleve mode
 #define UPP_CHCTL_DEMUXA     0x10U      // DDR de-multiplexing mode
 #define UPP_CHCTL_DRA        0x10000U   // Data rate
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the IFCFG register
@@ -112,6 +112,7 @@
 #define UPP_IFCFG_CLKDIVA_M   0xF00U    // Clock divider for tx mode
 #define UPP_IFCFG_CLKINVA     0x1000U   // Clock inversion
 #define UPP_IFCFG_TRISENA     0x2000U   // Pin Tri-state Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the IFIVAL register
@@ -119,6 +120,7 @@
 //*************************************************************************************************
 #define UPP_IFIVAL_VALA_S   0U
 #define UPP_IFIVAL_VALA_M   0x1FFU   // Idle Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the THCFG register
@@ -130,6 +132,7 @@
 #define UPP_THCFG_RDSIZEQ_M   0x300U     // DMA Read Threshold for DMA Channel Q
 #define UPP_THCFG_TXSIZEA_S   16U
 #define UPP_THCFG_TXSIZEA_M   0x30000U   // I/O Transmit Threshold Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RAWINTST register
@@ -143,6 +146,7 @@
 #define UPP_RAWINTST_UOEQ   0x200U    // Interrupt raw status for DMA under-run or over-run
 #define UPP_RAWINTST_EOWQ   0x800U    // Interrupt raw status for end-of window condition
 #define UPP_RAWINTST_EOLQ   0x1000U   // Interrupt raw status for end-of-line condition
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ENINTST register
@@ -156,6 +160,7 @@
 #define UPP_ENINTST_UOEQ   0x200U    // Interrupt enable status for DMA under-run or over-run
 #define UPP_ENINTST_EOWQ   0x800U    // Interrupt enable status for end-of window condition
 #define UPP_ENINTST_EOLQ   0x1000U   // Interrupt enable status for end-of-line condition
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INTENSET register
@@ -169,6 +174,7 @@
 #define UPP_INTENSET_UOEQ   0x200U    // Interrupt enable for DMA under-run or over-run
 #define UPP_INTENSET_EOWQ   0x800U    // Interrupt enable for end-of window condition
 #define UPP_INTENSET_EOLQ   0x1000U   // Interrupt enable for end-of-line condition
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INTENCLR register
@@ -182,6 +188,7 @@
 #define UPP_INTENCLR_UOEQ   0x200U    // Interrupt clear for DMA under-run or over-run
 #define UPP_INTENCLR_EOWQ   0x800U    // Interrupt clear for end-of window condition
 #define UPP_INTENCLR_EOLQ   0x1000U   // Interrupt clear for end-of-line condition
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHIDESC1 register
@@ -193,6 +200,7 @@
 #define UPP_CHIDESC1_LCNT_S   16U
 #define UPP_CHIDESC1_LCNT_M   0xFFFF0000U   // Number of lines in a window for DMA Channel I
                                             // transfer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHIDESC2 register
@@ -200,6 +208,7 @@
 //*************************************************************************************************
 #define UPP_CHIDESC2_LOFFSET_S   0U
 #define UPP_CHIDESC2_LOFFSET_M   0xFFFFU   // Current start address to next start address offset.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHIST1 register
@@ -209,6 +218,7 @@
 #define UPP_CHIST1_BCNT_M   0xFFFFU       // Current byte number.
 #define UPP_CHIST1_LCNT_S   16U
 #define UPP_CHIST1_LCNT_M   0xFFFF0000U   // Current line number.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHIST2 register
@@ -218,6 +228,7 @@
 #define UPP_CHIST2_PEND   0x2U    // Status of DMA.
 #define UPP_CHIST2_WM_S   4U
 #define UPP_CHIST2_WM_M   0xF0U   // Watermark for FIFO block count for DMA Channel I tranfer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHQDESC1 register
@@ -229,6 +240,7 @@
 #define UPP_CHQDESC1_LCNT_S   16U
 #define UPP_CHQDESC1_LCNT_M   0xFFFF0000U   // Number of lines in a window for DMA Channel Q
                                             // transfer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHQDESC2 register
@@ -236,6 +248,7 @@
 //*************************************************************************************************
 #define UPP_CHQDESC2_LOFFSET_S   0U
 #define UPP_CHQDESC2_LOFFSET_M   0xFFFFU   // Current start address to next start address offset.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHQST1 register
@@ -245,6 +258,7 @@
 #define UPP_CHQST1_BCNT_M   0xFFFFU       // Current byte number.
 #define UPP_CHQST1_LCNT_S   16U
 #define UPP_CHQST1_LCNT_M   0xFFFF0000U   // Current line number.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CHQST2 register
@@ -254,24 +268,28 @@
 #define UPP_CHQST2_PEND   0x2U    // Status of DMA.
 #define UPP_CHQST2_WM_S   4U
 #define UPP_CHQST2_WM_M   0xF0U   // Watermark for FIFO block count for DMA Channel Q tranfer.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GINTEN register
 //
 //*************************************************************************************************
 #define UPP_GINTEN_GINTEN   0x1U   // Global Interrupt Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GINTFLG register
 //
 //*************************************************************************************************
 #define UPP_GINTFLG_GINTFLG   0x1U   // Global Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GINTCLR register
 //
 //*************************************************************************************************
 #define UPP_GINTCLR_GINTCLR   0x1U   // Global Interrupt Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DLYCTL register
@@ -280,6 +298,7 @@
 #define UPP_DLYCTL_DLYDIS     0x1U   // IO dealy control disable.
 #define UPP_DLYCTL_DLYCTL_S   1U
 #define UPP_DLYCTL_DLYCTL_M   0x6U   // IO delay control.
+
 
 
 #endif

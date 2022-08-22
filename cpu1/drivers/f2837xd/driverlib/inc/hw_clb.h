@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the CLB registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -118,6 +116,7 @@
 #define CLB_COUNT_RESET_SEL_1_M   0x3E0U    // Count Reset Select 1
 #define CLB_COUNT_RESET_SEL_2_S   10U
 #define CLB_COUNT_RESET_SEL_2_M   0x7C00U   // Count Reset Select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_COUNT_MODE_1 register
@@ -129,6 +128,7 @@
 #define CLB_COUNT_MODE_1_SEL_1_M   0x3E0U    // Counter mode 1 select 1
 #define CLB_COUNT_MODE_1_SEL_2_S   10U
 #define CLB_COUNT_MODE_1_SEL_2_M   0x7C00U   // Counter mode 1 select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_COUNT_MODE_0 register
@@ -140,6 +140,7 @@
 #define CLB_COUNT_MODE_0_SEL_1_M   0x3E0U    // Counter mode 0 select 1
 #define CLB_COUNT_MODE_0_SEL_2_S   10U
 #define CLB_COUNT_MODE_0_SEL_2_M   0x7C00U   // Counter mode 0 select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_COUNT_EVENT register
@@ -151,6 +152,7 @@
 #define CLB_COUNT_EVENT_SEL_1_M   0x3E0U    // Counter event select 1
 #define CLB_COUNT_EVENT_SEL_2_S   10U
 #define CLB_COUNT_EVENT_SEL_2_M   0x7C00U   // Counter event select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_EXTRA_IN0 register
@@ -162,6 +164,7 @@
 #define CLB_FSM_EXTRA_IN0_SEL_1_M   0x3E0U    // FSM extra ext input select 1
 #define CLB_FSM_EXTRA_IN0_SEL_2_S   10U
 #define CLB_FSM_EXTRA_IN0_SEL_2_M   0x7C00U   // FSM extra ext input select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_EXTERNAL_IN0 register
@@ -173,6 +176,7 @@
 #define CLB_FSM_EXTERNAL_IN0_SEL_1_M   0x3E0U    // FSM EXT_IN0 select input for unit 1
 #define CLB_FSM_EXTERNAL_IN0_SEL_2_S   10U
 #define CLB_FSM_EXTERNAL_IN0_SEL_2_M   0x7C00U   // FSM EXT_IN0 select input for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_EXTERNAL_IN1 register
@@ -184,6 +188,7 @@
 #define CLB_FSM_EXTERNAL_IN1_SEL_1_M   0x3E0U    // FSM EXT_IN1 select input for unit 1
 #define CLB_FSM_EXTERNAL_IN1_SEL_2_S   10U
 #define CLB_FSM_EXTERNAL_IN1_SEL_2_M   0x7C00U   // FSM EXT_IN1 select input for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_EXTRA_IN1 register
@@ -195,6 +200,7 @@
 #define CLB_FSM_EXTRA_IN1_SEL_1_M   0x3E0U    // FSM extra ext input select 1
 #define CLB_FSM_EXTRA_IN1_SEL_2_S   10U
 #define CLB_FSM_EXTRA_IN1_SEL_2_M   0x7C00U   // FSM extra ext input select 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_IN0 register
@@ -206,6 +212,7 @@
 #define CLB_LUT4_IN0_SEL_1_M   0x3E0U    // Select inputs for unit 1
 #define CLB_LUT4_IN0_SEL_2_S   10U
 #define CLB_LUT4_IN0_SEL_2_M   0x7C00U   // Select inputs for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_IN1 register
@@ -217,6 +224,7 @@
 #define CLB_LUT4_IN1_SEL_1_M   0x3E0U    // Select inputs for unit 1
 #define CLB_LUT4_IN1_SEL_2_S   10U
 #define CLB_LUT4_IN1_SEL_2_M   0x7C00U   // Select inputs for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_IN2 register
@@ -228,6 +236,7 @@
 #define CLB_LUT4_IN2_SEL_1_M   0x3E0U    // Select inputs for unit 1
 #define CLB_LUT4_IN2_SEL_2_S   10U
 #define CLB_LUT4_IN2_SEL_2_M   0x7C00U   // Select inputs for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_IN3 register
@@ -239,6 +248,7 @@
 #define CLB_LUT4_IN3_SEL_1_M   0x3E0U    // Select inputs for unit 1
 #define CLB_LUT4_IN3_SEL_2_S   10U
 #define CLB_LUT4_IN3_SEL_2_M   0x7C00U   // Select inputs for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_LUT_FN1_0 register
@@ -248,6 +258,7 @@
 #define CLB_FSM_LUT_FN1_0_FN0_M   0xFFFFU       // FSM LUT output function for unit 0
 #define CLB_FSM_LUT_FN1_0_FN1_S   16U
 #define CLB_FSM_LUT_FN1_0_FN1_M   0xFFFF0000U   // FSM LUT output function for unit 1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_LUT_FN2 register
@@ -255,6 +266,7 @@
 //*************************************************************************************************
 #define CLB_FSM_LUT_FN2_FN1_S   0U
 #define CLB_FSM_LUT_FN2_FN1_M   0xFFFFU   // FSM LUT output function for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_FN1_0 register
@@ -264,6 +276,7 @@
 #define CLB_LUT4_FN1_0_FN0_M   0xFFFFU       // LUT4 output function for unit 0
 #define CLB_LUT4_FN1_0_FN1_S   16U
 #define CLB_LUT4_FN1_0_FN1_M   0xFFFF0000U   // LUT4 output function for unit 1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LUT4_FN2 register
@@ -271,6 +284,7 @@
 //*************************************************************************************************
 #define CLB_LUT4_FN2_FN1_S   0U
 #define CLB_LUT4_FN2_FN1_M   0xFFFFU   // LUT4 output function for unit 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_NEXT_STATE_0 register
@@ -280,6 +294,7 @@
 #define CLB_FSM_NEXT_STATE_0_S0_M   0xFFFFU       // FSM next state function for S0
 #define CLB_FSM_NEXT_STATE_0_S1_S   16U
 #define CLB_FSM_NEXT_STATE_0_S1_M   0xFFFF0000U   // FSM next state function for S1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_NEXT_STATE_1 register
@@ -289,6 +304,7 @@
 #define CLB_FSM_NEXT_STATE_1_S0_M   0xFFFFU       // FSM next state function for S0
 #define CLB_FSM_NEXT_STATE_1_S1_S   16U
 #define CLB_FSM_NEXT_STATE_1_S1_M   0xFFFF0000U   // FSM next state function for S1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_FSM_NEXT_STATE_2 register
@@ -298,6 +314,7 @@
 #define CLB_FSM_NEXT_STATE_2_S0_M   0xFFFFU       // FSM next state function for S0
 #define CLB_FSM_NEXT_STATE_2_S1_S   16U
 #define CLB_FSM_NEXT_STATE_2_S1_M   0xFFFF0000U   // FSM next state function for S1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_MISC_CONTROL register
@@ -321,6 +338,7 @@
 #define CLB_MISC_CONTROL_FSM_EXTRA_SEL1_1     0x8000U    // FSM extra_sel1 for 1
 #define CLB_MISC_CONTROL_FSM_EXTRA_SEL0_2     0x10000U   // FSM extra_sel0 for 2
 #define CLB_MISC_CONTROL_FSM_EXTRA_SEL1_2     0x20000U   // FSM extra_sel1 for 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_0 register
@@ -334,6 +352,7 @@
 #define CLB_OUTPUT_LUT_0_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_0_FN_S    15U
 #define CLB_OUTPUT_LUT_0_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_1 register
@@ -347,6 +366,7 @@
 #define CLB_OUTPUT_LUT_1_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_1_FN_S    15U
 #define CLB_OUTPUT_LUT_1_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_2 register
@@ -360,6 +380,7 @@
 #define CLB_OUTPUT_LUT_2_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_2_FN_S    15U
 #define CLB_OUTPUT_LUT_2_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_3 register
@@ -373,6 +394,7 @@
 #define CLB_OUTPUT_LUT_3_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_3_FN_S    15U
 #define CLB_OUTPUT_LUT_3_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_4 register
@@ -386,6 +408,7 @@
 #define CLB_OUTPUT_LUT_4_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_4_FN_S    15U
 #define CLB_OUTPUT_LUT_4_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_5 register
@@ -399,6 +422,7 @@
 #define CLB_OUTPUT_LUT_5_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_5_FN_S    15U
 #define CLB_OUTPUT_LUT_5_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_6 register
@@ -412,6 +436,7 @@
 #define CLB_OUTPUT_LUT_6_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_6_FN_S    15U
 #define CLB_OUTPUT_LUT_6_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_OUTPUT_LUT_7 register
@@ -425,6 +450,7 @@
 #define CLB_OUTPUT_LUT_7_IN2_M   0x7C00U     // Select value for IN2 of output LUT
 #define CLB_OUTPUT_LUT_7_FN_S    15U
 #define CLB_OUTPUT_LUT_7_FN_M    0x7F8000U   // Output function for output LUT
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_HLC_EVENT_SEL register
@@ -439,6 +465,7 @@
 #define CLB_HLC_EVENT_SEL_EVENT3_SEL_S   15U
 #define CLB_HLC_EVENT_SEL_EVENT3_SEL_M   0xF8000U   // Event Select 3
 
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LOAD_EN register
@@ -447,6 +474,7 @@
 #define CLB_LOAD_EN_LOAD_EN     0x1U   // Load Enable
 #define CLB_LOAD_EN_GLOBAL_EN   0x2U   // Global Enable
 #define CLB_LOAD_EN_STOP        0x4U   // Debug stop control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LOAD_ADDR register
@@ -454,6 +482,7 @@
 //*************************************************************************************************
 #define CLB_LOAD_ADDR_ADDR_S   0U
 #define CLB_LOAD_ADDR_ADDR_M   0x3FU   // Indirect Address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_INPUT_FILTER register
@@ -483,6 +512,7 @@
 #define CLB_INPUT_FILTER_SYNC5    0x200000U   // Synchronizer control 5
 #define CLB_INPUT_FILTER_SYNC6    0x400000U   // Synchronizer control 6
 #define CLB_INPUT_FILTER_SYNC7    0x800000U   // Synchronizer control 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_IN_MUX_SEL_0 register
@@ -496,6 +526,7 @@
 #define CLB_IN_MUX_SEL_0_SEL_GP_IN_5   0x20U   // Select GP register 5
 #define CLB_IN_MUX_SEL_0_SEL_GP_IN_6   0x40U   // Select GP register 6
 #define CLB_IN_MUX_SEL_0_SEL_GP_IN_7   0x80U   // Select GP register 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LCL_MUX_SEL_1 register
@@ -509,6 +540,7 @@
 #define CLB_LCL_MUX_SEL_1_LCL_MUX_SEL_IN_2_M   0x7C00U    // Local Mux select 2
 #define CLB_LCL_MUX_SEL_1_LCL_MUX_SEL_IN_3_S   15U
 #define CLB_LCL_MUX_SEL_1_LCL_MUX_SEL_IN_3_M   0xF8000U   // Local Mux select 3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LCL_MUX_SEL_2 register
@@ -522,6 +554,7 @@
 #define CLB_LCL_MUX_SEL_2_LCL_MUX_SEL_IN_6_M   0x7C00U    // Local Mux select 6
 #define CLB_LCL_MUX_SEL_2_LCL_MUX_SEL_IN_7_S   15U
 #define CLB_LCL_MUX_SEL_2_LCL_MUX_SEL_IN_7_M   0xF8000U   // Local Mux select 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_BUF_PTR register
@@ -531,6 +564,7 @@
 #define CLB_BUF_PTR_PULL_M   0xFFU       // Data pointer for pull
 #define CLB_BUF_PTR_PUSH_S   16U
 #define CLB_BUF_PTR_PUSH_M   0xFF0000U   // Data pointer for pull
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_GP_REG register
@@ -538,6 +572,7 @@
 //*************************************************************************************************
 #define CLB_GP_REG_REG_S   0U
 #define CLB_GP_REG_REG_M   0xFFU   // General Purpose bit register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_GLBL_MUX_SEL_1 register
@@ -551,6 +586,7 @@
 #define CLB_GLBL_MUX_SEL_1_GLBL_MUX_SEL_IN_2_M   0x1FC000U    // Global Mux select 2
 #define CLB_GLBL_MUX_SEL_1_GLBL_MUX_SEL_IN_3_S   21U
 #define CLB_GLBL_MUX_SEL_1_GLBL_MUX_SEL_IN_3_M   0xFE00000U   // Global Mux select 3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_GLBL_MUX_SEL_2 register
@@ -564,6 +600,7 @@
 #define CLB_GLBL_MUX_SEL_2_GLBL_MUX_SEL_IN_6_M   0x1FC000U    // Global Mux select 6
 #define CLB_GLBL_MUX_SEL_2_GLBL_MUX_SEL_IN_7_S   21U
 #define CLB_GLBL_MUX_SEL_2_GLBL_MUX_SEL_IN_7_M   0xFE00000U   // Global Mux select 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_INTR_TAG_REG register
@@ -571,6 +608,7 @@
 //*************************************************************************************************
 #define CLB_INTR_TAG_REG_TAG_S   0U
 #define CLB_INTR_TAG_REG_TAG_M   0x3FU   // Interrupt tag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_LOCK register
@@ -579,6 +617,7 @@
 #define CLB_LOCK_LOCK    0x1U          // LOCK enable
 #define CLB_LOCK_KEY_S   16U
 #define CLB_LOCK_KEY_M   0xFFFF0000U   // Key for enabling write
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CLB_DBG_OUT register
@@ -613,6 +652,7 @@
 #define CLB_DBG_OUT_OUT5            0x20000000U   // CELL Output 5
 #define CLB_DBG_OUT_OUT6            0x40000000U   // CELL Output 6
 #define CLB_DBG_OUT_OUT7            0x80000000U   // CELL Output 7
+
 
 
 

@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the ASYSCTL registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -65,6 +63,7 @@
 //*************************************************************************************************
 #define ASYSCTL_INTOSC1TRIM_VALFINETRIM_S   0U
 #define ASYSCTL_INTOSC1TRIM_VALFINETRIM_M   0xFFFU   // Oscillator Value Fine Trim Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the INTOSC2TRIM register
@@ -72,12 +71,14 @@
 //*************************************************************************************************
 #define ASYSCTL_INTOSC2TRIM_VALFINETRIM_S   0U
 #define ASYSCTL_INTOSC2TRIM_VALFINETRIM_M   0xFFFU   // Oscillator Value Fine Trim Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TSNSCTL register
 //
 //*************************************************************************************************
 #define ASYSCTL_TSNSCTL_ENABLE   0x1U   // Temperature Sensor Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the LOCK register
@@ -88,6 +89,7 @@
 #define ASYSCTL_LOCK_ANAREFTRIMB   0x1000000U   // Analog Reference B Trim Register Lock
 #define ASYSCTL_LOCK_ANAREFTRIMC   0x2000000U   // Analog Reference C Trim Register Lock
 #define ASYSCTL_LOCK_ANAREFTRIMD   0x4000000U   // Analog Reference D Trim Register Lock
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ANAREFTRIMA register
@@ -99,6 +101,7 @@
 #define ASYSCTL_ANAREFTRIMA_BGSLOPETRIM_M   0x7C0U    // Bandgap Slope Trim
 #define ASYSCTL_ANAREFTRIMA_IREFTRIM_S      11U
 #define ASYSCTL_ANAREFTRIMA_IREFTRIM_M      0xF800U   // Reference Current Trim
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ANAREFTRIMB register
@@ -110,6 +113,7 @@
 #define ASYSCTL_ANAREFTRIMB_BGSLOPETRIM_M   0x7C0U    // Bandgap Slope Trim
 #define ASYSCTL_ANAREFTRIMB_IREFTRIM_S      11U
 #define ASYSCTL_ANAREFTRIMB_IREFTRIM_M      0xF800U   // Reference Current Trim
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ANAREFTRIMC register
@@ -121,6 +125,7 @@
 #define ASYSCTL_ANAREFTRIMC_BGSLOPETRIM_M   0x7C0U    // Bandgap Slope Trim
 #define ASYSCTL_ANAREFTRIMC_IREFTRIM_S      11U
 #define ASYSCTL_ANAREFTRIMC_IREFTRIM_M      0xF800U   // Reference Current Trim
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ANAREFTRIMD register
@@ -132,6 +137,7 @@
 #define ASYSCTL_ANAREFTRIMD_BGSLOPETRIM_M   0x7C0U    // Bandgap Slope Trim
 #define ASYSCTL_ANAREFTRIMD_IREFTRIM_S      11U
 #define ASYSCTL_ANAREFTRIMD_IREFTRIM_M      0xF800U   // Reference Current Trim
+
 
 
 #endif

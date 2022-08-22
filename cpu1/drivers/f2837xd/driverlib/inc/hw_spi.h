@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the SPI registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -73,6 +71,7 @@
 #define SPI_CCR_HS_MODE       0x20U   // High Speed mode control
 #define SPI_CCR_CLKPOLARITY   0x40U   // Shift Clock Polarity
 #define SPI_CCR_SPISWRESET    0x80U   // SPI Software Reset
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPICTL register
@@ -83,6 +82,7 @@
 #define SPI_CTL_MASTER_SLAVE    0x4U    // SPI Network Mode Control
 #define SPI_CTL_CLK_PHASE       0x8U    // SPI Clock Phase
 #define SPI_CTL_OVERRUNINTENA   0x10U   // Overrun Interrupt Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPISTS register
@@ -91,6 +91,7 @@
 #define SPI_STS_BUFFULL_FLAG   0x20U   // SPI Transmit Buffer Full Flag
 #define SPI_STS_INT_FLAG       0x40U   // SPI Interrupt Flag
 #define SPI_STS_OVERRUN_FLAG   0x80U   // SPI Receiver Overrun Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPIBRR register
@@ -98,6 +99,7 @@
 //*************************************************************************************************
 #define SPI_BRR_SPI_BIT_RATE_S   0U
 #define SPI_BRR_SPI_BIT_RATE_M   0x7FU   // SPI Bit Rate Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPIFFTX register
@@ -113,6 +115,7 @@
 #define SPI_FFTX_TXFIFO       0x2000U   // TXFIFO Reset
 #define SPI_FFTX_SPIFFENA     0x4000U   // FIFO Enhancements Enable
 #define SPI_FFTX_SPIRST       0x8000U   // SPI Reset
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPIFFRX register
@@ -128,6 +131,7 @@
 #define SPI_FFRX_RXFIFORESET   0x2000U   // RXFIFO Reset
 #define SPI_FFRX_RXFFOVFCLR    0x4000U   // Receive FIFO Overflow Clear
 #define SPI_FFRX_RXFFOVF       0x8000U   // Receive FIFO Overflow Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPIFFCT register
@@ -135,6 +139,7 @@
 //*************************************************************************************************
 #define SPI_FFCT_TXDLY_S   0U
 #define SPI_FFCT_TXDLY_M   0xFFU   // FIFO Transmit Delay Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the SPIPRI register
@@ -144,6 +149,7 @@
 #define SPI_PRI_STEINV    0x2U    // SPISTE inversion bit
 #define SPI_PRI_FREE      0x10U   // Free emulation mode
 #define SPI_PRI_SOFT      0x20U   // Soft emulation mode
+
 
 
 #endif

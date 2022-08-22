@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the PIE registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -84,6 +82,7 @@
 #define PIE_CTRL_ENPIE       0x1U      // PIE Enable
 #define PIE_CTRL_PIEVECT_S   1U
 #define PIE_CTRL_PIEVECT_M   0xFFFEU   // PIE Vector Address
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEACK register
@@ -101,6 +100,7 @@
 #define PIE_ACK_ACK10   0x200U   // Acknowledge PIE Interrupt Group 10
 #define PIE_ACK_ACK11   0x400U   // Acknowledge PIE Interrupt Group 11
 #define PIE_ACK_ACK12   0x800U   // Acknowledge PIE Interrupt Group 12
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER1 register
@@ -122,6 +122,7 @@
 #define PIE_IER1_INTX14   0x2000U   // Enable for Interrupt 1.14
 #define PIE_IER1_INTX15   0x4000U   // Enable for Interrupt 1.15
 #define PIE_IER1_INTX16   0x8000U   // Enable for Interrupt 1.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR1 register
@@ -143,6 +144,7 @@
 #define PIE_IFR1_INTX14   0x2000U   // Flag for Interrupt 1.14
 #define PIE_IFR1_INTX15   0x4000U   // Flag for Interrupt 1.15
 #define PIE_IFR1_INTX16   0x8000U   // Flag for Interrupt 1.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER2 register
@@ -164,6 +166,7 @@
 #define PIE_IER2_INTX14   0x2000U   // Enable for Interrupt 2.14
 #define PIE_IER2_INTX15   0x4000U   // Enable for Interrupt 2.15
 #define PIE_IER2_INTX16   0x8000U   // Enable for Interrupt 2.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR2 register
@@ -185,6 +188,7 @@
 #define PIE_IFR2_INTX14   0x2000U   // Flag for Interrupt 2.14
 #define PIE_IFR2_INTX15   0x4000U   // Flag for Interrupt 2.15
 #define PIE_IFR2_INTX16   0x8000U   // Flag for Interrupt 2.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER3 register
@@ -206,6 +210,7 @@
 #define PIE_IER3_INTX14   0x2000U   // Enable for Interrupt 3.14
 #define PIE_IER3_INTX15   0x4000U   // Enable for Interrupt 3.15
 #define PIE_IER3_INTX16   0x8000U   // Enable for Interrupt 3.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR3 register
@@ -227,6 +232,7 @@
 #define PIE_IFR3_INTX14   0x2000U   // Flag for Interrupt 3.14
 #define PIE_IFR3_INTX15   0x4000U   // Flag for Interrupt 3.15
 #define PIE_IFR3_INTX16   0x8000U   // Flag for Interrupt 3.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER4 register
@@ -248,6 +254,7 @@
 #define PIE_IER4_INTX14   0x2000U   // Enable for Interrupt 4.14
 #define PIE_IER4_INTX15   0x4000U   // Enable for Interrupt 4.15
 #define PIE_IER4_INTX16   0x8000U   // Enable for Interrupt 4.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR4 register
@@ -269,6 +276,7 @@
 #define PIE_IFR4_INTX14   0x2000U   // Flag for Interrupt 4.14
 #define PIE_IFR4_INTX15   0x4000U   // Flag for Interrupt 4.15
 #define PIE_IFR4_INTX16   0x8000U   // Flag for Interrupt 4.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER5 register
@@ -290,6 +298,7 @@
 #define PIE_IER5_INTX14   0x2000U   // Enable for Interrupt 5.14
 #define PIE_IER5_INTX15   0x4000U   // Enable for Interrupt 5.15
 #define PIE_IER5_INTX16   0x8000U   // Enable for Interrupt 5.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR5 register
@@ -311,6 +320,7 @@
 #define PIE_IFR5_INTX14   0x2000U   // Flag for Interrupt 5.14
 #define PIE_IFR5_INTX15   0x4000U   // Flag for Interrupt 5.15
 #define PIE_IFR5_INTX16   0x8000U   // Flag for Interrupt 5.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER6 register
@@ -332,6 +342,7 @@
 #define PIE_IER6_INTX14   0x2000U   // Enable for Interrupt 6.14
 #define PIE_IER6_INTX15   0x4000U   // Enable for Interrupt 6.15
 #define PIE_IER6_INTX16   0x8000U   // Enable for Interrupt 6.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR6 register
@@ -353,6 +364,7 @@
 #define PIE_IFR6_INTX14   0x2000U   // Flag for Interrupt 6.14
 #define PIE_IFR6_INTX15   0x4000U   // Flag for Interrupt 6.15
 #define PIE_IFR6_INTX16   0x8000U   // Flag for Interrupt 6.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER7 register
@@ -374,6 +386,7 @@
 #define PIE_IER7_INTX14   0x2000U   // Enable for Interrupt 7.14
 #define PIE_IER7_INTX15   0x4000U   // Enable for Interrupt 7.15
 #define PIE_IER7_INTX16   0x8000U   // Enable for Interrupt 7.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR7 register
@@ -395,6 +408,7 @@
 #define PIE_IFR7_INTX14   0x2000U   // Flag for Interrupt 7.14
 #define PIE_IFR7_INTX15   0x4000U   // Flag for Interrupt 7.15
 #define PIE_IFR7_INTX16   0x8000U   // Flag for Interrupt 7.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER8 register
@@ -416,6 +430,7 @@
 #define PIE_IER8_INTX14   0x2000U   // Enable for Interrupt 8.14
 #define PIE_IER8_INTX15   0x4000U   // Enable for Interrupt 8.15
 #define PIE_IER8_INTX16   0x8000U   // Enable for Interrupt 8.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR8 register
@@ -437,6 +452,7 @@
 #define PIE_IFR8_INTX14   0x2000U   // Flag for Interrupt 8.14
 #define PIE_IFR8_INTX15   0x4000U   // Flag for Interrupt 8.15
 #define PIE_IFR8_INTX16   0x8000U   // Flag for Interrupt 8.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER9 register
@@ -458,6 +474,7 @@
 #define PIE_IER9_INTX14   0x2000U   // Enable for Interrupt 9.14
 #define PIE_IER9_INTX15   0x4000U   // Enable for Interrupt 9.15
 #define PIE_IER9_INTX16   0x8000U   // Enable for Interrupt 9.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR9 register
@@ -479,6 +496,7 @@
 #define PIE_IFR9_INTX14   0x2000U   // Flag for Interrupt 9.14
 #define PIE_IFR9_INTX15   0x4000U   // Flag for Interrupt 9.15
 #define PIE_IFR9_INTX16   0x8000U   // Flag for Interrupt 9.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER10 register
@@ -500,6 +518,7 @@
 #define PIE_IER10_INTX14   0x2000U   // Enable for Interrupt 10.14
 #define PIE_IER10_INTX15   0x4000U   // Enable for Interrupt 10.15
 #define PIE_IER10_INTX16   0x8000U   // Enable for Interrupt 10.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR10 register
@@ -521,6 +540,7 @@
 #define PIE_IFR10_INTX14   0x2000U   // Flag for Interrupt 10.14
 #define PIE_IFR10_INTX15   0x4000U   // Flag for Interrupt 10.15
 #define PIE_IFR10_INTX16   0x8000U   // Flag for Interrupt 10.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER11 register
@@ -542,6 +562,7 @@
 #define PIE_IER11_INTX14   0x2000U   // Enable for Interrupt 11.14
 #define PIE_IER11_INTX15   0x4000U   // Enable for Interrupt 11.15
 #define PIE_IER11_INTX16   0x8000U   // Enable for Interrupt 11.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR11 register
@@ -563,6 +584,7 @@
 #define PIE_IFR11_INTX14   0x2000U   // Flag for Interrupt 11.14
 #define PIE_IFR11_INTX15   0x4000U   // Flag for Interrupt 11.15
 #define PIE_IFR11_INTX16   0x8000U   // Flag for Interrupt 11.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIER12 register
@@ -584,6 +606,7 @@
 #define PIE_IER12_INTX14   0x2000U   // Enable for Interrupt 12.14
 #define PIE_IER12_INTX15   0x4000U   // Enable for Interrupt 12.15
 #define PIE_IER12_INTX16   0x8000U   // Enable for Interrupt 12.16
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PIEIFR12 register
@@ -605,6 +628,7 @@
 #define PIE_IFR12_INTX14   0x2000U   // Flag for Interrupt 12.14
 #define PIE_IFR12_INTX15   0x4000U   // Flag for Interrupt 12.15
 #define PIE_IFR12_INTX16   0x8000U   // Flag for Interrupt 12.16
+
 
 
 #endif

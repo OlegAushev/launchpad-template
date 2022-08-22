@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the HRPWM registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -66,7 +64,7 @@
 #define HRPWM_O_HRMSTEP        0x26U   // HRPWM MEP Step Register
 #define HRPWM_O_HRCNFG2        0x27U   // HRPWM Configuration 2 Register
 #define HRPWM_O_HRPCTL         0x2DU   // High Resolution Period Control Register
-#define HRPWM_O_TRREM          0x2EU   // Translator High Resolution Remainder Register
+#define HRPWM_O_TRREM          0x2EU   // HRPWM High Resolution Remainder Register
 #define HRPWM_O_GLDCTL         0x34U   // Global PWM Load Control Register
 #define HRPWM_O_GLDCFG         0x35U   // Global PWM Load Config Register
 #define HRPWM_O_EPWMXLINK      0x38U   // EPWMx Link Register
@@ -152,6 +150,7 @@
 #define HRPWM_TBCTL_PHSDIR        0x2000U   // Phase Direction Bit
 #define HRPWM_TBCTL_FREE_SOFT_S   14U
 #define HRPWM_TBCTL_FREE_SOFT_M   0xC000U   // Emulation Mode Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TBCTL2 register
@@ -163,6 +162,7 @@
 #define HRPWM_TBCTL2_SYNCOSELX_M    0x3000U   // Syncout selection
 #define HRPWM_TBCTL2_PRDLDSYNC_S    14U
 #define HRPWM_TBCTL2_PRDLDSYNC_M    0xC000U   // PRD Shadow to Active Load on SYNC Event
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TBSTS register
@@ -171,6 +171,7 @@
 #define HRPWM_TBSTS_CTRDIR   0x1U   // Counter Direction Status
 #define HRPWM_TBSTS_SYNCI    0x2U   // External Input Sync Status
 #define HRPWM_TBSTS_CTRMAX   0x4U   // Counter Max Latched Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CMPCTL register
@@ -188,6 +189,7 @@
 #define HRPWM_CMPCTL_LOADASYNC_M   0xC00U    // Active Compare A Load on SYNC
 #define HRPWM_CMPCTL_LOADBSYNC_S   12U
 #define HRPWM_CMPCTL_LOADBSYNC_M   0x3000U   // Active Compare B Load on SYNC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CMPCTL2 register
@@ -203,6 +205,7 @@
 #define HRPWM_CMPCTL2_LOADCSYNC_M   0xC00U    // Active Compare C Load on SYNC
 #define HRPWM_CMPCTL2_LOADDSYNC_S   12U
 #define HRPWM_CMPCTL2_LOADDSYNC_M   0x3000U   // Active Compare D Load on SYNC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBCTL register
@@ -224,6 +227,7 @@
 #define HRPWM_DBCTL_OUTSWAP_M       0x3000U   // Dead Band Output Swap Control
 #define HRPWM_DBCTL_DEDB_MODE       0x4000U   // Dead Band Dual-Edge B Mode Control
 #define HRPWM_DBCTL_HALFCYCLE       0x8000U   // Half Cycle Clocking Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBCTL2 register
@@ -232,6 +236,7 @@
 #define HRPWM_DBCTL2_LOADDBCTLMODE_S   0U
 #define HRPWM_DBCTL2_LOADDBCTLMODE_M   0x3U   // DBCTL Load from Shadow Mode Select
 #define HRPWM_DBCTL2_SHDWDBCTLMODE     0x4U   // DBCTL Load mode Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCTL register
@@ -247,6 +252,7 @@
 #define HRPWM_AQCTL_LDAQASYNC_M   0x300U   // AQCTLA Register Load on SYNC
 #define HRPWM_AQCTL_LDAQBSYNC_S   10U
 #define HRPWM_AQCTL_LDAQBSYNC_M   0xC00U   // AQCTLB Register Load on SYNC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQTSRCSEL register
@@ -256,6 +262,7 @@
 #define HRPWM_AQTSRCSEL_T1SEL_M   0xFU    // T1 Event Source Select Bits
 #define HRPWM_AQTSRCSEL_T2SEL_S   4U
 #define HRPWM_AQTSRCSEL_T2SEL_M   0xF0U   // T2 Event Source Select Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PCCTL register
@@ -268,6 +275,7 @@
 #define HRPWM_PCCTL_CHPFREQ_M   0xE0U    // Chopping clock frequency
 #define HRPWM_PCCTL_CHPDUTY_S   8U
 #define HRPWM_PCCTL_CHPDUTY_M   0x700U   // Chopping clock Duty cycle
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the VCAPCTL register
@@ -280,6 +288,7 @@
 #define HRPWM_VCAPCTL_VDELAYDIV_S      7U
 #define HRPWM_VCAPCTL_VDELAYDIV_M      0x380U   // Valley Delay Mode Divide Enable
 #define HRPWM_VCAPCTL_EDGEFILTDLYSEL   0x400U   // Valley Switching Mode Delay Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the VCNTCFG register
@@ -291,6 +300,7 @@
 #define HRPWM_VCNTCFG_STOPEDGE_S     8U
 #define HRPWM_VCNTCFG_STOPEDGE_M     0xF00U    // Counter Start Edge Selection
 #define HRPWM_VCNTCFG_STOPEDGESTS    0x8000U   // Stop Edge Status Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the HRCNFG register
@@ -309,12 +319,14 @@
 #define HRPWM_HRCNFG_CTLMODEB     0x400U    // ePWMxB Control Mode Select Bits
 #define HRPWM_HRCNFG_HRLOADB_S    11U
 #define HRPWM_HRCNFG_HRLOADB_M    0x1800U   // ePWMxB Shadow Mode Select Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the HRPWR register
 //
 //*************************************************************************************************
 #define HRPWM_HRPWR_CALPWRON   0x8000U   // Calibration Power On
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the HRMSTEP register
@@ -322,6 +334,7 @@
 //*************************************************************************************************
 #define HRPWM_HRMSTEP_HRMSTEP_S   0U
 #define HRPWM_HRMSTEP_HRMSTEP_M   0xFFU   // High Resolution Micro Step Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the HRCNFG2 register
@@ -333,6 +346,7 @@
 #define HRPWM_HRCNFG2_CTLMODEDBRED_M   0xCU    // DBRED Control Mode Select Bits
 #define HRPWM_HRCNFG2_CTLMODEDBFED_S   4U
 #define HRPWM_HRCNFG2_CTLMODEDBFED_M   0x30U   // DBFED Control Mode Select Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the HRPCTL register
@@ -343,13 +357,15 @@
 #define HRPWM_HRPCTL_TBPHSHRLOADE    0x4U    // TBPHSHR Load Enable
 #define HRPWM_HRPCTL_PWMSYNCSELX_S   4U
 #define HRPWM_HRPCTL_PWMSYNCSELX_M   0x70U   // EPWMSYNCPER Extended Source Select Bit:
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TRREM register
 //
 //*************************************************************************************************
 #define HRPWM_TRREM_TRREM_S   0U
-#define HRPWM_TRREM_TRREM_M   0x7FFU   // Translator Remainder Bits
+#define HRPWM_TRREM_TRREM_M   0x7FFU   // HRPWM Remainder Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GLDCTL register
@@ -363,6 +379,7 @@
 #define HRPWM_GLDCTL_GLDPRD_M    0x380U    // Global Load Strobe Period Select Register
 #define HRPWM_GLDCTL_GLDCNT_S    10U
 #define HRPWM_GLDCTL_GLDCNT_M    0x1C00U   // Global Load Strobe Counter Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GLDCFG register
@@ -379,6 +396,7 @@
 #define HRPWM_GLDCFG_AQCTLA_AQCTLA2   0x100U   // Global load event configuration for AQCTLA/A2
 #define HRPWM_GLDCFG_AQCTLB_AQCTLB2   0x200U   // Global load event configuration for AQCTLB/B2
 #define HRPWM_GLDCFG_AQCSFRC          0x400U   // Global load event configuration for AQCSFRC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the EPWMXLINK register
@@ -396,6 +414,7 @@
 #define HRPWM_EPWMXLINK_CMPDLINK_M      0xF0000U      // CMPD Link
 #define HRPWM_EPWMXLINK_GLDCTL2LINK_S   28U
 #define HRPWM_EPWMXLINK_GLDCTL2LINK_M   0xF0000000U   // GLDCTL2 Link
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCTLA register
@@ -413,6 +432,7 @@
 #define HRPWM_AQCTLA_CBU_M   0x300U   // Action Counter = Compare B Up
 #define HRPWM_AQCTLA_CBD_S   10U
 #define HRPWM_AQCTLA_CBD_M   0xC00U   // Action Counter = Compare B Down
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCTLA2 register
@@ -426,6 +446,7 @@
 #define HRPWM_AQCTLA2_T2U_M   0x30U   // Action when event occurs on T2 in UP-Count
 #define HRPWM_AQCTLA2_T2D_S   6U
 #define HRPWM_AQCTLA2_T2D_M   0xC0U   // Action when event occurs on T2 in DOWN-Count
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCTLB register
@@ -443,6 +464,7 @@
 #define HRPWM_AQCTLB_CBU_M   0x300U   // Action Counter = Compare B Up
 #define HRPWM_AQCTLB_CBD_S   10U
 #define HRPWM_AQCTLB_CBD_M   0xC00U   // Action Counter = Compare B Down
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCTLB2 register
@@ -456,6 +478,7 @@
 #define HRPWM_AQCTLB2_T2U_M   0x30U   // Action when event occurs on T2 in UP-Count
 #define HRPWM_AQCTLB2_T2D_S   6U
 #define HRPWM_AQCTLB2_T2D_M   0xC0U   // Action when event occurs on T2 in DOWN-Count
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQSFRC register
@@ -469,6 +492,7 @@
 #define HRPWM_AQSFRC_OTSFB      0x20U   // One-time SW Force A Output
 #define HRPWM_AQSFRC_RLDCSF_S   6U
 #define HRPWM_AQSFRC_RLDCSF_M   0xC0U   // Reload from Shadow Options
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AQCSFRC register
@@ -478,6 +502,7 @@
 #define HRPWM_AQCSFRC_CSFA_M   0x3U   // Continuous Software Force on output A
 #define HRPWM_AQCSFRC_CSFB_S   2U
 #define HRPWM_AQCSFRC_CSFB_M   0xCU   // Continuous Software Force on output B
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBREDHR register
@@ -485,6 +510,7 @@
 //*************************************************************************************************
 #define HRPWM_DBREDHR_DBREDHR_S   9U
 #define HRPWM_DBREDHR_DBREDHR_M   0xFE00U   // DBREDHR High Resolution Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBRED register
@@ -492,6 +518,7 @@
 //*************************************************************************************************
 #define HRPWM_DBRED_DBRED_S   0U
 #define HRPWM_DBRED_DBRED_M   0x3FFFU   // Rising edge delay value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBFEDHR register
@@ -499,6 +526,7 @@
 //*************************************************************************************************
 #define HRPWM_DBFEDHR_DBFEDHR_S   9U
 #define HRPWM_DBFEDHR_DBFEDHR_M   0xFE00U   // DBFEDHR High Resolution Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DBFED register
@@ -506,6 +534,7 @@
 //*************************************************************************************************
 #define HRPWM_DBFED_DBFED_S   0U
 #define HRPWM_DBFED_DBFED_M   0x3FFFU   // Falling edge delay value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TBPHS register
@@ -515,6 +544,7 @@
 #define HRPWM_TBPHS_TBPHSHR_M   0xFFFFU       // Extension Register for HRPWM Phase (8-bits)
 #define HRPWM_TBPHS_TBPHS_S     16U
 #define HRPWM_TBPHS_TBPHS_M     0xFFFF0000U   // Phase Offset Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CMPA register
@@ -524,6 +554,7 @@
 #define HRPWM_CMPA_CMPAHR_M   0xFFFFU       // Compare A HRPWM Extension Register
 #define HRPWM_CMPA_CMPA_S     16U
 #define HRPWM_CMPA_CMPA_M     0xFFFF0000U   // Compare A Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CMPB register
@@ -533,6 +564,7 @@
 #define HRPWM_CMPB_CMPBHR_M   0xFFFFU       // Compare B High Resolution Bits
 #define HRPWM_CMPB_CMPB_S     16U
 #define HRPWM_CMPB_CMPB_M     0xFFFF0000U   // Compare B Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the GLDCTL2 register
@@ -540,6 +572,7 @@
 //*************************************************************************************************
 #define HRPWM_GLDCTL2_OSHTLD   0x1U   // Enable reload event in one shot mode
 #define HRPWM_GLDCTL2_GFRCLD   0x2U   // Force reload event in one shot mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZSEL register
@@ -561,6 +594,7 @@
 #define HRPWM_TZSEL_OSHT6     0x2000U   // One-shot TZ6 select
 #define HRPWM_TZSEL_DCAEVT1   0x4000U   // One-shot DCAEVT1 select
 #define HRPWM_TZSEL_DCBEVT1   0x8000U   // One-shot DCBEVT1 select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZDCSEL register
@@ -574,6 +608,7 @@
 #define HRPWM_TZDCSEL_DCBEVT1_M   0x1C0U   // Digital Compare Output B Event 1
 #define HRPWM_TZDCSEL_DCBEVT2_S   9U
 #define HRPWM_TZDCSEL_DCBEVT2_M   0xE00U   // Digital Compare Output B Event 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCTL register
@@ -591,6 +626,7 @@
 #define HRPWM_TZCTL_DCBEVT1_M   0x300U   // EPWMxB action on DCBEVT1
 #define HRPWM_TZCTL_DCBEVT2_S   10U
 #define HRPWM_TZCTL_DCBEVT2_M   0xC00U   // EPWMxB action on DCBEVT2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCTL2 register
@@ -605,6 +641,7 @@
 #define HRPWM_TZCTL2_TZBD_S   9U
 #define HRPWM_TZCTL2_TZBD_M   0xE00U    // Trip Action On EPWMxB while Count direction is DOWN
 #define HRPWM_TZCTL2_ETZE     0x8000U   // TZCTL2 Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCTLDCA register
@@ -622,6 +659,7 @@
 #define HRPWM_TZCTLDCA_DCAEVT2D_S   9U
 #define HRPWM_TZCTLDCA_DCAEVT2D_M   0xE00U   // DCAEVT2 Action On EPWMxA while Count direction is
                                              // DOWN
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCTLDCB register
@@ -639,6 +677,7 @@
 #define HRPWM_TZCTLDCB_DCBEVT2D_S   9U
 #define HRPWM_TZCTLDCB_DCBEVT2D_M   0xE00U   // DCBEVT2 Action On EPWMxA while Count direction is
                                              // DOWN
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZEINT register
@@ -650,6 +689,7 @@
 #define HRPWM_TZEINT_DCAEVT2   0x10U   // Digital Compare A Event 2 Int Enable
 #define HRPWM_TZEINT_DCBEVT1   0x20U   // Digital Compare B Event 1 Int Enable
 #define HRPWM_TZEINT_DCBEVT2   0x40U   // Digital Compare B Event 2 Int Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZFLG register
@@ -662,6 +702,7 @@
 #define HRPWM_TZFLG_DCAEVT2   0x10U   // Digital Compare A Event 2 Flag
 #define HRPWM_TZFLG_DCBEVT1   0x20U   // Digital Compare B Event 1 Flag
 #define HRPWM_TZFLG_DCBEVT2   0x40U   // Digital Compare B Event 2 Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCBCFLG register
@@ -677,6 +718,7 @@
                                          // 2
 #define HRPWM_TZCBCFLG_DCBEVT2   0x80U   // Latched Status Flag for Digital Compare Output B Event
                                          // 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZOSTFLG register
@@ -692,6 +734,7 @@
                                          // 1
 #define HRPWM_TZOSTFLG_DCBEVT1   0x80U   // Latched Status Flag for Digital Compare Output B Event
                                          // 1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCLR register
@@ -706,6 +749,7 @@
 #define HRPWM_TZCLR_DCBEVT2      0x40U     // DCBEVT2 Flag Clear
 #define HRPWM_TZCLR_CBCPULSE_S   14U
 #define HRPWM_TZCLR_CBCPULSE_M   0xC000U   // Clear Pulse for CBC Trip Latch
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZCBCCLR register
@@ -719,6 +763,7 @@
 #define HRPWM_TZCBCCLR_CBC6      0x20U   // Clear Flag for Cycle-By-Cycle (CBC6) Trip Latch
 #define HRPWM_TZCBCCLR_DCAEVT2   0x40U   // Clear Flag forDCAEVT2 selected for CBC
 #define HRPWM_TZCBCCLR_DCBEVT2   0x80U   // Clear Flag for DCBEVT2 selected for CBC
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZOSTCLR register
@@ -732,6 +777,7 @@
 #define HRPWM_TZOSTCLR_OST6      0x20U   // Clear Flag for Oneshot (OST6) Trip Latch
 #define HRPWM_TZOSTCLR_DCAEVT1   0x40U   // Clear Flag for DCAEVT1 selected for OST
 #define HRPWM_TZOSTCLR_DCBEVT1   0x80U   // Clear Flag for DCBEVT1 selected for OST
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TZFRC register
@@ -743,6 +789,7 @@
 #define HRPWM_TZFRC_DCAEVT2   0x10U   // Force Digital Compare A Event 2
 #define HRPWM_TZFRC_DCBEVT1   0x20U   // Force Digital Compare B Event 1
 #define HRPWM_TZFRC_DCBEVT2   0x40U   // Force Digital Compare B Event 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETSEL register
@@ -760,6 +807,7 @@
 #define HRPWM_ETSEL_SOCBSEL_S    12U
 #define HRPWM_ETSEL_SOCBSEL_M    0x7000U   // Start of Conversion B Select
 #define HRPWM_ETSEL_SOCBEN       0x8000U   // Start of Conversion B Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETPS register
@@ -779,6 +827,7 @@
 #define HRPWM_ETPS_SOCBPRD_M   0x3000U   // EPWMxSOCB Period Select
 #define HRPWM_ETPS_SOCBCNT_S   14U
 #define HRPWM_ETPS_SOCBCNT_M   0xC000U   // EPWMxSOCB Counter
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETFLG register
@@ -787,6 +836,7 @@
 #define HRPWM_ETFLG_INT    0x1U   // EPWMxINTn Flag
 #define HRPWM_ETFLG_SOCA   0x4U   // EPWMxSOCA Flag
 #define HRPWM_ETFLG_SOCB   0x8U   // EPWMxSOCB Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETCLR register
@@ -795,6 +845,7 @@
 #define HRPWM_ETCLR_INT    0x1U   // EPWMxINTn Clear
 #define HRPWM_ETCLR_SOCA   0x4U   // EPWMxSOCA Clear
 #define HRPWM_ETCLR_SOCB   0x8U   // EPWMxSOCB Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETFRC register
@@ -803,6 +854,7 @@
 #define HRPWM_ETFRC_INT    0x1U   // EPWMxINTn Force
 #define HRPWM_ETFRC_SOCA   0x4U   // EPWMxSOCA Force
 #define HRPWM_ETFRC_SOCB   0x8U   // EPWMxSOCB Force
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETINTPS register
@@ -812,6 +864,7 @@
 #define HRPWM_ETINTPS_INTPRD2_M   0xFU    // EPWMxINTn Period Select
 #define HRPWM_ETINTPS_INTCNT2_S   4U
 #define HRPWM_ETINTPS_INTCNT2_M   0xF0U   // EPWMxINTn Counter Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETSOCPS register
@@ -825,6 +878,7 @@
 #define HRPWM_ETSOCPS_SOCBPRD2_M   0xF00U    // EPWMxSOCB Period Select
 #define HRPWM_ETSOCPS_SOCBCNT2_S   12U
 #define HRPWM_ETSOCPS_SOCBCNT2_M   0xF000U   // EPWMxSOCB Counter Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETCNTINITCTL register
@@ -836,6 +890,7 @@
 #define HRPWM_ETCNTINITCTL_INTINITEN     0x2000U   // EPWMxINT Counter Initialization Enable
 #define HRPWM_ETCNTINITCTL_SOCAINITEN    0x4000U   // EPWMxSOCA Counter Initialization Enable
 #define HRPWM_ETCNTINITCTL_SOCBINITEN    0x8000U   // EPWMxSOCB Counter Initialization Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ETCNTINIT register
@@ -847,6 +902,7 @@
 #define HRPWM_ETCNTINIT_SOCAINIT_M   0xF0U    // EPWMxSOCA Counter Initialization Bits
 #define HRPWM_ETCNTINIT_SOCBINIT_S   8U
 #define HRPWM_ETCNTINIT_SOCBINIT_M   0xF00U   // EPWMxSOCB Counter Initialization Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCTRIPSEL register
@@ -860,6 +916,7 @@
 #define HRPWM_DCTRIPSEL_DCBHCOMPSEL_M   0xF00U    // Digital Compare B High COMP Input Select
 #define HRPWM_DCTRIPSEL_DCBLCOMPSEL_S   12U
 #define HRPWM_DCTRIPSEL_DCBLCOMPSEL_M   0xF000U   // Digital Compare B Low COMP Input Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCACTL register
@@ -871,6 +928,7 @@
 #define HRPWM_DCACTL_EVT1SYNCE        0x8U     // DCAEVT1 SYNC Enable
 #define HRPWM_DCACTL_EVT2SRCSEL       0x100U   // DCAEVT2 Source Signal
 #define HRPWM_DCACTL_EVT2FRCSYNCSEL   0x200U   // DCAEVT2 Force Sync Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCBCTL register
@@ -882,6 +940,7 @@
 #define HRPWM_DCBCTL_EVT1SYNCE        0x8U     // DCBEVT1 SYNC Enable
 #define HRPWM_DCBCTL_EVT2SRCSEL       0x100U   // DCBEVT2 Source Signal
 #define HRPWM_DCBCTL_EVT2FRCSYNCSEL   0x200U   // DCBEVT2 Force Sync Signal
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCFCTL register
@@ -900,6 +959,7 @@
 #define HRPWM_DCFCTL_EDGECOUNT_M    0x1C00U   // Edge Count
 #define HRPWM_DCFCTL_EDGESTATUS_S   13U
 #define HRPWM_DCFCTL_EDGESTATUS_M   0xE000U   // Edge Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCCAPCTL register
@@ -910,6 +970,7 @@
 #define HRPWM_DCCAPCTL_CAPSTS     0x2000U   // Latched Status Flag for Capture Event
 #define HRPWM_DCCAPCTL_CAPCLR     0x4000U   // DC Capture Latched Status Clear Flag
 #define HRPWM_DCCAPCTL_CAPMODE    0x8000U   // Counter Capture Mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCAHTRIPSEL register
@@ -929,6 +990,7 @@
 #define HRPWM_DCAHTRIPSEL_TRIPINPUT12   0x800U    // Trip Input 12 Select to DCAH Mux
 #define HRPWM_DCAHTRIPSEL_TRIPINPUT14   0x2000U   // Trip Input 14 Select to DCAH Mux
 #define HRPWM_DCAHTRIPSEL_TRIPINPUT15   0x4000U   // Trip Input 15 Select to DCAH Mux
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCALTRIPSEL register
@@ -948,6 +1010,7 @@
 #define HRPWM_DCALTRIPSEL_TRIPINPUT12   0x800U    // Trip Input 12 Select to DCAL Mux
 #define HRPWM_DCALTRIPSEL_TRIPINPUT14   0x2000U   // Trip Input 14 Select to DCAL Mux
 #define HRPWM_DCALTRIPSEL_TRIPINPUT15   0x4000U   // Trip Input 15 Select to DCAL Mux
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCBHTRIPSEL register
@@ -967,6 +1030,7 @@
 #define HRPWM_DCBHTRIPSEL_TRIPINPUT12   0x800U    // Trip Input 12 Select to DCBH Mux
 #define HRPWM_DCBHTRIPSEL_TRIPINPUT14   0x2000U   // Trip Input 14 Select to DCBH Mux
 #define HRPWM_DCBHTRIPSEL_TRIPINPUT15   0x4000U   // Trip Input 15 Select to DCBH Mux
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DCBLTRIPSEL register
@@ -986,6 +1050,7 @@
 #define HRPWM_DCBLTRIPSEL_TRIPINPUT12   0x800U    // Trip Input 12 Select to DCBL Mux
 #define HRPWM_DCBLTRIPSEL_TRIPINPUT14   0x2000U   // Trip Input 14 Select to DCBL Mux
 #define HRPWM_DCBLTRIPSEL_TRIPINPUT15   0x4000U   // Trip Input 15 Select to DCBL Mux
+
 
 
 #endif

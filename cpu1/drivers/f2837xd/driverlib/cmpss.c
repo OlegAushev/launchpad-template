@@ -5,10 +5,8 @@
 // TITLE:  C28x CMPSS driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -57,8 +55,6 @@ CMPSS_configFilterHigh(uint32_t base, uint16_t samplePrescale,
     // Check the arguments.
     //
     ASSERT(CMPSS_isBaseValid(base));
-    ASSERT(samplePrescale < 1024U);
-    ASSERT((sampleWindow >= 1U) && (sampleWindow <= 32U));
     ASSERT((threshold - 1U) >= ((sampleWindow - 1U) / 2U));
 
     //
@@ -98,8 +94,6 @@ CMPSS_configFilterLow(uint32_t base, uint16_t samplePrescale,
     // Check the arguments.
     //
     ASSERT(CMPSS_isBaseValid(base));
-    ASSERT(samplePrescale < 1024U);
-    ASSERT((sampleWindow >= 1U) && (sampleWindow <= 32U));
     ASSERT((threshold - 1U) >= ((sampleWindow - 1U) / 2U));
 
     //
@@ -224,3 +218,4 @@ CMPSS_configRamp(uint32_t base, uint16_t maxRampVal, uint16_t decrementVal,
     //
     HWREGH(base + CMPSS_O_RAMPDLYS) = delayVal;
 }
+

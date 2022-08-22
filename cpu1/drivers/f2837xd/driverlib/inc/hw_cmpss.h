@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the CMPSS registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -91,6 +89,7 @@
 #define CMPSS_COMPCTL_CTRIPOUTLSEL_M   0x3000U   // Low Comparator Trip Output Select
 #define CMPSS_COMPCTL_ASYNCLEN         0x4000U   // Low Comparator Asynchronous Path Enable
 #define CMPSS_COMPCTL_COMPDACE         0x8000U   // Comparator/DAC Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the COMPHYSCTL register
@@ -98,6 +97,7 @@
 //*************************************************************************************************
 #define CMPSS_COMPHYSCTL_COMPHYS_S   0U
 #define CMPSS_COMPHYSCTL_COMPHYS_M   0x7U   // Comparator Hysteresis Trim
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the COMPSTS register
@@ -107,6 +107,7 @@
 #define CMPSS_COMPSTS_COMPHLATCH   0x2U     // High Comparator Latched Status
 #define CMPSS_COMPSTS_COMPLSTS     0x100U   // Low Comparator Status
 #define CMPSS_COMPSTS_COMPLLATCH   0x200U   // Low Comparator Latched Status
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the COMPSTSCLR register
@@ -116,6 +117,7 @@
 #define CMPSS_COMPSTSCLR_HSYNCCLREN   0x4U     // High Comparator EPWMSYNCPER Clear Enable
 #define CMPSS_COMPSTSCLR_LLATCHCLR    0x200U   // Low Comparator Latched Status Clear
 #define CMPSS_COMPSTSCLR_LSYNCCLREN   0x400U   // Low Comparator EPWMSYNCPER Clear Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the COMPDACCTL register
@@ -129,6 +131,7 @@
 #define CMPSS_COMPDACCTL_SWLOADSEL      0x80U     // Software Load Select
 #define CMPSS_COMPDACCTL_FREESOFT_S     14U
 #define CMPSS_COMPDACCTL_FREESOFT_M     0xC000U   // Free/Soft Emulation Bits
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACHVALS register
@@ -136,6 +139,7 @@
 //*************************************************************************************************
 #define CMPSS_DACHVALS_DACVAL_S   0U
 #define CMPSS_DACHVALS_DACVAL_M   0xFFFU   // DAC Value Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACHVALA register
@@ -143,6 +147,7 @@
 //*************************************************************************************************
 #define CMPSS_DACHVALA_DACVAL_S   0U
 #define CMPSS_DACHVALA_DACVAL_M   0xFFFU   // DAC Value Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACLVALS register
@@ -150,6 +155,7 @@
 //*************************************************************************************************
 #define CMPSS_DACLVALS_DACVAL_S   0U
 #define CMPSS_DACLVALS_DACVAL_M   0xFFFU   // DAC Value Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACLVALA register
@@ -157,6 +163,7 @@
 //*************************************************************************************************
 #define CMPSS_DACLVALA_DACVAL_S   0U
 #define CMPSS_DACLVALA_DACVAL_M   0xFFFU   // DAC Value Control
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RAMPDLYA register
@@ -164,6 +171,7 @@
 //*************************************************************************************************
 #define CMPSS_RAMPDLYA_DELAY_S   0U
 #define CMPSS_RAMPDLYA_DELAY_M   0x1FFFU   // Ramp Delay Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the RAMPDLYS register
@@ -171,6 +179,7 @@
 //*************************************************************************************************
 #define CMPSS_RAMPDLYS_DELAY_S   0U
 #define CMPSS_RAMPDLYS_DELAY_M   0x1FFFU   // Ramp Delay Value
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CTRIPLFILCTL register
@@ -181,6 +190,7 @@
 #define CMPSS_CTRIPLFILCTL_THRESH_S    9U
 #define CMPSS_CTRIPLFILCTL_THRESH_M    0x3E00U   // Majority Voting Threshold
 #define CMPSS_CTRIPLFILCTL_FILINIT     0x8000U   // Filter Initialization Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CTRIPLFILCLKCTL register
@@ -188,6 +198,7 @@
 //*************************************************************************************************
 #define CMPSS_CTRIPLFILCLKCTL_CLKPRESCALE_S   0U
 #define CMPSS_CTRIPLFILCLKCTL_CLKPRESCALE_M   0x3FFU   // Sample Clock Prescale
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CTRIPHFILCTL register
@@ -198,6 +209,7 @@
 #define CMPSS_CTRIPHFILCTL_THRESH_S    9U
 #define CMPSS_CTRIPHFILCTL_THRESH_M    0x3E00U   // Majority Voting Threshold
 #define CMPSS_CTRIPHFILCTL_FILINIT     0x8000U   // Filter Initialization Bit
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CTRIPHFILCLKCTL register
@@ -205,6 +217,7 @@
 //*************************************************************************************************
 #define CMPSS_CTRIPHFILCLKCTL_CLKPRESCALE_S   0U
 #define CMPSS_CTRIPHFILCLKCTL_CLKPRESCALE_M   0x3FFU   // Sample Clock Prescale
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the COMPLOCK register
@@ -214,6 +227,7 @@
 #define CMPSS_COMPLOCK_COMPHYSCTL   0x2U   // COMPHYSCTL Lock
 #define CMPSS_COMPLOCK_DACCTL       0x4U   // DACCTL Lock
 #define CMPSS_COMPLOCK_CTRIP        0x8U   // CTRIP Lock
+
 
 
 #endif

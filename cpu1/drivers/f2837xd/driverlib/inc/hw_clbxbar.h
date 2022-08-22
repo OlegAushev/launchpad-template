@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the XBAR registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -129,6 +127,7 @@
 #define XBAR_AUXSIG0MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG0MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG0 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG0MUX16TO31CFG register
@@ -182,6 +181,7 @@
 #define XBAR_AUXSIG0MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG0MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG0 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG1MUX0TO15CFG register
@@ -235,6 +235,7 @@
 #define XBAR_AUXSIG1MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG1MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG1 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG1MUX16TO31CFG register
@@ -288,6 +289,7 @@
 #define XBAR_AUXSIG1MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG1MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG1 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG2MUX0TO15CFG register
@@ -341,6 +343,7 @@
 #define XBAR_AUXSIG2MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG2MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG2 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG2MUX16TO31CFG register
@@ -394,6 +397,7 @@
 #define XBAR_AUXSIG2MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG2MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG2 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG3MUX0TO15CFG register
@@ -447,6 +451,7 @@
 #define XBAR_AUXSIG3MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG3MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG3 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG3MUX16TO31CFG register
@@ -500,6 +505,7 @@
 #define XBAR_AUXSIG3MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG3MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG3 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG4MUX0TO15CFG register
@@ -553,6 +559,7 @@
 #define XBAR_AUXSIG4MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG4MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG4 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG4MUX16TO31CFG register
@@ -606,6 +613,7 @@
 #define XBAR_AUXSIG4MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG4MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG4 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG5MUX0TO15CFG register
@@ -659,6 +667,7 @@
 #define XBAR_AUXSIG5MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG5MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG5 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG5MUX16TO31CFG register
@@ -712,6 +721,7 @@
 #define XBAR_AUXSIG5MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG5MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG5 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG6MUX0TO15CFG register
@@ -765,6 +775,7 @@
 #define XBAR_AUXSIG6MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG6MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG6 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG6MUX16TO31CFG register
@@ -818,6 +829,7 @@
 #define XBAR_AUXSIG6MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG6MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG6 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG7MUX0TO15CFG register
@@ -871,6 +883,7 @@
 #define XBAR_AUXSIG7MUX0TO15CFG_MUX15_S   30U
 #define XBAR_AUXSIG7MUX0TO15CFG_MUX15_M   0xC0000000U   // MUX15 Configuration for AUXSIG7 of
                                                         // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG7MUX16TO31CFG register
@@ -924,6 +937,7 @@
 #define XBAR_AUXSIG7MUX16TO31CFG_MUX31_S   30U
 #define XBAR_AUXSIG7MUX16TO31CFG_MUX31_M   0xC0000000U   // MUX31 Configuration for AUXSIG7 of
                                                          // CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG0MUXENABLE register
@@ -961,6 +975,7 @@
 #define XBAR_AUXSIG0MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG0 of CLB-XBAR
 #define XBAR_AUXSIG0MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG0 of CLB-XBAR
 #define XBAR_AUXSIG0MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG0 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG1MUXENABLE register
@@ -998,6 +1013,7 @@
 #define XBAR_AUXSIG1MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG1 of CLB-XBAR
 #define XBAR_AUXSIG1MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG1 of CLB-XBAR
 #define XBAR_AUXSIG1MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG1 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG2MUXENABLE register
@@ -1035,6 +1051,7 @@
 #define XBAR_AUXSIG2MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG2 of CLB-XBAR
 #define XBAR_AUXSIG2MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG2 of CLB-XBAR
 #define XBAR_AUXSIG2MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG2 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG3MUXENABLE register
@@ -1072,6 +1089,7 @@
 #define XBAR_AUXSIG3MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG3 of CLB-XBAR
 #define XBAR_AUXSIG3MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG3 of CLB-XBAR
 #define XBAR_AUXSIG3MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG3 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG4MUXENABLE register
@@ -1109,6 +1127,7 @@
 #define XBAR_AUXSIG4MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG4 of CLB-XBAR
 #define XBAR_AUXSIG4MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG4 of CLB-XBAR
 #define XBAR_AUXSIG4MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG4 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG5MUXENABLE register
@@ -1146,6 +1165,7 @@
 #define XBAR_AUXSIG5MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG5 of CLB-XBAR
 #define XBAR_AUXSIG5MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG5 of CLB-XBAR
 #define XBAR_AUXSIG5MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG5 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG6MUXENABLE register
@@ -1183,6 +1203,7 @@
 #define XBAR_AUXSIG6MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG6 of CLB-XBAR
 #define XBAR_AUXSIG6MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG6 of CLB-XBAR
 #define XBAR_AUXSIG6MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG6 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIG7MUXENABLE register
@@ -1220,6 +1241,7 @@
 #define XBAR_AUXSIG7MUXENABLE_MUX29   0x20000000U   // MUX29 to drive AUXSIG7 of CLB-XBAR
 #define XBAR_AUXSIG7MUXENABLE_MUX30   0x40000000U   // MUX30 to drive AUXSIG7 of CLB-XBAR
 #define XBAR_AUXSIG7MUXENABLE_MUX31   0x80000000U   // MUX31 to drive AUXSIG7 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIGOUTINV register
@@ -1233,6 +1255,7 @@
 #define XBAR_AUXSIGOUTINV_OUT5   0x20U   // Selects polarity for AUXSIG5 of CLB-XBAR
 #define XBAR_AUXSIGOUTINV_OUT6   0x40U   // Selects polarity for AUXSIG6 of CLB-XBAR
 #define XBAR_AUXSIGOUTINV_OUT7   0x80U   // Selects polarity for AUXSIG7 of CLB-XBAR
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the AUXSIGLOCK register
@@ -1241,6 +1264,7 @@
 #define XBAR_AUXSIGLOCK_LOCK    0x1U          // Locks the configuration for CLB-XBAR
 #define XBAR_AUXSIGLOCK_KEY_S   16U
 #define XBAR_AUXSIGLOCK_KEY_M   0xFFFF0000U   // Write Protection KEY
+
 
 
 #endif

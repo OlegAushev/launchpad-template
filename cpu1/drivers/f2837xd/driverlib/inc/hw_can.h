@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the CAN registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -109,6 +107,7 @@
 #define CAN_CTL_SWR       0x8000U    // SW Reset Enable
 #define CAN_CTL_INITDBG   0x10000U   // Debug Mode Status
 #define CAN_CTL_IE1       0x20000U   // Interrupt line 1 Enable Disabled
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_ES register
@@ -122,6 +121,7 @@
 #define CAN_ES_EWARN   0x40U    // Warning State
 #define CAN_ES_BOFF    0x80U    // Bus-Off State
 #define CAN_ES_PER     0x100U   // Parity Error Detected
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_ERRC register
@@ -132,6 +132,7 @@
 #define CAN_ERRC_REC_S   8U
 #define CAN_ERRC_REC_M   0x7F00U   // Receive Error Counter
 #define CAN_ERRC_RP      0x8000U   // Receive Error Passive
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_BTR register
@@ -147,6 +148,7 @@
 #define CAN_BTR_TSEG2_M   0x7000U    // Time segment
 #define CAN_BTR_BRPE_S    16U
 #define CAN_BTR_BRPE_M    0xF0000U   // Baud Rate Prescaler Extension
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_INT register
@@ -156,6 +158,7 @@
 #define CAN_INT_INT0ID_M   0xFFFFU     // Interrupt Identifier
 #define CAN_INT_INT1ID_S   16U
 #define CAN_INT_INT1ID_M   0xFF0000U   // Interrupt 1 Identifier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_TEST register
@@ -168,6 +171,7 @@
 #define CAN_TEST_RX       0x80U    // CANRX Pin Status
 #define CAN_TEST_EXL      0x100U   // External Loopback Mode
 #define CAN_TEST_RDA      0x200U   // RAM Direct Access Enable:
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_PERR register
@@ -177,6 +181,7 @@
 #define CAN_PERR_MSG_NUM_M    0xFFU    // Message Number
 #define CAN_PERR_WORD_NUM_S   8U
 #define CAN_PERR_WORD_NUM_M   0x700U   // Word Number
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_RAM_INIT register
@@ -188,6 +193,7 @@
 #define CAN_RAM_INIT_KEY3            0x8U    // KEY3
 #define CAN_RAM_INIT_CAN_RAM_INIT    0x10U   // Initialize CAN Mailbox RAM
 #define CAN_RAM_INIT_RAM_INIT_DONE   0x20U   // CAN RAM initialization complete
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_GLB_INT_EN register
@@ -195,6 +201,7 @@
 //*************************************************************************************************
 #define CAN_GLB_INT_EN_GLBINT0_EN   0x1U   // Global Interrupt Enable for  CANINT0
 #define CAN_GLB_INT_EN_GLBINT1_EN   0x2U   // Global Interrupt Enable for  CANINT1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_GLB_INT_FLG register
@@ -202,6 +209,7 @@
 //*************************************************************************************************
 #define CAN_GLB_INT_FLG_INT0_FLG   0x1U   // Global Interrupt Flag for CANINT0
 #define CAN_GLB_INT_FLG_INT1_FLG   0x2U   // Global Interrupt Flag for CANINT1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_GLB_INT_CLR register
@@ -209,6 +217,7 @@
 //*************************************************************************************************
 #define CAN_GLB_INT_CLR_INT0_FLG_CLR   0x1U   // Global Interrupt flag clear for CANINT0
 #define CAN_GLB_INT_CLR_INT1_FLG_CLR   0x2U   // Global Interrupt flag clear for CANINT1
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_TXRQ_X register
@@ -218,6 +227,7 @@
 #define CAN_TXRQ_X_TXRQSTREG1_M   0x3U   // Transmit Request Register 1
 #define CAN_TXRQ_X_TXRQSTREG2_S   2U
 #define CAN_TXRQ_X_TXRQSTREG2_M   0xCU   // Transmit Request Register 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_NDAT_X register
@@ -227,6 +237,7 @@
 #define CAN_NDAT_X_NEWDATREG1_M   0x3U   // New Data Register 1
 #define CAN_NDAT_X_NEWDATREG2_S   2U
 #define CAN_NDAT_X_NEWDATREG2_M   0xCU   // New Data Register 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IPEN_X register
@@ -236,6 +247,7 @@
 #define CAN_IPEN_X_INTPNDREG1_M   0x3U   // Interrupt Pending Register 1
 #define CAN_IPEN_X_INTPNDREG2_S   2U
 #define CAN_IPEN_X_INTPNDREG2_M   0xCU   // Interrupt Pending Register 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_MVAL_X register
@@ -245,6 +257,7 @@
 #define CAN_MVAL_X_MSGVALREG1_M   0x3U   // Message Valid Register 1
 #define CAN_MVAL_X_MSGVALREG2_S   2U
 #define CAN_MVAL_X_MSGVALREG2_M   0xCU   // Message Valid Register 2
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1CMD register
@@ -261,6 +274,7 @@
 #define CAN_IF1CMD_ARB         0x200000U   // Access Arbitration Bits
 #define CAN_IF1CMD_MASK        0x400000U   // Access Mask Bits
 #define CAN_IF1CMD_DIR         0x800000U   // Write/Read Direction
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1MSK register
@@ -270,6 +284,7 @@
 #define CAN_IF1MSK_MSK_M   0x1FFFFFFFU   // Identifier Mask
 #define CAN_IF1MSK_MDIR    0x40000000U   // Mask Message Direction
 #define CAN_IF1MSK_MXTD    0x80000000U   // Mask Extended Identifier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1ARB register
@@ -280,6 +295,7 @@
 #define CAN_IF1ARB_DIR      0x20000000U   // Message Direction
 #define CAN_IF1ARB_XTD      0x40000000U   // Extended Identifier
 #define CAN_IF1ARB_MSGVAL   0x80000000U   // Message Valid
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1MCTL register
@@ -296,6 +312,7 @@
 #define CAN_IF1MCTL_INTPND   0x2000U   // Interrupt Pending
 #define CAN_IF1MCTL_MSGLST   0x4000U   // Message Lost
 #define CAN_IF1MCTL_NEWDAT   0x8000U   // New Data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1DATA register
@@ -309,6 +326,7 @@
 #define CAN_IF1DATA_DATA_2_M   0xFF0000U     // Data Byte 2
 #define CAN_IF1DATA_DATA_3_S   24U
 #define CAN_IF1DATA_DATA_3_M   0xFF000000U   // Data Byte 3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF1DATB register
@@ -322,6 +340,7 @@
 #define CAN_IF1DATB_DATA_6_M   0xFF0000U     // Data Byte 6
 #define CAN_IF1DATB_DATA_7_S   24U
 #define CAN_IF1DATB_DATA_7_M   0xFF000000U   // Data Byte 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2CMD register
@@ -338,6 +357,7 @@
 #define CAN_IF2CMD_ARB         0x200000U   // Access Arbitration Bits
 #define CAN_IF2CMD_MASK        0x400000U   // Access Mask Bits
 #define CAN_IF2CMD_DIR         0x800000U   // Write/Read Direction
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2MSK register
@@ -347,6 +367,7 @@
 #define CAN_IF2MSK_MSK_M   0x1FFFFFFFU   // Identifier Mask
 #define CAN_IF2MSK_MDIR    0x40000000U   // Mask Message Direction
 #define CAN_IF2MSK_MXTD    0x80000000U   // Mask Extended Identifier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2ARB register
@@ -357,6 +378,7 @@
 #define CAN_IF2ARB_DIR      0x20000000U   // Message Direction
 #define CAN_IF2ARB_XTD      0x40000000U   // Extended Identifier
 #define CAN_IF2ARB_MSGVAL   0x80000000U   // Message Valid
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2MCTL register
@@ -373,6 +395,7 @@
 #define CAN_IF2MCTL_INTPND   0x2000U   // Interrupt Pending
 #define CAN_IF2MCTL_MSGLST   0x4000U   // Message Lost
 #define CAN_IF2MCTL_NEWDAT   0x8000U   // New Data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2DATA register
@@ -386,6 +409,7 @@
 #define CAN_IF2DATA_DATA_2_M   0xFF0000U     // Data Byte 2
 #define CAN_IF2DATA_DATA_3_S   24U
 #define CAN_IF2DATA_DATA_3_M   0xFF000000U   // Data Byte 3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF2DATB register
@@ -399,6 +423,7 @@
 #define CAN_IF2DATB_DATA_6_M   0xFF0000U     // Data Byte 6
 #define CAN_IF2DATB_DATA_7_S   24U
 #define CAN_IF2DATB_DATA_7_M   0xFF000000U   // Data Byte 7
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3OBS register
@@ -415,6 +440,7 @@
 #define CAN_IF3OBS_IF3SDA   0x800U    // IF3 Status of Data A read access
 #define CAN_IF3OBS_IF3SDB   0x1000U   // IF3 Status of Data B read access
 #define CAN_IF3OBS_IF3UPD   0x8000U   // IF3 Update Data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3MSK register
@@ -424,6 +450,7 @@
 #define CAN_IF3MSK_MSK_M   0x1FFFFFFFU   // Mask
 #define CAN_IF3MSK_MDIR    0x40000000U   // Mask Message Direction
 #define CAN_IF3MSK_MXTD    0x80000000U   // Mask Extended Identifier
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3ARB register
@@ -434,6 +461,7 @@
 #define CAN_IF3ARB_DIR      0x20000000U   // Message Direction
 #define CAN_IF3ARB_XTD      0x40000000U   // Extended Identifier
 #define CAN_IF3ARB_MSGVAL   0x80000000U   // Message Valid
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3MCTL register
@@ -450,6 +478,7 @@
 #define CAN_IF3MCTL_INTPND   0x2000U   // Interrupt Pending
 #define CAN_IF3MCTL_MSGLST   0x4000U   // Message Lost
 #define CAN_IF3MCTL_NEWDAT   0x8000U   // New Data
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3DATA register
@@ -463,6 +492,7 @@
 #define CAN_IF3DATA_DATA_2_M   0xFF0000U     // Data Byte 2
 #define CAN_IF3DATA_DATA_3_S   24U
 #define CAN_IF3DATA_DATA_3_M   0xFF000000U   // Data Byte 3
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the CAN_IF3DATB register
@@ -476,6 +506,7 @@
 #define CAN_IF3DATB_DATA_6_M   0xFF0000U     // Data Byte 6
 #define CAN_IF3DATB_DATA_7_S   24U
 #define CAN_IF3DATB_DATA_7_M   0xFF000000U   // Data Byte 7
+
 
 
 #endif

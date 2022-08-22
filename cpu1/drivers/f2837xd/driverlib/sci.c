@@ -5,10 +5,8 @@
 // TITLE:  C28x SCI driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -378,4 +376,44 @@ SCI_clearInterruptStatus(uint32_t base, uint32_t intFlags)
     {
          HWREGH(base + SCI_O_FFRX) |= SCI_FFRX_RXFFINTCLR;
     }
+}
+
+//*****************************************************************************
+//
+// SCI_setBaud
+//
+//*****************************************************************************
+void SCI_setBaud(uint32_t base, uint32_t lspclkHz, uint32_t baud)
+{
+    uint32_t divider;
+
+    //
+    // Compute the baud rate divider {ROUND TO NEAREST INTEGER}
+    //
+    divider = ((float)((float)lspclkHz / ((float)baud * 8.0F)) - 1.0F) + 0.5F;
+
+    //
+    // Set the baud rate.
+    //
+    HWREGH(base + SCI_O_HBAUD) = (divider & 0xFF00U) >> 8U;
+    HWREGH(base + SCI_O_LBAUD) = divider & 0x00FFU;
+}
+
+//*****************************************************************************
+//
+// SCI_setWakeFlag
+//
+//*****************************************************************************
+void SCI_setWakeFlag(uint32_t base)
+{
+    //
+    // Check the arguments.
+    //
+    ASSERT(SCI_isBaseValid(base));
+
+    //
+    // Set the TX wake flag bit to indicate
+    // that the next frame is an address frame.
+    //
+    HWREGH(base + SCI_O_CTL1) |= SCI_CTL1_TXWAKE;
 }

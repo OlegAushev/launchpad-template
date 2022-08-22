@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the ECAP registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -80,6 +78,7 @@
 #define ECAP_ECCTL1_PRESCALE_M    0x3E00U   // Event Filter prescale select
 #define ECAP_ECCTL1_FREE_SOFT_S   14U
 #define ECAP_ECCTL1_FREE_SOFT_M   0xC000U   // Emulation mode
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECCTL2 register
@@ -96,6 +95,7 @@
 #define ECAP_ECCTL2_SWSYNC        0x100U   // SW forced counter sync
 #define ECAP_ECCTL2_CAP_APWM      0x200U   // CAP/APWM operating mode select
 #define ECAP_ECCTL2_APWMPOL       0x400U   //  APWM output polarity select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECEINT register
@@ -108,6 +108,7 @@
 #define ECAP_ECEINT_CTROVF       0x20U   // Counter Overflow Interrupt Enable
 #define ECAP_ECEINT_CTR_EQ_PRD   0x40U   // Period Equal Interrupt Enable
 #define ECAP_ECEINT_CTR_EQ_CMP   0x80U   // Compare Equal Interrupt Enable
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECFLG register
@@ -121,6 +122,7 @@
 #define ECAP_ECFLG_CTROVF    0x20U   // Counter Overflow Interrupt Flag
 #define ECAP_ECFLG_CTR_PRD   0x40U   // Period Equal Interrupt Flag
 #define ECAP_ECFLG_CTR_CMP   0x80U   // Compare Equal Interrupt Flag
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECCLR register
@@ -134,6 +136,7 @@
 #define ECAP_ECCLR_CTROVF    0x20U   // Counter Overflow Status Clear
 #define ECAP_ECCLR_CTR_PRD   0x40U   // Period Equal Status Clear
 #define ECAP_ECCLR_CTR_CMP   0x80U   // Compare Equal Status Clear
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the ECFRC register
@@ -146,6 +149,7 @@
 #define ECAP_ECFRC_CTROVF    0x20U   // Counter Overflow Force Interrupt
 #define ECAP_ECFRC_CTR_PRD   0x40U   // Period Equal Force Interrupt
 #define ECAP_ECFRC_CTR_CMP   0x80U   // Compare Equal Force Interrupt
+
 
 
 #endif

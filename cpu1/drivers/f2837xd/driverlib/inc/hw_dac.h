@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the DAC registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -64,6 +62,7 @@
 //*************************************************************************************************
 #define DAC_REV_REV_S   0U
 #define DAC_REV_REV_M   0xFFU   // DAC Revision Register
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACCTL register
@@ -73,6 +72,7 @@
 #define DAC_CTL_LOADMODE    0x4U    // DACVALA Load Mode
 #define DAC_CTL_SYNCSEL_S   4U
 #define DAC_CTL_SYNCSEL_M   0xF0U   // DAC EPWMSYNCPER Select
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACVALA register
@@ -80,6 +80,7 @@
 //*************************************************************************************************
 #define DAC_VALA_DACVALA_S   0U
 #define DAC_VALA_DACVALA_M   0xFFFU   // DAC Active Output Code
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACVALS register
@@ -87,12 +88,14 @@
 //*************************************************************************************************
 #define DAC_VALS_DACVALS_S   0U
 #define DAC_VALS_DACVALS_M   0xFFFU   // DAC Shadow Output Code
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACOUTEN register
 //
 //*************************************************************************************************
 #define DAC_OUTEN_DACOUTEN   0x1U   // DAC Output Code
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACLOCK register
@@ -103,6 +106,7 @@
 #define DAC_LOCK_DACOUTEN   0x4U      // DAC Output Enable Register Lock
 #define DAC_LOCK_KEY_S      12U
 #define DAC_LOCK_KEY_M      0xF000U   // DAC Register Lock Key
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the DACTRIM register
@@ -110,6 +114,7 @@
 //*************************************************************************************************
 #define DAC_TRIM_OFFSET_TRIM_S   0U
 #define DAC_TRIM_OFFSET_TRIM_M   0xFFU   // DAC Offset Trim
+
 
 
 #endif

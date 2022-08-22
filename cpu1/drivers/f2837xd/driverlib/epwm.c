@@ -5,10 +5,8 @@
 // TITLE:  C28x EPWM driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -98,16 +96,16 @@ void EPWM_configureSignal(uint32_t base, const EPWM_SignalParams *signalParams)
     // achieving desired signal
     //
     tbClkInHz = ((float32_t)signalParams->sysClkInHz /
-                (1U << ((uint16_t)signalParams->epwmClkDiv +
+                 (float32_t)(1U << ((uint16_t)signalParams->epwmClkDiv +
                  (uint16_t)signalParams->tbClkDiv)));
 
     if(signalParams->tbHSClkDiv <= EPWM_HSCLOCK_DIVIDER_4)
     {
-        tbClkInHz /= (1U << (uint16_t)signalParams->tbHSClkDiv);
+        tbClkInHz /= (float32_t)(1U << (uint16_t)signalParams->tbHSClkDiv);
     }
     else
     {
-        tbClkInHz /= (2U * (uint16_t)signalParams->tbHSClkDiv);
+        tbClkInHz /= (float32_t)(2U * (uint16_t)signalParams->tbHSClkDiv);
     }
 
     if(signalParams->tbCtrMode == EPWM_COUNTER_MODE_UP)

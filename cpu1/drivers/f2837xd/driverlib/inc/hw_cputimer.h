@@ -5,10 +5,8 @@
 // TITLE:   Definitions for the CPUTIMER registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -64,6 +62,7 @@
 #define CPUTIMER_TIM_LSW_M   0xFFFFU       // CPU-Timer Counter Registers
 #define CPUTIMER_TIM_MSW_S   16U
 #define CPUTIMER_TIM_MSW_M   0xFFFF0000U   // CPU-Timer Counter Registers High
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the PRD register
@@ -73,6 +72,7 @@
 #define CPUTIMER_PRD_LSW_M   0xFFFFU       // CPU-Timer Period Registers
 #define CPUTIMER_PRD_MSW_S   16U
 #define CPUTIMER_PRD_MSW_M   0xFFFF0000U   // CPU-Timer Period Registers High
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TCR register
@@ -84,6 +84,7 @@
 #define CPUTIMER_TCR_FREE   0x800U    // Emulation modes
 #define CPUTIMER_TCR_TIE    0x4000U   // CPU-Timer Interrupt Enable.
 #define CPUTIMER_TCR_TIF    0x8000U   // CPU-Timer Interrupt Flag.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TPR register
@@ -93,6 +94,7 @@
 #define CPUTIMER_TPR_TDDR_M   0xFFU     // CPU-Timer Divide-Down.
 #define CPUTIMER_TPR_PSC_S    8U
 #define CPUTIMER_TPR_PSC_M    0xFF00U   // CPU-Timer Prescale Counter.
+
 //*************************************************************************************************
 //
 // The following are defines for the bit fields in the TPRH register
@@ -102,6 +104,7 @@
 #define CPUTIMER_TPRH_TDDRH_M   0xFFU     // CPU-Timer Divide-Down.
 #define CPUTIMER_TPRH_PSCH_S    8U
 #define CPUTIMER_TPRH_PSCH_M    0xFF00U   // CPU-Timer Prescale Counter.
+
 
 
 #endif

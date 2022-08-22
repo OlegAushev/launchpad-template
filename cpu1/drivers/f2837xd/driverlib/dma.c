@@ -5,10 +5,8 @@
 // TITLE:  C28x DMA driver.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -110,7 +108,7 @@ void DMA_configTransfer(uint32_t base, uint32_t transferSize, int16_t srcStep,
     // Check the arguments.
     //
     ASSERT(DMA_isBaseValid(base));
-    ASSERT(transferSize <= 0x10000);
+    ASSERT(transferSize <= 0x10000U);
 
     EALLOW;
 
@@ -136,7 +134,7 @@ void DMA_configWrap(uint32_t base, uint32_t srcWrapSize, int16_t srcStep,
     // Check the arguments.
     //
     ASSERT(DMA_isBaseValid(base));
-    ASSERT((srcWrapSize <= 0x10000) || (destWrapSize <= 0x10000));
+    ASSERT((srcWrapSize <= 0x10000U) || (destWrapSize <= 0x10000U));
 
     EALLOW;
 

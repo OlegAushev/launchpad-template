@@ -5,10 +5,8 @@
 // TITLE: C28x ECAP driver
 //
 //#############################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -165,11 +163,11 @@ typedef enum
 typedef enum
 {
     //! sync out on the sync in signal and software force
-    ECAP_SYNC_OUT_SYNCI         = 0x00,
+    ECAP_SYNC_OUT_SYNCI         = 0x00U,
     //! sync out on counter equals period
-    ECAP_SYNC_OUT_COUNTER_PRD   = 0x40,
+    ECAP_SYNC_OUT_COUNTER_PRD   = 0x40U,
     //! Disable sync out signal
-    ECAP_SYNC_OUT_DISABLED      = 0x80
+    ECAP_SYNC_OUT_DISABLED      = 0x80U
 }ECAP_SyncOutMode;
 
 //*****************************************************************************
@@ -233,8 +231,7 @@ static inline bool ECAP_isBaseValid(uint32_t base)
 //! This function divides the ECAP input scaler. The pre scale value is
 //! doubled inside the module. For example a preScalerValue of 5 will divide
 //! the scaler by 10. Use a value of 1 to divide the pre scaler by 1.
-//! The value of preScalerValue should be less than
-//! \b ECAP_MAX_PRESCALER_VALUE.
+//! The \e preScalerValue should be less than \b ECAP_MAX_PRESCALER_VALUE.
 //!
 //! \return None.
 //
@@ -535,7 +532,7 @@ static inline void ECAP_clearInterrupt(uint32_t base,
     //
     // Write to ECCLR register
     //
-    HWREGH(base + ECAP_O_ECCLR) |= intFlags;
+    HWREGH(base + ECAP_O_ECCLR) = intFlags;
 }
 
 //*****************************************************************************
@@ -556,7 +553,7 @@ static inline void ECAP_clearGlobalInterrupt(uint32_t base)
     //
     // Write to INT bit
     //
-    HWREGH(base + ECAP_O_ECCLR) |= ECAP_ECCLR_INT;
+    HWREGH(base + ECAP_O_ECCLR) = ECAP_ECCLR_INT;
 }
 
 //*****************************************************************************
@@ -597,7 +594,7 @@ static inline void ECAP_forceInterrupt(uint32_t base,
     //
     // Write to ECFRC register
     //
-    HWREGH(base + ECAP_O_ECFRC) |= intFlags;
+    HWREGH(base + ECAP_O_ECFRC) = intFlags;
 }
 
 //*****************************************************************************
@@ -688,7 +685,6 @@ static inline void ECAP_disableCounterResetOnEvent(uint32_t base,
                                                    ECAP_Events event)
 {
     ASSERT(ECAP_isBaseValid(base));
-    ASSERT((event >= 1U) || (event <= 4U));
 
 
     //
