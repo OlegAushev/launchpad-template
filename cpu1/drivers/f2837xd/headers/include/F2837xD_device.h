@@ -5,10 +5,10 @@
 // TITLE:  F2837xD Device Definitions.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -273,14 +273,28 @@ typedef _Bool status_t;
 //
 #ifndef DSP28_DATA_TYPES
 #define DSP28_DATA_TYPES
-typedef int             	int16;
-typedef long            	int32;
-typedef long long			int64;
-typedef unsigned int    	Uint16;
-typedef unsigned long   	Uint32;
-typedef unsigned long long	Uint64;
-typedef float           	float32;
-typedef long double     	float64;
+
+#ifdef __TMS320C28XX_CLA__
+typedef short                                   int16;
+typedef long                                    int32;
+typedef unsigned char                           Uint8;
+typedef unsigned short                          Uint16;
+typedef unsigned long                           Uint32;
+typedef float                                   float32;
+typedef long double                             float64;
+typedef struct { Uint32 low32; Uint32 high32; } Uint64;
+typedef struct { int32  low32; int32  high32; } int64;
+#else // __TMS320C28XX__
+typedef int                                     int16;
+typedef long                                    int32;
+typedef long long                               int64;
+typedef unsigned int                            Uint16;
+typedef unsigned long                           Uint32;
+typedef unsigned long long                      Uint64;
+typedef float                                   float32;
+typedef long double                             float64;
+#endif //__TMS320C28XX_CLA__
+
 #endif
 
 //

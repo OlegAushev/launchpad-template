@@ -5,10 +5,10 @@
 // TITLE:   Definitions for the EPWM registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -304,7 +304,7 @@ union HRPCTL_REG {
 };
 
 struct TRREM_BITS {                     // bits description
-    Uint16 TRREM:11;                    // 10:0 Translator Remainder Bits
+    Uint16 TRREM:11;                    // 10:0 HRPWM Remainder Bits
     Uint16 rsvd1:5;                     // 15:11 Reserved
 };
 
@@ -895,15 +895,10 @@ struct DCACTL_BITS {                    // bits description
     Uint16 EVT1FRCSYNCSEL:1;            // 1 DCAEVT1 Force Sync Signal
     Uint16 EVT1SOCE:1;                  // 2 DCAEVT1 SOC Enable
     Uint16 EVT1SYNCE:1;                 // 3 DCAEVT1 SYNC Enable
-    Uint16 rsvd1:1;                     // 4 Reserved
-    Uint16 rsvd2:2;                     // 6:5 Reserved
-    Uint16 rsvd3:1;                     // 7 Reserved
+    Uint16 rsvd1:4;                     // 7:4 Reserved
     Uint16 EVT2SRCSEL:1;                // 8 DCAEVT2 Source Signal
     Uint16 EVT2FRCSYNCSEL:1;            // 9 DCAEVT2 Force Sync Signal
-    Uint16 rsvd4:2;                     // 11:10 Reserved
-    Uint16 rsvd5:1;                     // 12 Reserved
-    Uint16 rsvd6:2;                     // 14:13 Reserved
-    Uint16 rsvd7:1;                     // 15 Reserved
+    Uint16 rsvd2:6;                     // 15:10 Reserved
 };
 
 union DCACTL_REG {
@@ -916,15 +911,10 @@ struct DCBCTL_BITS {                    // bits description
     Uint16 EVT1FRCSYNCSEL:1;            // 1 DCBEVT1 Force Sync Signal
     Uint16 EVT1SOCE:1;                  // 2 DCBEVT1 SOC Enable
     Uint16 EVT1SYNCE:1;                 // 3 DCBEVT1 SYNC Enable
-    Uint16 rsvd1:1;                     // 4 Reserved
-    Uint16 rsvd2:2;                     // 6:5 Reserved
-    Uint16 rsvd3:1;                     // 7 Reserved
+    Uint16 rsvd1:4;                     // 7:4 Reserved
     Uint16 EVT2SRCSEL:1;                // 8 DCBEVT2 Source Signal
     Uint16 EVT2FRCSYNCSEL:1;            // 9 DCBEVT2 Force Sync Signal
-    Uint16 rsvd4:2;                     // 11:10 Reserved
-    Uint16 rsvd5:1;                     // 12 Reserved
-    Uint16 rsvd6:2;                     // 14:13 Reserved
-    Uint16 rsvd7:1;                     // 15 Reserved
+    Uint16 rsvd2:6;                     // 15:10 Reserved
 };
 
 union DCBCTL_REG {
@@ -1087,7 +1077,7 @@ struct EPWM_REGS {
     union   HRCNFG2_REG                      HRCNFG2;                      // HRPWM Configuration 2 Register
     Uint16                                   rsvd9[5];                     // Reserved
     union   HRPCTL_REG                       HRPCTL;                       // High Resolution Period Control Register
-    union   TRREM_REG                        TRREM;                        // Translator High Resolution Remainder Register
+    union   TRREM_REG                        TRREM;                        // HRPWM High Resolution Remainder Register
     Uint16                                   rsvd10[5];                    // Reserved
     union   GLDCTL_REG                       GLDCTL;                       // Global PWM Load Control Register
     union   GLDCFG_REG                       GLDCFG;                       // Global PWM Load Config Register

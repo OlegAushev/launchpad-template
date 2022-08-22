@@ -5,10 +5,10 @@
 // TITLE:   Definitions for the ADC registers.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -684,8 +684,7 @@ union ADCOFFTRIM_REG {
 struct ADCPPB1CONFIG_BITS {             // bits description
     Uint16 CONFIG:4;                    // 3:0 ADC Post Processing Block 1 Configuration
     Uint16 TWOSCOMPEN:1;                // 4 ADC Post Processing Block 1 Two's Complement Enable
-    Uint16 rsvd1:1;                     // 5 Reserved
-    Uint16 rsvd2:10;                    // 15:6 Reserved
+    Uint16 rsvd1:11;                    // 15:5 Reserved
 };
 
 union ADCPPB1CONFIG_REG {
@@ -739,8 +738,7 @@ union ADCPPB1TRIPLO_REG {
 struct ADCPPB2CONFIG_BITS {             // bits description
     Uint16 CONFIG:4;                    // 3:0 ADC Post Processing Block 2 Configuration
     Uint16 TWOSCOMPEN:1;                // 4 ADC Post Processing Block 2 Two's Complement Enable
-    Uint16 rsvd1:1;                     // 5 Reserved
-    Uint16 rsvd2:10;                    // 15:6 Reserved
+    Uint16 rsvd1:11;                    // 15:5 Reserved
 };
 
 union ADCPPB2CONFIG_REG {
@@ -794,8 +792,7 @@ union ADCPPB2TRIPLO_REG {
 struct ADCPPB3CONFIG_BITS {             // bits description
     Uint16 CONFIG:4;                    // 3:0 ADC Post Processing Block 3 Configuration
     Uint16 TWOSCOMPEN:1;                // 4 ADC Post Processing Block 3 Two's Complement Enable
-    Uint16 rsvd1:1;                     // 5 Reserved
-    Uint16 rsvd2:10;                    // 15:6 Reserved
+    Uint16 rsvd1:11;                    // 15:5 Reserved
 };
 
 union ADCPPB3CONFIG_REG {
@@ -849,8 +846,7 @@ union ADCPPB3TRIPLO_REG {
 struct ADCPPB4CONFIG_BITS {             // bits description
     Uint16 CONFIG:4;                    // 3:0 ADC Post Processing Block 4 Configuration
     Uint16 TWOSCOMPEN:1;                // 4 ADC Post Processing Block 4 Two's Complement Enable
-    Uint16 rsvd1:1;                     // 5 Reserved
-    Uint16 rsvd2:10;                    // 15:6 Reserved
+    Uint16 rsvd1:11;                    // 15:5 Reserved
 };
 
 union ADCPPB4CONFIG_REG {

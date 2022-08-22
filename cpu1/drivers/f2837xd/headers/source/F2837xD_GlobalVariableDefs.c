@@ -5,10 +5,10 @@
 // TITLE:   F2837xD Global Variables and Data Section Pragmas.
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -126,19 +126,19 @@ volatile struct ADC_RESULT_REGS AdcdResultRegs;
 #pragma DATA_SECTION(AnalogSubsysRegs,"AnalogSubsysRegsFile");
 #endif
 volatile struct ANALOG_SUBSYS_REGS AnalogSubsysRegs;
-
 #endif // ifdef CPU1
-//----------------------------------------
 
-#ifndef __TMS320C28XX_CLA__
 #if __TI_COMPILER_VERSION__ >= 16006000
+//----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("CanaRegsFile")
 #else
 #pragma DATA_SECTION(CanaRegs,"CanaRegsFile");
 #endif
 volatile struct CAN_REGS CanaRegs;
+#endif // __TI_COMPILER_VERSION__ >= 16006000
 
+#if __TI_COMPILER_VERSION__ >= 16006000
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("CanbRegsFile")
@@ -146,9 +146,7 @@ volatile struct CAN_REGS CanaRegs;
 #pragma DATA_SECTION(CanbRegs,"CanbRegsFile");
 #endif
 volatile struct CAN_REGS CanbRegs;
-
-#endif // ifdef CLA
-#endif // ifdef compiler version
+#endif // __TI_COMPILER_VERSION__ >= 16006000
 
 //----------------------------------------
 #ifdef __cplusplus
@@ -262,8 +260,8 @@ volatile struct CLB_LOGIC_CONTROL_REGS Clb4LogicCtrlRegs;
 #pragma DATA_SECTION(ClbXbarRegs,"ClbXbarRegsFile");
 #endif
 volatile struct CLB_XBAR_REGS ClbXbarRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("ClkCfgRegsFile")
@@ -424,8 +422,8 @@ volatile struct DCSM_Z2_REGS DcsmZ2Regs;
 #pragma DATA_SECTION(DevCfgRegs,"DevCfgRegsFile");
 #endif
 volatile struct DEV_CFG_REGS DevCfgRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("DmaClaSrcSelRegsFile")
@@ -490,7 +488,6 @@ volatile struct ECAP_REGS ECap5Regs;
 #endif
 volatile struct ECAP_REGS ECap6Regs;
 
-#ifdef CPU1
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("Emif1ConfigRegsFile")
@@ -499,7 +496,6 @@ volatile struct ECAP_REGS ECap6Regs;
 #endif
 volatile struct EMIF1_CONFIG_REGS Emif1ConfigRegs;
 
-#endif // ifdef CPU1
 #ifdef CPU1
 //----------------------------------------
 #ifdef __cplusplus
@@ -508,8 +504,8 @@ volatile struct EMIF1_CONFIG_REGS Emif1ConfigRegs;
 #pragma DATA_SECTION(Emif2ConfigRegs,"Emif2ConfigRegsFile");
 #endif
 volatile struct EMIF2_CONFIG_REGS Emif2ConfigRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("Emif1RegsFile")
@@ -518,6 +514,7 @@ volatile struct EMIF2_CONFIG_REGS Emif2ConfigRegs;
 #endif
 volatile struct EMIF_REGS Emif1Regs;
 
+#ifdef CPU1
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("Emif2RegsFile")
@@ -525,6 +522,7 @@ volatile struct EMIF_REGS Emif1Regs;
 #pragma DATA_SECTION(Emif2Regs,"Emif2RegsFile");
 #endif
 volatile struct EMIF_REGS Emif2Regs;
+#endif // ifdef CPU1
 
 //----------------------------------------
 #ifdef __cplusplus
@@ -630,8 +628,8 @@ volatile struct EPWM_REGS EPwm12Regs;
 #pragma DATA_SECTION(EPwmXbarRegs,"EPwmXbarRegsFile");
 #endif
 volatile struct EPWM_XBAR_REGS EPwmXbarRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("EQep1RegsFile")
@@ -688,8 +686,8 @@ volatile struct FLASH_PUMP_SEMAPHORE_REGS FlashPumpSemaphoreRegs;
 #pragma DATA_SECTION(GpioCtrlRegs,"GpioCtrlRegsFile");
 #endif
 volatile struct GPIO_CTRL_REGS GpioCtrlRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("GpioDataRegsFile")
@@ -722,8 +720,8 @@ volatile struct I2C_REGS I2cbRegs;
 #pragma DATA_SECTION(InputXbarRegs,"InputXbarRegsFile");
 #endif
 volatile struct INPUT_XBAR_REGS InputXbarRegs;
-
 #endif // ifdef CPU1
+
 #ifdef CPU1
 //----------------------------------------
 #ifdef __cplusplus
@@ -732,8 +730,8 @@ volatile struct INPUT_XBAR_REGS InputXbarRegs;
 #pragma DATA_SECTION(IpcRegs,"IpcRegsFile");
 #endif
 volatile struct IPC_REGS_CPU1 IpcRegs;
-
 #endif // ifdef CPU1
+
 #ifdef CPU2
 //----------------------------------------
 #ifdef __cplusplus
@@ -742,8 +740,8 @@ volatile struct IPC_REGS_CPU1 IpcRegs;
 #pragma DATA_SECTION(IpcRegs,"IpcRegsFile");
 #endif
 volatile struct IPC_REGS_CPU2 IpcRegs;
-
 #endif // ifdef CPU2
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("MemoryErrorRegsFile")
@@ -792,8 +790,8 @@ volatile struct NMI_INTRUPT_REGS NmiIntruptRegs;
 #pragma DATA_SECTION(OutputXbarRegs,"OutputXbarRegsFile");
 #endif
 volatile struct OUTPUT_XBAR_REGS OutputXbarRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("PieCtrlRegsFile")
@@ -826,8 +824,8 @@ volatile struct ROM_PREFETCH_REGS RomPrefetchRegs;
 #pragma DATA_SECTION(RomWaitStateRegs,"RomWaitStateRegsFile");
 #endif
 volatile struct ROM_WAIT_STATE_REGS RomWaitStateRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("SciaRegsFile")
@@ -908,8 +906,8 @@ volatile struct SPI_REGS SpicRegs;
 #pragma DATA_SECTION(SyncSocRegs,"SyncSocRegsFile");
 #endif
 volatile struct SYNC_SOC_REGS SyncSocRegs;
-
 #endif // ifdef CPU1
+
 #ifdef CPU1
 //----------------------------------------
 #ifdef __cplusplus
@@ -918,8 +916,8 @@ volatile struct SYNC_SOC_REGS SyncSocRegs;
 #pragma DATA_SECTION(UppRegs,"UppRegsFile");
 #endif
 volatile struct UPP_REGS UppRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("WdRegsFile")
@@ -936,8 +934,8 @@ volatile struct WD_REGS WdRegs;
 #pragma DATA_SECTION(XbarRegs,"XbarRegsFile");
 #endif
 volatile struct XBAR_REGS XbarRegs;
-
 #endif // ifdef CPU1
+
 //----------------------------------------
 #ifdef __cplusplus
 #pragma DATA_SECTION("XintRegsFile")
