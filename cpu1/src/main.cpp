@@ -1,6 +1,6 @@
 ///
-#define FIRMWARE_VERSION_STRDEF "v22.08"
-#define FIRMWARE_VERSION_NUMDEF 2207
+#define FIRMWARE_VERSION_STRDEF "v22.08.1"
+#define FIRMWARE_VERSION_NUMDEF 22081
 
 #include "F28x_Project.h"
 #include "device.h"

@@ -5,10 +5,10 @@
 // TITLE:  #defines used in CLA examples
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -148,6 +148,11 @@ extern "C" {
 #define CLA_TRIG_SPIRXINTB	112
 #define CLA_TRIG_SPITXINTC	113
 #define CLA_TRIG_SPIRXINTC	114
+
+#define CLA_TRIG_CLB1INT    127
+#define CLA_TRIG_CLB2INT    128
+#define CLA_TRIG_CLB3INT    129
+#define CLA_TRIG_CLB4INT    130
 
 #define Cla1ForceTask1andWait()asm("  IACK  #0x0001");             \
                                asm("  RPT #3 || NOP");             \

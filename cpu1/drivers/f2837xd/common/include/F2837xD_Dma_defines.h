@@ -5,10 +5,10 @@
 // TITLE:  #defines used in DMA examples
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -139,6 +139,11 @@ extern "C" {
 #define DMA_SPIBRX      112
 #define DMA_SPICTX      113
 #define DMA_SPICRX      114
+
+#define DMA_CLB1INT     127
+#define DMA_CLB2INT     128
+#define DMA_CLB3INT     129
+#define DMA_CLB4INT     130
 
 #define DMA_USBRX1      131
 #define DMA_USBTX1      132

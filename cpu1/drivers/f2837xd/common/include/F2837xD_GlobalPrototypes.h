@@ -5,10 +5,10 @@
 // TITLE:  Global prototypes for F2837xD Examples
 //
 //###########################################################################
-// $TI Release: F2837xD Support Library v3.11.00.00 $
-// $Release Date: Sun Oct  4 15:55:24 IST 2020 $
+//
+// $Release Date:  $
 // $Copyright:
-// Copyright (C) 2013-2020 Texas Instruments Incorporated - http://www.ti.com/
+// Copyright (C) 2013-2022 Texas Instruments Incorporated - http://www.ti.com/
 //
 // Redistribution and use in source and binary forms, with or without 
 // modification, are permitted provided that the following conditions 
@@ -240,7 +240,7 @@ extern void DMACH6AddrConfig(volatile Uint16 *DMA_Dest,
                              volatile Uint16 *DMA_Source);
 extern void DMACH6AddrConfig32bit(volatile Uint32 *DMA_Dest,
                                   volatile Uint32 *DMA_Source);
-extern void DMACH6BurstConfig(Uint16 bsize,Uint16 srcbstep, int16 desbstep);
+extern void DMACH6BurstConfig(Uint16 bsize, int16 srcbstep, int16 desbstep);
 extern void DMACH6TransferConfig(Uint16 tsize, int16 srctstep, int16 deststep);
 extern void DMACH6WrapConfig(Uint16 srcwsize, int16 srcwstep, Uint16 deswsize,
                              int16 deswstep);
