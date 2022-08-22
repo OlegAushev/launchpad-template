@@ -26,9 +26,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>device</name>
+			<name>drivers</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/cpu1/device</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/cpu1/drivers</locationURI>
 		</link>
 		<link>
 			<name>include</name>
