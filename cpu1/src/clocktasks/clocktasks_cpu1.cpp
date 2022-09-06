@@ -1,7 +1,9 @@
-///
+/**
+ * @file
+ */
 
 
-#include "clocktasks/cpu1clocktasks.h"
+#include "clocktasks_cpu1.h"
 
 
 ///

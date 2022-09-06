@@ -1,11 +1,9 @@
-/*
- * timer_callbacks.cpp
- *
- *  Created on: 14 июн. 2021 г.
- *      Author: Oleg Aushev
+/**
+ * @file
  */
 
-#include "cpu2clocktasks.h"
+
+#include "clocktasks_cpu2.h"
 
 
 ///
@@ -28,6 +26,5 @@ mcu::ClockTaskStatus taskToggleLed()
 	index = (index + 1) % 4;
 	return mcu::CLOCK_TASK_SUCCESS;
 }
-
 
 
