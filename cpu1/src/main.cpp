@@ -19,7 +19,7 @@
 
 #include "sys/syslog/syslog.h"
 #include "sys/sysinfo/sysinfo.h"
-#include "clocktasks/cpu1clocktasks.h"
+#include "clocktasks/clocktasks_cpu1.h"
 
 #include "mcu/sci/mcu_sci.h"
 #include "cli/cli_server.h"
