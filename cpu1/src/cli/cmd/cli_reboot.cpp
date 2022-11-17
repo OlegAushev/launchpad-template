@@ -9,8 +9,8 @@
 
 #include "cli/shell/cli_shell.h"
 
-#include "mcu/cputimers/mcu_cputimers.h"
-#include "mcu/system/mcu_system.h"
+#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/system/mcu_system.h"
 
 
 int cli_reboot(int argc, const char** argv)

@@ -9,19 +9,19 @@
 #include "emb/emb_profiler/emb_profiler.h"
 #include "profiler/profiler.h"
 
-#include "mcu/system/mcu_system.h"
-#include "mcu/ipc/mcu_ipc.h"
-#include "mcu/cputimers/mcu_cputimers.h"
-#include "mcu/adc/mcu_adc.h"
-#include "mcu/can/mcu_can.h"
-#include "mcu/spi/mcu_spi.h"
-#include "mcu/support/mcu_support.h"
+#include "mcu_f2837xd/system/mcu_system.h"
+#include "mcu_f2837xd/ipc/mcu_ipc.h"
+#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/adc/mcu_adc.h"
+#include "mcu_f2837xd/can/mcu_can.h"
+#include "mcu_f2837xd/spi/mcu_spi.h"
+#include "mcu_f2837xd/support/mcu_support.h"
 
 #include "sys/syslog/syslog.h"
 #include "sys/sysinfo/sysinfo.h"
 #include "clocktasks/clocktasks_cpu1.h"
 
-#include "mcu/sci/mcu_sci.h"
+#include "mcu_f2837xd/sci/mcu_sci.h"
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
 

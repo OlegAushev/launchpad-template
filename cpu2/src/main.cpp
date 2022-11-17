@@ -6,12 +6,12 @@
 
 #include "profiler/profiler.h"
 
-#include "mcu/system/mcu_system.h"
-#include "mcu/ipc/mcu_ipc.h"
-#include "mcu/cputimers/mcu_cputimers.h"
-#include "mcu/spi/mcu_spi.h"
-#include "mcu/dac/mcu_dac.h"
-#include "mcu/support/mcu_support.h"
+#include "mcu_f2837xd/system/mcu_system.h"
+#include "mcu_f2837xd/ipc/mcu_ipc.h"
+#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/spi/mcu_spi.h"
+#include "mcu_f2837xd/dac/mcu_dac.h"
+#include "mcu_f2837xd/support/mcu_support.h"
 
 #include "sys/syslog/syslog.h"
 #include "clocktasks/clocktasks_cpu2.h"

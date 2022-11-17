@@ -125,7 +125,7 @@ public:
 	void resize(size_t len, char ch)
 	{
 		assert(len <= Capacity);
-		if (len > m_size)
+		if (len > m_len)
 		{
 			emb::fill(m_data + m_len, m_data + len, ch);
 		}

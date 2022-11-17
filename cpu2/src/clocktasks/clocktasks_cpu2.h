@@ -6,10 +6,10 @@
 #pragma once
 
 
-#include "mcu/system/mcu_system.h"
-#include "mcu/cputimers/mcu_cputimers.h"
-#include "mcu/spi/mcu_spi.h"
-#include "mcu/support/mcu_support.h"
+#include "mcu_f2837xd/system/mcu_system.h"
+#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/spi/mcu_spi.h"
+#include "mcu_f2837xd/support/mcu_support.h"
 #include "emb/emb_pair.h"
 #include "emb/emb_math.h"
 
