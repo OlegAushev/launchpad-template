@@ -123,7 +123,7 @@ void initIrqs(emb::Array<impl::Irq, ADC_IRQ_COUNT>& irqs);
 /**
  * @brief ADC unit class.
  */
-class Adc : public emb::c28x::singleton<Adc>
+class Module : public emb::c28x::singleton<Module>
 {
 private:
 	impl::Module m_module[4];
@@ -134,14 +134,14 @@ private:
 	const uint32_t SAMPLE_WINDOW_CYCLES;
 
 private:
-	Adc(const Adc& other);			// no copy constructor
-	Adc& operator=(const Adc& other);	// no copy assignment operator
+	Module(const Module& other);		// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU ADC unit.
 	 * @param cfg - ADC config
 	 */
-	Adc(const Config& cfg);
+	Module(const Config& cfg);
 
 	/**
 	 * @brief Starts conversion on specified channel.
@@ -242,7 +242,7 @@ public:
 class Channel
 {
 public:
-	Adc* adc;
+	Module* adc;
 private:
 	ChannelName m_channelName;
 public:
@@ -251,7 +251,7 @@ public:
 	 * @param (none)
 	 */
 	Channel()
-		: adc(Adc::instance())
+		: adc(Module::instance())
 		, m_channelName(ADC_CHANNEL_COUNT)	// dummy write
 	{}
 
@@ -261,7 +261,7 @@ public:
 	 * @param channelName - channel name
 	 */
 	Channel(ChannelName channelName)
-		: adc(Adc::instance())
+		: adc(Module::instance())
 		, m_channelName(channelName)
 	{}
 

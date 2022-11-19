@@ -4,7 +4,7 @@
  */
 
 
-#include "mcu_adc.h"
+#include <mcu_f2837xd/adc/mcu_module.h>
 
 
 namespace mcu {
@@ -24,15 +24,15 @@ const uint16_t adcPieIntGroups[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP10
 }
 
 
-emb::Array<impl::Channel, ADC_CHANNEL_COUNT> Adc::s_channels;
-emb::Array<impl::Irq, ADC_IRQ_COUNT> Adc::s_irqs;
+emb::Array<impl::Channel, ADC_CHANNEL_COUNT> Module::s_channels;
+emb::Array<impl::Irq, ADC_IRQ_COUNT> Module::s_irqs;
 
 
 ///
 ///
 ///
-Adc::Adc(const Config& cfg)
-	: emb::c28x::singleton<Adc>(this)
+Module::Module(const Config& cfg)
+	: emb::c28x::singleton<Module>(this)
 	, SAMPLE_WINDOW_CYCLES(cfg.sampleWindow_ns / (1000000000 / mcu::sysclkFreq()))
 {
 	for (size_t i = 0; i < 4; ++i)

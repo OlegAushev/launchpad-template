@@ -1,9 +1,9 @@
 ///
+#include <mcu_f2837xd/adc/mcu_module.h>
 #include "emb/emb_testrunner/emb_testrunner.h"
 #include "emb/tests/emb_test.h"
 
 #include "sys/syslog/syslog.h"
-#include "mcu_f2837xd/adc/mcu_adc.h"
 #include "mcu_test/mcu_test.h"
 
 
@@ -19,7 +19,7 @@ void RUN_TESTS()
 	{
 		.sampleWindow_ns = 200,
 	};
-	mcu::adc::Adc adc(adcConfig);
+	mcu::adc::Module adc(adcConfig);
 	adc.enableInterrupts();
 
 	for (size_t i = 0; i < 10; ++i)

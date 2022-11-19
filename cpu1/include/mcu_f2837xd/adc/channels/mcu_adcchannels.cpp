@@ -4,7 +4,7 @@
  */
 
 
-#include "../mcu_adc.h"
+#include <mcu_f2837xd/adc/mcu_module.h>
 
 
 namespace mcu {
