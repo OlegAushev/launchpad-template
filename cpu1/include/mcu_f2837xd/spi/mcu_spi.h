@@ -13,7 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -105,7 +105,7 @@ extern const uint32_t spiRxPieIntNums[3];
  * @brief SPI unit class.
  */
 template <SpiModule Module>
-class Spi : public emb::c28x::Singleton<Spi<Module> >
+class Spi : public emb::c28x::singleton<Spi<Module> >
 {
 private:
 	detail::SpiModuleImpl m_module;
@@ -126,7 +126,7 @@ public:
 	Spi(const GpioConfig& mosiPin, const GpioConfig& misoPin,
 			const GpioConfig& clkPin, const GpioConfig& csPin,
 			const SpiConfig& cfg)
-		: emb::c28x::Singleton<Spi<Module> >(this)
+		: emb::c28x::singleton<Spi<Module> >(this)
 		, m_module(detail::spiBases[Module], detail::spiRxPieIntNums[Module])
 	{
 		assert((cfg.dataSize >= 1) && (cfg.dataSize <= 16));

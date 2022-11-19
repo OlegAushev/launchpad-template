@@ -12,7 +12,7 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "../system/mcu_system.h"
 
 
@@ -32,7 +32,7 @@ enum ClockTaskStatus
 /**
  * @brief System clock class. Based on CPU-Timer0.
  */
-class SystemClock : public emb::Monostate<SystemClock>
+class SystemClock : public emb::monostate<SystemClock>
 {
 private:
 	static volatile uint64_t m_time;
@@ -239,7 +239,7 @@ protected:
 /**
  * @brief High resolution clock class. Based on CPU-Timer1.
  */
-class HighResolutionClock : public emb::Monostate<HighResolutionClock>
+class HighResolutionClock : public emb::monostate<HighResolutionClock>
 {
 private:
 	static uint32_t m_period;

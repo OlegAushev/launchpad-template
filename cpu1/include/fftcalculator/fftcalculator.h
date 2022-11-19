@@ -6,13 +6,13 @@
 #include "math.h"
 #include "dsp/fpu_rfft.h"
 #include "dsp/fpu_fft_hamming.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_pair.h"
 
 
 #ifdef CPU1
 
-class FftCalculator : public emb::Monostate<FftCalculator>
+class FftCalculator : public emb::monostate<FftCalculator>
 {
 private:
 	static const uint16_t m_nStages = 6;

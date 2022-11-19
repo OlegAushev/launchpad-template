@@ -11,7 +11,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_queue.h"
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
@@ -26,7 +26,7 @@
 /**
  * @brief System logger class.
  */
-class Syslog : public emb::Monostate<Syslog>
+class Syslog : public emb::monostate<Syslog>
 {
 public:
 	struct IpcFlags

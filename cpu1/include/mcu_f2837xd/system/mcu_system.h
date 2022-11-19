@@ -14,7 +14,7 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {

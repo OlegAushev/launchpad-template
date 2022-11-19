@@ -56,12 +56,12 @@ enum ProcessStatus
  * @brief
  */
 template <class T>
-class Monostate
+class monostate
 {
 private:
 	static bool s_initialized;
 protected:
-	Monostate()
+	monostate()
 	{
 		assert(s_initialized);
 		if (!s_initialized) while (1) {}
@@ -78,7 +78,7 @@ public:
 };
 
 template <class T>
-bool Monostate<T>::s_initialized = false;
+bool monostate<T>::s_initialized = false;
 
 
 namespace c28x {
@@ -88,13 +88,13 @@ namespace c28x {
  * @brief
  */
 template <class T>
-class Singleton
+class singleton
 {
 private:
 	static T* s_instance;
 	static bool s_created;
 protected:
-	Singleton(T* self)
+	singleton(T* self)
 	{
 		assert(!s_created);
 		if (s_created) while (1) {}
@@ -111,7 +111,7 @@ public:
 
 	static bool created() { return s_created; }
 
-	virtual ~Singleton()
+	virtual ~singleton()
 	{
 		s_created = false;
 		s_instance = static_cast<T*>(NULL);
@@ -119,9 +119,9 @@ public:
 };
 
 template <class T>
-T* Singleton<T>::s_instance = static_cast<T*>(NULL);
+T* singleton<T>::s_instance = static_cast<T*>(NULL);
 template <class T>
-bool Singleton<T>::s_created = false;
+bool singleton<T>::s_created = false;
 
 
 /**

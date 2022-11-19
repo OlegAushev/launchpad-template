@@ -14,7 +14,7 @@
 #include "device.h"
 
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_array.h"
 
 

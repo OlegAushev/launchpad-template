@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include "../emb_common.h"
+#include "../emb_core.h"
 
 
 namespace emb {

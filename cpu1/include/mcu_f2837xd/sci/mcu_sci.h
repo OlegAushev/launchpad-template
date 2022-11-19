@@ -13,7 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_interfaces/emb_uart.h"
 
 
@@ -121,7 +121,7 @@ extern const uint16_t sciPieIntGroups[4];
  * @brief SCI unit class.
  */
 template <SciModule Module>
-class Sci : public emb::c28x::Singleton<Sci<Module> >, public emb::IUart
+class Sci : public emb::c28x::singleton<Sci<Module> >, public emb::IUart
 {
 private:
 	detail::SciModuleImpl m_module;
@@ -138,7 +138,7 @@ public:
 	 */
 	Sci(const GpioConfig& rxPin, const GpioConfig& txPin,
 			const SciConfig& cfg)
-		: emb::c28x::Singleton<Sci<Module> >(this)
+		: emb::c28x::singleton<Sci<Module> >(this)
 		, m_module(detail::sciBases[Module],
 				detail::sciRxPieIntNums[Module],
 				detail::sciPieIntGroups[Module])

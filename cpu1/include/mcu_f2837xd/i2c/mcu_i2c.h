@@ -14,7 +14,7 @@
 #include "device.h"
 #include "../system/mcu_system.h"
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -87,7 +87,7 @@ extern const uint32_t i2cBases[2];
  * @brief I2C unit class.
  */
 template <I2CModule Module>
-class I2C : public emb::c28x::Singleton<I2C<Module> >
+class I2C : public emb::c28x::singleton<I2C<Module> >
 {
 private:
 	detail::I2CModuleImpl m_module;
@@ -103,7 +103,7 @@ public:
 	 * @param cfg - I2C config
 	 */
 	I2C(const GpioConfig& sdaPin, const GpioConfig& sclPin, const I2CConfig& cfg)
-		: emb::c28x::Singleton<I2C<Module> >(this)
+		: emb::c28x::singleton<I2C<Module> >(this)
 		, m_module(detail::i2cBases[Module])
 	{
 #ifdef CPU1

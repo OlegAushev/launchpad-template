@@ -12,7 +12,7 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_array.h"
 #include "../system/mcu_system.h"
 #include "../adc/channels/mcu_adcchannels.h"
@@ -120,7 +120,7 @@ void initAdcIrqs(emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
 /**
  * @brief ADC unit class.
  */
-class Adc : public emb::c28x::Singleton<Adc>
+class Adc : public emb::c28x::singleton<Adc>
 {
 private:
 	detail::AdcModuleImpl m_module[4];

@@ -14,7 +14,7 @@
 #include "device.h"
 #include "../system/mcu_system.h"
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -92,7 +92,7 @@ extern const uint32_t canPieIntNums[2];
  * @brief CAN unit class.
  */
 template <CanModule Module>
-class Can : public emb::c28x::Singleton<Can<Module> >
+class Can : public emb::c28x::singleton<Can<Module> >
 {
 private:
 	detail::CanModuleImpl m_module;
@@ -110,7 +110,7 @@ public:
 	 */
 	Can(const GpioConfig& rxPin, const GpioConfig& txPin,
 			CanBitrate bitrate, CanMode mode)
-		: emb::c28x::Singleton<Can<Module> >(this)
+		: emb::c28x::singleton<Can<Module> >(this)
 		, m_module(detail::canBases[Module], detail::canPieIntNums[Module])
 	{
 #ifdef CPU1

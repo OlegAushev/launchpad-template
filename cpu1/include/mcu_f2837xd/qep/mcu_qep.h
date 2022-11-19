@@ -13,7 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "../gpio/mcu_gpio.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -113,7 +113,7 @@ extern const uint32_t qepPieIntNums[3];
  * @brief QEP unit class.
  */
 template <QepModule Module>
-class Qep : public emb::c28x::Singleton<Qep<Module> >
+class Qep : public emb::c28x::singleton<Qep<Module> >
 {
 private:
 	detail::QepModuleImpl m_module;
@@ -128,7 +128,7 @@ public:
 	 */
 	Qep(const GpioConfig& qepaPin, const GpioConfig& qepbPin,
 			const GpioConfig& qepiPin, const QepConfig& cfg)
-		: emb::c28x::Singleton<Qep<Module> >(this)
+		: emb::c28x::singleton<Qep<Module> >(this)
 		, m_module(detail::qepBases[Module], cfg.intFlags, detail::qepPieIntNums[Module])
 	{
 #ifdef CPU1

@@ -13,7 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "../system/mcu_system.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -82,7 +82,7 @@ public:
  * @brief DAC unit class.
  */
 template <DacModule Module>
-class Dac : public emb::c28x::Singleton<Dac<Module> >
+class Dac : public emb::c28x::singleton<Dac<Module> >
 {
 private:
 	detail::DacModuleImpl m_module;
@@ -96,7 +96,7 @@ public:
 	 * @param (none)
 	 */
 	Dac()
-		: emb::c28x::Singleton<Dac<Module> >(this)
+		: emb::c28x::singleton<Dac<Module> >(this)
 		, m_module(detail::dacBases[Module])
 	{
 		DAC_setReferenceVoltage(m_module.base, DAC_REF_ADC_VREFHI);

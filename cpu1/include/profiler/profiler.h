@@ -4,7 +4,7 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "mcu_f2837xd/gpio/mcu_gpio.h"
 
 

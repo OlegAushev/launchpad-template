@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "emb/emb_testrunner/emb_testrunner.h"
-#include "emb/emb_common.h"
+#include "emb/emb_core.h"
 #include "emb/emb_algorithm.h"
 #include "emb/emb_array.h"
 #include "emb/emb_queue.h"

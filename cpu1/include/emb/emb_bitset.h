@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "emb_common.h"
+#include "emb_core.h"
 #include "emb_array.h"
 #include <bitset>
 

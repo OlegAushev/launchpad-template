@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include "../emb_common.h"
+#include "../emb_core.h"
 
 
 namespace emb {

@@ -29,7 +29,7 @@ emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT> Adc::s_irqs;
 ///
 ///
 Adc::Adc(const AdcConfig& cfg)
-	: emb::c28x::Singleton<Adc>(this)
+	: emb::c28x::singleton<Adc>(this)
 	, SAMPLE_WINDOW_CYCLES(cfg.sampleWindow_ns / (1000000000 / mcu::sysclkFreq()))
 {
 	for (size_t i = 0; i < 4; ++i)

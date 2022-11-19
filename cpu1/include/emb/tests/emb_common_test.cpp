@@ -2,10 +2,10 @@
 #include "emb_test.h"
 
 
-class SingletonTest : public emb::c28x::Singleton<SingletonTest>
+class SingletonTest : public emb::c28x::singleton<SingletonTest>
 {
 public:
-	SingletonTest() : Singleton(this) {}
+	SingletonTest() : singleton(this) {}
 };
 
 
