@@ -199,12 +199,12 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("configure ADC... ");
 
-	mcu::AdcConfig adcConfig =
+	mcu::adc::Config adcConfig =
 	{
 		.sampleWindow_ns = 200,
 	};
 
-	mcu::Adc adc(adcConfig);
+	mcu::adc::Adc adc(adcConfig);
 
 	cli::print_blocking("done");
 

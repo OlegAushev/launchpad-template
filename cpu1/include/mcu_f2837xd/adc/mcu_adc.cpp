@@ -10,6 +10,9 @@
 namespace mcu {
 
 
+namespace adc {
+
+
 namespace impl {
 
 
@@ -21,14 +24,14 @@ const uint16_t adcPieIntGroups[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP10
 }
 
 
-emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT> Adc::s_channels;
-emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT> Adc::s_irqs;
+emb::Array<impl::Channel, ADC_CHANNEL_COUNT> Adc::s_channels;
+emb::Array<impl::Irq, ADC_IRQ_COUNT> Adc::s_irqs;
 
 
 ///
 ///
 ///
-Adc::Adc(const AdcConfig& cfg)
+Adc::Adc(const Config& cfg)
 	: emb::c28x::singleton<Adc>(this)
 	, SAMPLE_WINDOW_CYCLES(cfg.sampleWindow_ns / (1000000000 / mcu::sysclkFreq()))
 {
@@ -37,8 +40,8 @@ Adc::Adc(const AdcConfig& cfg)
 		m_module[i].base = impl::adcBases[i];
 	}
 
-	initAdcChannels(s_channels);
-	initAdcIrqs(s_irqs);
+	impl::initChannels(s_channels);
+	impl::initIrqs(s_irqs);
 
 	for (uint32_t i = 0; i < 4; ++i)
 	{
@@ -67,6 +70,9 @@ Adc::Adc(const AdcConfig& cfg)
 		ADC_clearInterruptStatus(s_irqs[i].base, s_irqs[i].intNum);
 	}
 }
+
+
+} // namespace adc
 
 
 } // namespace mcu

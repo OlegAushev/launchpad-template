@@ -8,12 +8,15 @@
 
 
 namespace mcu {
+
+
+namespace adc {
 /// @addtogroup mcu_adc
 /// @{
 
 
 /// ADC channels (application-specific)
-enum AdcChannelName
+enum ChannelName
 {
 	ADC_CURRENT_PHASE_U,
 	ADC_CURRENT_PHASE_V,
@@ -37,7 +40,7 @@ enum AdcChannelName
 
 
 /// ADC interrupt request source (application-specific).
-enum AdcIrq
+enum IrqName
 {
 	ADC_IRQ_CURRENT_UVW,
 	ADC_IRQ_CURRENT_XYZ,
@@ -51,6 +54,9 @@ enum AdcIrq
 
 
 /// @}
+} // namespace adc
+
+
 } // namespace mcu
 
 

@@ -19,12 +19,15 @@
 
 
 namespace mcu {
+
+
+namespace adc {
 /// @addtogroup mcu_adc
 /// @{
 
 
 /// ADC modules
-enum AdcModule
+enum Peripheral
 {
 	ADCA,
 	ADCB,
@@ -36,7 +39,7 @@ enum AdcModule
 /**
  * @brief ADC unit config.
  */
-struct AdcConfig
+struct Config
 {
 	uint32_t sampleWindow_ns;
 };
@@ -48,7 +51,7 @@ namespace impl {
 /**
  * @brief ADC module implementation.
  */
-struct AdcModuleImpl
+struct Module
 {
 	uint32_t base;
 };
@@ -61,15 +64,15 @@ extern const uint16_t adcPieIntGroups[4];
 /**
  * @brief ADC channel implementation.
  */
-struct AdcChannelImpl
+struct Channel
 {
 	uint32_t base;
 	uint32_t resultBase;
 	ADC_Channel channel;
 	ADC_SOCNumber soc;
 	ADC_Trigger trigger;
-	AdcChannelImpl() {}
-	AdcChannelImpl(uint32_t _base, uint32_t _resultBase, ADC_Channel _channel, ADC_SOCNumber _soc, ADC_Trigger _trigger)
+	Channel() {}
+	Channel(uint32_t _base, uint32_t _resultBase, ADC_Channel _channel, ADC_SOCNumber _soc, ADC_Trigger _trigger)
 		: base(_base)
 		, resultBase(_resultBase)
 		, channel(_channel)
@@ -82,14 +85,14 @@ struct AdcChannelImpl
 /**
  * @brief ADC IRQ implementation.
  */
-struct AdcIrqImpl
+struct Irq
 {
 	uint32_t base;
 	ADC_IntNumber intNum;
 	ADC_SOCNumber soc;
 	uint32_t pieIntNum;
-	AdcIrqImpl() {}
-	AdcIrqImpl(uint32_t _base, ADC_IntNumber _intNum, ADC_SOCNumber _soc, uint32_t _pieIntNum)
+	Irq() {}
+	Irq(uint32_t _base, ADC_IntNumber _intNum, ADC_SOCNumber _soc, uint32_t _pieIntNum)
 		: base(_base)
 		, intNum(_intNum)
 		, soc(_soc)
@@ -98,15 +101,12 @@ struct AdcIrqImpl
 };
 
 
-} // namespace impl
-
-
 /**
  * @brief Initializes ADC channels.
  * @param channels - ADC channel array
  * @return (none)
  */
-void initAdcChannels(emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT>& channels);
+void initChannels(emb::Array<impl::Channel, ADC_CHANNEL_COUNT>& channels);
 
 
 /**
@@ -114,7 +114,10 @@ void initAdcChannels(emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT>& channe
  * @param irqs - ADC IRQ array
  * @return (none)
  */
-void initAdcIrqs(emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
+void initIrqs(emb::Array<impl::Irq, ADC_IRQ_COUNT>& irqs);
+
+
+} // namespace impl
 
 
 /**
@@ -123,10 +126,10 @@ void initAdcIrqs(emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
 class Adc : public emb::c28x::singleton<Adc>
 {
 private:
-	impl::AdcModuleImpl m_module[4];
+	impl::Module m_module[4];
 
-	static emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT> s_channels;
-	static emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT> s_irqs;
+	static emb::Array<impl::Channel, ADC_CHANNEL_COUNT> s_channels;
+	static emb::Array<impl::Irq, ADC_IRQ_COUNT> s_irqs;
 
 	const uint32_t SAMPLE_WINDOW_CYCLES;
 
@@ -138,14 +141,14 @@ public:
 	 * @brief Initializes MCU ADC unit.
 	 * @param cfg - ADC config
 	 */
-	Adc(const AdcConfig& cfg);
+	Adc(const Config& cfg);
 
 	/**
 	 * @brief Starts conversion on specified channel.
 	 * @param channel - ADC channel
 	 * @return (none)
 	 */
-	void start(AdcChannelName channel) const
+	void start(ChannelName channel) const
 	{
 		ADC_forceSOC(s_channels[channel].base, s_channels[channel].soc);
 	}
@@ -155,7 +158,7 @@ public:
 	 * @param channel - ADC channel
 	 * @return ADC-result raw data.
 	 */
-	uint16_t read(AdcChannelName channel) const
+	uint16_t read(ChannelName channel) const
 	{
 		return ADC_readResult(s_channels[channel].resultBase, s_channels[channel].soc);
 	}
@@ -195,7 +198,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerInterruptHandler(AdcIrq irq, void (*handler)(void)) const
+	void registerInterruptHandler(IrqName irq, void (*handler)(void)) const
 	{
 		Interrupt_register(s_irqs[irq].pieIntNum, handler);
 	}
@@ -205,7 +208,7 @@ public:
 	 * @param irq - interrupt request
 	 * @return (none)
 	 */
-	void acknowledgeInterrupt(AdcIrq irq) const
+	void acknowledgeInterrupt(IrqName irq) const
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
 		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq].intNum]);
@@ -216,7 +219,7 @@ public:
 	 * @param irq - interrupt request
 	 * @return \c true if the interrupt flag is set and \c false if it is not.
 	 */
-	bool interruptPending(AdcIrq irq)
+	bool interruptPending(IrqName irq)
 	{
 		return ADC_getInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
 	}
@@ -226,7 +229,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void clearInterruptStatus(AdcIrq irq)
+	void clearInterruptStatus(IrqName irq)
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
 	}
@@ -236,18 +239,18 @@ public:
 /**
  * @brief ADC channel class
  */
-class AdcChannel
+class Channel
 {
 public:
 	Adc* adc;
 private:
-	AdcChannelName m_channelName;
+	ChannelName m_channelName;
 public:
 	/**
 	 * @brief Initializes ADC channel.
 	 * @param (none)
 	 */
-	AdcChannel()
+	Channel()
 		: adc(Adc::instance())
 		, m_channelName(ADC_CHANNEL_COUNT)	// dummy write
 	{}
@@ -257,7 +260,7 @@ public:
 	 * @brief Initializes ADC channel.
 	 * @param channelName - channel name
 	 */
-	AdcChannel(AdcChannelName channelName)
+	Channel(ChannelName channelName)
 		: adc(Adc::instance())
 		, m_channelName(channelName)
 	{}
@@ -268,7 +271,7 @@ public:
 	 * @param channelName - channel name
 	 * @return (none)
 	 */
-	void init(AdcChannelName channelName)
+	void init(ChannelName channelName)
 	{
 		m_channelName = channelName;
 	}
@@ -298,6 +301,9 @@ public:
 
 
 /// @}
+} // namespace adc
+
+
 } // namespace mcu
 
 

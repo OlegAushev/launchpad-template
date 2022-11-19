@@ -8,6 +8,9 @@
 
 
 namespace mcu {
+
+
+namespace adc {
 /// @addtogroup mcu_adc
 /// @{
 
@@ -15,38 +18,38 @@ namespace mcu {
 ///
 ///
 ///
-void initAdcChannels(emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT>& channels)
+void impl::initChannels(emb::Array<impl::Channel, ADC_CHANNEL_COUNT>& channels)
 {
-	channels[ADC_CURRENT_PHASE_U] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_U] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN0, ADC_SOC_NUMBER0, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_CURRENT_PHASE_V] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_V] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN1, ADC_SOC_NUMBER1, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_CURRENT_PHASE_W] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_W] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN2, ADC_SOC_NUMBER2, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_CURRENT_PHASE_X] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_X] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN5, ADC_SOC_NUMBER3, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_CURRENT_PHASE_Y] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_Y] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN4, ADC_SOC_NUMBER4, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_CURRENT_PHASE_Z] = impl::AdcChannelImpl(
+	channels[ADC_CURRENT_PHASE_Z] = impl::Channel(
 			ADCB_BASE, ADCBRESULT_BASE, ADC_CH_ADCIN3, ADC_SOC_NUMBER5, ADC_TRIGGER_SW_ONLY);
 
-	channels[ADC_VOLTAGE_DC] = impl::AdcChannelImpl(
+	channels[ADC_VOLTAGE_DC] = impl::Channel(
 			ADCD_BASE, ADCDRESULT_BASE, ADC_CH_ADCIN0, ADC_SOC_NUMBER0, ADC_TRIGGER_SW_ONLY);
 
-	channels[ADC_TEMPERATURE_PHASE_U] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_U] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN14, ADC_SOC_NUMBER0, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_TEMPERATURE_PHASE_V] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_V] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN15, ADC_SOC_NUMBER1, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_TEMPERATURE_PHASE_W] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_W] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN2, ADC_SOC_NUMBER2, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_TEMPERATURE_PHASE_X] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_X] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN3, ADC_SOC_NUMBER3, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_TEMPERATURE_PHASE_Y] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_Y] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN4, ADC_SOC_NUMBER4, ADC_TRIGGER_SW_ONLY);
-	channels[ADC_TEMPERATURE_PHASE_Z] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_PHASE_Z] = impl::Channel(
 			ADCC_BASE, ADCCRESULT_BASE, ADC_CH_ADCIN5, ADC_SOC_NUMBER5, ADC_TRIGGER_SW_ONLY);
 
-	channels[ADC_TEMPERATURE_CASE] = impl::AdcChannelImpl(
+	channels[ADC_TEMPERATURE_CASE] = impl::Channel(
 			ADCD_BASE, ADCDRESULT_BASE, ADC_CH_ADCIN1, ADC_SOC_NUMBER1, ADC_TRIGGER_SW_ONLY);
 }
 
@@ -54,27 +57,30 @@ void initAdcChannels(emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT>& channe
 ///
 ///
 ///
-void initAdcIrqs(emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT>& irqs)
+void impl::initIrqs(emb::Array<impl::Irq, ADC_IRQ_COUNT>& irqs)
 {
-	irqs[ADC_IRQ_CURRENT_UVW] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_CURRENT_UVW] = impl::Irq(
 			ADCB_BASE, ADC_INT_NUMBER2, ADC_SOC_NUMBER2, INT_ADCB2);
-	irqs[ADC_IRQ_CURRENT_XYZ] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_CURRENT_XYZ] = impl::Irq(
 			ADCB_BASE, ADC_INT_NUMBER3, ADC_SOC_NUMBER5, INT_ADCB3);
 
-	irqs[ADC_IRQ_VOLTAGE_DC] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_VOLTAGE_DC] = impl::Irq(
 			ADCD_BASE, ADC_INT_NUMBER2, ADC_SOC_NUMBER0, INT_ADCD2);
 
-	irqs[ADC_IRQ_TEMPERATURE_UVW] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_TEMPERATURE_UVW] = impl::Irq(
 			ADCC_BASE, ADC_INT_NUMBER2, ADC_SOC_NUMBER2, INT_ADCC2);
-	irqs[ADC_IRQ_TEMPERATURE_XYZ] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_TEMPERATURE_XYZ] = impl::Irq(
 			ADCC_BASE, ADC_INT_NUMBER3, ADC_SOC_NUMBER5, INT_ADCC3);
 
-	irqs[ADC_IRQ_TEMPERATURE_CASE] = impl::AdcIrqImpl(
+	irqs[ADC_IRQ_TEMPERATURE_CASE] = impl::Irq(
 			ADCD_BASE, ADC_INT_NUMBER3, ADC_SOC_NUMBER1, INT_ADCD3);
 }
 
 
 /// @}
+} // namespace adc
+
+
 } // namespace mcu
 
 

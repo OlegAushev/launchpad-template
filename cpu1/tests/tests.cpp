@@ -15,11 +15,11 @@ void RUN_TESTS()
 	Syslog::init(Syslog::IpcFlags());
 	mcu::SystemClock::init();
 
-	mcu::AdcConfig adcConfig =
+	mcu::adc::Config adcConfig =
 	{
 		.sampleWindow_ns = 200,
 	};
-	mcu::Adc adc(adcConfig);
+	mcu::adc::Adc adc(adcConfig);
 	adc.enableInterrupts();
 
 	for (size_t i = 0; i < 10; ++i)
