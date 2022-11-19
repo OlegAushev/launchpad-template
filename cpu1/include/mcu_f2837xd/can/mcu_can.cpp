@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t canBases[2] = {CANA_BASE, CANB_BASE};

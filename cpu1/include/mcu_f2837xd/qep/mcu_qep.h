@@ -86,7 +86,7 @@ struct QepConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -106,7 +106,7 @@ extern const uint32_t qepBases[3];
 extern const uint32_t qepPieIntNums[3];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -116,7 +116,7 @@ template <QepModule Module>
 class Qep : public emb::c28x::singleton<Qep<Module> >
 {
 private:
-	detail::QepModuleImpl m_module;
+	impl::QepModuleImpl m_module;
 
 private:
 	Qep(const Qep& other);			// no copy constructor
@@ -129,7 +129,7 @@ public:
 	Qep(const GpioConfig& qepaPin, const GpioConfig& qepbPin,
 			const GpioConfig& qepiPin, const QepConfig& cfg)
 		: emb::c28x::singleton<Qep<Module> >(this)
-		, m_module(detail::qepBases[Module], cfg.intFlags, detail::qepPieIntNums[Module])
+		, m_module(impl::qepBases[Module], cfg.intFlags, impl::qepPieIntNums[Module])
 	{
 #ifdef CPU1
 		_initPins(qepaPin, qepbPin, qepiPin);

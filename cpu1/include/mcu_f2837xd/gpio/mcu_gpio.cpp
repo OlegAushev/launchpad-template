@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t PIE_XINT_NUMBERS[5] = {INT_XINT1, INT_XINT2, INT_XINT3, INT_XINT4, INT_XINT5};

@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t qepBases[3] = {EQEP1_BASE, EQEP2_BASE, EQEP3_BASE};

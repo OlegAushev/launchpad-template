@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t spiBases[3] = {SPIA_BASE, SPIB_BASE, SPIC_BASE};

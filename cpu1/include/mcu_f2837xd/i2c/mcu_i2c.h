@@ -64,7 +64,7 @@ struct I2CConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -80,7 +80,7 @@ struct I2CModuleImpl
 extern const uint32_t i2cBases[2];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -90,7 +90,7 @@ template <I2CModule Module>
 class I2C : public emb::c28x::singleton<I2C<Module> >
 {
 private:
-	detail::I2CModuleImpl m_module;
+	impl::I2CModuleImpl m_module;
 
 private:
 	I2C(const I2C& other);			// no copy constructor
@@ -104,7 +104,7 @@ public:
 	 */
 	I2C(const GpioConfig& sdaPin, const GpioConfig& sclPin, const I2CConfig& cfg)
 		: emb::c28x::singleton<I2C<Module> >(this)
-		, m_module(detail::i2cBases[Module])
+		, m_module(impl::i2cBases[Module])
 	{
 #ifdef CPU1
 		_initPins(sdaPin, sclPin);

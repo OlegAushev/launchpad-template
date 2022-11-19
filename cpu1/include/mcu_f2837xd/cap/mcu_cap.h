@@ -46,7 +46,7 @@ struct CapConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -67,7 +67,7 @@ extern const XBAR_InputNum capXbarInputs[6];
 extern const uint32_t capPieIntNums[6];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -77,7 +77,7 @@ template <unsigned int ChannelCount>
 class Cap
 {
 private:
-	detail::CapModuleImpl<ChannelCount> m_module;
+	impl::CapModuleImpl<ChannelCount> m_module;
 
 private:
 	Cap(const Cap& other);			// no copy constructor
@@ -96,9 +96,9 @@ public:
 		for (size_t i = 0; i < ChannelCount; ++i)
 		{
 			m_module.instance[i] = cfg.module[i];
-			m_module.base[i] = detail::capBases[cfg.module[i]];
-			m_module.xbarInput[i] = detail::capXbarInputs[cfg.module[i]];
-			m_module.pieIntNum[i] = detail::capPieIntNums[cfg.module[i]];
+			m_module.base[i] = impl::capBases[cfg.module[i]];
+			m_module.xbarInput[i] = impl::capXbarInputs[cfg.module[i]];
+			m_module.pieIntNum[i] = impl::capPieIntNums[cfg.module[i]];
 			XBAR_setInputPin(m_module.xbarInput[i], cfg.inputPin[i].config().no);
 		}
 

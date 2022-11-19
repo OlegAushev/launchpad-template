@@ -30,7 +30,7 @@ enum DacModule
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -46,7 +46,7 @@ struct DacModuleImpl
 extern const uint32_t dacBases[3];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -85,7 +85,7 @@ template <DacModule Module>
 class Dac : public emb::c28x::singleton<Dac<Module> >
 {
 private:
-	detail::DacModuleImpl m_module;
+	impl::DacModuleImpl m_module;
 
 private:
 	Dac(const Dac& other);			// no copy constructor
@@ -97,7 +97,7 @@ public:
 	 */
 	Dac()
 		: emb::c28x::singleton<Dac<Module> >(this)
-		, m_module(detail::dacBases[Module])
+		, m_module(impl::dacBases[Module])
 	{
 		DAC_setReferenceVoltage(m_module.base, DAC_REF_ADC_VREFHI);
 		DAC_enableOutput(m_module.base);

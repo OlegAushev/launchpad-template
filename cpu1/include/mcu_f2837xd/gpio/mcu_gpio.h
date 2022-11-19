@@ -51,14 +51,14 @@ enum PinQualMode
 };
 
 
-namespace detail {
+namespace impl {
 
 
 extern const uint32_t PIE_XINT_NUMBERS[5];
 extern const uint16_t PIE_XINT_GROUPS[5];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -254,8 +254,8 @@ public:
 	{
 		m_intNum = intNum;
 		GPIO_setInterruptType(intNum, intType);
-		Interrupt_register(detail::PIE_XINT_NUMBERS[intNum], handler);
-		Interrupt_enable(detail::PIE_XINT_NUMBERS[m_intNum]);
+		Interrupt_register(impl::PIE_XINT_NUMBERS[intNum], handler);
+		Interrupt_enable(impl::PIE_XINT_NUMBERS[m_intNum]);
 	}
 
 	/**
@@ -286,7 +286,7 @@ public:
 	 */
 	void acknowledgeInterrupt() const
 	{
-		Interrupt_clearACKGroup(detail::PIE_XINT_GROUPS[m_intNum]);
+		Interrupt_clearACKGroup(impl::PIE_XINT_GROUPS[m_intNum]);
 	}
 };
 

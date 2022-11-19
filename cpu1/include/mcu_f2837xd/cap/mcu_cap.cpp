@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t capBases[6] = {ECAP1_BASE, ECAP2_BASE, ECAP3_BASE, ECAP4_BASE, ECAP5_BASE, ECAP6_BASE};

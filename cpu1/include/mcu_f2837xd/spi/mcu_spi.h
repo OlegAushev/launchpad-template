@@ -79,7 +79,7 @@ struct SpiConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -98,7 +98,7 @@ extern const uint32_t spiBases[3];
 extern const uint32_t spiRxPieIntNums[3];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -108,7 +108,7 @@ template <SpiModule Module>
 class Spi : public emb::c28x::singleton<Spi<Module> >
 {
 private:
-	detail::SpiModuleImpl m_module;
+	impl::SpiModuleImpl m_module;
 	SpiWordLen m_wordLen;
 
 private:
@@ -127,7 +127,7 @@ public:
 			const GpioConfig& clkPin, const GpioConfig& csPin,
 			const SpiConfig& cfg)
 		: emb::c28x::singleton<Spi<Module> >(this)
-		, m_module(detail::spiBases[Module], detail::spiRxPieIntNums[Module])
+		, m_module(impl::spiBases[Module], impl::spiRxPieIntNums[Module])
 	{
 		assert((cfg.dataSize >= 1) && (cfg.dataSize <= 16));
 

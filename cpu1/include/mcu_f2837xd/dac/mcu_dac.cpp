@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t dacBases[3] = {DACA_BASE, DACB_BASE, DACC_BASE};

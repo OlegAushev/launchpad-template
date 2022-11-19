@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t adcBases[4] = {ADCA_BASE, ADCB_BASE, ADCC_BASE, ADCD_BASE};
@@ -21,8 +21,8 @@ const uint16_t adcPieIntGroups[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP10
 }
 
 
-emb::Array<detail::AdcChannelImpl, ADC_CHANNEL_COUNT> Adc::s_channels;
-emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT> Adc::s_irqs;
+emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT> Adc::s_channels;
+emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT> Adc::s_irqs;
 
 
 ///
@@ -34,7 +34,7 @@ Adc::Adc(const AdcConfig& cfg)
 {
 	for (size_t i = 0; i < 4; ++i)
 	{
-		m_module[i].base = detail::adcBases[i];
+		m_module[i].base = impl::adcBases[i];
 	}
 
 	initAdcChannels(s_channels);

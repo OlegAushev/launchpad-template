@@ -42,7 +42,7 @@ struct AdcConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -98,7 +98,7 @@ struct AdcIrqImpl
 };
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -106,7 +106,7 @@ struct AdcIrqImpl
  * @param channels - ADC channel array
  * @return (none)
  */
-void initAdcChannels(emb::Array<detail::AdcChannelImpl, ADC_CHANNEL_COUNT>& channels);
+void initAdcChannels(emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT>& channels);
 
 
 /**
@@ -114,7 +114,7 @@ void initAdcChannels(emb::Array<detail::AdcChannelImpl, ADC_CHANNEL_COUNT>& chan
  * @param irqs - ADC IRQ array
  * @return (none)
  */
-void initAdcIrqs(emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
+void initAdcIrqs(emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
 
 
 /**
@@ -123,10 +123,10 @@ void initAdcIrqs(emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT>& irqs);
 class Adc : public emb::c28x::singleton<Adc>
 {
 private:
-	detail::AdcModuleImpl m_module[4];
+	impl::AdcModuleImpl m_module[4];
 
-	static emb::Array<detail::AdcChannelImpl, ADC_CHANNEL_COUNT> s_channels;
-	static emb::Array<detail::AdcIrqImpl, ADC_IRQ_COUNT> s_irqs;
+	static emb::Array<impl::AdcChannelImpl, ADC_CHANNEL_COUNT> s_channels;
+	static emb::Array<impl::AdcIrqImpl, ADC_IRQ_COUNT> s_irqs;
 
 	const uint32_t SAMPLE_WINDOW_CYCLES;
 
@@ -208,7 +208,7 @@ public:
 	void acknowledgeInterrupt(AdcIrq irq) const
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
-		Interrupt_clearACKGroup(detail::adcPieIntGroups[s_irqs[irq].intNum]);
+		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq].intNum]);
 	}
 
 	/**

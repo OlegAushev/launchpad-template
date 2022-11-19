@@ -9,7 +9,7 @@
 
 namespace mcu {
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t i2cBases[2] = {I2CA_BASE, I2CB_BASE};

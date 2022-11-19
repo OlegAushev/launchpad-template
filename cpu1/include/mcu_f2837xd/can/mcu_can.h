@@ -66,7 +66,7 @@ struct CanMessageObject
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -85,7 +85,7 @@ extern const uint32_t canBases[2];
 extern const uint32_t canPieIntNums[2];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -95,7 +95,7 @@ template <CanModule Module>
 class Can : public emb::c28x::singleton<Can<Module> >
 {
 private:
-	detail::CanModuleImpl m_module;
+	impl::CanModuleImpl m_module;
 
 private:
 	Can(const Can& other);			// no copy constructor
@@ -111,7 +111,7 @@ public:
 	Can(const GpioConfig& rxPin, const GpioConfig& txPin,
 			CanBitrate bitrate, CanMode mode)
 		: emb::c28x::singleton<Can<Module> >(this)
-		, m_module(detail::canBases[Module], detail::canPieIntNums[Module])
+		, m_module(impl::canBases[Module], impl::canPieIntNums[Module])
 	{
 #ifdef CPU1
 		_initPins(rxPin, txPin);

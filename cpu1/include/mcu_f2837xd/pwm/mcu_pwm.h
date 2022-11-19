@@ -133,7 +133,7 @@ struct PwmConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -156,7 +156,7 @@ extern const uint32_t pwmPinOutAConfigs[12];
 extern const uint32_t pwmPinOutBConfigs[12];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -173,7 +173,7 @@ private:
 	const uint32_t TBCLK_FREQ;
 	const uint32_t TBCLK_CYCLE_NS;
 
-	detail::PwmModuleImpl<PhaseCount> m_module;
+	impl::PwmModuleImpl<PhaseCount> m_module;
 	PwmCounterMode m_counterMode;
 	float m_switchingFreq;
 	uint16_t m_deadtimeCycles;
@@ -203,10 +203,10 @@ public:
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
 			m_module.instance[i] = cfg.module[i];
-			m_module.base[i] = detail::pwmBases[cfg.module[i]];
+			m_module.base[i] = impl::pwmBases[cfg.module[i]];
 		}
-		m_module.pieEventIntNum = detail::pwmPieEventIntNums[cfg.module[0]];
-		m_module.pieTripIntNum = detail::pwmPieTripIntNums[cfg.module[0]];
+		m_module.pieEventIntNum = impl::pwmPieEventIntNums[cfg.module[0]];
+		m_module.pieTripIntNum = impl::pwmPieTripIntNums[cfg.module[0]];
 
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -216,8 +216,8 @@ public:
 #ifdef CPU1
 		_initPins(cfg);
 #else
-		EMB_UNUSED(detail::pwmPinOutAConfigs);
-		EMB_UNUSED(detail::pwmPinOutBConfigs);
+		EMB_UNUSED(impl::pwmPinOutAConfigs);
+		EMB_UNUSED(impl::pwmPinOutBConfigs);
 #endif
 
 		// Disable sync, freeze clock to PWM
@@ -791,8 +791,8 @@ protected:
 		{
 			GPIO_setPadConfig(cfg.module[i] * 2, GPIO_PIN_TYPE_STD);
 			GPIO_setPadConfig(cfg.module[i] * 2 + 1, GPIO_PIN_TYPE_STD);
-			GPIO_setPinConfig(detail::pwmPinOutAConfigs[cfg.module[i]]);
-			GPIO_setPinConfig(detail::pwmPinOutBConfigs[cfg.module[i]]);
+			GPIO_setPinConfig(impl::pwmPinOutAConfigs[cfg.module[i]]);
+			GPIO_setPinConfig(impl::pwmPinOutBConfigs[cfg.module[i]]);
 		}
 	}
 #endif

@@ -93,7 +93,7 @@ struct SciConfig
 };
 
 
-namespace detail {
+namespace impl {
 
 
 /**
@@ -114,7 +114,7 @@ extern const uint32_t sciRxPieIntNums[4];
 extern const uint16_t sciPieIntGroups[4];
 
 
-} // namespace detail
+} // namespace impl
 
 
 /**
@@ -124,7 +124,7 @@ template <SciModule Module>
 class Sci : public emb::c28x::singleton<Sci<Module> >, public emb::IUart
 {
 private:
-	detail::SciModuleImpl m_module;
+	impl::SciModuleImpl m_module;
 
 private:
 	Sci(const Sci& other);			// no copy constructor
@@ -139,9 +139,9 @@ public:
 	Sci(const GpioConfig& rxPin, const GpioConfig& txPin,
 			const SciConfig& cfg)
 		: emb::c28x::singleton<Sci<Module> >(this)
-		, m_module(detail::sciBases[Module],
-				detail::sciRxPieIntNums[Module],
-				detail::sciPieIntGroups[Module])
+		, m_module(impl::sciBases[Module],
+				impl::sciRxPieIntNums[Module],
+				impl::sciPieIntGroups[Module])
 	{
 #ifdef CPU1
 		_initPins(rxPin, txPin);

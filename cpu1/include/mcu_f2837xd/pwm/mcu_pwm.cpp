@@ -10,7 +10,7 @@
 namespace mcu {
 
 
-namespace detail {
+namespace impl {
 
 
 const uint32_t pwmBases[12] = {EPWM1_BASE, EPWM2_BASE, EPWM3_BASE, EPWM4_BASE,
