@@ -1,6 +1,8 @@
 ///
-#ifndef TESTS_MCU_TEST_MCU_TEST_H_
-#define TESTS_MCU_TEST_MCU_TEST_H_
+///
+///
+#pragma once
+
 
 #include "emb/emb_testrunner/emb_testrunner.h"
 #include "mcu_f2837xd/system/mcu_system.h"
@@ -17,4 +19,3 @@ public:
 };
 
 
-#endif /* TESTS_MCU_TEST_MCU_TEST_H_ */

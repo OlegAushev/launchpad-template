@@ -18,12 +18,15 @@
 
 
 namespace mcu {
+
+
+namespace can {
 /// @addtogroup mcu_can
 /// @{
 
 
 /// CAN modules
-enum CanModule
+enum Peripheral
 {
 	CANA,
 	CANB
@@ -31,7 +34,7 @@ enum CanModule
 
 
 /// CAN bitrates
-enum CanBitrate
+enum Bitrate
 {
 	CAN_BITRATE_125K = 125000,
 	CAN_BITRATE_500K = 500000,
@@ -40,7 +43,7 @@ enum CanBitrate
 
 
 ///
-enum CanMode
+enum Mode
 {
 	CAN_NORMAL_MODE = 0,
 	CAN_SILENT_MODE = CAN_TEST_SILENT,
@@ -53,7 +56,7 @@ enum CanMode
 /**
  * @brief CAN message object.
  */
-struct CanMessageObject
+struct MessageObject
 {
 	uint32_t objId;
 	uint32_t frameId;
@@ -72,17 +75,17 @@ namespace impl {
 /**
  * @brief CAN module implementation.
  */
-struct CanModuleImpl
+struct Module
 {
 	uint32_t base;
 	uint32_t pieIntNum;
-	CanModuleImpl(uint32_t _base, uint32_t _pieIntNum)
+	Module(uint32_t _base, uint32_t _pieIntNum)
 		: base(_base), pieIntNum(_pieIntNum) {}
 };
 
 
-extern const uint32_t canBases[2];
-extern const uint32_t canPieIntNums[2];
+extern const uint32_t CAN_BASES[2];
+extern const uint32_t CAN_PIE_INT_NUMS[2];
 
 
 } // namespace impl
@@ -91,15 +94,14 @@ extern const uint32_t canPieIntNums[2];
 /**
  * @brief CAN unit class.
  */
-template <CanModule Module>
-class Can : public emb::c28x::singleton<Can<Module> >
+template <Peripheral Instance>
+class Module : public emb::c28x::singleton<Module<Instance> >
 {
 private:
-	impl::CanModuleImpl m_module;
-
+	impl::Module m_module;
 private:
-	Can(const Can& other);			// no copy constructor
-	Can& operator=(const Can& other);	// no copy assignment operator
+	Module(const Module& other);		// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU CAN unit.
@@ -108,10 +110,10 @@ public:
 	 * @param bitrate - CAN bus bitrate
 	 * @param mode - CAN mode
 	 */
-	Can(const gpio::Config& rxPin, const gpio::Config& txPin,
-			CanBitrate bitrate, CanMode mode)
-		: emb::c28x::singleton<Can<Module> >(this)
-		, m_module(impl::canBases[Module], impl::canPieIntNums[Module])
+	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
+			Bitrate bitrate, Mode mode)
+		: emb::c28x::singleton<Can<Instance> >(this)
+		, m_module(impl::CAN_BASES[Instance], impl::CAN_PIE_INT_NUMS[Instance])
 	{
 #ifdef CPU1
 		_initPins(rxPin, txPin);
@@ -156,7 +158,7 @@ public:
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 
 		SysCtl_selectCPUForPeripheral(SYSCTL_CPUSEL8_CAN,
-				static_cast<uint16_t>(Module)+1, SYSCTL_CPUSEL_CPU2);
+				static_cast<uint16_t>(Instance)+1, SYSCTL_CPUSEL_CPU2);
 	}
 #endif
 
@@ -195,7 +197,7 @@ public:
 	 * @param msgObj - message object
 	 * @return (none)
 	 */
-	void setupMessageObject(CanMessageObject& msgObj) const
+	void setupMessageObject(MessageObject& msgObj) const
 	{
 		CAN_setupMessageObject(m_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
 				msgObj.objType, msgObj.frameIdMask, msgObj.flags, msgObj.dataLen);
@@ -251,6 +253,9 @@ protected:
 
 
 /// @}
+} // namespace can
+
+
 } // namespace mcu
 
 

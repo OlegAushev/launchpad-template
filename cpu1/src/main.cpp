@@ -13,7 +13,7 @@
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 #include "mcu_f2837xd/cputimers/mcu_cputimers.h"
-#include <mcu_f2837xd/adc/mcu_module.h>
+#include <mcu_f2837xd/adc/mcu_adc.h>
 #include "mcu_f2837xd/can/mcu_can.h"
 #include "mcu_f2837xd/spi/mcu_spi.h"
 #include "mcu_f2837xd/support/mcu_support.h"

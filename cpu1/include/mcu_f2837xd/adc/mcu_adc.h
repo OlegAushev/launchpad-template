@@ -57,8 +57,8 @@ struct Module
 };
 
 
-extern const uint32_t adcBases[4];
-extern const uint16_t adcPieIntGroups[4];
+extern const uint32_t ADC_BASES[4];
+extern const uint16_t ADC_PIE_INT_GROUPS[4];
 
 
 /**
@@ -211,7 +211,7 @@ public:
 	void acknowledgeInterrupt(IrqName irq) const
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
-		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq].intNum]);
+		Interrupt_clearACKGroup(impl::ADC_PIE_INT_GROUPS[s_irqs[irq].intNum]);
 	}
 
 	/**

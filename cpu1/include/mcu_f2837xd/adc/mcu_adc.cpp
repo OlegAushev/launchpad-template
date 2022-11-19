@@ -4,7 +4,7 @@
  */
 
 
-#include <mcu_f2837xd/adc/mcu_module.h>
+#include "mcu_f2837xd/adc/mcu_adc.h"
 
 
 namespace mcu {
@@ -13,15 +13,9 @@ namespace mcu {
 namespace adc {
 
 
-namespace impl {
-
-
-const uint32_t adcBases[4] = {ADCA_BASE, ADCB_BASE, ADCC_BASE, ADCD_BASE};
-const uint16_t adcPieIntGroups[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP10,
+const uint32_t impl::ADC_BASES[4] = {ADCA_BASE, ADCB_BASE, ADCC_BASE, ADCD_BASE};
+const uint16_t impl::ADC_PIE_INT_GROUPS[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP10,
 		INTERRUPT_ACK_GROUP10, INTERRUPT_ACK_GROUP10};
-
-
-}
 
 
 emb::Array<impl::Channel, ADC_CHANNEL_COUNT> Module::s_channels;
@@ -37,7 +31,7 @@ Module::Module(const Config& cfg)
 {
 	for (size_t i = 0; i < 4; ++i)
 	{
-		m_module[i].base = impl::adcBases[i];
+		m_module[i].base = impl::ADC_BASES[i];
 	}
 
 	impl::initChannels(s_channels);

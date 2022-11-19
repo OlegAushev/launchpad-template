@@ -1,5 +1,7 @@
 ///
-#include <mcu_f2837xd/adc/mcu_module.h>
+
+
+#include "mcu_f2837xd/adc/mcu_adc.h"
 #include "emb/emb_testrunner/emb_testrunner.h"
 #include "emb/tests/emb_test.h"
 
