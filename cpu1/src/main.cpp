@@ -86,8 +86,8 @@ void main()
 		.parityMode = mcu::SCI_PARITY_NONE,
 		.autoBaudMode = mcu::SCI_AUTO_BAUD_DISABLED,
 	};
-	mcu::Sci<mcu::SCIB> sciB(mcu::GpioConfig(19, GPIO_19_SCIRXDB),
-			mcu::GpioConfig(18, GPIO_18_SCITXDB),
+	mcu::Sci<mcu::SCIB> sciB(mcu::gpio::Config(19, GPIO_19_SCIRXDB),
+			mcu::gpio::Config(18, GPIO_18_SCITXDB),
 			sciBConfig);
 
 	cli::Server cliServer("launchpad", &sciB, NULL, NULL);

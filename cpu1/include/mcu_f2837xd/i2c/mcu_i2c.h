@@ -102,7 +102,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @param cfg - I2C config
 	 */
-	I2C(const GpioConfig& sdaPin, const GpioConfig& sclPin, const I2CConfig& cfg)
+	I2C(const gpio::Config& sdaPin, const gpio::Config& sclPin, const I2CConfig& cfg)
 		: emb::c28x::singleton<I2C<Module> >(this)
 		, m_module(impl::i2cBases[Module])
 	{
@@ -127,7 +127,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const GpioConfig& sdaPin, const GpioConfig& sclPin)
+	static void transferControlToCpu2(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
 		_initPins(sdaPin, sclPin);
 		GPIO_setMasterCore(sdaPin.no, GPIO_CORE_CPU2);
@@ -167,7 +167,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const GpioConfig& sdaPin, const GpioConfig& sclPin)
+	static void _initPins(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
 		GPIO_setPadConfig(sdaPin.no, GPIO_PIN_TYPE_PULLUP);
 		GPIO_setQualificationMode(sdaPin.no, GPIO_QUAL_ASYNC);

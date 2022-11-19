@@ -108,7 +108,7 @@ public:
 	 * @param bitrate - CAN bus bitrate
 	 * @param mode - CAN mode
 	 */
-	Can(const GpioConfig& rxPin, const GpioConfig& txPin,
+	Can(const gpio::Config& rxPin, const gpio::Config& txPin,
 			CanBitrate bitrate, CanMode mode)
 		: emb::c28x::singleton<Can<Module> >(this)
 		, m_module(impl::canBases[Module], impl::canPieIntNums[Module])
@@ -149,7 +149,7 @@ public:
 	 * @param txPin - MCU CAN-TX pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const GpioConfig& rxPin, const GpioConfig& txPin)
+	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
@@ -241,7 +241,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const GpioConfig& rxPin, const GpioConfig& txPin)
+	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setPinConfig(txPin.mux);

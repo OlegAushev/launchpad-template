@@ -136,7 +136,7 @@ public:
 	 * @param txPin
 	 * @param cfg
 	 */
-	Sci(const GpioConfig& rxPin, const GpioConfig& txPin,
+	Sci(const gpio::Config& rxPin, const gpio::Config& txPin,
 			const SciConfig& cfg)
 		: emb::c28x::singleton<Sci<Module> >(this)
 		, m_module(impl::sciBases[Module],
@@ -183,7 +183,7 @@ public:
 	 * @param rxPin
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const GpioConfig& rxPin, const GpioConfig& txPin)
+	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
@@ -330,7 +330,7 @@ public:
 	}
 
 protected:
-	static void _initPins(const GpioConfig& rxPin, const GpioConfig& txPin)
+	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setDirectionMode(rxPin.no, GPIO_DIR_MODE_IN);

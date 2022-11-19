@@ -19,6 +19,9 @@
 
 
 namespace mcu {
+
+
+namespace gpio {
 /// @addtogroup mcu_gpio
 /// @{
 
@@ -64,7 +67,7 @@ extern const uint16_t PIE_XINT_GROUPS[5];
 /**
  * @brief GPIO pin config.
  */
-struct GpioConfig
+struct Config
 {
 	bool valid;
 	uint32_t no;
@@ -80,7 +83,7 @@ struct GpioConfig
 	 * @brief Constructs default GPIO pin config.
 	 * @param (none)
 	 */
-	GpioConfig() : valid(false) {}
+	Config() : valid(false) {}
 
 	/**
 	 * @brief Constructs GPIO pin config.
@@ -93,7 +96,7 @@ struct GpioConfig
 	 * @param _qualPeriod - pin qualification period (divider)
 	 * @param _masterCore - master core
 	 */
-	GpioConfig(uint32_t _no, uint32_t _mux, PinDirection _direction, emb::PinActiveState _activeState,
+	Config(uint32_t _no, uint32_t _mux, PinDirection _direction, emb::PinActiveState _activeState,
 			PinType _type, PinQualMode _qualMode, uint32_t _qualPeriod,
 			GPIO_CoreSelect _masterCore = GPIO_CORE_CPU1)
 		: valid(true)
@@ -112,7 +115,7 @@ struct GpioConfig
 	 * @param _no - pin number
 	 * @param _mux - pin mux
 	 */
-	GpioConfig(uint32_t _no, uint32_t _mux)
+	Config(uint32_t _no, uint32_t _mux)
 		: valid(false)
 		, no(_no)
 		, mux(_mux)
@@ -121,20 +124,23 @@ struct GpioConfig
 	/**
 	 * @brief Constructs config for pin which must not be configured.
 	 */
-	GpioConfig(tag::not_configured) : valid(false) {}
+	Config(tag::not_configured) : valid(false) {}
 };
 
 
 /*============================================================================*/
+namespace impl {
+
+
 /**
  * @brief GPIO generic base class.
  */
-class Gpio
+class GpioBase
 {
 protected:
-	GpioConfig m_cfg;
+	Config m_cfg;
 	bool m_initialized;
-	Gpio() : m_initialized(false) {}
+	GpioBase() : m_initialized(false) {}
 public:
 	/**
 	 * @brief Sets the master core.
@@ -155,7 +161,7 @@ public:
 	 * @param (none)
 	 * @return Reference to pin config.
 	 */
-	const GpioConfig& config() const
+	const Config& config() const
 	{
 		return m_cfg;
 	}
@@ -172,11 +178,14 @@ public:
 };
 
 
+} // namespace impl
+
+
 /*============================================================================*/
 /**
  * @brief GPIO input pin class.
  */
-class GpioInput : public emb::IGpioInput, public Gpio
+class Input : public emb::IGpioInput, public impl::GpioBase
 {
 private:
 	GPIO_ExternalIntNum m_intNum;
@@ -185,13 +194,13 @@ public:
 	 * @brief GPIO input pin default constructor.
 	 * @param (none)
 	 */
-	GpioInput() {}
+	Input() {}
 
 	/**
 	 * @brief Constructs GPIO input pin.
 	 * @param cfg - pin config
 	 */
-	GpioInput(const GpioConfig& cfg)
+	Input(const Config& cfg)
 	{
 		init(cfg);
 	}
@@ -201,7 +210,7 @@ public:
 	 * @param cfg - pin config
 	 * @return (none)
 	 */
-	void init(const GpioConfig& cfg)
+	void init(const Config& cfg)
 	{
 		m_cfg = cfg;
 		if (m_cfg.valid)
@@ -295,20 +304,20 @@ public:
 /**
  * @brief GPIO output pin class.
  */
-class GpioOutput : public emb::IGpioOutput, public Gpio
+class Output : public emb::IGpioOutput, public impl::GpioBase
 {
 public:
 	/**
 	 * @brief GPIO output pin default constructor.
 	 * @param (none)
 	 */
-	GpioOutput() {}
+	Output() {}
 
 	/**
 	 * @brief Constructs GPIO output pin.
 	 * @param cfg - pin config
 	 */
-	GpioOutput(const GpioConfig& cfg)
+	Output(const Config& cfg)
 	{
 		init(cfg);
 	}
@@ -318,7 +327,7 @@ public:
 	 * @param cfg - pin config
 	 * @return (none)
 	 */
-	void init(const GpioConfig& cfg)
+	void init(const Config& cfg)
 	{
 		m_cfg = cfg;
 		if (m_cfg.valid)
@@ -389,10 +398,10 @@ public:
 /**
  * @brief GPIO input pin debouncing class.
  */
-class GpioInputDebouncer
+class InputDebouncer
 {
 private:
-	const GpioInput m_pin;
+	const Input m_pin;
 public:
 	const unsigned int ACQ_PERIOD_MSEC;
 	const unsigned int ACTIVE_DEBOUNCE_MSEC;
@@ -411,7 +420,7 @@ public:
 	 * @param act_msec - time(msec) before registering active state
 	 * @param inact_msec - time(msec) before registering inactive state
 	 */
-	GpioInputDebouncer(const GpioInput& pin, unsigned int acqPeriod_msec, unsigned int act_msec, unsigned int inact_msec)
+	InputDebouncer(const Input& pin, unsigned int acqPeriod_msec, unsigned int act_msec, unsigned int inact_msec)
 		: m_pin(pin)
 		, ACQ_PERIOD_MSEC(acqPeriod_msec)
 		, ACTIVE_DEBOUNCE_MSEC(act_msec)
@@ -480,6 +489,9 @@ public:
 
 
 /// @}
+} //namespace gpio
+
+
 } // namespace mcu
 
 

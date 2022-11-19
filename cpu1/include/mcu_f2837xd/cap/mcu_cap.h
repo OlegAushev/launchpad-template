@@ -42,7 +42,7 @@ template <unsigned int ChannelCount>
 struct CapConfig
 {
 	CapModule module[ChannelCount];
-	mcu::Gpio inputPin[ChannelCount];
+	mcu::gpio::Input inputPin[ChannelCount];
 };
 
 

@@ -10,6 +10,9 @@
 namespace mcu {
 
 
+namespace gpio {
+
+
 namespace impl {
 
 
@@ -19,6 +22,9 @@ const uint16_t PIE_XINT_GROUPS[5] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP1,
 
 
 }
+
+
+} // namespace gpio
 
 
 } // namespace mcu

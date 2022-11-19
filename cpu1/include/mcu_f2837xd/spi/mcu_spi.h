@@ -123,8 +123,8 @@ public:
 	 * @param csPin
 	 * @param cfg
 	 */
-	Spi(const GpioConfig& mosiPin, const GpioConfig& misoPin,
-			const GpioConfig& clkPin, const GpioConfig& csPin,
+	Spi(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin,
 			const SpiConfig& cfg)
 		: emb::c28x::singleton<Spi<Module> >(this)
 		, m_module(impl::spiBases[Module], impl::spiRxPieIntNums[Module])
@@ -160,8 +160,8 @@ public:
 	 * @param csMode
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const GpioConfig& mosiPin, const GpioConfig& misoPin,
-			const GpioConfig& clkPin, const GpioConfig& csPin)
+	static void transferControlToCpu2(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin)
 	{
 		_initPins(mosiPin, misoPin, clkPin, csPin);
 		GPIO_setMasterCore(mosiPin.no, GPIO_CORE_CPU2);
@@ -321,8 +321,8 @@ public:
 	}
 
 protected:
-	static void _initPins(const GpioConfig& mosiPin, const GpioConfig& misoPin,
-			const GpioConfig& clkPin, const GpioConfig& csPin)
+	static void _initPins(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin)
 	{
 		GPIO_setPinConfig(mosiPin.mux);
 		//GPIO_setPadConfig(mosiPin.no, GPIO_PIN_TYPE_PULLUP);

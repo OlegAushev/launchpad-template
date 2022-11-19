@@ -35,13 +35,13 @@ enum LaunchPadLed
  */
 inline void configureLaunchPadLeds(GPIO_CoreSelect blueLedCore, GPIO_CoreSelect redLedCore)
 {
-	GpioConfig ledBlueCfg(31, GPIO_31_GPIO31, mcu::PIN_OUTPUT, emb::ACTIVE_LOW, mcu::PIN_STD, mcu::PIN_QUAL_SYNC, 1);
-	GpioConfig ledRedCfg(34, GPIO_34_GPIO34, mcu::PIN_OUTPUT, emb::ACTIVE_LOW, mcu::PIN_STD, mcu::PIN_QUAL_SYNC, 1);
+	gpio::Config ledBlueCfg(31, GPIO_31_GPIO31, mcu::gpio::PIN_OUTPUT, emb::ACTIVE_LOW, mcu::gpio::PIN_STD, mcu::gpio::PIN_QUAL_SYNC, 1);
+	gpio::Config ledRedCfg(34, GPIO_34_GPIO34, mcu::gpio::PIN_OUTPUT, emb::ACTIVE_LOW, mcu::gpio::PIN_STD, mcu::gpio::PIN_QUAL_SYNC, 1);
 
-	GpioOutput ledBlue(ledBlueCfg);
+	gpio::Output ledBlue(ledBlueCfg);
 	ledBlue.setMasterCore(blueLedCore);
 
-	GpioOutput ledRed(ledRedCfg);
+	gpio::Output ledRed(ledRedCfg);
 	ledRed.setMasterCore(redLedCore);
 }
 

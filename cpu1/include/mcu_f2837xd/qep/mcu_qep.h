@@ -126,8 +126,8 @@ public:
 	 * @brief Initializes MCU QEP unit.
 	 * @param (none)
 	 */
-	Qep(const GpioConfig& qepaPin, const GpioConfig& qepbPin,
-			const GpioConfig& qepiPin, const QepConfig& cfg)
+	Qep(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+			const gpio::Config& qepiPin, const QepConfig& cfg)
 		: emb::c28x::singleton<Qep<Module> >(this)
 		, m_module(impl::qepBases[Module], cfg.intFlags, impl::qepPieIntNums[Module])
 	{
@@ -203,8 +203,8 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const GpioConfig& qepaPin, const GpioConfig& qepbPin,
-			const GpioConfig& qepiPin)
+	static void _initPins(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+			const gpio::Config& qepiPin)
 	{
 		GPIO_setPadConfig(qepaPin.no, GPIO_PIN_TYPE_STD);
 		GPIO_setPinConfig(qepaPin.mux);
