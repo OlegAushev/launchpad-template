@@ -36,8 +36,8 @@ namespace emb {
  */
 enum MasterSlaveMode
 {
-	MODE_MASTER,
-	MODE_SLAVE
+	ModeMaster,
+	ModeSlave
 };
 
 
@@ -46,9 +46,9 @@ enum MasterSlaveMode
  */
 enum ProcessStatus
 {
-	PROCESS_SUCCESS = 0,
-	PROCESS_FAIL = 1,
-	PROCESS_IN_PROGRESS = 2,
+	ProcessSuccess = 0,
+	ProcessFail = 1,
+	ProcessInProgress = 2,
 };
 
 

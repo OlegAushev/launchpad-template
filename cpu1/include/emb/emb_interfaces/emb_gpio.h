@@ -11,16 +11,16 @@ namespace emb {
 /// Pin active states
 enum PinActiveState
 {
-	ACTIVE_LOW = 0,
-	ACTIVE_HIGH = 1
+	ActiveLow = 0,
+	ActiveHigh = 1
 };
 
 
 /// Pin states
 enum PinState
 {
-	PIN_INACTIVE = 0,
-	PIN_ACTIVE = 1
+	PinInactive = 0,
+	PinActive = 1
 };
 
 
@@ -47,7 +47,7 @@ public:
 	virtual ~IGpioOutput() {}
 
 	virtual emb::PinState read() const = 0;
-	virtual void set(emb::PinState state = emb::PIN_ACTIVE) const = 0;
+	virtual void set(emb::PinState state = emb::PinActive) const = 0;
 	virtual void reset() const = 0;
 	virtual void toggle() const = 0;
 };

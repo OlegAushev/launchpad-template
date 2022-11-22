@@ -475,10 +475,10 @@ public:
 
 		switch (pin.config().activeState)
 		{
-		case emb::ACTIVE_LOW:
+		case emb::ActiveLow:
 			GPIO_setPadConfig(pin.config().no, GPIO_PIN_TYPE_PULLUP);
 			break;
-		case emb::ACTIVE_HIGH:
+		case emb::ActiveHigh:
 			GPIO_setPadConfig(pin.config().no, GPIO_PIN_TYPE_INVERT);
 			break;
 		}

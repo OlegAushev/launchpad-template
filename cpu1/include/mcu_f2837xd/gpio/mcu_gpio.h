@@ -337,7 +337,7 @@ public:
 			GPIO_setPadConfig(m_cfg.no, m_cfg.type);
 			//set() - is virtual, shouldn't be called in ctor
 			GPIO_writePin(m_cfg.no, 1
-					- (static_cast<uint32_t>(emb::PIN_INACTIVE) ^ static_cast<uint32_t>(m_cfg.activeState)));
+					- (static_cast<uint32_t>(emb::PinInactive) ^ static_cast<uint32_t>(m_cfg.activeState)));
 			GPIO_setPinConfig(m_cfg.mux);
 			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_OUT);
 			GPIO_setMasterCore(m_cfg.no, m_cfg.masterCore);
@@ -363,7 +363,7 @@ public:
 	 * @param state - pin state
 	 * @return (none)
 	 */
-	virtual void set(emb::PinState state = emb::PIN_ACTIVE) const
+	virtual void set(emb::PinState state = emb::PinActive) const
 	{
 		assert(m_initialized);
 		GPIO_writePin(m_cfg.no, 1
@@ -378,7 +378,7 @@ public:
 	virtual void reset() const
 	{
 		assert(m_initialized);
-		set(emb::PIN_INACTIVE);
+		set(emb::PinInactive);
 	}
 
 	/**
@@ -427,7 +427,7 @@ public:
 		, INACTIVE_DEBOUNCE_MSEC(inact_msec)
 		, ACTIVE_DEBOUNCE_COUNT(act_msec / acqPeriod_msec)
 		, INACTIVE_DEBOUNCE_COUNT(inact_msec / acqPeriod_msec)
-		, m_state(emb::PIN_INACTIVE)
+		, m_state(emb::PinInactive)
 		, m_stateChanged(false)
 	{
 		m_count = ACTIVE_DEBOUNCE_COUNT;
@@ -445,7 +445,7 @@ public:
 
 		if (rawState == m_state)
 		{
-			if (m_state == emb::PIN_ACTIVE)
+			if (m_state == emb::PinActive)
 			{
 				m_count = INACTIVE_DEBOUNCE_COUNT;
 			}
@@ -460,7 +460,7 @@ public:
 			{
 				m_state = rawState;
 				m_stateChanged = true;
-				if (m_state == emb::PIN_ACTIVE)
+				if (m_state == emb::PinActive)
 				{
 					m_count = INACTIVE_DEBOUNCE_COUNT;
 				}
