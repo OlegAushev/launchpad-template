@@ -29,10 +29,10 @@ namespace adc {
 /// ADC modules
 enum Peripheral
 {
-	ADCA,
-	ADCB,
-	ADCC,
-	ADCD
+	AdcA,
+	AdcB,
+	AdcC,
+	AdcD
 };
 
 
@@ -57,8 +57,8 @@ struct Module
 };
 
 
-extern const uint32_t ADC_BASES[4];
-extern const uint16_t ADC_PIE_INT_GROUPS[4];
+extern const uint32_t adcBases[4];
+extern const uint16_t adcPieIntGroups[4];
 
 
 /**
@@ -106,7 +106,7 @@ struct Irq
  * @param channels - ADC channel array
  * @return (none)
  */
-void initChannels(emb::Array<impl::Channel, ADC_CHANNEL_COUNT>& channels);
+void initChannels(emb::Array<impl::Channel, ChannelName::AdcChannelCount>& channels);
 
 
 /**
@@ -114,7 +114,7 @@ void initChannels(emb::Array<impl::Channel, ADC_CHANNEL_COUNT>& channels);
  * @param irqs - ADC IRQ array
  * @return (none)
  */
-void initIrqs(emb::Array<impl::Irq, ADC_IRQ_COUNT>& irqs);
+void initIrqs(emb::Array<impl::Irq, IrqName::AdcIrqCount>& irqs);
 
 
 } // namespace impl
@@ -128,10 +128,10 @@ class Module : public emb::c28x::singleton<Module>
 private:
 	impl::Module m_module[4];
 
-	static emb::Array<impl::Channel, ADC_CHANNEL_COUNT> s_channels;
-	static emb::Array<impl::Irq, ADC_IRQ_COUNT> s_irqs;
+	static emb::Array<impl::Channel, ChannelName::AdcChannelCount> s_channels;
+	static emb::Array<impl::Irq, IrqName::AdcIrqCount> s_irqs;
 
-	const uint32_t SAMPLE_WINDOW_CYCLES;
+	const uint32_t m_sampleWindowCycles;
 
 private:
 	Module(const Module& other);		// no copy constructor
@@ -148,7 +148,7 @@ public:
 	 * @param channel - ADC channel
 	 * @return (none)
 	 */
-	void start(ChannelName channel) const
+	void start(ChannelName::Type channel) const
 	{
 		ADC_forceSOC(s_channels[channel].base, s_channels[channel].soc);
 	}
@@ -158,7 +158,7 @@ public:
 	 * @param channel - ADC channel
 	 * @return ADC-result raw data.
 	 */
-	uint16_t read(ChannelName channel) const
+	uint16_t read(ChannelName::Type channel) const
 	{
 		return ADC_readResult(s_channels[channel].resultBase, s_channels[channel].soc);
 	}
@@ -173,7 +173,7 @@ public:
 	 */
 	void enableInterrupts() const
 	{
-		for (size_t i = 0; i < ADC_IRQ_COUNT; ++i)
+		for (size_t i = 0; i < IrqName::AdcIrqCount; ++i)
 		{
 			Interrupt_enable(s_irqs[i].pieIntNum);
 		}
@@ -186,7 +186,7 @@ public:
 	 */
 	void disableInterrupts() const
 	{
-		for (size_t i = 0; i < ADC_IRQ_COUNT; ++i)
+		for (size_t i = 0; i < IrqName::AdcIrqCount; ++i)
 		{
 			Interrupt_disable(s_irqs[i].pieIntNum);
 		}
@@ -198,7 +198,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerInterruptHandler(IrqName irq, void (*handler)(void)) const
+	void registerInterruptHandler(IrqName::Type irq, void (*handler)(void)) const
 	{
 		Interrupt_register(s_irqs[irq].pieIntNum, handler);
 	}
@@ -208,10 +208,10 @@ public:
 	 * @param irq - interrupt request
 	 * @return (none)
 	 */
-	void acknowledgeInterrupt(IrqName irq) const
+	void acknowledgeInterrupt(IrqName::Type irq) const
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
-		Interrupt_clearACKGroup(impl::ADC_PIE_INT_GROUPS[s_irqs[irq].intNum]);
+		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq].intNum]);
 	}
 
 	/**
@@ -219,7 +219,7 @@ public:
 	 * @param irq - interrupt request
 	 * @return \c true if the interrupt flag is set and \c false if it is not.
 	 */
-	bool interruptPending(IrqName irq)
+	bool interruptPending(IrqName::Type irq)
 	{
 		return ADC_getInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
 	}
@@ -229,7 +229,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void clearInterruptStatus(IrqName irq)
+	void clearInterruptStatus(IrqName::Type irq)
 	{
 		ADC_clearInterruptStatus(s_irqs[irq].base, s_irqs[irq].intNum);
 	}
@@ -244,7 +244,7 @@ class Channel
 public:
 	Module* adc;
 private:
-	ChannelName m_channelName;
+	ChannelName::Type m_channelName;
 public:
 	/**
 	 * @brief Initializes ADC channel.
@@ -252,7 +252,7 @@ public:
 	 */
 	Channel()
 		: adc(Module::instance())
-		, m_channelName(ADC_CHANNEL_COUNT)	// dummy write
+		, m_channelName(ChannelName::AdcChannelCount)	// dummy write
 	{}
 
 
@@ -260,7 +260,7 @@ public:
 	 * @brief Initializes ADC channel.
 	 * @param channelName - channel name
 	 */
-	Channel(ChannelName channelName)
+	Channel(ChannelName::Type channelName)
 		: adc(Module::instance())
 		, m_channelName(channelName)
 	{}
@@ -271,7 +271,7 @@ public:
 	 * @param channelName - channel name
 	 * @return (none)
 	 */
-	void init(ChannelName channelName)
+	void init(ChannelName::Type channelName)
 	{
 		m_channelName = channelName;
 	}

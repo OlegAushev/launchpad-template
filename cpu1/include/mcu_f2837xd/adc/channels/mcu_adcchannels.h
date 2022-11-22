@@ -16,40 +16,46 @@ namespace adc {
 
 
 /// ADC channels (application-specific)
-enum ChannelName
+struct ChannelName
 {
-	ADC_CURRENT_PHASE_U,
-	ADC_CURRENT_PHASE_V,
-	ADC_CURRENT_PHASE_W,
-	ADC_CURRENT_PHASE_X,
-	ADC_CURRENT_PHASE_Y,
-	ADC_CURRENT_PHASE_Z,
+	enum Type
+	{
+		AdcCurrentPhaseU,
+		AdcCurrentPhaseV,
+		AdcCurrentPhaseW,
+		AdcCurrentPhaseX,
+		AdcCurrentPhaseY,
+		AdcCurrentPhaseZ,
 
-	ADC_VOLTAGE_DC,
+		AdcVoltageDC,
 
-	ADC_TEMPERATURE_PHASE_U,
-	ADC_TEMPERATURE_PHASE_V,
-	ADC_TEMPERATURE_PHASE_W,
-	ADC_TEMPERATURE_PHASE_X,
-	ADC_TEMPERATURE_PHASE_Y,
-	ADC_TEMPERATURE_PHASE_Z,
-	ADC_TEMPERATURE_CASE,
+		AdcTemperaturePhaseU,
+		AdcTemperaturePhaseV,
+		AdcTemperaturePhaseW,
+		AdcTemperaturePhaseX,
+		AdcTemperaturePhaseY,
+		AdcTemperaturePhaseZ,
+		AdcTemperatureCase,
 
-	ADC_CHANNEL_COUNT
+		AdcChannelCount
+	};
 };
 
 
 /// ADC interrupt request source (application-specific).
-enum IrqName
+struct IrqName
 {
-	ADC_IRQ_CURRENT_UVW,
-	ADC_IRQ_CURRENT_XYZ,
-	ADC_IRQ_VOLTAGE_DC,
-	ADC_IRQ_TEMPERATURE_UVW,
-	ADC_IRQ_TEMPERATURE_XYZ,
-	ADC_IRQ_TEMPERATURE_CASE,
+	enum Type
+	{
+		AdcIrqCurrentUVW,
+		AdcIrqCurrentXYZ,
+		AdcIrqVoltageDC,
+		AdcIrqTemperatureUVW,
+		AdcIrqTemperatureXYZ,
+		AdcIrqTemperatureCase,
 
-	ADC_IRQ_COUNT
+		AdcIrqCount
+	};
 };
 
 
