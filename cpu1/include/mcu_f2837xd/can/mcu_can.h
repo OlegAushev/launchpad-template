@@ -28,28 +28,28 @@ namespace can {
 /// CAN modules
 enum Peripheral
 {
-	CANA,
-	CANB
+	CanA,
+	CanB
 };
 
 
 /// CAN bitrates
 enum Bitrate
 {
-	CAN_BITRATE_125K = 125000,
-	CAN_BITRATE_500K = 500000,
-	CAN_BITRATE_1M = 1000000,
+	CanBitrate125K = 125000,
+	CanBitrate500K = 500000,
+	CanBitrate1M = 1000000,
 };
 
 
 ///
 enum Mode
 {
-	CAN_NORMAL_MODE = 0,
-	CAN_SILENT_MODE = CAN_TEST_SILENT,
-	CAN_LOOPBACK_MODE = CAN_TEST_LBACK,
-	CAN_EXLOOPBACK_MODE = CAN_TEST_EXL,
-	CAN_SILENTLOOPBACK_MODE = CAN_TEST_SILENT | CAN_TEST_LBACK
+	CanNormalMode = 0,
+	CanSilentMode = CAN_TEST_SILENT,
+	CanLoopbackMode = CAN_TEST_LBACK,
+	CanExLoopbackMode = CAN_TEST_EXL,
+	CanSilentLoopbackMode = CAN_TEST_SILENT | CAN_TEST_LBACK
 };
 
 
@@ -84,8 +84,8 @@ struct Module
 };
 
 
-extern const uint32_t CAN_BASES[2];
-extern const uint32_t CAN_PIE_INT_NUMS[2];
+extern const uint32_t canBases[2];
+extern const uint32_t canPieIntNums[2];
 
 
 } // namespace impl
@@ -113,7 +113,7 @@ public:
 	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
 			Bitrate bitrate, Mode mode)
 		: emb::c28x::singleton<Can<Instance> >(this)
-		, m_module(impl::CAN_BASES[Instance], impl::CAN_PIE_INT_NUMS[Instance])
+		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
 	{
 #ifdef CPU1
 		_initPins(rxPin, txPin);
@@ -124,11 +124,11 @@ public:
 
 		switch (bitrate)
 		{
-		case CAN_BITRATE_125K:
-		case CAN_BITRATE_500K:
+		case CanBitrate125K:
+		case CanBitrate500K:
 			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate), 16);
 			break;
-		case CAN_BITRATE_1M:
+		case CanBitrate1M:
 			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate), 10);
 			break;
 		}
@@ -136,7 +136,7 @@ public:
 		CAN_setAutoBusOnTime(m_module.base, 0);
 		CAN_enableAutoBusOn(m_module.base);
 
-		if (mode != CAN_NORMAL_MODE)
+		if (mode != CanNormalMode)
 		{
 			CAN_enableTestMode(m_module.base, static_cast<uint16_t>(mode));
 		}
