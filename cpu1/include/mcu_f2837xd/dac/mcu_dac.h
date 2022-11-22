@@ -82,7 +82,7 @@ public:
  * @brief DAC unit class.
  */
 template <DacModule Module>
-class Dac : public emb::c28x::singleton<Dac<Module> >
+class Dac : public emb::c28x::interrupt_invoker<Dac<Module> >
 {
 private:
 	impl::DacModuleImpl m_module;

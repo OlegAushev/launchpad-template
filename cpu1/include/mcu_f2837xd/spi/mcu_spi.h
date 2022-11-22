@@ -105,7 +105,7 @@ extern const uint32_t spiRxPieIntNums[3];
  * @brief SPI unit class.
  */
 template <SpiModule Module>
-class Spi : public emb::c28x::singleton<Spi<Module> >
+class Spi : public emb::c28x::interrupt_invoker<Spi<Module> >
 {
 private:
 	impl::SpiModuleImpl m_module;

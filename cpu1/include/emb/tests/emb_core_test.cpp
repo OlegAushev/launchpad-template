@@ -2,10 +2,10 @@
 #include "emb_test.h"
 
 
-class SingletonTest : public emb::c28x::singleton<SingletonTest>
+class SingletonTest : public emb::c28x::interrupt_invoker<SingletonTest>
 {
 public:
-	SingletonTest() : singleton(this) {}
+	SingletonTest() : interrupt_invoker(this) {}
 };
 
 

@@ -64,13 +64,13 @@ protected:
 	monostate()
 	{
 		assert(s_initialized);
-		if (!s_initialized) while (1) {}
 	}
 
-	static void setInitialized()
+	~monostate() {}
+
+	static void set_initialized()
 	{
 		assert(!s_initialized);
-		if (s_initialized) while (1) {}
 		s_initialized = true;
 	}
 public:
@@ -88,40 +88,38 @@ namespace c28x {
  * @brief
  */
 template <class T>
-class singleton
+class interrupt_invoker
 {
 private:
 	static T* s_instance;
-	static bool s_created;
+	static bool s_initialized;
 protected:
-	singleton(T* self)
+	interrupt_invoker(T* self)
 	{
-		assert(!s_created);
-		if (s_created) while (1) {}
+		assert(!s_initialized);
 		s_instance = self;
-		s_created = true;
+		s_initialized = true;
 	}
 public:
 	static T* instance()
 	{
-		assert(s_created);
-		if (!s_created) while (1) {}
+		assert(s_initialized);
 		return s_instance;
 	}
 
-	static bool created() { return s_created; }
+	static bool initialized() { return s_initialized; }
 
-	virtual ~singleton()
+	virtual ~interrupt_invoker()
 	{
-		s_created = false;
+		s_initialized = false;
 		s_instance = static_cast<T*>(NULL);
 	}
 };
 
 template <class T>
-T* singleton<T>::s_instance = static_cast<T*>(NULL);
+T* interrupt_invoker<T>::s_instance = static_cast<T*>(NULL);
 template <class T>
-bool singleton<T>::s_created = false;
+bool interrupt_invoker<T>::s_initialized = false;
 
 
 /**

@@ -113,7 +113,7 @@ extern const uint32_t qepPieIntNums[3];
  * @brief QEP unit class.
  */
 template <QepModule Module>
-class Qep : public emb::c28x::singleton<Qep<Module> >
+class Qep : public emb::c28x::interrupt_invoker<Qep<Module> >
 {
 private:
 	impl::QepModuleImpl m_module;

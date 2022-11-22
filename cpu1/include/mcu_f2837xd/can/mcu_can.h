@@ -95,7 +95,7 @@ extern const uint32_t CAN_PIE_INT_NUMS[2];
  * @brief CAN unit class.
  */
 template <Peripheral Instance>
-class Module : public emb::c28x::singleton<Module<Instance> >
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
 	impl::Module m_module;

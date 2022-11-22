@@ -72,7 +72,7 @@ void SystemClock::init()
 	Interrupt_enable(INT_TIMER0);
 	CPUTimer_startTimer(CPUTIMER0_BASE);
 
-	setInitialized();
+	set_initialized();
 }
 
 
@@ -152,7 +152,7 @@ void HighResolutionClock::init(uint32_t period_us)
 	CPUTimer_setPeriod(CPUTIMER1_BASE, m_period);
 	CPUTimer_setEmulationMode(CPUTIMER1_BASE, CPUTIMER_EMULATIONMODE_STOPAFTERNEXTDECREMENT);
 
-	setInitialized();
+	set_initialized();
 }
 
 

@@ -87,7 +87,7 @@ extern const uint32_t i2cBases[2];
  * @brief I2C unit class.
  */
 template <I2CModule Module>
-class I2C : public emb::c28x::singleton<I2C<Module> >
+class I2C : public emb::c28x::interrupt_invoker<I2C<Module> >
 {
 private:
 	impl::I2CModuleImpl m_module;

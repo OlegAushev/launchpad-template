@@ -99,7 +99,7 @@ public:
 		ADD_MESSAGE = ipcFlags.ADD_MESSAGE;
 		POP_MESSAGE = ipcFlags.POP_MESSAGE;
 
-		setInitialized();
+		set_initialized();
 	}
 
 	/**

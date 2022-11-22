@@ -121,7 +121,7 @@ extern const uint16_t sciPieIntGroups[4];
  * @brief SCI unit class.
  */
 template <SciModule Module>
-class Sci : public emb::c28x::singleton<Sci<Module> >, public emb::IUart
+class Sci : public emb::c28x::interrupt_invoker<Sci<Module> >, public emb::IUart
 {
 private:
 	impl::SciModuleImpl m_module;
@@ -138,7 +138,7 @@ public:
 	 */
 	Sci(const gpio::Config& rxPin, const gpio::Config& txPin,
 			const SciConfig& cfg)
-		: emb::c28x::singleton<Sci<Module> >(this)
+		: emb::c28x::interrupt_invoker<Sci<Module> >(this)
 		, m_module(impl::sciBases[Module],
 				impl::sciRxPieIntNums[Module],
 				impl::sciPieIntGroups[Module])

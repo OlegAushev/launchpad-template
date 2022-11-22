@@ -123,7 +123,7 @@ void initIrqs(emb::Array<impl::Irq, IrqName::AdcIrqCount>& irqs);
 /**
  * @brief ADC unit class.
  */
-class Module : public emb::c28x::singleton<Module>
+class Module : public emb::c28x::interrupt_invoker<Module>
 {
 private:
 	impl::Module m_module[4];
