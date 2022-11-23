@@ -34,7 +34,7 @@ enum Peripheral
 
 
 /// Count of bits per data word.
-enum I2CBitCount
+enum BitCount
 {
 	I2CBitCount1 = ::I2C_BITCOUNT_1,
 	I2CBitCount2 = ::I2C_BITCOUNT_2,
@@ -48,7 +48,7 @@ enum I2CBitCount
 
 
 /// I2C clock duty cycle.
-enum I2CDutyCycle
+enum DutyCycle
 {
     I2CDutyCycle33 = ::I2C_DUTYCYCLE_33,
     I2CDutyCycle50 = ::I2C_DUTYCYCLE_50
@@ -61,8 +61,8 @@ enum I2CDutyCycle
 struct Config
 {
 	uint32_t bitrate;
-	I2CBitCount bitCount;
-	I2CDutyCycle dutyCycle;
+	BitCount bitCount;
+	DutyCycle dutyCycle;
 	uint16_t slaveAddr;
 };
 

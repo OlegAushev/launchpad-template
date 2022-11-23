@@ -20,113 +20,116 @@
 
 
 namespace mcu {
+
+
+namespace pwm {
 /// @addtogroup mcu_pwm
 /// @{
 
 
 /// PWM states
-enum PwmState
+enum State
 {
-	PWM_OFF,
-	PWM_ON
+	PwmOff,
+	PwmOn
 };
 
 
 /// PWM modules
-enum PwmModule
+enum Peripheral
 {
-	PWM1,
-	PWM2,
-	PWM3,
-	PWM4,
-	PWM5,
-	PWM6,
-	PWM7,
-	PWM8,
-	PWM9,
-	PWM10,
-	PWM11,
-	PWM12
+	Pwm1,
+	Pwm2,
+	Pwm3,
+	Pwm4,
+	Pwm5,
+	Pwm6,
+	Pwm7,
+	Pwm8,
+	Pwm9,
+	Pwm10,
+	Pwm11,
+	Pwm12
 };
 
 
 /// PWM phases count
-enum PwmPhaseCount
+enum PhaseCount
 {
-	PWM_ONE_PHASE = 1,	///< ONE_PHASE
-	PWM_THREE_PHASE = 3,	///< THREE_PHASE
-	PWM_SIX_PHASE = 6	///< SIX_PHASE
+	PwmOnePhase = 1,
+	PwmThreePhase = 3,
+	PwmSixPhase = 6
 };
 
 
 /// PWM clock divider
-enum PwmClockDivider
+enum ClockDivider
 {
-	PWM_CLOCK_DIVIDER_1 = EPWM_CLOCK_DIVIDER_1,		//!< Divide clock by 1
-	PWM_CLOCK_DIVIDER_2 = EPWM_CLOCK_DIVIDER_2,		//!< Divide clock by 2
-	PWM_CLOCK_DIVIDER_4 = EPWM_CLOCK_DIVIDER_4,		//!< Divide clock by 4
-	PWM_CLOCK_DIVIDER_8 = EPWM_CLOCK_DIVIDER_8,		//!< Divide clock by 8
-	PWM_CLOCK_DIVIDER_16 = EPWM_CLOCK_DIVIDER_16,		//!< Divide clock by 16
-	PWM_CLOCK_DIVIDER_32 = EPWM_CLOCK_DIVIDER_32,		//!< Divide clock by 32
-	PWM_CLOCK_DIVIDER_64 = EPWM_CLOCK_DIVIDER_64,		//!< Divide clock by 64
-	PWM_CLOCK_DIVIDER_128 = EPWM_CLOCK_DIVIDER_128		//!< Divide clock by 128
+	PwmClockDivider1 = EPWM_CLOCK_DIVIDER_1,	//!< Divide clock by 1
+	PwmClockDivider2 = EPWM_CLOCK_DIVIDER_2,	//!< Divide clock by 2
+	PwmClockDivider4 = EPWM_CLOCK_DIVIDER_4,	//!< Divide clock by 4
+	PwmClockDivider8 = EPWM_CLOCK_DIVIDER_8,	//!< Divide clock by 8
+	PwmClockDivider16 = EPWM_CLOCK_DIVIDER_16,	//!< Divide clock by 16
+	PwmClockDivider32 = EPWM_CLOCK_DIVIDER_32,	//!< Divide clock by 32
+	PwmClockDivider64 = EPWM_CLOCK_DIVIDER_64,	//!< Divide clock by 64
+	PwmClockDivider128 = EPWM_CLOCK_DIVIDER_128	//!< Divide clock by 128
 };
 
 
 /// PWM hs clock divider
-enum PwmHsClockDivider
+enum HsClockDivider
 {
-	PWM_HSCLOCK_DIVIDER_1 = EPWM_HSCLOCK_DIVIDER_1,		//!< Divide clock by 1
-	PWM_HSCLOCK_DIVIDER_2 = EPWM_HSCLOCK_DIVIDER_2,		//!< Divide clock by 2
-	PWM_HSCLOCK_DIVIDER_4 = EPWM_HSCLOCK_DIVIDER_4,		//!< Divide clock by 4
-	PWM_HSCLOCK_DIVIDER_6 = EPWM_HSCLOCK_DIVIDER_6,		//!< Divide clock by 6
-	PWM_HSCLOCK_DIVIDER_8 = EPWM_HSCLOCK_DIVIDER_8,		//!< Divide clock by 8
-	PWM_HSCLOCK_DIVIDER_10 = EPWM_HSCLOCK_DIVIDER_10,	//!< Divide clock by 10
-	PWM_HSCLOCK_DIVIDER_12 = EPWM_HSCLOCK_DIVIDER_12,	//!< Divide clock by 12
-	PWM_HSCLOCK_DIVIDER_14 = EPWM_HSCLOCK_DIVIDER_14	//!< Divide clock by 14
+	PwmHSClockDivider1 = EPWM_HSCLOCK_DIVIDER_1,	//!< Divide clock by 1
+	PwmHSClockDivider2 = EPWM_HSCLOCK_DIVIDER_2,	//!< Divide clock by 2
+	PwmHSClockDivider4 = EPWM_HSCLOCK_DIVIDER_4,	//!< Divide clock by 4
+	PwmHSClockDivider6 = EPWM_HSCLOCK_DIVIDER_6,	//!< Divide clock by 6
+	PwmHSClockDivider8 = EPWM_HSCLOCK_DIVIDER_8,	//!< Divide clock by 8
+	PwmHSClockDivider10 = EPWM_HSCLOCK_DIVIDER_10,	//!< Divide clock by 10
+	PwmHSClockDivider12 = EPWM_HSCLOCK_DIVIDER_12,	//!< Divide clock by 12
+	PwmHSClockDivider14 = EPWM_HSCLOCK_DIVIDER_14	//!< Divide clock by 14
 };
 
 
 /// PWM mode (waveform)
-enum PwmOperatingMode
+enum OperatingMode
 {
-	PWM_ACTIVE_HIGH_COMPLEMENTARY,
-	PWM_ACTIVE_LOW_COMPLEMENTARY
+	PwmActiveHighComplementary,
+	PwmActiveLowComplementary
 };
 
 
 /// PWM counter mode
-enum PwmCounterMode
+enum CounterMode
 {
-	PWM_COUNTER_MODE_UP = EPWM_COUNTER_MODE_UP,
-	PWM_COUNTER_MODE_DOWN = EPWM_COUNTER_MODE_DOWN,
-	PWM_COUNTER_MODE_UP_DOWN = EPWM_COUNTER_MODE_UP_DOWN
+	PwmCounterModeUp = EPWM_COUNTER_MODE_UP,
+	PwmCounterModeDown = EPWM_COUNTER_MODE_DOWN,
+	PwmCounterModeUpDown = EPWM_COUNTER_MODE_UP_DOWN
 };
 
 
 /// PWM outputs swap
-enum PwmOutputSwap
+enum OutputSwap
 {
-	PWM_OUTPUT_NO_SWAP,
-	PWM_OUTPUT_SWAP
+	PwmOutputNoSwap,
+	PwmOutputSwap
 };
 
 
 /**
  * @brief PWM config.
  */
-template <PwmPhaseCount PhaseCount>
-struct PwmConfig
+template <PhaseCount PhaseCount>
+struct Config
 {
-	PwmModule module[PhaseCount];
+	Peripheral module[PhaseCount];
 	float switchingFreq;
 	float deadtime_ns;
 	uint32_t clockPrescaler;	// must be the product of clkDivider and hsclkDivider
-	PwmClockDivider clkDivider;
-	PwmHsClockDivider hsclkDivider;
-	PwmOperatingMode operatingMode;
-	PwmCounterMode counterMode;
-	PwmOutputSwap outputSwap;
+	ClockDivider clkDivider;
+	HsClockDivider hsclkDivider;
+	OperatingMode operatingMode;
+	CounterMode counterMode;
+	OutputSwap outputSwap;
 	uint16_t eventInterruptSource;
 	bool adcTriggerEnable[2];
 	EPWM_ADCStartOfConversionSource adcTriggerSource[2];
@@ -139,10 +142,10 @@ namespace impl {
 /**
  * @brief PWM module implementation.
  */
-template <PwmPhaseCount PhaseCount>
-struct PwmModuleImpl
+template <PhaseCount PhaseCount>
+struct Module
 {
-	PwmModule instance[PhaseCount];
+	Peripheral instance[PhaseCount];
 	uint32_t base[PhaseCount];
 	uint32_t pieEventIntNum;
 	uint32_t pieTripIntNum;
@@ -162,7 +165,7 @@ extern const uint32_t pwmPinOutBConfigs[12];
 /**
  * @brief PWM unit class.
  */
-template <PwmPhaseCount PhaseCount>
+template <PhaseCount Phases>
 class Pwm
 {
 private:
@@ -278,8 +281,8 @@ public:
 			// Sync out pulse event
 			switch (PhaseCount)
 			{
-			case PWM_SIX_PHASE:
-			case PWM_THREE_PHASE:
+			case PwmSixPhase:
+			case PwmThreePhase:
 				if ((i == 0) && (m_module.base[i] == EPWM1_BASE))
 				{
 					// EPWM1 is master
@@ -291,7 +294,7 @@ public:
 					EPWM_setSyncOutPulseMode(m_module.base[i], EPWM_SYNC_OUT_PULSE_ON_EPWMxSYNCIN);
 				}
 				break;
-			case PWM_ONE_PHASE:
+			case PwmOnePhase:
 				if (m_module.base[i] == EPWM1_BASE)
 				{
 					EPWM_setSyncOutPulseMode(m_module.base[i], EPWM_SYNC_OUT_PULSE_ON_COUNTER_ZERO);
@@ -307,8 +310,8 @@ public:
 			// Time-base counter synchronization and phase shift
 			switch (PhaseCount)
 			{
-			case PWM_SIX_PHASE:
-			case PWM_THREE_PHASE:
+			case PwmSixPhase:
+			case PwmThreePhase:
 				if ((i == 0) && (m_module.base[i] == EPWM1_BASE))
 				{
 					// EPWM1 is master, EPWM4,7,10 are synced to it
@@ -327,7 +330,7 @@ public:
 				}
 				break;
 
-			case PWM_ONE_PHASE:
+			case PwmOnePhase:
 				if (m_module.base[i] == EPWM1_BASE)
 				{
 					EPWM_disablePhaseShiftLoad(m_module.base[i]);
@@ -800,6 +803,9 @@ protected:
 
 
 /// @}
+} // namespace pwm
+
+
 } // namespace mcu
 
 
