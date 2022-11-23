@@ -9,13 +9,13 @@
 
 namespace mcu {
 
-namespace impl {
+namespace i2c {
 
 
-const uint32_t i2cBases[2] = {I2CA_BASE, I2CB_BASE};
+const uint32_t impl::i2cBases[2] = {I2CA_BASE, I2CB_BASE};
 
 
-}
+} // namespace i2c
 
 
 } // namespace mcu

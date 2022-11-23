@@ -18,12 +18,15 @@
 
 
 namespace mcu {
+
+
+namespace i2c {
 /// @addtogroup mcu_i2c
 /// @{
 
 
 /// I2C modules
-enum I2CModule
+enum Peripheral
 {
 	I2CA,
 	I2CB
@@ -33,29 +36,29 @@ enum I2CModule
 /// Count of bits per data word.
 enum I2CBitCount
 {
-	I2C_BITCOUNT_1 = ::I2C_BITCOUNT_1,
-	I2C_BITCOUNT_2 = ::I2C_BITCOUNT_2,
-	I2C_BITCOUNT_3 = ::I2C_BITCOUNT_3,
-	I2C_BITCOUNT_4 = ::I2C_BITCOUNT_4,
-	I2C_BITCOUNT_5 = ::I2C_BITCOUNT_5,
-	I2C_BITCOUNT_6 = ::I2C_BITCOUNT_6,
-	I2C_BITCOUNT_7 = ::I2C_BITCOUNT_7,
-	I2C_BITCOUNT_8 = ::I2C_BITCOUNT_8
+	I2CBitCount1 = ::I2C_BITCOUNT_1,
+	I2CBitCount2 = ::I2C_BITCOUNT_2,
+	I2CBitCount3 = ::I2C_BITCOUNT_3,
+	I2CBitCount4 = ::I2C_BITCOUNT_4,
+	I2CBitCount5 = ::I2C_BITCOUNT_5,
+	I2CBitCount6 = ::I2C_BITCOUNT_6,
+	I2CBitCount7 = ::I2C_BITCOUNT_7,
+	I2CBitCount8 = ::I2C_BITCOUNT_8
 };
 
 
 /// I2C clock duty cycle.
 enum I2CDutyCycle
 {
-    I2C_DUTYCYCLE_33 = ::I2C_DUTYCYCLE_33,
-    I2C_DUTYCYCLE_50 = ::I2C_DUTYCYCLE_50
+    I2CDutyCycle33 = ::I2C_DUTYCYCLE_33,
+    I2CDutyCycle50 = ::I2C_DUTYCYCLE_50
 };
 
 
 /**
- * @brief I2C unit config.
+ * @brief I2C module config.
  */
-struct I2CConfig
+struct Config
 {
 	uint32_t bitrate;
 	I2CBitCount bitCount;
@@ -70,10 +73,10 @@ namespace impl {
 /**
  * @brief I2C module implementation
  */
-struct I2CModuleImpl
+struct Module
 {
 	uint32_t base;
-	I2CModuleImpl(uint32_t _base) : base(_base) {}
+	Module(uint32_t _base) : base(_base) {}
 };
 
 
@@ -86,15 +89,15 @@ extern const uint32_t i2cBases[2];
 /**
  * @brief I2C unit class.
  */
-template <I2CModule Module>
-class I2C : public emb::c28x::interrupt_invoker<I2C<Module> >
+template <Peripheral Instance>
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
-	impl::I2CModuleImpl m_module;
+	impl::Module m_module;
 
 private:
-	I2C(const I2C& other);			// no copy constructor
-	I2C& operator=(const I2C& other);	// no copy assignment operator
+	Module(const Module& other);		// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU I2C unit.
@@ -102,9 +105,9 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @param cfg - I2C config
 	 */
-	I2C(const gpio::Config& sdaPin, const gpio::Config& sclPin, const I2CConfig& cfg)
-		: emb::c28x::singleton<I2C<Module> >(this)
-		, m_module(impl::i2cBases[Module])
+	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Config& cfg)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
+		, m_module(impl::i2cBases[Instance])
 	{
 #ifdef CPU1
 		_initPins(sdaPin, sclPin);
@@ -182,6 +185,9 @@ protected:
 
 
 /// @}
+} // namespace i2c
+
+
 } // namespace mcu
 
 

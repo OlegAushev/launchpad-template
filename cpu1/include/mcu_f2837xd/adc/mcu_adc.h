@@ -141,7 +141,7 @@ public:
 	 * @brief Initializes MCU ADC unit.
 	 * @param cfg - ADC config
 	 */
-	Module(const Config& cfg);
+	Module(const adc::Config& cfg);
 
 	/**
 	 * @brief Starts conversion on specified channel.
