@@ -29,36 +29,36 @@ namespace gpio {
 /// Pin types
 enum PinType
 {
-	PIN_STD = GPIO_PIN_TYPE_STD,
-	PIN_PULLUP = GPIO_PIN_TYPE_PULLUP,
-	PIN_INVERT = GPIO_PIN_TYPE_INVERT,
-	PIN_OPENDRAIN = GPIO_PIN_TYPE_OD
+	PinStd = GPIO_PIN_TYPE_STD,
+	PinPullup = GPIO_PIN_TYPE_PULLUP,
+	PinInvert = GPIO_PIN_TYPE_INVERT,
+	PinOpenDrain = GPIO_PIN_TYPE_OD
 };
 
 
 /// Pin directions
 enum PinDirection
 {
-	PIN_INPUT = GPIO_DIR_MODE_IN,
-	PIN_OUTPUT = GPIO_DIR_MODE_OUT
+	PinInput = GPIO_DIR_MODE_IN,
+	PinOutput = GPIO_DIR_MODE_OUT
 };
 
 
 /// Pin qualification modes
 enum PinQualMode
 {
-	PIN_QUAL_SYNC = GPIO_QUAL_SYNC,
-	PIN_QUAL_3SAMPLE = GPIO_QUAL_3SAMPLE,
-	PIN_QUAL_6SAMPLE = GPIO_QUAL_6SAMPLE,
-	PIN_QUAL_ASYNC = GPIO_QUAL_ASYNC
+	PinQualSync = GPIO_QUAL_SYNC,
+	PinQual3Sample = GPIO_QUAL_3SAMPLE,
+	PinQual6Sample = GPIO_QUAL_6SAMPLE,
+	PinQualAsync = GPIO_QUAL_ASYNC
 };
 
 
 namespace impl {
 
 
-extern const uint32_t PIE_XINT_NUMBERS[5];
-extern const uint16_t PIE_XINT_GROUPS[5];
+extern const uint32_t pieXIntNums[5];
+extern const uint16_t pieXIntGroups[5];
 
 
 } // namespace impl
@@ -215,7 +215,7 @@ public:
 		m_cfg = cfg;
 		if (m_cfg.valid)
 		{
-			assert(cfg.direction == PIN_INPUT);
+			assert(cfg.direction == PinInput);
 #ifdef CPU1
 			GPIO_setQualificationPeriod(m_cfg.no, m_cfg.qualPeriod);
 			GPIO_setQualificationMode(m_cfg.no, static_cast<GPIO_QualificationMode>(m_cfg.qualMode));
@@ -263,8 +263,8 @@ public:
 	{
 		m_intNum = intNum;
 		GPIO_setInterruptType(intNum, intType);
-		Interrupt_register(impl::PIE_XINT_NUMBERS[intNum], handler);
-		Interrupt_enable(impl::PIE_XINT_NUMBERS[m_intNum]);
+		Interrupt_register(impl::pieXIntNums[intNum], handler);
+		Interrupt_enable(impl::pieXIntNums[m_intNum]);
 	}
 
 	/**
@@ -295,7 +295,7 @@ public:
 	 */
 	void acknowledgeInterrupt() const
 	{
-		Interrupt_clearACKGroup(impl::PIE_XINT_GROUPS[m_intNum]);
+		Interrupt_clearACKGroup(impl::pieXIntGroups[m_intNum]);
 	}
 };
 
@@ -332,7 +332,7 @@ public:
 		m_cfg = cfg;
 		if (m_cfg.valid)
 		{
-			assert(cfg.direction == PIN_OUTPUT);
+			assert(cfg.direction == PinOutput);
 #ifdef CPU1
 			GPIO_setPadConfig(m_cfg.no, m_cfg.type);
 			//set() - is virtual, shouldn't be called in ctor
@@ -403,12 +403,12 @@ class InputDebouncer
 private:
 	const Input m_pin;
 public:
-	const unsigned int ACQ_PERIOD_MSEC;
-	const unsigned int ACTIVE_DEBOUNCE_MSEC;
-	const unsigned int INACTIVE_DEBOUNCE_MSEC;
+	const unsigned int acqPeriod_ms;
+	const unsigned int activeDebounce_ms;
+	const unsigned int inactiveDebounce_ms;
 private:
-	const unsigned int ACTIVE_DEBOUNCE_COUNT;
-	const unsigned int INACTIVE_DEBOUNCE_COUNT;
+	const unsigned int m_activeDebounceCount;
+	const unsigned int m_inactiveDebounceCount;
 	unsigned int m_count;
 	emb::PinState m_state;
 	bool m_stateChanged;
@@ -420,17 +420,17 @@ public:
 	 * @param act_msec - time(msec) before registering active state
 	 * @param inact_msec - time(msec) before registering inactive state
 	 */
-	InputDebouncer(const Input& pin, unsigned int acqPeriod_msec, unsigned int act_msec, unsigned int inact_msec)
+	InputDebouncer(const Input& pin, unsigned int acqPeriod_ms, unsigned int act_ms, unsigned int inact_ms)
 		: m_pin(pin)
-		, ACQ_PERIOD_MSEC(acqPeriod_msec)
-		, ACTIVE_DEBOUNCE_MSEC(act_msec)
-		, INACTIVE_DEBOUNCE_MSEC(inact_msec)
-		, ACTIVE_DEBOUNCE_COUNT(act_msec / acqPeriod_msec)
-		, INACTIVE_DEBOUNCE_COUNT(inact_msec / acqPeriod_msec)
+		, acqPeriod_ms(acqPeriod_ms)
+		, activeDebounce_ms(act_ms)
+		, inactiveDebounce_ms(inact_ms)
+		, m_activeDebounceCount(act_ms / acqPeriod_ms)
+		, m_inactiveDebounceCount(inact_ms / acqPeriod_ms)
 		, m_state(emb::PinInactive)
 		, m_stateChanged(false)
 	{
-		m_count = ACTIVE_DEBOUNCE_COUNT;
+		m_count = m_activeDebounceCount;
 	}
 
 	/**
@@ -447,11 +447,11 @@ public:
 		{
 			if (m_state == emb::PinActive)
 			{
-				m_count = INACTIVE_DEBOUNCE_COUNT;
+				m_count = m_inactiveDebounceCount;
 			}
 			else
 			{
-				m_count = ACTIVE_DEBOUNCE_COUNT;
+				m_count = m_activeDebounceCount;
 			}
 		}
 		else
@@ -462,11 +462,11 @@ public:
 				m_stateChanged = true;
 				if (m_state == emb::PinActive)
 				{
-					m_count = INACTIVE_DEBOUNCE_COUNT;
+					m_count = m_inactiveDebounceCount;
 				}
 				else
 				{
-					m_count = ACTIVE_DEBOUNCE_COUNT;
+					m_count = m_activeDebounceCount;
 				}
 			}
 		}

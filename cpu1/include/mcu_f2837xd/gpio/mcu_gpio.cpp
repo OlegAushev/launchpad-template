@@ -13,15 +13,9 @@ namespace mcu {
 namespace gpio {
 
 
-namespace impl {
-
-
-const uint32_t PIE_XINT_NUMBERS[5] = {INT_XINT1, INT_XINT2, INT_XINT3, INT_XINT4, INT_XINT5};
-const uint16_t PIE_XINT_GROUPS[5] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP1,
+const uint32_t impl::pieXIntNums[5] = {INT_XINT1, INT_XINT2, INT_XINT3, INT_XINT4, INT_XINT5};
+const uint16_t impl::pieXIntGroups[5] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_GROUP1,
 		INTERRUPT_ACK_GROUP12, INTERRUPT_ACK_GROUP12, INTERRUPT_ACK_GROUP12};
-
-
-}
 
 
 } // namespace gpio
