@@ -166,44 +166,44 @@ extern const uint32_t pwmPinOutBConfigs[12];
  * @brief PWM unit class.
  */
 template <PhaseCount Phases>
-class Pwm
+class Module
 {
 private:
 	// there is a divider ( EPWMCLKDIV ) of the system clock
 	// which defaults to EPWMCLK = SYSCLKOUT/2, fclk(epwm)max = 100 MHz
-	static const uint32_t PWMCLK_FREQ = DEVICE_SYSCLK_FREQ / 2;
-	static const uint32_t PWMCLK_CYCLE_NS = 1000000000 / PWMCLK_FREQ;
-	const uint32_t TBCLK_FREQ;
-	const uint32_t TBCLK_CYCLE_NS;
+	static const uint32_t s_pwmClkFreq = DEVICE_SYSCLK_FREQ / 2;
+	static const uint32_t s_pwmClkCycle_ns = 1000000000 / s_pwmClkFreq;
+	const uint32_t m_timebaseClkFreq;
+	const uint32_t m_timebaseCycle_ns;
 
-	impl::PwmModuleImpl<PhaseCount> m_module;
-	PwmCounterMode m_counterMode;
+	impl::Module<Phases> m_module;
+	CounterMode m_counterMode;
 	float m_switchingFreq;
 	uint16_t m_deadtimeCycles;
 
-	uint16_t m_period;			// TBPRD register value
-	uint16_t m_phaseShift[PhaseCount];	// TBPHS registers values
+	uint16_t m_period;		// TBPRD register value
+	uint16_t m_phaseShift[Phases];	// TBPHS registers values
 
-	PwmState m_state;
+	State m_state;
 
 private:
-	Pwm(const Pwm& other);			// no copy constructor
-	Pwm& operator=(const Pwm& other);	// no copy assignment operator
+	Module(const Module& other);		// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU PWM unit.
 	 * @param cfg - PWM config
 	 * @param (none)
 	 */
-	Pwm(const PwmConfig<PhaseCount>& cfg)
-		: TBCLK_FREQ(PWMCLK_FREQ / cfg.clockPrescaler)
-		, TBCLK_CYCLE_NS(PWMCLK_CYCLE_NS * cfg.clockPrescaler)
+	Module(const pwm::Config<Phases>& cfg)
+		: m_timebaseClkFreq(s_pwmClkFreq / cfg.clockPrescaler)
+		, m_timebaseCycle_ns(s_pwmClkCycle_ns * cfg.clockPrescaler)
 		, m_counterMode(cfg.counterMode)
 		, m_switchingFreq(cfg.switchingFreq)
-		, m_deadtimeCycles(cfg.deadtime_ns / TBCLK_CYCLE_NS)
-		, m_state(PWM_OFF)
+		, m_deadtimeCycles(cfg.deadtime_ns / m_timebaseCycle_ns)
+		, m_state(PwmOff)
 	{
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			m_module.instance[i] = cfg.module[i];
 			m_module.base[i] = impl::pwmBases[cfg.module[i]];
@@ -211,7 +211,7 @@ public:
 		m_module.pieEventIntNum = impl::pwmPieEventIntNums[cfg.module[0]];
 		m_module.pieTripIntNum = impl::pwmPieTripIntNums[cfg.module[0]];
 
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			m_phaseShift[i] = 0;
 		}
@@ -230,16 +230,16 @@ public:
 		// Calculate TBPRD value
 		switch (cfg.counterMode)
 		{
-		case PWM_COUNTER_MODE_UP:
-		case PWM_COUNTER_MODE_DOWN:
-			m_period = (TBCLK_FREQ / m_switchingFreq) - 1;
+		case PwmCounterModeUp:
+		case PwmCounterModeDown:
+			m_period = (m_timebaseClkFreq / m_switchingFreq) - 1;
 			break;
-		case PWM_COUNTER_MODE_UP_DOWN:
-			m_period = (TBCLK_FREQ / m_switchingFreq) / 2;
+		case PwmCounterModeUpDown:
+			m_period = (m_timebaseClkFreq / m_switchingFreq) / 2;
 			break;
 		}
 
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			EPWM_setTimeBasePeriod(m_module.base[i], m_period);
 			EPWM_setTimeBaseCounter(m_module.base[i], 0);
@@ -279,7 +279,7 @@ public:
 
 			/* ========================================================================== */
 			// Sync out pulse event
-			switch (PhaseCount)
+			switch (Phases)
 			{
 			case PwmSixPhase:
 			case PwmThreePhase:
@@ -308,7 +308,7 @@ public:
 
 			/* ========================================================================== */
 			// Time-base counter synchronization and phase shift
-			switch (PhaseCount)
+			switch (Phases)
 			{
 			case PwmSixPhase:
 			case PwmThreePhase:
@@ -356,19 +356,19 @@ public:
 				// PWMxA configuration for typical waveforms, change this if other is needed
 			switch (cfg.operatingMode)
 			{
-			case PWM_COUNTER_MODE_UP:
+			case PwmCounterModeUp:
 				EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
 				break;
-			case PWM_COUNTER_MODE_DOWN:
+			case PwmCounterModeDown:
 				EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);
 				break;
-			case PWM_COUNTER_MODE_UP_DOWN:
+			case PwmCounterModeUpDown:
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
@@ -393,11 +393,11 @@ public:
 
 			switch (cfg.operatingMode)
 			{
-			case PWM_ACTIVE_HIGH_COMPLEMENTARY:
+			case PwmActiveHighComplementary:
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_RED, EPWM_DB_POLARITY_ACTIVE_HIGH);
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_FED, EPWM_DB_POLARITY_ACTIVE_LOW);
 				break;
-			case PWM_ACTIVE_LOW_COMPLEMENTARY:
+			case PwmActiveLowComplementary:
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_RED, EPWM_DB_POLARITY_ACTIVE_LOW);
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_FED, EPWM_DB_POLARITY_ACTIVE_HIGH);
 				break;
@@ -411,11 +411,11 @@ public:
 
 			switch (cfg.outputSwap)
 			{
-			case PWM_OUTPUT_NO_SWAP:
+			case PwmOutputNoSwap:
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_A, false);
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_B, false);
 				break;
-			case PWM_OUTPUT_SWAP:
+			case PwmOutputSwap:
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_A, true);
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_B, true);
 				break;
@@ -425,11 +425,11 @@ public:
 			// Trip-Zone actions
 			switch (cfg.operatingMode)
 			{
-			case PWM_ACTIVE_HIGH_COMPLEMENTARY:
+			case PwmActiveHighComplementary:
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);
 				break;
-			case PWM_ACTIVE_LOW_COMPLEMENTARY:
+			case PwmActiveLowComplementary:
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_HIGH);
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_HIGH);
 				break;
@@ -576,10 +576,10 @@ public:
 		{
 		case PWM_COUNTER_MODE_UP:
 		case PWM_COUNTER_MODE_DOWN:
-			m_period = (TBCLK_FREQ / m_switchingFreq) - 1;
+			m_period = (m_timebaseClkFreq / m_switchingFreq) - 1;
 			break;
 		case PWM_COUNTER_MODE_UP_DOWN:
-			m_period = (TBCLK_FREQ / m_switchingFreq) / 2;
+			m_period = (m_timebaseClkFreq / m_switchingFreq) / 2;
 			break;
 		}
 
@@ -607,7 +607,7 @@ public:
 	/**
 	 * @overload
 	 */
-	void setCompareValues(const emb::Array<uint16_t, PhaseCount>& cmpValues) const
+	void setCompareValues(const emb::Array<uint16_t, Phases>& cmpValues) const
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -637,7 +637,7 @@ public:
 	 * @param dutyCycles - reference to duty cycles array
 	 * @return (none)
 	 */
-	void setDutyCycles(const emb::Array<float, PhaseCount>& dutyCycles) const
+	void setDutyCycles(const emb::Array<float, Phases>& dutyCycles) const
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -683,11 +683,11 @@ public:
 	 */
 	void stop()
 	{
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			EPWM_forceTripZoneEvent(m_module.base[i], EPWM_TZ_FORCE_EVENT_OST);
 		}
-		m_state = PWM_OFF;
+		m_state = PwmOff;
 	}
 
 	/**
@@ -695,7 +695,7 @@ public:
 	 * @param (none)
 	 * @return PWM state.
 	 */
-	PwmState state() const
+	State state() const
 	{
 		return m_state;
 	}
@@ -788,9 +788,9 @@ public:
 
 protected:
 #ifdef CPU1
-	void _initPins(const PwmConfig<PhaseCount>& cfg)
+	void _initPins(const pwm::Config<Phases>& cfg)
 	{
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			GPIO_setPadConfig(cfg.module[i] * 2, GPIO_PIN_TYPE_STD);
 			GPIO_setPadConfig(cfg.module[i] * 2 + 1, GPIO_PIN_TYPE_STD);
