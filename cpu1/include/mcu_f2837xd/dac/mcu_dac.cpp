@@ -10,13 +10,13 @@
 namespace mcu {
 
 
-namespace impl {
+namespace dac {
 
 
-const uint32_t dacBases[3] = {DACA_BASE, DACB_BASE, DACC_BASE};
+const uint32_t impl::dacBases[3] = {DACA_BASE, DACB_BASE, DACC_BASE};
 
 
-}
+} // namespace dac
 
 
 } // namespace mcu

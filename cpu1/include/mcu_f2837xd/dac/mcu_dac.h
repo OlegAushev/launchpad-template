@@ -17,16 +17,19 @@
 
 
 namespace mcu {
+
+
+namespace dac {
 /// @addtogroup mcu_dac
 /// @{
 
 
 /// DAC modules
-enum DacModule
+enum Peripheral
 {
-	DACA,/**< DACA */
-	DACB,/**< DACB */
-	DACC /**< DACC */
+	DacA,
+	DacB,
+	DacC
 };
 
 
@@ -36,10 +39,10 @@ namespace impl {
 /**
  * @brief DAC module implementation.
  */
-struct DacModuleImpl
+struct Module
 {
 	uint32_t base;
-	DacModuleImpl(uint32_t _base) : base(_base) {}
+	Module(uint32_t _base) : base(_base) {}
 };
 
 
@@ -52,24 +55,24 @@ extern const uint32_t dacBases[3];
 /**
  * @brief DAC input class.
  */
-class DacInput
+class Input
 {
 private:
 	uint16_t m_tag : 4;
 	uint16_t m_value : 12;
 public:
-	DacInput()
+	Input()
 		: m_tag(0)
 		, m_value(0)
 	{}
 
-	explicit DacInput(uint16_t value)
+	explicit Input(uint16_t value)
 		: m_tag(0)
 		, m_value(value & 0x0FFF)
 	{}
 
-	DacInput(uint16_t value, DacModule module)
-		: m_tag(static_cast<uint16_t>(module))
+	Input(uint16_t value, Peripheral peripheral)
+		: m_tag(static_cast<uint16_t>(peripheral))
 		, m_value(value & 0x0FFF)
 	{}
 
@@ -81,23 +84,22 @@ public:
 /**
  * @brief DAC unit class.
  */
-template <DacModule Module>
-class Dac : public emb::c28x::interrupt_invoker<Dac<Module> >
+template <Peripheral Instance>
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
-	impl::DacModuleImpl m_module;
-
+	impl::Module m_module;
 private:
-	Dac(const Dac& other);			// no copy constructor
-	Dac& operator=(const Dac& other);	// no copy assignment operator
+	Module(const Module& other);		// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU DAC unit.
 	 * @param (none)
 	 */
-	Dac()
-		: emb::c28x::singleton<Dac<Module> >(this)
-		, m_module(impl::dacBases[Module])
+	Module()
+		: emb::c28x::singleton<Module<Instance> >(this)
+		, m_module(impl::dacBases[Instance])
 	{
 		DAC_setReferenceVoltage(m_module.base, DAC_REF_ADC_VREFHI);
 		DAC_enableOutput(m_module.base);
@@ -110,7 +112,7 @@ public:
 	 * @param value - value to be converted.
 	 * @return (none)
 	 */
-	void convert(DacInput input)
+	void convert(Input input)
 	{
 		DAC_setShadowValue(m_module.base, input.value());
 	}
@@ -118,6 +120,9 @@ public:
 
 
 /// @}
+} // namespace dac
+
+
 } // namespace mcu
 
 
