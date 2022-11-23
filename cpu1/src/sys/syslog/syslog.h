@@ -104,7 +104,7 @@ public:
 	 */
 	static void addMessage(sys::Message::Message msg)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 #ifdef CPU1
 		if (!m_messages.full())
 		{
@@ -141,7 +141,7 @@ public:
 	 */
 	static void popMessage()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 #ifdef CPU1
 		if (!m_messages.empty())
 		{
@@ -159,7 +159,7 @@ public:
 	 */
 	static void clearMessages()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_messages.clear();
 	}
 
@@ -201,7 +201,7 @@ public:
 	 */
 	static void enableError(sys::Error::Error error)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->enabledErrorMask = m_thisCpuData->enabledErrorMask | (1UL << error);
 	}
 
@@ -212,7 +212,7 @@ public:
 	 */
 	static void enableAllErrors()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->enabledErrorMask = 0xFFFFFFFF;
 	}
 
@@ -223,7 +223,7 @@ public:
 	 */
 	static void disableError(sys::Error::Error error)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->enabledErrorMask = m_thisCpuData->enabledErrorMask & ((1UL << error) ^ 0xFFFFFFFF);
 	}
 
@@ -234,7 +234,7 @@ public:
 	 */
 	static void disableAllErrors()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->enabledErrorMask = 0;
 	}
 
@@ -245,7 +245,7 @@ public:
 	 */
 	static void setError(sys::Error::Error error)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->errors = m_thisCpuData->errors | ((1UL << error) & m_thisCpuData->enabledErrorMask);
 	}
 
@@ -270,7 +270,7 @@ public:
 	 */
 	static void resetError(sys::Error::Error error)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->errors = m_thisCpuData->errors & ((1UL << error) ^ 0xFFFFFFFF);
 	}
 
@@ -309,7 +309,7 @@ public:
 	 */
 	static void setWarning(sys::Warning::Warning warning)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->warnings = m_thisCpuData->warnings | (1UL << warning);
 	}
 
@@ -334,7 +334,7 @@ public:
 	 */
 	static void resetWarning(sys::Warning::Warning warning)
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->warnings = m_thisCpuData->warnings & ((1UL << warning) ^ 0xFFFFFFFF);
 	}
 
@@ -359,7 +359,7 @@ public:
 	 */
 	static void resetErrorsWarnings()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->errors = m_thisCpuData->errors & m_thisCpuData->fatalErrorMask;
 		m_thisCpuData->warnings = m_thisCpuData->warnings & m_thisCpuData->fatalWarningMask;
 #if (defined(CPU1) && defined(DUALCORE))
@@ -374,7 +374,7 @@ public:
 	 */
 	static void clearCriticalMasks()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->fatalErrorMask = 0;
 		m_thisCpuData->fatalWarningMask = 0;
 	}
@@ -386,7 +386,7 @@ public:
 	 */
 	static void enableCriticalMasks()
 	{
-		mcu::CRITICAL_SECTION;
+		mcu::CriticalSection cs;
 		m_thisCpuData->fatalErrorMask = sys::Error::FATAL_ERRORS;
 		m_thisCpuData->fatalWarningMask = sys::Warning::FATAL_WARNINGS;
 	}

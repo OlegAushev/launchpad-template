@@ -144,9 +144,6 @@ public:
 };
 
 
-#define CRITICAL_SECTION CriticalSection EMB_UNIQ_ID(__LINE__);
-
-
 /**
  * @brief Returns device SYSCLK frequency.
  * @param (none)
