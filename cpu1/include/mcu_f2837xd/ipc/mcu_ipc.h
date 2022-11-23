@@ -16,6 +16,9 @@
 
 
 namespace mcu {
+
+
+namespace ipc {
 /// @addtogroup mcu_ipc
 /// @{
 
@@ -23,22 +26,54 @@ namespace mcu {
 ///
 enum IpcMode
 {
-	IPC_MODE_SINGLECORE,
-	IPC_MODE_DUALCORE
+	IpcModeSinglecore,
+	IpcModeDualcore
 };
 
 
 /**
  * @brief Local IPC flag.
  */
-struct LocalIpcFlag
+class LocalFlag
 {
-	uint32_t mask;
-	LocalIpcFlag() : mask(0) {}
-	explicit LocalIpcFlag(uint32_t flagNo)
-		: mask(1UL << flagNo)
+private:
+	uint32_t m_mask;
+public:
+	LocalFlag() : m_mask(0) {}
+	explicit LocalFlag(uint32_t flagNo)
+		: m_mask(1UL << flagNo)
 	{
 		assert(flagNo < 32);
+	}
+
+	/**
+	 * @brief Sends IPC signal by setting local IPC flag.
+	 * @param (none)
+	 * @return (none)
+	 */
+	void set()
+	{
+		IPCLtoRFlagSet(m_mask);
+	}
+
+	/**
+	 * @brief Resets local IPC flag.
+	 * @param (none)
+	 * @return (none)
+	 */
+	inline void reset()
+	{
+		IPCLtoRFlagClear(m_mask);
+	}
+
+	/**
+	 * @brief Checks if local IPC flag is set.
+	 * @param (none)
+	 * @return \c true if local IPC flag is set, \c false otherwise.
+	 */
+	bool check()
+	{
+		return IPCLtoRFlagBusy(m_mask);
 	}
 };
 
@@ -46,14 +81,47 @@ struct LocalIpcFlag
 /**
  * @brief Remote IPC flag.
  */
-struct RemoteIpcFlag
+class RemoteFlag
 {
-	uint32_t mask;
-	RemoteIpcFlag() : mask(0) {}
-	explicit RemoteIpcFlag(uint32_t flagNo)
-		: mask(1UL << flagNo)
+private:
+	uint32_t m_mask;
+public:
+	RemoteFlag() : m_mask(0) {}
+	explicit RemoteFlag(uint32_t flagNo)
+		: m_mask(1UL << flagNo)
 	{
 		assert(flagNo < 32);
+	}
+
+	/**
+	 * @brief Waits for IPC signal in blocking-mode.
+	 * @param (none)
+	 * @return (none)
+	 */
+	void wait()
+	{
+		while(!IPCRtoLFlagBusy(m_mask));
+		IPCRtoLFlagAcknowledge(m_mask);
+	}
+
+	/**
+	 * @brief Checks if remote IPC flag is set.
+	 * @param (none)
+	 * @return \c true if remote IPC flag is set, \c false otherwise.
+	 */
+	bool check()
+	{
+		return IPCRtoLFlagBusy(m_mask);
+	}
+
+	/**
+	 * @brief Acknowledges remote IPC flag.
+	 * @param (none)
+	 * @return (none)
+	 */
+	inline void acknowledge()
+	{
+		IPCRtoLFlagAcknowledge(m_mask);
 	}
 };
 
@@ -61,131 +129,64 @@ struct RemoteIpcFlag
 /**
  * @brief Local-Remote flag "pair".
  */
-struct IpcFlag
+class Flag
 {
-	LocalIpcFlag local;
-	RemoteIpcFlag remote;
-	IpcFlag() {}
-	explicit IpcFlag(uint32_t flagNo)
-		: local(flagNo)
+private:
+	IpcMode m_mode;
+public:
+	LocalFlag local;
+	RemoteFlag remote;
+	Flag() {}
+	explicit Flag(uint32_t flagNo, IpcMode mode)
+		: m_mode(mode)
+		, local(flagNo)
 		, remote(flagNo)
 	{}
+
+	/**
+	 * @brief Checks if local or remote (according to ipc mode) flag is set.
+	 * @param (none)
+	 * @return \c true if flag is set, \c false otherwise.
+	 */
+	bool check()
+	{
+		switch (m_mode)
+		{
+		case mcu::ipc::IpcModeSinglecore:
+			return local.check();
+		case mcu::ipc::IpcModeDualcore:
+			return remote.check();
+		}
+		return false;
+	}
+
+	/**
+	 * @brief Resets local or remote flag (according to ipc mode).
+	 * @param (none)
+	 * @return (none)
+	 */
+	inline void reset()
+	{
+		switch (m_mode)
+		{
+		case mcu::ipc::IpcModeSinglecore:
+			local.reset();
+			return;
+		case mcu::ipc::IpcModeDualcore:
+			remote.acknowledge();
+			return;
+		}
+	}
 };
-
-
-/**
- * @brief Sends IPC signal by setting local IPC flag.
- * @param ipcFlag - local IPC flag
- * @return (none)
- */
-inline void setLocalIpcFlag(LocalIpcFlag ipcFlag)
-{
-	IPCLtoRFlagSet(ipcFlag.mask);
-}
-
-
-/**
- * @brief Waits for IPC signal in blocking-mode.
- * @param ipcFlag - remote IPC flag
- * @return (none)
- */
-inline void waitForRemoteIpcFlag(RemoteIpcFlag ipcFlag)
-{
-	while(!IPCRtoLFlagBusy(ipcFlag.mask));
-	IPCRtoLFlagAcknowledge(ipcFlag.mask);
-}
-
-
-/**
- * @brief Checks if remote IPC flag is set.
- * @param ipcFlag - remote IPC flag
- * @return \c true if remote IPC flag is set, \c false otherwise.
- */
-inline bool isRemoteIpcFlagSet(RemoteIpcFlag ipcFlag)
-{
-	return IPCRtoLFlagBusy(ipcFlag.mask);
-}
-
-
-/**
- * @brief Checks if local IPC flag is set.
- * @param ipcFlag - local IPC flag
- * @return \c true if local IPC flag is set, \c false otherwise.
- */
-inline bool isLocalIpcFlagSet(LocalIpcFlag ipcFlag)
-{
-	return IPCLtoRFlagBusy(ipcFlag.mask);
-}
-
-
-/**
- * @brief Acknowledges remote IPC flag.
- * @param ipcFlag - remote IPC flag
- * @return (none)
- */
-inline void acknowledgeRemoteIpcFlag(RemoteIpcFlag ipcFlag)
-{
-	IPCRtoLFlagAcknowledge(ipcFlag.mask);
-}
-
-
-/**
- * @brief Resets local IPC flag.
- * @param ipcFlag - local IPC flag
- * @return (none)
- */
-inline void resetLocalIpcFlag(LocalIpcFlag ipcFlag)
-{
-	IPCLtoRFlagClear(ipcFlag.mask);
-}
-
-
-/**
- * @brief Checks if local or remote (according to ipc mode) flag is set.
- * @param ipcFlagPair - IPC flag pair
- * @param mode - IPC mode
- * @return \c true if flag is set, \c false otherwise.
- */
-inline bool isIpcFlagSet(const IpcFlag& ipcFlagPair, IpcMode mode)
-{
-	switch (mode)
-	{
-	case mcu::IPC_MODE_SINGLECORE:
-		return isLocalIpcFlagSet(ipcFlagPair.local);
-	case mcu::IPC_MODE_DUALCORE:
-		return isRemoteIpcFlagSet(ipcFlagPair.remote);
-	}
-	return false;
-}
-
-
-/**
- * @brief Resets local or remote flag (according to ipc mode).
- * @param ipcFlagPair - IPC flag pair
- * @param mode - IPC mode
- * @return (none)
- */
-inline void resetIpcFlag(const IpcFlag& ipcFlagPair, IpcMode mode)
-{
-	switch (mode)
-	{
-	case mcu::IPC_MODE_SINGLECORE:
-		resetLocalIpcFlag(ipcFlagPair.local);
-		return;
-	case mcu::IPC_MODE_DUALCORE:
-		acknowledgeRemoteIpcFlag(ipcFlagPair.remote);
-		return;
-	}
-}
 
 
 /// IPC interrupts
 enum IpcInterrupt
 {
-	IPC_INTERRUPT_0 = INT_IPC_0,
-	IPC_INTERRUPT_1 = INT_IPC_1,
-	IPC_INTERRUPT_2 = INT_IPC_2,
-	IPC_INTERRUPT_3 = INT_IPC_3,
+	IpcInterrupt0 = INT_IPC_0,
+	IpcInterrupt1 = INT_IPC_1,
+	IpcInterrupt2 = INT_IPC_2,
+	IpcInterrupt3 = INT_IPC_3,
 };
 
 
@@ -202,33 +203,19 @@ inline void registerIpcInterruptHandler(IpcInterrupt ipcInterrupt, void (*handle
 }
 
 
+namespace flags {
+
+extern mcu::ipc::Flag cpu1PeripheryConfigured;
+extern mcu::ipc::Flag cpu2Booted;
+extern mcu::ipc::Flag cpu2PeripheryConfigured;
+
+}
+
+
 /// @}
+} // namespace ipc
+
+
 } // namespace mcu
-
-
-/// @addtogroup mcu_ipc
-/// @{
-#if (defined(DUALCORE) && defined(CPU1))
-extern const mcu::LocalIpcFlag CPU1_PERIPHERY_CONFIGURED;
-
-extern const mcu::RemoteIpcFlag CPU2_BOOTED;
-extern const mcu::RemoteIpcFlag CPU2_PERIPHERY_CONFIGURED;
-#endif
-
-
-#if (defined(DUALCORE) && defined(CPU2))
-extern const mcu::RemoteIpcFlag CPU1_PERIPHERY_CONFIGURED;
-
-extern const mcu::LocalIpcFlag CPU2_BOOTED;
-extern const mcu::LocalIpcFlag CPU2_PERIPHERY_CONFIGURED;
-#endif
-
-
-#if (!defined(DUALCORE) && defined(CPU1))
-extern const mcu::LocalIpcFlag CPU1_PERIPHERY_CONFIGURED;
-#endif
-
-
-/// @}
 
 

@@ -31,9 +31,9 @@ class Syslog : public emb::monostate<Syslog>
 public:
 	struct IpcFlags
 	{
-		mcu::IpcFlag RESET_ERRORS_WARNINGS;
-		mcu::IpcFlag ADD_MESSAGE;
-		mcu::IpcFlag POP_MESSAGE;
+		mcu::ipc::Flag resetErrorsWarnings;
+		mcu::ipc::Flag addMessage;
+		mcu::ipc::Flag popMessage;
 	};
 
 	struct Data
@@ -63,10 +63,7 @@ private:
 
 	static Data* m_thisCpuData;
 
-	// IPC flags
-	static mcu::IpcFlag RESET_ERRORS_WARNINGS;
-	static mcu::IpcFlag ADD_MESSAGE;
-	static mcu::IpcFlag POP_MESSAGE;
+	static IpcFlags s_ipcFlags;
 
 public:
 	/**
@@ -95,9 +92,7 @@ public:
 		m_thisCpuData->fatalErrorMask = sys::Error::FATAL_ERRORS;
 		m_thisCpuData->fatalWarningMask = sys::Warning::FATAL_WARNINGS;
 
-		RESET_ERRORS_WARNINGS = ipcFlags.RESET_ERRORS_WARNINGS;
-		ADD_MESSAGE = ipcFlags.ADD_MESSAGE;
-		POP_MESSAGE = ipcFlags.POP_MESSAGE;
+		s_ipcFlags = ipcFlags;
 
 		set_initialized();
 	}
@@ -177,23 +172,23 @@ public:
 	{
 #ifdef DUALCORE
 #ifdef CPU1
-		if (mcu::isRemoteIpcFlagSet(POP_MESSAGE.remote))
+		if (s_ipcFlags.popMessage.remote.check())
 		{
 			popMessage();
-			mcu::acknowledgeRemoteIpcFlag(POP_MESSAGE.remote);
+			s_ipcFlags.popMessage.remote.acknowledge();
 		}
 
-		if (mcu::isRemoteIpcFlagSet(ADD_MESSAGE.remote))
+		if (s_ipcFlags.addMessage.remote.check())
 		{
 			addMessage(m_cpu2Message);
-			mcu::acknowledgeRemoteIpcFlag(ADD_MESSAGE.remote);
+			s_ipcFlags.addMessage.remote.acknowledge();
 		}
 #endif
 #ifdef CPU2
-		if (mcu::isRemoteIpcFlagSet(RESET_ERRORS_WARNINGS.remote))
+		if (s_ipcFlags.resetErrorsWarnings.remote.check())
 		{
 			resetErrorsWarnings();
-			mcu::acknowledgeRemoteIpcFlag(RESET_ERRORS_WARNINGS.remote);
+			s_ipcFlags.resetErrorsWarnings.remote.acknowledge();
 		}
 #endif
 #endif
@@ -368,7 +363,7 @@ public:
 		m_thisCpuData->errors = m_thisCpuData->errors & m_thisCpuData->fatalErrorMask;
 		m_thisCpuData->warnings = m_thisCpuData->warnings & m_thisCpuData->fatalWarningMask;
 #if (defined(CPU1) && defined(DUALCORE))
-		mcu::setLocalIpcFlag(RESET_ERRORS_WARNINGS.local);
+		s_ipcFlags.resetErrorsWarnings.local.set();
 #endif
 	}
 
