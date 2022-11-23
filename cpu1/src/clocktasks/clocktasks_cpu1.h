@@ -27,7 +27,7 @@ mcu::ClockTaskStatus taskWatchdogTimeout();
  * @param (none)
  * @return Task execution status.
  */
-mcu::ClockTaskStatus taskToggleLed();
+mcu::ClockTaskStatus taskToggleLed(size_t taskIndex);
 
 
 /**
@@ -35,6 +35,6 @@ mcu::ClockTaskStatus taskToggleLed();
  * @param (none)
  * @return Task execution status.
  */
-mcu::ClockTaskStatus taskStartTempSensorAdc();
+mcu::ClockTaskStatus taskStartTempSensorAdc(size_t taskIndex);
 
 

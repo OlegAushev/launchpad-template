@@ -216,11 +216,9 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("register periodic tasks... ");
 
-	mcu::SystemClock::setTaskPeriod(0, 1000);
-	mcu::SystemClock::registerTask(0, taskToggleLed);
+	mcu::SystemClock::registerTask(taskToggleLed, 1000);
 
-	mcu::SystemClock::setWatchdogPeriod(1000);
-	mcu::SystemClock::registerWatchdogTask(taskWatchdogTimeout);
+	mcu::SystemClock::registerWatchdogTask(taskWatchdogTimeout, 1000);
 
 	cli::print_blocking("done");
 

@@ -13,6 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "emb/emb_core.h"
+#include "emb/emb_staticvector.h"
 #include "../system/mcu_system.h"
 
 
@@ -24,8 +25,8 @@ namespace mcu {
 /// Clock task statuses
 enum ClockTaskStatus
 {
-	CLOCK_TASK_SUCCESS = 0,
-	CLOCK_TASK_FAIL = 1
+	ClockTaskSuccess = 0,
+	ClockTaskFail = 1
 };
 
 
@@ -35,19 +36,35 @@ enum ClockTaskStatus
 class SystemClock : public emb::monostate<SystemClock>
 {
 private:
-	static volatile uint64_t m_time;
-	static const uint32_t TIME_STEP = 1;
-	static const size_t TASK_COUNT = 4;
+	static volatile uint64_t s_time;
+	static const uint32_t s_timeStep = 1;
+	static const size_t s_taskMaxCount = 4;
 
 /* ========================================================================== */
 /* = Periodic Tasks = */
 /* ========================================================================== */
 private:
-	static uint64_t m_taskPeriods[TASK_COUNT];
-	static uint64_t m_taskTimestamps[TASK_COUNT];	// timestamp of executed task
-	static ClockTaskStatus (*m_tasks[TASK_COUNT])();
-	static ClockTaskStatus emptyTask() { return CLOCK_TASK_SUCCESS; }
+	struct Task
+	{
+		uint64_t period;
+		uint64_t timepoint;
+		ClockTaskStatus (*func)(size_t);
+	};
+	static ClockTaskStatus empty_task() { return ClockTaskSuccess; }
+	static emb::StaticVector<Task, s_taskMaxCount> s_tasks;
 public:
+	/**
+	 * @brief Registers periodic task.
+	 * @param task - pointer to task function
+	 * @param period - task period
+	 * @return (none)
+	 */
+	static void registerTask(ClockTaskStatus (*func)(size_t), uint64_t period)
+	{
+		Task task = {period, now(), func};
+		s_tasks.push_back(task);
+	}
+
 	/**
 	 * @brief Set task period.
 	 * @param index - task index
@@ -56,29 +73,21 @@ public:
 	 */
 	static void setTaskPeriod(size_t index, uint64_t period)
 	{
-		m_taskPeriods[index] = period;
-	}
-
-	/**
-	 * @brief Registers periodic task.
-	 * @param index - task period
-	 * @param task - pointer to task function
-	 * @return (none)
-	 */
-	static void registerTask(size_t index, ClockTaskStatus (*task)())
-	{
-		m_tasks[index] = task;
+		if (index < s_tasks.size())
+		{
+			s_tasks[index].period = period;
+		}
 	}
 
 /* ========================================================================== */
 /* = Watchdog = */
 /* ========================================================================== */
 private:
-	static bool m_watchdogEnabled;
-	static uint64_t m_watchdogTimer;
-	static uint64_t m_watchdogPeriod;
-	static bool m_watchdogTimeoutDetected;
-	static ClockTaskStatus (*m_watchdogTask)();
+	static bool s_watchdogEnabled;
+	static uint64_t s_watchdogTimer;
+	static uint64_t s_watchdogBound;
+	static bool s_watchdogTimeoutDetected;
+	static ClockTaskStatus (*s_watchdogTask)();
 public:
 	/**
 	 * @brief Enable watchdog.
@@ -87,7 +96,7 @@ public:
 	 */
 	static void enableWatchdog()
 	{
-		m_watchdogEnabled = true;
+		s_watchdogEnabled = true;
 	}
 
 	/**
@@ -97,17 +106,17 @@ public:
 	 */
 	static void disableWatchdog()
 	{
-		m_watchdogEnabled = false;
+		s_watchdogEnabled = false;
 	}
 
 	/**
 	 * @brief Sets watchdog bound.
-	 * @param watchdogBoundMsec - bound in milliseconds
+	 * @param watchdogPeriod_ms - bound in milliseconds
 	 * @return (none)
 	 */
-	static void setWatchdogPeriod(uint64_t watchdogBound_ms)
+	static void setWatchdogBound(uint64_t watchdogBound_ms)
 	{
-		m_watchdogPeriod = watchdogBound_ms;
+		s_watchdogBound = watchdogBound_ms;
 	}
 
 	/**
@@ -117,7 +126,7 @@ public:
 	 */
 	static void resetWatchdogTimer()
 	{
-		m_watchdogTimer = 0;
+		s_watchdogTimer = 0;
 	}
 
 	/**
@@ -127,7 +136,7 @@ public:
 	 */
 	static bool watchdogTimeoutDetected()
 	{
-		return m_watchdogTimeoutDetected;
+		return s_watchdogTimeoutDetected;
 	}
 
 	/**
@@ -137,7 +146,7 @@ public:
 	 */
 	static void resetWatchdog()
 	{
-		m_watchdogTimeoutDetected = false;
+		s_watchdogTimeoutDetected = false;
 		resetWatchdogTimer();
 	}
 
@@ -146,19 +155,20 @@ public:
 	 * @param task - pointer to task function
 	 * @return (none)
 	 */
-	static void registerWatchdogTask(ClockTaskStatus (*task)())
+	static void registerWatchdogTask(ClockTaskStatus (*task)(), uint64_t watchdogBound_ms)
 	{
-		m_watchdogTask = task;
+		s_watchdogTask = task;
+		s_watchdogBound = watchdogBound_ms;
 	}
 
 /* ========================================================================== */
 /* = Delayed Task = */
 /* ========================================================================== */
 private:
-	static uint64_t m_delayedTaskStart;
-	static uint64_t m_delayedTaskDelay;
-	static void (*m_delayedTask)();
-	static void emptyDelayedTask() {}
+	static uint64_t s_delayedTaskStart;
+	static uint64_t s_delayedTaskDelay;
+	static void (*s_delayedTask)();
+	static void empty_delayed_task() {}
 public:
 	/**
 	 * @brief Registers delayed task.
@@ -167,9 +177,9 @@ public:
 	 */
 	static void registerDelayedTask(void (*task)(), uint64_t delay)
 	{
-		m_delayedTask = task;
-		m_delayedTaskDelay = delay;
-		m_delayedTaskStart = now();
+		s_delayedTask = task;
+		s_delayedTaskDelay = delay;
+		s_delayedTaskStart = now();
 	}
 
 private:
@@ -191,7 +201,7 @@ public:
 	 */
 	static uint64_t now()
 	{
-		return m_time;
+		return s_time;
 	}
 
 	/**
@@ -201,7 +211,7 @@ public:
 	 */
 	static uint32_t step()
 	{
-		return TIME_STEP;
+		return s_timeStep;
 	}
 
 	/**
@@ -211,10 +221,10 @@ public:
 	 */
 	static void reset()
 	{
-		m_time = 0;
-		for (size_t i = 0; i < TASK_COUNT; ++i)
+		s_time = 0;
+		for (size_t i = 0; i < s_tasks.size(); ++i)
 		{
-			m_taskTimestamps[i] = now();
+			s_tasks[i].timepoint = now();
 		}
 	}
 

@@ -10,21 +10,19 @@
 namespace mcu {
 
 
-volatile uint64_t SystemClock::m_time;
+volatile uint64_t SystemClock::s_time;
 
-uint64_t SystemClock::m_taskPeriods[SystemClock::TASK_COUNT];
-uint64_t SystemClock::m_taskTimestamps[SystemClock::TASK_COUNT];
-ClockTaskStatus (*SystemClock::m_tasks[SystemClock::TASK_COUNT])();
+emb::StaticVector<SystemClock::Task, SystemClock::s_taskMaxCount> SystemClock::s_tasks;
 
-bool SystemClock::m_watchdogEnabled;
-uint64_t SystemClock::m_watchdogTimer;
-uint64_t SystemClock::m_watchdogPeriod;
-bool SystemClock::m_watchdogTimeoutDetected;
-ClockTaskStatus (*SystemClock::m_watchdogTask)();
+bool SystemClock::s_watchdogEnabled;
+uint64_t SystemClock::s_watchdogTimer;
+uint64_t SystemClock::s_watchdogBound;
+bool SystemClock::s_watchdogTimeoutDetected;
+ClockTaskStatus (*SystemClock::s_watchdogTask)();
 
-uint64_t SystemClock::m_delayedTaskStart;
-uint64_t SystemClock::m_delayedTaskDelay;
-void (*SystemClock::m_delayedTask)();
+uint64_t SystemClock::s_delayedTaskStart;
+uint64_t SystemClock::s_delayedTaskDelay;
+void (*SystemClock::s_delayedTask)();
 
 
 ///
@@ -34,15 +32,15 @@ void SystemClock::init()
 {
 	if (initialized()) return;
 
-	m_time = 0;
+	s_time = 0;
 
-	m_watchdogEnabled = false;
-	m_watchdogTimer = 0;
-	m_watchdogPeriod = 0;
-	m_watchdogTimeoutDetected = false;
+	s_watchdogEnabled = false;
+	s_watchdogTimer = 0;
+	s_watchdogBound = 0;
+	s_watchdogTimeoutDetected = false;
 
-	m_delayedTaskStart = 0;
-	m_delayedTaskDelay = 0;
+	s_delayedTaskStart = 0;
+	s_delayedTaskDelay = 0;
 
 	Interrupt_register(INT_TIMER0, SystemClock::onInterrupt);
 
@@ -51,22 +49,12 @@ void SystemClock::init()
 	CPUTimer_setPreScaler(CPUTIMER0_BASE, 0);	// Initialize pre-scale counter to divide by 1 (SYSCLKOUT)
 	CPUTimer_reloadTimerCounter(CPUTIMER0_BASE);	// Reload counter register with period value
 
-	uint32_t tmp = (uint32_t)((mcu::sysclkFreq() / 1000) * TIME_STEP);
+	uint32_t tmp = (uint32_t)((mcu::sysclkFreq() / 1000) * s_timeStep);
 	CPUTimer_setPeriod(CPUTIMER0_BASE, tmp - 1);
 	CPUTimer_setEmulationMode(CPUTIMER0_BASE, CPUTIMER_EMULATIONMODE_STOPAFTERNEXTDECREMENT);
 
-	for (size_t i = 0; i < TASK_COUNT; ++i)
-	{
-		m_taskPeriods[i] = 0x0;
-		m_taskTimestamps[i] = 0x0;
-	}
-	for (size_t i = 0; i < TASK_COUNT; ++i)
-	{
-		m_tasks[i] = emptyTask;
-	}
-
-	m_watchdogTask = emptyTask;
-	m_delayedTask = emptyDelayedTask;
+	s_watchdogTask = empty_task;
+	s_delayedTask = empty_delayed_task;
 
 	CPUTimer_enableInterrupt(CPUTIMER0_BASE);
 	Interrupt_enable(INT_TIMER0);
@@ -81,26 +69,24 @@ void SystemClock::init()
 ///
 void SystemClock::runTasks()
 {
-	for (size_t i = 0; i < TASK_COUNT; ++i)
+	for (size_t i = 0; i < s_tasks.size(); ++i)
 	{
-		if (m_taskPeriods[i] != 0)
+		if (now() >= (s_tasks[i].timepoint + s_tasks[i].period))
 		{
-			if (now() >= (m_taskTimestamps[i] + m_taskPeriods[i]))
+			if (s_tasks[i].func(i) == ClockTaskSuccess)
 			{
-				if (m_tasks[i]() == CLOCK_TASK_SUCCESS)
-				{
-					m_taskTimestamps[i] = now();
-				}
+				s_tasks[i].timepoint = now();
 			}
 		}
+
 	}
 
-	if (m_delayedTaskDelay != 0)
+	if (s_delayedTaskDelay != 0)
 	{
-		if (now() >= (m_delayedTaskStart + m_delayedTaskDelay))
+		if (now() >= (s_delayedTaskStart + s_delayedTaskDelay))
 		{
-			m_delayedTask();
-			m_delayedTaskDelay = 0;
+			s_delayedTask();
+			s_delayedTaskDelay = 0;
 		}
 	}
 }
@@ -111,15 +97,15 @@ void SystemClock::runTasks()
 ///
 __interrupt void SystemClock::onInterrupt()
 {
-	m_time += TIME_STEP;
+	s_time += s_timeStep;
 
-	if (m_watchdogEnabled == true)
+	if (s_watchdogEnabled == true)
 	{
-		m_watchdogTimer += TIME_STEP;
-		if (m_watchdogTimer >= m_watchdogPeriod)
+		s_watchdogTimer += s_timeStep;
+		if (s_watchdogTimer >= s_watchdogBound)
 		{
-			m_watchdogTimeoutDetected = true;
-			if (m_watchdogTask() == CLOCK_TASK_SUCCESS)
+			s_watchdogTimeoutDetected = true;
+			if (s_watchdogTask() == ClockTaskSuccess)
 			{
 				resetWatchdog();
 			}

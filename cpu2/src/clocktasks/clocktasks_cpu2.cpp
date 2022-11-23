@@ -24,7 +24,7 @@ mcu::ClockTaskStatus taskToggleLed()
 		mcu::turnLedOff(mcu::LED_RED);
 	}
 	index = (index + 1) % 4;
-	return mcu::CLOCK_TASK_SUCCESS;
+	return mcu::ClockTaskSuccess;
 }
 
 
