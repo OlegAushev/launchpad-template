@@ -23,10 +23,10 @@ void EmbTest::FilterTest()
 	emb::MovingAvgFilter<float, 10> mvAvgFilterF32(filterArray);
 	for (size_t i = 0; i < mvAvgFilterF32.size(); ++i)
 	{
-		mvAvgFilterF32.push(emb::PI * (1 + (i % 2)));
+		mvAvgFilterF32.push(emb::numbers::pi * (1 + (i % 2)));
 	}
-	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::PI * 1.5f);
-	mvAvgFilterF32.setOutput(emb::PI);
+	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::numbers::pi * 1.5f);
+	mvAvgFilterF32.setOutput(emb::numbers::pi);
 	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::PI);
 
 	/* MedianFilter */

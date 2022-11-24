@@ -15,15 +15,19 @@
 namespace emb {
 
 
-const float PI = MATH_PI;
-const float PI_OVER_2 = MATH_PI_OVER_TWO;
-const float PI_OVER_4 = MATH_PI_OVER_FOUR;
-const float PI_OVER_3 = MATH_PI / 3;
-const float PI_OVER_6 = MATH_PI / 6;
-const float TWO_PI = MATH_TWO_PI;
+namespace numbers {
 
-const float SQRT_2 = sqrtf(2.f);
-const float SQRT_3 = sqrtf(3.f);
+const float pi = MATH_PI;
+const float pi_over_2 = MATH_PI_OVER_TWO;
+const float pi_over_4 = MATH_PI_OVER_FOUR;
+const float pi_over_3 = MATH_PI / 3;
+const float pi_over_6 = MATH_PI / 6;
+const float two_pi = MATH_TWO_PI;
+
+const float sqrt_2 = sqrtf(2.f);
+const float sqrt_3 = sqrtf(3.f);
+
+} // namespace numbers
 
 
 /**
@@ -36,13 +40,13 @@ inline int sgn(T value) { return (value > T(0)) - (value < T(0)); }
 /**
  * @brief
  */
-inline float to_rad(float deg) { return PI * deg / 180; }
+inline float to_rad(float deg) { return numbers::pi * deg / 180; }
 
 
 /**
  * @brief
  */
-inline float to_deg(float rad) { return 180 * rad / PI; }
+inline float to_deg(float rad) { return 180 * rad / numbers::pi; }
 
 
 /**
@@ -50,10 +54,10 @@ inline float to_deg(float rad) { return 180 * rad / PI; }
  */
 inline float normalize_2pi(float value)
 {
-	value = fmodf(value, TWO_PI);
+	value = fmodf(value, numbers::two_pi);
 	if (value < 0)
 	{
-		value += TWO_PI;
+		value += numbers::two_pi;
 	}
 	return value;
 }
@@ -64,12 +68,12 @@ inline float normalize_2pi(float value)
  */
 inline float normalize_pi(float value)
 {
-	value = fmodf(value + PI, TWO_PI);
+	value = fmodf(value + numbers::pi, numbers::two_pi);
 	if (value < 0)
 	{
-		value += TWO_PI;
+		value += numbers::two_pi;
 	}
-	return value - PI;
+	return value - numbers::pi;
 }
 
 
