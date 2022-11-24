@@ -18,8 +18,8 @@ const uint16_t impl::adcPieIntGroups[4] = {INTERRUPT_ACK_GROUP1, INTERRUPT_ACK_G
 		INTERRUPT_ACK_GROUP10, INTERRUPT_ACK_GROUP10};
 
 
-emb::Array<impl::Channel, ChannelName::AdcChannelCount> Module::s_channels;
-emb::Array<impl::Irq, IrqName::AdcIrqCount> Module::s_irqs;
+emb::Array<impl::Channel, ChannelName::Count> Module::s_channels;
+emb::Array<impl::Irq, IrqName::Count> Module::s_irqs;
 
 
 ///

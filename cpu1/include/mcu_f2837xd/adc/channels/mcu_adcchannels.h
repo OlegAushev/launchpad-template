@@ -16,47 +16,43 @@ namespace adc {
 
 
 /// ADC channels (application-specific)
-struct ChannelName
+SCOPED_ENUM_DECLARE_BEGIN(ChannelName)
 {
-	enum Type
-	{
-		AdcCurrentPhaseU,
-		AdcCurrentPhaseV,
-		AdcCurrentPhaseW,
-		AdcCurrentPhaseX,
-		AdcCurrentPhaseY,
-		AdcCurrentPhaseZ,
+	CurrentPhaseU,
+	CurrentPhaseV,
+	CurrentPhaseW,
+	CurrentPhaseX,
+	CurrentPhaseY,
+	CurrentPhaseZ,
 
-		AdcVoltageDC,
+	VoltageDC,
 
-		AdcTemperaturePhaseU,
-		AdcTemperaturePhaseV,
-		AdcTemperaturePhaseW,
-		AdcTemperaturePhaseX,
-		AdcTemperaturePhaseY,
-		AdcTemperaturePhaseZ,
-		AdcTemperatureCase,
+	TemperaturePhaseU,
+	TemperaturePhaseV,
+	TemperaturePhaseW,
+	TemperaturePhaseX,
+	TemperaturePhaseY,
+	TemperaturePhaseZ,
+	TemperatureCase,
 
-		AdcChannelCount
-	};
-};
+	Count
+}
+SCOPED_ENUM_DECLARE_END(ChannelName)
 
 
 /// ADC interrupt request source (application-specific).
-struct IrqName
+SCOPED_ENUM_DECLARE_BEGIN(IrqName)
 {
-	enum Type
-	{
-		AdcIrqCurrentUVW,
-		AdcIrqCurrentXYZ,
-		AdcIrqVoltageDC,
-		AdcIrqTemperatureUVW,
-		AdcIrqTemperatureXYZ,
-		AdcIrqTemperatureCase,
+	CurrentUVW,
+	CurrentXYZ,
+	VoltageDC,
+	TemperatureUVW,
+	TemperatureXYZ,
+	TemperatureCase,
 
-		AdcIrqCount
-	};
-};
+	Count
+}
+SCOPED_ENUM_DECLARE_END(IrqName)
 
 
 /// @}
