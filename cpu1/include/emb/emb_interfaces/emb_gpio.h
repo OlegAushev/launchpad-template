@@ -8,49 +8,57 @@
 namespace emb {
 
 
+namespace gpio {
+
+
 /// Pin active states
-enum PinActiveState
+SCOPED_ENUM_DECLARE_BEGIN(ActiveState)
 {
-	ActiveLow = 0,
-	ActiveHigh = 1
-};
+	Low = 0,
+	High = 1
+}
+SCOPED_ENUM_DECLARE_END(ActiveState)
 
 
 /// Pin states
-enum PinState
+SCOPED_ENUM_DECLARE_BEGIN(State)
 {
-	PinInactive = 0,
-	PinActive = 1
-};
+	Inactive = 0,
+	Active = 1
+}
+SCOPED_ENUM_DECLARE_END(State)
 
 
 /**
  * @brief GPIO input interface class.
  */
-class IGpioInput
+class IInput
 {
 public:
-	IGpioInput() {}
-	virtual ~IGpioInput() {}
+	IInput() {}
+	virtual ~IInput() {}
 
-	virtual emb::PinState read() const = 0;
+	virtual State read() const = 0;
 };
 
 
 /**
  * @brief GPIO output interface class.
  */
-class IGpioOutput
+class IOutput
 {
 public:
-	IGpioOutput() {}
-	virtual ~IGpioOutput() {}
+	IOutput() {}
+	virtual ~IOutput() {}
 
-	virtual emb::PinState read() const = 0;
-	virtual void set(emb::PinState state = emb::PinActive) const = 0;
+	virtual State read() const = 0;
+	virtual void set(State state = State::Active) const = 0;
 	virtual void reset() const = 0;
 	virtual void toggle() const = 0;
 };
+
+
+} // namespace gpio
 
 
 } // namespace emb

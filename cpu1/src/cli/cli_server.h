@@ -32,8 +32,8 @@ class Server
 	friend void print_blocking(const char* str);
 private:
 	static emb::IUart* s_uart;
-	static emb::IGpioOutput* s_pinRTS;
-	static emb::IGpioInput* s_pinCTS;
+	static emb::gpio::IOutput* s_pinRTS;
+	static emb::gpio::IInput* s_pinCTS;
 
 	static char PROMPT[CLI_PROMPT_MAX_LENGTH];
 	static emb::String<CLI_CMDLINE_MAX_LENGTH> s_cmdline;
@@ -54,7 +54,7 @@ private:
 	Server(const Server& other);		// no copy constructor
 	Server& operator=(const Server& other);	// no copy assignment operator
 public:
-	Server(const char* deviceName, emb::IUart* uart, emb::IGpioOutput* pinRTS, emb::IGpioInput* pinCTS);
+	Server(const char* deviceName, emb::IUart* uart, emb::gpio::IOutput* pinRTS, emb::gpio::IInput* pinCTS);
 
 	void run();
 	void registerExecCallback(int (*_exec)(int argc, const char** argv))

@@ -73,7 +73,7 @@ struct Config
 	uint32_t no;
 	uint32_t mux;
 	PinDirection direction;
-	emb::PinActiveState activeState;
+	emb::gpio::ActiveState activeState;
 	PinType type;
 	PinQualMode qualMode;
 	uint32_t qualPeriod;
@@ -96,7 +96,7 @@ struct Config
 	 * @param _qualPeriod - pin qualification period (divider)
 	 * @param _masterCore - master core
 	 */
-	Config(uint32_t _no, uint32_t _mux, PinDirection _direction, emb::PinActiveState _activeState,
+	Config(uint32_t _no, uint32_t _mux, PinDirection _direction, emb::gpio::ActiveState _activeState,
 			PinType _type, PinQualMode _qualMode, uint32_t _qualPeriod,
 			GPIO_CoreSelect _masterCore = GPIO_CORE_CPU1)
 		: valid(true)
@@ -185,7 +185,7 @@ public:
 /**
  * @brief GPIO input pin class.
  */
-class Input : public emb::IGpioInput, public impl::GpioBase
+class Input : public emb::gpio::IInput, public impl::GpioBase
 {
 private:
 	GPIO_ExternalIntNum m_intNum;
@@ -233,11 +233,11 @@ public:
 	 * @param (none)
 	 * @return Pin state.
 	 */
-	virtual emb::PinState read() const
+	virtual emb::gpio::State read() const
 	{
 		assert(m_initialized);
-		return static_cast<emb::PinState>(1
-				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState)));
+		return static_cast<emb::gpio::State>(1
+				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
 	}
 
 public:
@@ -304,7 +304,7 @@ public:
 /**
  * @brief GPIO output pin class.
  */
-class Output : public emb::IGpioOutput, public impl::GpioBase
+class Output : public emb::gpio::IOutput, public impl::GpioBase
 {
 public:
 	/**
@@ -337,7 +337,7 @@ public:
 			GPIO_setPadConfig(m_cfg.no, m_cfg.type);
 			//set() - is virtual, shouldn't be called in ctor
 			GPIO_writePin(m_cfg.no, 1
-					- (static_cast<uint32_t>(emb::PinInactive) ^ static_cast<uint32_t>(m_cfg.activeState)));
+					- (static_cast<uint32_t>(emb::gpio::State::Inactive) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
 			GPIO_setPinConfig(m_cfg.mux);
 			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_OUT);
 			GPIO_setMasterCore(m_cfg.no, m_cfg.masterCore);
@@ -351,11 +351,11 @@ public:
 	 * @param (none)
 	 * @return Pin state.
 	 */
-	virtual emb::PinState read() const
+	virtual emb::gpio::State read() const
 	{
 		assert(m_initialized);
-		return static_cast<emb::PinState>(1
-				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState)));
+		return static_cast<emb::gpio::State>(1
+				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
 	}
 
 	/**
@@ -363,11 +363,11 @@ public:
 	 * @param state - pin state
 	 * @return (none)
 	 */
-	virtual void set(emb::PinState state = emb::PinActive) const
+	virtual void set(emb::gpio::State state = emb::gpio::State::Active) const
 	{
 		assert(m_initialized);
 		GPIO_writePin(m_cfg.no, 1
-				- (static_cast<uint32_t>(state) ^ static_cast<uint32_t>(m_cfg.activeState)));
+				- (static_cast<uint32_t>(state.underlying_value()) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
 	}
 
 	/**
@@ -378,7 +378,7 @@ public:
 	virtual void reset() const
 	{
 		assert(m_initialized);
-		set(emb::PinInactive);
+		set(emb::gpio::State::Inactive);
 	}
 
 	/**
@@ -410,7 +410,7 @@ private:
 	const unsigned int m_activeDebounceCount;
 	const unsigned int m_inactiveDebounceCount;
 	unsigned int m_count;
-	emb::PinState m_state;
+	emb::gpio::State m_state;
 	bool m_stateChanged;
 public:
 	/**
@@ -427,7 +427,7 @@ public:
 		, inactiveDebounce_ms(inact_ms)
 		, m_activeDebounceCount(act_ms / acqPeriod_ms)
 		, m_inactiveDebounceCount(inact_ms / acqPeriod_ms)
-		, m_state(emb::PinInactive)
+		, m_state(emb::gpio::State::Inactive)
 		, m_stateChanged(false)
 	{
 		m_count = m_activeDebounceCount;
@@ -441,11 +441,11 @@ public:
 	void debounce()
 	{
 		m_stateChanged = false;
-		emb::PinState rawState = m_pin.read();
+		emb::gpio::State rawState = m_pin.read();
 
 		if (rawState == m_state)
 		{
-			if (m_state == emb::PinActive)
+			if (m_state == emb::gpio::State::Active)
 			{
 				m_count = m_inactiveDebounceCount;
 			}
@@ -460,7 +460,7 @@ public:
 			{
 				m_state = rawState;
 				m_stateChanged = true;
-				if (m_state == emb::PinActive)
+				if (m_state == emb::gpio::State::Active)
 				{
 					m_count = m_inactiveDebounceCount;
 				}
@@ -477,7 +477,7 @@ public:
 	 * @param (none)
 	 * @return Debounced state of pin.
 	 */
-	emb::PinState state() const { return m_state; };
+	emb::gpio::State state() const { return m_state; };
 
 	/**
 	 * @brief Checks if state has changed at last debounce() routine run.

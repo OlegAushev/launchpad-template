@@ -27,7 +27,7 @@ void EmbTest::FilterTest()
 	}
 	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::numbers::pi * 1.5f);
 	mvAvgFilterF32.setOutput(emb::numbers::pi);
-	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::PI);
+	EMB_ASSERT_EQUAL(mvAvgFilterF32.output(), emb::numbers::pi);
 
 	/* MedianFilter */
 	emb::MedianFilter<int, 5> medFilter;
