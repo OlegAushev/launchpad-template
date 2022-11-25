@@ -34,23 +34,25 @@ enum Peripheral
 
 
 /// CAN bitrates
-enum Bitrate
+SCOPED_ENUM_DECLARE_BEGIN(Bitrate)
 {
-	CanBitrate125K = 125000,
-	CanBitrate500K = 500000,
-	CanBitrate1M = 1000000,
-};
+	Bitrate125K = 125000,
+	Bitrate500K = 500000,
+	Bitrate1M = 1000000,
+}
+SCOPED_ENUM_DECLARE_END(Bitrate)
 
 
 ///
-enum Mode
+SCOPED_ENUM_DECLARE_BEGIN(Mode)
 {
-	CanNormalMode = 0,
-	CanSilentMode = CAN_TEST_SILENT,
-	CanLoopbackMode = CAN_TEST_LBACK,
-	CanExLoopbackMode = CAN_TEST_EXL,
-	CanSilentLoopbackMode = CAN_TEST_SILENT | CAN_TEST_LBACK
-};
+	Normal = 0,
+	Silent = CAN_TEST_SILENT,
+	Loopback = CAN_TEST_LBACK,
+	ExLoopback = CAN_TEST_EXL,
+	SilentLoopback = CAN_TEST_SILENT | CAN_TEST_LBACK
+}
+SCOPED_ENUM_DECLARE_END(Mode)
 
 
 /**
@@ -122,23 +124,23 @@ public:
 		CAN_initModule(m_module.base);
 		CAN_selectClockSource(m_module.base, CAN_CLOCK_SOURCE_SYS);
 
-		switch (bitrate)
+		switch (bitrate.underlying_value())
 		{
-		case CanBitrate125K:
-		case CanBitrate500K:
-			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate), 16);
+		case Bitrate::Bitrate125K:
+		case Bitrate::Bitrate500K:
+			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 16);
 			break;
-		case CanBitrate1M:
-			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate), 10);
+		case Bitrate::Bitrate1M:
+			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 10);
 			break;
 		}
 
 		CAN_setAutoBusOnTime(m_module.base, 0);
 		CAN_enableAutoBusOn(m_module.base);
 
-		if (mode != CanNormalMode)
+		if (mode != Mode::Normal)
 		{
-			CAN_enableTestMode(m_module.base, static_cast<uint16_t>(mode));
+			CAN_enableTestMode(m_module.base, static_cast<uint16_t>(mode.underlying_value()));
 		}
 
 		CAN_startModule(m_module.base);

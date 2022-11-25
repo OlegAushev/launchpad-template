@@ -53,6 +53,6 @@
  * @param EnumType The new scoped enum.
  */
 #define SCOPED_ENUM_DECLARE_BEGIN(EnumType) \
-	SCOPED_ENUM_UT_DECLARE_BEGIN(EnumType, int)
+	SCOPED_ENUM_UT_DECLARE_BEGIN(EnumType, unsigned int)
 
 

@@ -27,13 +27,14 @@ namespace adc {
 
 
 /// ADC modules
-enum Peripheral
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
 	AdcA,
 	AdcB,
 	AdcC,
 	AdcD
-};
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /**
