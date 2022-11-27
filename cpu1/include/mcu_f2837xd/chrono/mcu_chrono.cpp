@@ -4,10 +4,13 @@
  */
 
 
-#include "mcu_cputimers.h"
+#include "mcu_chrono.h"
 
 
 namespace mcu {
+
+
+namespace chrono {
 
 
 volatile uint64_t SystemClock::s_time;
@@ -18,7 +21,7 @@ bool SystemClock::s_watchdogEnabled;
 uint64_t SystemClock::s_watchdogTimer;
 uint64_t SystemClock::s_watchdogBound;
 bool SystemClock::s_watchdogTimeoutDetected;
-ClockTaskStatus (*SystemClock::s_watchdogTask)();
+TaskStatus (*SystemClock::s_watchdogTask)();
 
 uint64_t SystemClock::s_delayedTaskStart;
 uint64_t SystemClock::s_delayedTaskDelay;
@@ -73,7 +76,7 @@ void SystemClock::runTasks()
 	{
 		if (now() >= (s_tasks[i].timepoint + s_tasks[i].period))
 		{
-			if (s_tasks[i].func(i) == ClockTaskSuccess)
+			if (s_tasks[i].func(i) == TaskStatus::Success)
 			{
 				s_tasks[i].timepoint = now();
 			}
@@ -105,7 +108,7 @@ __interrupt void SystemClock::onInterrupt()
 		if (s_watchdogTimer >= s_watchdogBound)
 		{
 			s_watchdogTimeoutDetected = true;
-			if (s_watchdogTask() == ClockTaskSuccess)
+			if (s_watchdogTask() == TaskStatus::Success)
 			{
 				resetWatchdog();
 			}
@@ -140,6 +143,9 @@ void HighResolutionClock::init(uint32_t period_us)
 
 	set_initialized();
 }
+
+
+} // namespace chrono
 
 
 } // namespace mcu

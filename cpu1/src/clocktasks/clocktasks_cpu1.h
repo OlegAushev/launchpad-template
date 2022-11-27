@@ -10,7 +10,7 @@
 #include "F2837xD_Ipc_drivers.h"
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/support/mcu_support.h"
-#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/chrono/mcu_chrono.h"
 #include "sys/syslog/syslog.h"
 
 
@@ -19,7 +19,7 @@
  * @param (none)
  * @return Task execution status.
  */
-mcu::ClockTaskStatus taskWatchdogTimeout();
+mcu::chrono::TaskStatus taskWatchdogTimeout();
 
 
 /**
@@ -27,7 +27,7 @@ mcu::ClockTaskStatus taskWatchdogTimeout();
  * @param (none)
  * @return Task execution status.
  */
-mcu::ClockTaskStatus taskToggleLed(size_t taskIndex);
+mcu::chrono::TaskStatus taskToggleLed(size_t taskIndex);
 
 
 /**
@@ -35,6 +35,6 @@ mcu::ClockTaskStatus taskToggleLed(size_t taskIndex);
  * @param (none)
  * @return Task execution status.
  */
-mcu::ClockTaskStatus taskStartTempSensorAdc(size_t taskIndex);
+mcu::chrono::TaskStatus taskStartTempSensorAdc(size_t taskIndex);
 
 

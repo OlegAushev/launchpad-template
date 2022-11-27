@@ -25,12 +25,13 @@ namespace dac {
 
 
 /// DAC modules
-enum Peripheral
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
 	DacA,
 	DacB,
 	DacC
-};
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 namespace impl {
@@ -72,7 +73,7 @@ public:
 	{}
 
 	Input(uint16_t value, Peripheral peripheral)
-		: m_tag(static_cast<uint16_t>(peripheral))
+		: m_tag(static_cast<uint16_t>(peripheral.underlying_value()))
 		, m_value(value & 0x0FFF)
 	{}
 
@@ -84,7 +85,7 @@ public:
 /**
  * @brief DAC unit class.
  */
-template <Peripheral Instance>
+template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
@@ -98,7 +99,7 @@ public:
 	 * @param (none)
 	 */
 	Module()
-		: emb::c28x::singleton<Module<Instance> >(this)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::dacBases[Instance])
 	{
 		DAC_setReferenceVoltage(m_module.base, DAC_REF_ADC_VREFHI);

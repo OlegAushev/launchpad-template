@@ -26,11 +26,12 @@ namespace can {
 
 
 /// CAN modules
-enum Peripheral
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
 	CanA,
 	CanB
-};
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// CAN bitrates
@@ -96,7 +97,7 @@ extern const uint32_t canPieIntNums[2];
 /**
  * @brief CAN unit class.
  */
-template <Peripheral Instance>
+template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
@@ -114,7 +115,7 @@ public:
 	 */
 	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
 			Bitrate bitrate, Mode mode)
-		: emb::c28x::singleton<Can<Instance> >(this)
+		: emb::c28x::interrupt_invoker<Can<Instance> >(this)
 		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
 	{
 #ifdef CPU1

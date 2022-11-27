@@ -15,7 +15,7 @@ void emb::run_tests()
 	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU1);
 #endif
 	Syslog::init(Syslog::IpcFlags());
-	mcu::SystemClock::init();
+	mcu::chrono::SystemClock::init();
 
 	mcu::adc::Config adcConfig =
 	{
@@ -33,7 +33,6 @@ void emb::run_tests()
 	mcu::enableMaskableInterrupts();
 	mcu::enableDebugEvents();
 
-	printf("\nTesting...\n");
 	EMB_RUN_TEST(EmbTest::CommonTest);
 	EMB_RUN_TEST(EmbTest::MathTest);
 	EMB_RUN_TEST(EmbTest::AlgorithmTest);
@@ -47,25 +46,23 @@ void emb::run_tests()
 	EMB_RUN_TEST(EmbTest::StringTest);
 
 	EMB_RUN_TEST(McuTest::GpioTest);
-	EMB_RUN_TEST(McuTest::ClockTest);
+	EMB_RUN_TEST(McuTest::ChronoTest);
 
 	emb::TestRunner::printResult();
 
-	if (emb::TestRunner::passed())
+	while (true)
 	{
 #ifdef _LAUNCHXL_F28379D
-		mcu::turnLedOn(mcu::LED_BLUE);
-#endif
-		while (true)
+		if (emb::TestRunner::passed())
+		{
+			mcu::toggleLed(mcu::LED_BLUE);
+		}
+		else
 		{
 			mcu::toggleLed(mcu::LED_RED);
-			DEVICE_DELAY_US(100000);
 		}
-	}
-	else
-	{
-		mcu::turnLedOn(mcu::LED_RED);
-		while (true) {}
+#endif
+		mcu::delay_us(500000);
 	}
 }
 

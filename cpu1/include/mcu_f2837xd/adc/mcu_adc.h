@@ -12,10 +12,10 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include "emb/emb_core.h"
-#include "emb/emb_array.h"
 #include "../system/mcu_system.h"
 #include "../adc/channels/mcu_adcchannels.h"
+#include "emb/emb_core.h"
+#include "emb/emb_array.h"
 
 
 namespace mcu {

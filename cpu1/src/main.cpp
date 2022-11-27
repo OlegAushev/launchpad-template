@@ -12,9 +12,11 @@
 
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
-#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
-#include <mcu_f2837xd/adc/mcu_adc.h>
+#include "mcu_f2837xd/chrono/mcu_chrono.h"
+#include "mcu_f2837xd/adc/mcu_adc.h"
 #include "mcu_f2837xd/can/mcu_can.h"
+#include "mcu_f2837xd/dac/mcu_dac.h"
+
 #include "mcu_f2837xd/spi/mcu_spi.h"
 #include "mcu_f2837xd/support/mcu_support.h"
 
@@ -140,11 +142,11 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("configure system clock and high resolution clock... ");
 
-	mcu::SystemClock::init();
-	mcu::HighResolutionClock::init(1000000);
-	mcu::HighResolutionClock::start();
-	emb::DurationLogger_us::init(mcu::HighResolutionClock::now);
-	emb::DurationLogger_clk::init(mcu::HighResolutionClock::counter);
+	mcu::chrono::SystemClock::init();
+	mcu::chrono::HighResolutionClock::init(1000000);
+	mcu::chrono::HighResolutionClock::start();
+	emb::DurationLogger_us::init(mcu::chrono::HighResolutionClock::now);
+	emb::DurationLogger_clk::init(mcu::chrono::HighResolutionClock::counter);
 
 	cli::print_blocking("done");
 
@@ -217,6 +219,18 @@ void main()
 
 	cli::print_blocking("done");
 
+/*############################################################################*/
+	/*#######*/
+	/*# DAC #*/
+	/*#######*/
+	cli::nextline_blocking();
+	cli::print_blocking("configure DAC... ");
+
+	mcu::dac::Module<mcu::dac::Peripheral::DacA> dacA;
+	mcu::dac::Module<mcu::dac::Peripheral::DacA> dacB;
+
+	cli::print_blocking("done");
+
 /*####################################################################################################################*/
 	/*###############*/
 	/*# CLOCK TASKS #*/
@@ -224,9 +238,9 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("register periodic tasks... ");
 
-	mcu::SystemClock::registerTask(taskToggleLed, 1000);
+	mcu::chrono::SystemClock::registerTask(taskToggleLed, 1000);
 
-	mcu::SystemClock::registerWatchdogTask(taskWatchdogTimeout, 1000);
+	mcu::chrono::SystemClock::registerWatchdogTask(taskWatchdogTimeout, 1000);
 
 	cli::print_blocking("done");
 
@@ -249,7 +263,7 @@ void main()
 	mcu::delay_us(100);	// wait for pending ADC INTs (after ADC calibrating) be served
 
 /*####################################################################################################################*/
-	mcu::SystemClock::reset();
+	mcu::chrono::SystemClock::reset();
 #ifdef DUALCORE
 	mcu::ipc::flags::cpu1PeripheryConfigured.local.set();
 #endif
@@ -268,7 +282,7 @@ void main()
 	while (true)
 	{
 		Syslog::processIpcSignals();
-		mcu::SystemClock::runTasks();
+		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
 	}
 }

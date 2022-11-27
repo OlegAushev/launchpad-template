@@ -12,10 +12,9 @@
 
 #include "driverlib.h"
 #include "device.h"
-#include <assert.h>
-
-#include "emb/emb_interfaces/emb_gpio.h"
 #include "../system/mcu_system.h"
+#include "emb/emb_interfaces/emb_gpio.h"
+#include <assert.h>
 
 
 namespace mcu {
@@ -27,31 +26,34 @@ namespace gpio {
 
 
 /// Pin types
-enum PinType
+SCOPED_ENUM_DECLARE_BEGIN(Type)
 {
-	PinStd = GPIO_PIN_TYPE_STD,
-	PinPullup = GPIO_PIN_TYPE_PULLUP,
-	PinInvert = GPIO_PIN_TYPE_INVERT,
-	PinOpenDrain = GPIO_PIN_TYPE_OD
-};
+	Std = GPIO_PIN_TYPE_STD,
+	Pullup = GPIO_PIN_TYPE_PULLUP,
+	Invert = GPIO_PIN_TYPE_INVERT,
+	OpenDrain = GPIO_PIN_TYPE_OD
+}
+SCOPED_ENUM_DECLARE_END(Type)
 
 
 /// Pin directions
-enum PinDirection
+SCOPED_ENUM_DECLARE_BEGIN(Direction)
 {
-	PinInput = GPIO_DIR_MODE_IN,
-	PinOutput = GPIO_DIR_MODE_OUT
-};
+	Input = GPIO_DIR_MODE_IN,
+	Output = GPIO_DIR_MODE_OUT
+}
+SCOPED_ENUM_DECLARE_END(Direction)
 
 
 /// Pin qualification modes
-enum PinQualMode
+SCOPED_ENUM_DECLARE_BEGIN(QualMode)
 {
-	PinQualSync = GPIO_QUAL_SYNC,
-	PinQual3Sample = GPIO_QUAL_3SAMPLE,
-	PinQual6Sample = GPIO_QUAL_6SAMPLE,
-	PinQualAsync = GPIO_QUAL_ASYNC
-};
+	Sync = GPIO_QUAL_SYNC,
+	Sample3 = GPIO_QUAL_3SAMPLE,
+	Sample6 = GPIO_QUAL_6SAMPLE,
+	Async = GPIO_QUAL_ASYNC
+}
+SCOPED_ENUM_DECLARE_END(QualMode)
 
 
 namespace impl {
@@ -72,10 +74,10 @@ struct Config
 	bool valid;
 	uint32_t no;
 	uint32_t mux;
-	PinDirection direction;
+	Direction direction;
 	emb::gpio::ActiveState activeState;
-	PinType type;
-	PinQualMode qualMode;
+	Type type;
+	QualMode qualMode;
 	uint32_t qualPeriod;
 	GPIO_CoreSelect masterCore;
 
@@ -96,8 +98,8 @@ struct Config
 	 * @param _qualPeriod - pin qualification period (divider)
 	 * @param _masterCore - master core
 	 */
-	Config(uint32_t _no, uint32_t _mux, PinDirection _direction, emb::gpio::ActiveState _activeState,
-			PinType _type, PinQualMode _qualMode, uint32_t _qualPeriod,
+	Config(uint32_t _no, uint32_t _mux, Direction _direction, emb::gpio::ActiveState _activeState,
+			Type _type, QualMode _qualMode, uint32_t _qualPeriod,
 			GPIO_CoreSelect _masterCore = GPIO_CORE_CPU1)
 		: valid(true)
 		, no(_no)
@@ -215,11 +217,11 @@ public:
 		m_cfg = cfg;
 		if (m_cfg.valid)
 		{
-			assert(cfg.direction == PinInput);
+			assert(cfg.direction == Direction::Input);
 #ifdef CPU1
 			GPIO_setQualificationPeriod(m_cfg.no, m_cfg.qualPeriod);
-			GPIO_setQualificationMode(m_cfg.no, static_cast<GPIO_QualificationMode>(m_cfg.qualMode));
-			GPIO_setPadConfig(m_cfg.no, m_cfg.type);
+			GPIO_setQualificationMode(m_cfg.no, static_cast<GPIO_QualificationMode>(m_cfg.qualMode.underlying_value()));
+			GPIO_setPadConfig(m_cfg.no, m_cfg.type.underlying_value());
 			GPIO_setPinConfig(m_cfg.mux);
 			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_IN);
 			GPIO_setMasterCore(m_cfg.no, m_cfg.masterCore);
@@ -332,9 +334,9 @@ public:
 		m_cfg = cfg;
 		if (m_cfg.valid)
 		{
-			assert(cfg.direction == PinOutput);
+			assert(cfg.direction == Direction::Output);
 #ifdef CPU1
-			GPIO_setPadConfig(m_cfg.no, m_cfg.type);
+			GPIO_setPadConfig(m_cfg.no, m_cfg.type.underlying_value());
 			//set() - is virtual, shouldn't be called in ctor
 			GPIO_writePin(m_cfg.no, 1
 					- (static_cast<uint32_t>(emb::gpio::State::Inactive) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));

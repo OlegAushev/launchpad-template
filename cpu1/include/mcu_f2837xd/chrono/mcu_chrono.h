@@ -12,22 +12,26 @@
 
 #include "driverlib.h"
 #include "device.h"
+#include "../system/mcu_system.h"
 #include "emb/emb_core.h"
 #include "emb/emb_staticvector.h"
-#include "../system/mcu_system.h"
 
 
 namespace mcu {
+
+
+namespace chrono {
 /// @addtogroup mcu_cpu_timers
 /// @{
 
 
 /// Clock task statuses
-enum ClockTaskStatus
+SCOPED_ENUM_DECLARE_BEGIN(TaskStatus)
 {
-	ClockTaskSuccess = 0,
-	ClockTaskFail = 1
-};
+	Success = 0,
+	Fail = 1
+}
+SCOPED_ENUM_DECLARE_END(TaskStatus)
 
 
 /**
@@ -48,9 +52,9 @@ private:
 	{
 		uint64_t period;
 		uint64_t timepoint;
-		ClockTaskStatus (*func)(size_t);
+		TaskStatus (*func)(size_t);
 	};
-	static ClockTaskStatus empty_task() { return ClockTaskSuccess; }
+	static TaskStatus empty_task() { return TaskStatus::Success; }
 	static emb::StaticVector<Task, s_taskMaxCount> s_tasks;
 public:
 	/**
@@ -59,7 +63,7 @@ public:
 	 * @param period - task period
 	 * @return (none)
 	 */
-	static void registerTask(ClockTaskStatus (*func)(size_t), uint64_t period)
+	static void registerTask(TaskStatus (*func)(size_t), uint64_t period)
 	{
 		Task task = {period, now(), func};
 		s_tasks.push_back(task);
@@ -87,7 +91,7 @@ private:
 	static uint64_t s_watchdogTimer;
 	static uint64_t s_watchdogBound;
 	static bool s_watchdogTimeoutDetected;
-	static ClockTaskStatus (*s_watchdogTask)();
+	static TaskStatus (*s_watchdogTask)();
 public:
 	/**
 	 * @brief Enable watchdog.
@@ -155,7 +159,7 @@ public:
 	 * @param task - pointer to task function
 	 * @return (none)
 	 */
-	static void registerWatchdogTask(ClockTaskStatus (*task)(), uint64_t watchdogBound_ms)
+	static void registerWatchdogTask(TaskStatus (*task)(), uint64_t watchdogBound_ms)
 	{
 		s_watchdogTask = task;
 		s_watchdogBound = watchdogBound_ms;
@@ -370,6 +374,9 @@ public:
 
 
 /// @}
+} // namespace chrono
+
+
 } // namespace mcu
 
 
