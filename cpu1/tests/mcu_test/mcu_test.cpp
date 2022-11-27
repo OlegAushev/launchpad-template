@@ -13,8 +13,8 @@ void McuTest::GpioTest()
 	mcu::gpio::Output ledBlue(ledBlueCfg);
 	mcu::gpio::Output ledRed(ledRedCfg);
 
-	mcu::turnLedOff(mcu::LED_BLUE);
-	mcu::turnLedOff(mcu::LED_RED);
+	GPIO_writePin(31, 1);
+	GPIO_writePin(34, 1);
 
 	EMB_ASSERT_EQUAL(ledBlue.read(), emb::gpio::State::Active);
 	EMB_ASSERT_EQUAL(ledRed.read(), emb::gpio::State::Inactive);
@@ -37,8 +37,8 @@ void McuTest::GpioTest()
 	EMB_ASSERT_EQUAL(ledBlue.read(), emb::gpio::State::Active);
 	EMB_ASSERT_EQUAL(ledRed.read(), emb::gpio::State::Active);
 
-	mcu::turnLedOff(mcu::LED_BLUE);
-	mcu::turnLedOff(mcu::LED_RED);
+	GPIO_writePin(31, 1);
+	GPIO_writePin(34, 1);
 #elif defined(TEST_BUILD)
 #warning "LAUNCHXL is required for full testing."
 #endif
@@ -144,7 +144,7 @@ void McuTest::GpioTest()
 ///
 void TestingDelayedTask()
 {
-	mcu::turnLedOn(mcu::LED_RED);
+	GPIO_writePin(34, 0);
 }
 
 ///
@@ -152,7 +152,7 @@ void TestingDelayedTask()
 ///
 void McuTest::ChronoTest()
 {
-	mcu::turnLedOff(mcu::LED_RED);
+	GPIO_writePin(34, 1);
 
 	mcu::chrono::SystemClock::registerDelayedTask(TestingDelayedTask, 200);
 	DEVICE_DELAY_US(150000);
@@ -162,7 +162,7 @@ void McuTest::ChronoTest()
 	mcu::chrono::SystemClock::runTasks();
 	EMB_ASSERT_EQUAL(GPIO_readPin(34), 0);
 
-	mcu::turnLedOff(mcu::LED_RED);
+	GPIO_writePin(34, 1);
 }
 
 

@@ -9,8 +9,8 @@
 #include "F28x_Project.h"
 #include "F2837xD_Ipc_drivers.h"
 #include "mcu_f2837xd/system/mcu_system.h"
-#include "mcu_f2837xd/support/mcu_support.h"
 #include "mcu_f2837xd/chrono/mcu_chrono.h"
+#include "bsp_launchxl_f28379d/leds/leds.h"
 #include "sys/syslog/syslog.h"
 
 

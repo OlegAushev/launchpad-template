@@ -11,9 +11,6 @@
 
 void emb::run_tests()
 {
-#ifdef _LAUNCHXL_F28379D
-	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU1);
-#endif
 	Syslog::init(Syslog::IpcFlags());
 	mcu::chrono::SystemClock::init();
 
@@ -24,12 +21,16 @@ void emb::run_tests()
 	mcu::adc::Module adc(adcConfig);
 	adc.enableInterrupts();
 
+#ifdef _LAUNCHXL_F28379D
 	for (size_t i = 0; i < 10; ++i)
 	{
-		mcu::toggleLed(mcu::LED_RED);
-		DEVICE_DELAY_US(100000);
+		bsp::ledBlue.toggle();
+		mcu::delay_us(50000);
+		bsp::ledRed.toggle();
+		mcu::delay_us(50000);
 	}
-	DEVICE_DELAY_US(100000);
+#endif
+	mcu::delay_us(100000);
 	mcu::enableMaskableInterrupts();
 	mcu::enableDebugEvents();
 
@@ -55,11 +56,11 @@ void emb::run_tests()
 #ifdef _LAUNCHXL_F28379D
 		if (emb::TestRunner::passed())
 		{
-			mcu::toggleLed(mcu::LED_BLUE);
+			bsp::ledBlue.toggle();
 		}
 		else
 		{
-			mcu::toggleLed(mcu::LED_RED);
+			bsp::ledRed.toggle();
 		}
 #endif
 		mcu::delay_us(500000);

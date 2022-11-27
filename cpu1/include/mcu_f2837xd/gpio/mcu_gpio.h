@@ -56,6 +56,17 @@ SCOPED_ENUM_DECLARE_BEGIN(QualMode)
 SCOPED_ENUM_DECLARE_END(QualMode)
 
 
+/// Pin master core
+SCOPED_ENUM_DECLARE_BEGIN(MasterCore)
+{
+	Cpu1 = GPIO_CORE_CPU1,
+	Cpu1Cla1 = GPIO_CORE_CPU1_CLA1,
+	Cpu2 = GPIO_CORE_CPU2,
+	Cpu2Cla1 = GPIO_CORE_CPU2_CLA1
+}
+SCOPED_ENUM_DECLARE_END(MasterCore)
+
+
 namespace impl {
 
 
@@ -79,7 +90,7 @@ struct Config
 	Type type;
 	QualMode qualMode;
 	uint32_t qualPeriod;
-	GPIO_CoreSelect masterCore;
+	MasterCore masterCore;
 
 	/**
 	 * @brief Constructs default GPIO pin config.
@@ -100,7 +111,7 @@ struct Config
 	 */
 	Config(uint32_t _no, uint32_t _mux, Direction _direction, emb::gpio::ActiveState _activeState,
 			Type _type, QualMode _qualMode, uint32_t _qualPeriod,
-			GPIO_CoreSelect _masterCore = GPIO_CORE_CPU1)
+			MasterCore _masterCore = MasterCore::Cpu1)
 		: valid(true)
 		, no(_no)
 		, mux(_mux)
@@ -149,12 +160,12 @@ public:
 	 * @param _masterCore - master core
 	 * @return (none)
 	 */
-	void setMasterCore(GPIO_CoreSelect masterCore)
+	void setMasterCore(MasterCore masterCore)
 	{
 		assert(m_initialized);
 		m_cfg.masterCore = masterCore;
 #ifdef CPU1
-		GPIO_setMasterCore(m_cfg.no, masterCore);
+		GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(masterCore.underlying_value()));
 #endif
 	}
 
@@ -224,7 +235,7 @@ public:
 			GPIO_setPadConfig(m_cfg.no, m_cfg.type.underlying_value());
 			GPIO_setPinConfig(m_cfg.mux);
 			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_IN);
-			GPIO_setMasterCore(m_cfg.no, m_cfg.masterCore);
+			GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(m_cfg.masterCore.underlying_value()));
 #endif
 			m_initialized = true;
 		}
@@ -342,7 +353,7 @@ public:
 					- (static_cast<uint32_t>(emb::gpio::State::Inactive) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
 			GPIO_setPinConfig(m_cfg.mux);
 			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_OUT);
-			GPIO_setMasterCore(m_cfg.no, m_cfg.masterCore);
+			GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(m_cfg.masterCore.underlying_value()));
 #endif
 			m_initialized = true;
 		}

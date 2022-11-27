@@ -18,7 +18,7 @@
 #include "mcu_f2837xd/dac/mcu_dac.h"
 
 #include "mcu_f2837xd/spi/mcu_spi.h"
-#include "mcu_f2837xd/support/mcu_support.h"
+
 
 #include "sys/syslog/syslog.h"
 #include "sys/sysinfo/sysinfo.h"
@@ -27,6 +27,9 @@
 #include "mcu_f2837xd/sci/mcu_sci.h"
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
+
+#include "bsp_launchxl_f28379d/bsp_launchxl_f28379d_def.h"
+#include "bsp_launchxl_f28379d/leds/leds.h"
 
 #include "tests/tests.h"
 
@@ -66,15 +69,6 @@ void main()
 	MemCfg_setGSRAMMasterSel(MEMCFG_SECT_GS9, MEMCFG_GSRAMMASTER_CPU1);	// CPU1 to CPU2 data is placed here
 	MemCfg_setGSRAMMasterSel(MEMCFG_SECT_GS10, MEMCFG_GSRAMMASTER_CPU2);	// CPU2 to CPU1 data is placed here
 
-#ifdef DUALCORE
-	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU2);
-	mcu::turnLedOff(mcu::LED_BLUE);
-#else
-	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU1);
-	mcu::turnLedOff(mcu::LED_BLUE);
-	mcu::turnLedOff(mcu::LED_RED);
-#endif
-
 /*############################################################################*/
 	/*#############*/
 	/*# SCI & CLI #*/
@@ -87,8 +81,8 @@ void main()
 		.parityMode = mcu::SCI_PARITY_NONE,
 		.autoBaudMode = mcu::SCI_AUTO_BAUD_DISABLED,
 	};
-	mcu::Sci<mcu::SCIB> sciB(mcu::gpio::Config(19, GPIO_19_SCIRXDB),
-			mcu::gpio::Config(18, GPIO_18_SCITXDB),
+	mcu::Sci<mcu::SCIB> sciB(mcu::gpio::Config(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
+			mcu::gpio::Config(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
 			sciBConfig);
 
 	cli::Server cliServer("launchpad", &sciB, NULL, NULL);
@@ -106,6 +100,28 @@ void main()
 	cli::print_blocking("CPU1 has booted successfully");
 
 /*############################################################################*/
+	/*#######*/
+	/*# BSP #*/
+	/*#######*/
+	cli::nextline_blocking();
+	cli::print_blocking("initialize bsp... ");
+
+#ifdef DUALCORE
+	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU2);
+	mcu::turnLedOff(mcu::LED_BLUE);
+#else
+	bsp::initLedBlue();
+	bsp::initLedRed();
+	bsp::ledBlue.reset();
+	bsp::ledRed.reset();
+#endif
+
+	cli::print_blocking("done");
+
+/*############################################################################*/
+	/*#########*/
+	/*# TESTS #*/
+	/*#########*/
 #ifdef ON_TARGET_TEST_BUILD
 	emb::TestRunner::print = cli::print_blocking;
 	emb::TestRunner::print_nextline = cli::nextline_blocking;
@@ -169,7 +185,7 @@ void main()
 
 	for (size_t i = 0; i < 10; ++i)
 	{
-		mcu::toggleLed(mcu::LED_BLUE);
+		bsp::ledBlue.toggle();
 		mcu::delay_us(100000);
 	}
 

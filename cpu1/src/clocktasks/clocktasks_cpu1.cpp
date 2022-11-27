@@ -27,11 +27,11 @@ mcu::chrono::TaskStatus taskToggleLed(size_t taskIndex)
 	mcu::chrono::SystemClock::setTaskPeriod(taskIndex, periods[index]);
 	if ((index % 2) == 0)
 	{
-		mcu::turnLedOn(mcu::LED_BLUE);
+		bsp::ledBlue.set();
 	}
 	else
 	{
-		mcu::turnLedOff(mcu::LED_BLUE);
+		bsp::ledBlue.reset();
 	}
 	index = (index + 1) % 4;
 	return mcu::chrono::TaskStatus::Success;

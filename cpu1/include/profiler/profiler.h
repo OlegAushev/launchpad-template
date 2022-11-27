@@ -65,9 +65,9 @@ public:
  * @param pin
  * @param masterCore
  */
-inline void initDurationLoggerPin(mcu::gpio::Output& pin, GPIO_CoreSelect masterCore)
+inline void initDurationLoggerPin(mcu::gpio::Output& pin, mcu::gpio::MasterCore core)
 {
-	pin.setMasterCore(masterCore);
+	pin.setMasterCore(core);
 }
 #endif
 
