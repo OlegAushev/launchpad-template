@@ -5,15 +5,14 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <cstdio>
+#include <cstring>
 #include <assert.h>
 
 
-#ifdef TEST_BUILD
-void RUN_TESTS();
-#endif
-
-
 namespace emb {
+
+
+void run_tests();
 
 
 /**
@@ -21,6 +20,14 @@ namespace emb {
  */
 class TestRunner
 {
+public:
+	static void (*print)(const char* str);
+	static void (*print_nextline)();
+
+private:
+	static void print_dbg(const char* str) { printf(str); }
+	static void print_nextline_dbg() { printf("\n"); }
+
 private:
 	static int nAssertsTotal;
 	static int nAssertsFailedInTest;
@@ -38,8 +45,8 @@ public:
 		{
 			++nAssertsFailedInTest;
 			++nAssertsFailedTotal;
-			printf(hint);
-			printf("\n");
+			print(hint);
+			print_nextline();
 		}
 	}
 
@@ -58,33 +65,42 @@ public:
 		if (nAssertsFailedInTest == 0)
 		{
 			++nTestsPassed;
-			printf("[ PASSED ] ");
-			printf(test_name);
-			printf("\n");
+			print("[ PASSED ] ");
+			print(test_name);
+			print_nextline();
 		}
 		else
 		{
 			++nTestsFailed;
-			printf("[ FAILED ] ");
-			printf(test_name);
-			printf("\n");
+			print("[ FAILED ] ");
+			print(test_name);
+			print_nextline();
 		}
 	}
 
 	static void printResult()
 	{
-		printf("\n");
-		printf("Asserts: %d failed, %d passed\n", nAssertsFailedTotal, nAssertsTotal - nAssertsFailedTotal);
-		printf("Tests:   %d failed, %d passed\n", nTestsFailed, nTestsPassed);
+		print_nextline();
 
+		char str[64] = {0};
+		snprintf(str, 63, "Asserts: %d failed, %d passed", nAssertsFailedTotal, nAssertsTotal - nAssertsFailedTotal);
+		print(str);
+		print_nextline();
+
+		memset(str, 0, 64);
+		snprintf(str, 63, "Tests:   %d failed, %d passed", nTestsFailed, nTestsPassed);
+		print(str);
+		print_nextline();
 
 		if (nTestsFailed == 0)
 		{
-			printf("OK\n");
+			print("OK");
+			print_nextline();
 		}
 		else
 		{
-			printf("FAIL\n");
+			print("FAIL");
+			print_nextline();
 		}
 	}
 
@@ -111,7 +127,7 @@ public:
 /**
  * @brief
  */
-#ifdef TEST_BUILD
+#ifdef ON_TARGET_TEST_BUILD
 #define EMB_ASSERT_EQUAL(x, y) \
 { \
 	const char* hint = "[  WARN  ] Assertion failed: " #x " != " #y ", file: " __FILE__ ", line: " _STR(__LINE__); \
@@ -125,7 +141,7 @@ public:
 /**
  * @brief
  */
-#ifdef TEST_BUILD
+#ifdef ON_TARGET_TEST_BUILD
 #define EMB_ASSERT_TRUE(x) \
 { \
 	const char* hint = "[  WARN  ] Assertion failed: " #x " is false, file: " __FILE__ ", line: " _STR(__LINE__); \

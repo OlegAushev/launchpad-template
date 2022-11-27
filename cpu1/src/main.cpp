@@ -26,9 +26,7 @@
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
 
-#ifdef TEST_BUILD
-#include "emb/emb_testrunner/emb_testrunner.h"
-#endif
+#include "tests/tests.h"
 
 
 /* ========================================================================== */
@@ -99,11 +97,21 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_WELCOME_STRING);
 	cli::nextline_blocking();
+	cli::print_blocking(CLI_COLOR_GREEN);
+	cli::print_blocking("launchpad-template | v0.1");
+	cli::print_blocking(CLI_COLOR_OFF);
+	cli::nextline_blocking();
 	cli::print_blocking("CPU1 has booted successfully");
 
 /*############################################################################*/
-#ifdef TEST_BUILD
-	RUN_TESTS();
+#ifdef ON_TARGET_TEST_BUILD
+	emb::TestRunner::print = cli::print_blocking;
+	emb::TestRunner::print_nextline = cli::nextline_blocking;
+
+	cli::nextline_blocking();
+	cli::print_blocking(CLI_COLOR_YELLOW "on-target testing build configuration is selected, run tests..." CLI_COLOR_OFF);
+	cli::nextline_blocking();
+	emb::run_tests();
 #endif
 
 /*############################################################################*/

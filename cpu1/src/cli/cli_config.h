@@ -43,6 +43,6 @@
 #define CLI_PROMPT_BEGIN CLI_COLOR_MAGENTA"[root@"
 #define CLI_PROMPT_END "]> "CLI_COLOR_OFF
 
-#define CLI_WELCOME_STRING CLI_COLOR_CYAN"================================================================"CLI_COLOR_OFF
+#define CLI_WELCOME_STRING CLI_COLOR_GREEN "Welcome to uShell!" CLI_COLOR_OFF
 
 

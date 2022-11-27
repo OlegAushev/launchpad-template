@@ -9,7 +9,7 @@
 #include "mcu_test/mcu_test.h"
 
 
-void RUN_TESTS()
+void emb::run_tests()
 {
 #ifdef _LAUNCHXL_F28379D
 	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU1);
