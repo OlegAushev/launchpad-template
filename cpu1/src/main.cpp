@@ -72,15 +72,16 @@ void main()
 	/*#############*/
 	/*# SCI & CLI #*/
 	/*#############*/
-	mcu::SciConfig sciBConfig =
+	mcu::sci::Config sciBConfig =
 	{
-		.baudrate = mcu::SCI_BAUDRATE_9600,
-		.wordLen = mcu::SCI_WORD_8BIT,
-		.stopBits = mcu::SCI_STOP_BIT_ONE,
-		.parityMode = mcu::SCI_PARITY_NONE,
-		.autoBaudMode = mcu::SCI_AUTO_BAUD_DISABLED,
+		.baudrate = mcu::sci::Baudrate::Baudrate9600,
+		.wordLen = mcu::sci::WordLen::Word8Bit,
+		.stopBits = mcu::sci::StopBits::One,
+		.parityMode = mcu::sci::ParityMode::None,
+		.autoBaudMode = mcu::sci::AutoBaudMode::Disabled,
 	};
-	mcu::Sci<mcu::SCIB> sciB(mcu::gpio::Config(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
+	mcu::sci::Module<mcu::sci::Peripheral::SciB> sciB(
+			mcu::gpio::Config(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
 			mcu::gpio::Config(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
 			sciBConfig);
 

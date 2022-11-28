@@ -18,78 +18,87 @@
 
 
 namespace mcu {
+
+
+namespace sci {
 /// @addtogroup mcu_sci
 /// @{
 
 
 /// SCI modules
-enum SciModule
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
-	SCIA,
-	SCIB,
-	SCIC,
-	SCID
-};
+	SciA,
+	SciB,
+	SciC,
+	SciD
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// SCI baudrates
-enum SciBaudrate
+SCOPED_ENUM_DECLARE_BEGIN(Baudrate)
 {
-	SCI_BAUDRATE_9600 = 9600,
-	SCI_BAUDRATE_115200 = 115200,
-};
+	Baudrate9600 = 9600,
+	Baudrate115200 = 115200,
+}
+SCOPED_ENUM_DECLARE_END(Baudrate)
 
 
 /// SCI word length
-enum SciWordLen
+SCOPED_ENUM_DECLARE_BEGIN(WordLen)
 {
-	SCI_WORD_8BIT = SCI_CONFIG_WLEN_8,
-	SCI_WORD_7BIT = SCI_CONFIG_WLEN_7,
-	SCI_WORD_6BIT = SCI_CONFIG_WLEN_6,
-	SCI_WORD_5BIT = SCI_CONFIG_WLEN_5,
-	SCI_WORD_4BIT = SCI_CONFIG_WLEN_4,
-	SCI_WORD_3BIT = SCI_CONFIG_WLEN_3,
-	SCI_WORD_2BIT = SCI_CONFIG_WLEN_2,
-	SCI_WORD_1BIT = SCI_CONFIG_WLEN_1
-};
+	Word8Bit = SCI_CONFIG_WLEN_8,
+	Word7Bit = SCI_CONFIG_WLEN_7,
+	Word6Bit = SCI_CONFIG_WLEN_6,
+	Word5Bit = SCI_CONFIG_WLEN_5,
+	Word4Bit = SCI_CONFIG_WLEN_4,
+	Word3Bit = SCI_CONFIG_WLEN_3,
+	Word2Bit = SCI_CONFIG_WLEN_2,
+	Word1Bit = SCI_CONFIG_WLEN_1
+}
+SCOPED_ENUM_DECLARE_END(WordLen)
 
 
 /// SCI stop bits count
-enum SciStopBits
+SCOPED_ENUM_DECLARE_BEGIN(StopBits)
 {
-	SCI_STOP_BIT_ONE = SCI_CONFIG_STOP_ONE,
-	SCI_STOP_BIT_TWO = SCI_CONFIG_STOP_TWO
-};
+	One = SCI_CONFIG_STOP_ONE,
+	Two = SCI_CONFIG_STOP_TWO
+}
+SCOPED_ENUM_DECLARE_END(StopBits)
 
 
 /// SCI parity mode
-enum SciParityMode
+SCOPED_ENUM_DECLARE_BEGIN(ParityMode)
 {
-	SCI_PARITY_NONE = SCI_CONFIG_PAR_NONE,
-	SCI_PARITY_EVEN = SCI_CONFIG_PAR_EVEN,
-	SCI_PARITY_ODD = SCI_CONFIG_PAR_ODD
-};
+	None = SCI_CONFIG_PAR_NONE,
+	Even = SCI_CONFIG_PAR_EVEN,
+	Odd = SCI_CONFIG_PAR_ODD
+}
+SCOPED_ENUM_DECLARE_END(ParityMode)
 
 
 /// SCI Auto-baud mode
-enum SciAutoBaudMode
+SCOPED_ENUM_DECLARE_BEGIN(AutoBaudMode)
 {
-	SCI_AUTO_BAUD_DISABLED,
-	SCI_AUTO_BAUD_ENABLED
-};
+	Disabled,
+	Enabled
+}
+SCOPED_ENUM_DECLARE_END(AutoBaudMode)
 
 
 
 /**
  * @brief SCI unit config.
  */
-struct SciConfig
+struct Config
 {
-	SciBaudrate baudrate;
-	SciWordLen wordLen;
-	SciStopBits stopBits;
-	SciParityMode parityMode;
-	SciAutoBaudMode autoBaudMode;
+	Baudrate baudrate;
+	WordLen wordLen;
+	StopBits stopBits;
+	ParityMode parityMode;
+	AutoBaudMode autoBaudMode;
 };
 
 
@@ -99,12 +108,12 @@ namespace impl {
 /**
  * @brief SCI module implementation.
  */
-struct SciModuleImpl
+struct Module
 {
 	uint32_t base;
 	uint32_t pieRxIntNum;
 	uint16_t pieIntGroup;
-	SciModuleImpl(uint32_t _base, uint32_t _pieRxIntNum, uint16_t _pieIntGroup)
+	Module(uint32_t _base, uint32_t _pieRxIntNum, uint16_t _pieIntGroup)
 		: base(_base), pieRxIntNum(_pieRxIntNum), pieIntGroup(_pieIntGroup) {}
 };
 
@@ -120,15 +129,15 @@ extern const uint16_t sciPieIntGroups[4];
 /**
  * @brief SCI unit class.
  */
-template <SciModule Module>
-class Sci : public emb::c28x::interrupt_invoker<Sci<Module> >, public emb::IUart
+template <Peripheral::enum_type Instance>
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, public emb::IUart
 {
 private:
-	impl::SciModuleImpl m_module;
+	impl::Module m_module;
 
 private:
-	Sci(const Sci& other);			// no copy constructor
-	Sci& operator=(const Sci& other);	// no copy assignment operator
+	Module(const Module& other);			// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU SCI unit.
@@ -136,24 +145,24 @@ public:
 	 * @param txPin
 	 * @param cfg
 	 */
-	Sci(const gpio::Config& rxPin, const gpio::Config& txPin,
-			const SciConfig& cfg)
-		: emb::c28x::interrupt_invoker<Sci<Module> >(this)
-		, m_module(impl::sciBases[Module],
-				impl::sciRxPieIntNums[Module],
-				impl::sciPieIntGroups[Module])
+	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
+			const Config& conf)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
+		, m_module(impl::sciBases[Instance],
+				impl::sciRxPieIntNums[Instance],
+				impl::sciPieIntGroups[Instance])
 	{
 #ifdef CPU1
 		_initPins(rxPin, txPin);
 #endif
 		SCI_disableModule(m_module.base);
 
-		uint32_t configFlags = static_cast<uint32_t>(cfg.wordLen)
-				| static_cast<uint32_t>(cfg.stopBits)
-				| static_cast<uint32_t>(cfg.parityMode);
+		uint32_t configFlags = static_cast<uint32_t>(conf.wordLen.underlying_value())
+				| static_cast<uint32_t>(conf.stopBits.underlying_value())
+				| static_cast<uint32_t>(conf.parityMode.underlying_value());
 
 		SCI_setConfig(m_module.base, DEVICE_LSPCLK_FREQ,
-				static_cast<uint32_t>(cfg.baudrate),
+				static_cast<uint32_t>(conf.baudrate.underlying_value()),
 				configFlags);
 
 		SCI_resetChannels(m_module.base);
@@ -166,14 +175,12 @@ public:
 		SCI_enableModule(m_module.base);
 		SCI_performSoftwareReset(m_module.base);
 
-		if (cfg.autoBaudMode == SCI_AUTO_BAUD_ENABLED)
+		if (conf.autoBaudMode == AutoBaudMode::Enabled)
 		{
 			// Perform an autobaud lock.
 			// SCI expects an 'a' or 'A' to lock the baud rate.
 			SCI_lockAutobaud(m_module.base);
 		}
-		// TODO
-
 	}
 
 #ifdef CPU1
@@ -189,7 +196,7 @@ public:
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 		SysCtl_selectCPUForPeripheral(SYSCTL_CPUSEL5_SCI,
-				static_cast<uint16_t>(Module)+1, SYSCTL_CPUSEL_CPU2);
+				static_cast<uint16_t>(Instance)+1, SYSCTL_CPUSEL_CPU2);
 	}
 #endif
 
@@ -346,6 +353,9 @@ protected:
 
 
 /// @}
+} // namespace sci
+
+
 } // namespace mcu
 
 
