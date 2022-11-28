@@ -13,6 +13,7 @@
 #include "driverlib.h"
 #include "device.h"
 #include "F2837xD_Ipc_drivers.h"
+#include "emb/emb_core.h"
 
 
 namespace mcu {
@@ -24,11 +25,12 @@ namespace ipc {
 
 
 ///
-enum IpcMode
+SCOPED_ENUM_DECLARE_BEGIN(IpcMode)
 {
-	IpcModeSinglecore,
-	IpcModeDualcore
-};
+	Singlecore,
+	Dualcore
+}
+SCOPED_ENUM_DECLARE_END(IpcMode)
 
 
 /**
@@ -150,11 +152,11 @@ public:
 	 */
 	bool check()
 	{
-		switch (m_mode)
+		switch (m_mode.native_value())
 		{
-		case mcu::ipc::IpcModeSinglecore:
+		case mcu::ipc::IpcMode::Singlecore:
 			return local.check();
-		case mcu::ipc::IpcModeDualcore:
+		case mcu::ipc::IpcMode::Dualcore:
 			return remote.check();
 		}
 		return false;
@@ -167,12 +169,12 @@ public:
 	 */
 	inline void reset()
 	{
-		switch (m_mode)
+		switch (m_mode.native_value())
 		{
-		case mcu::ipc::IpcModeSinglecore:
+		case mcu::ipc::IpcMode::Singlecore:
 			local.reset();
 			return;
-		case mcu::ipc::IpcModeDualcore:
+		case mcu::ipc::IpcMode::Dualcore:
 			remote.acknowledge();
 			return;
 		}

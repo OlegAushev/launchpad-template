@@ -16,9 +16,9 @@ namespace ipc {
 namespace flags {
 
 #ifdef DUALCORE
-const mcu::ipc::IpcMode mode = mcu::ipc::IpcModeSinglecore;
+const mcu::ipc::IpcMode mode = mcu::ipc::IpcMode::Singlecore;
 #else
-const mcu::ipc::IpcMode mode = mcu::ipc::IpcModeDualcore;
+const mcu::ipc::IpcMode mode = mcu::ipc::IpcMode::Dualcore;
 #endif
 
 mcu::ipc::Flag cpu1PeripheryConfigured(31, mode);

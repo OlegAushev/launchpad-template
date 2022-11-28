@@ -28,15 +28,16 @@ namespace pwm {
 
 
 /// PWM states
-enum State
+SCOPED_ENUM_DECLARE_BEGIN(State)
 {
-	PwmOff,
-	PwmOn
-};
+	Off,
+	On
+}
+SCOPED_ENUM_DECLARE_END(State)
 
 
 /// PWM modules
-enum Peripheral
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
 	Pwm1,
 	Pwm2,
@@ -50,75 +51,82 @@ enum Peripheral
 	Pwm10,
 	Pwm11,
 	Pwm12
-};
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// PWM phases count
-enum PhaseCount
+SCOPED_ENUM_DECLARE_BEGIN(PhaseCount)
 {
-	PwmOnePhase = 1,
-	PwmThreePhase = 3,
-	PwmSixPhase = 6
-};
+	One = 1,
+	Three = 3,
+	Six = 6
+}
+SCOPED_ENUM_DECLARE_END(PhaseCount)
 
 
 /// PWM clock divider
-enum ClockDivider
+SCOPED_ENUM_DECLARE_BEGIN(ClockDivider)
 {
-	PwmClockDivider1 = EPWM_CLOCK_DIVIDER_1,	//!< Divide clock by 1
-	PwmClockDivider2 = EPWM_CLOCK_DIVIDER_2,	//!< Divide clock by 2
-	PwmClockDivider4 = EPWM_CLOCK_DIVIDER_4,	//!< Divide clock by 4
-	PwmClockDivider8 = EPWM_CLOCK_DIVIDER_8,	//!< Divide clock by 8
-	PwmClockDivider16 = EPWM_CLOCK_DIVIDER_16,	//!< Divide clock by 16
-	PwmClockDivider32 = EPWM_CLOCK_DIVIDER_32,	//!< Divide clock by 32
-	PwmClockDivider64 = EPWM_CLOCK_DIVIDER_64,	//!< Divide clock by 64
-	PwmClockDivider128 = EPWM_CLOCK_DIVIDER_128	//!< Divide clock by 128
-};
+	Divider1 = EPWM_CLOCK_DIVIDER_1,
+	Divider2 = EPWM_CLOCK_DIVIDER_2,
+	Divider4 = EPWM_CLOCK_DIVIDER_4,
+	Divider8 = EPWM_CLOCK_DIVIDER_8,
+	Divider16 = EPWM_CLOCK_DIVIDER_16,
+	Divider32 = EPWM_CLOCK_DIVIDER_32,
+	Divider64 = EPWM_CLOCK_DIVIDER_64,
+	Divider128 = EPWM_CLOCK_DIVIDER_128
+}
+SCOPED_ENUM_DECLARE_END(ClockDivider)
 
 
 /// PWM hs clock divider
-enum HsClockDivider
+SCOPED_ENUM_DECLARE_BEGIN(HsClockDivider)
 {
-	PwmHSClockDivider1 = EPWM_HSCLOCK_DIVIDER_1,	//!< Divide clock by 1
-	PwmHSClockDivider2 = EPWM_HSCLOCK_DIVIDER_2,	//!< Divide clock by 2
-	PwmHSClockDivider4 = EPWM_HSCLOCK_DIVIDER_4,	//!< Divide clock by 4
-	PwmHSClockDivider6 = EPWM_HSCLOCK_DIVIDER_6,	//!< Divide clock by 6
-	PwmHSClockDivider8 = EPWM_HSCLOCK_DIVIDER_8,	//!< Divide clock by 8
-	PwmHSClockDivider10 = EPWM_HSCLOCK_DIVIDER_10,	//!< Divide clock by 10
-	PwmHSClockDivider12 = EPWM_HSCLOCK_DIVIDER_12,	//!< Divide clock by 12
-	PwmHSClockDivider14 = EPWM_HSCLOCK_DIVIDER_14	//!< Divide clock by 14
-};
+	Divider1 = EPWM_HSCLOCK_DIVIDER_1,
+	Divider2 = EPWM_HSCLOCK_DIVIDER_2,
+	Divider4 = EPWM_HSCLOCK_DIVIDER_4,
+	Divider6 = EPWM_HSCLOCK_DIVIDER_6,
+	Divider8 = EPWM_HSCLOCK_DIVIDER_8,
+	Divider10 = EPWM_HSCLOCK_DIVIDER_10,
+	Divider12 = EPWM_HSCLOCK_DIVIDER_12,
+	Divider14 = EPWM_HSCLOCK_DIVIDER_14
+}
+SCOPED_ENUM_DECLARE_END(HsClockDivider)
 
 
 /// PWM mode (waveform)
-enum OperatingMode
+SCOPED_ENUM_DECLARE_BEGIN(OperatingMode)
 {
-	PwmActiveHighComplementary,
-	PwmActiveLowComplementary
-};
+	ActiveHighComplementary,
+	ActiveLowComplementary
+}
+SCOPED_ENUM_DECLARE_END(OperatingMode)
 
 
 /// PWM counter mode
-enum CounterMode
+SCOPED_ENUM_DECLARE_BEGIN(CounterMode)
 {
-	PwmCounterModeUp = EPWM_COUNTER_MODE_UP,
-	PwmCounterModeDown = EPWM_COUNTER_MODE_DOWN,
-	PwmCounterModeUpDown = EPWM_COUNTER_MODE_UP_DOWN
-};
+	Up = EPWM_COUNTER_MODE_UP,
+	Down = EPWM_COUNTER_MODE_DOWN,
+	UpDown = EPWM_COUNTER_MODE_UP_DOWN
+}
+SCOPED_ENUM_DECLARE_END(CounterMode)
 
 
 /// PWM outputs swap
-enum OutputSwap
+SCOPED_ENUM_DECLARE_BEGIN(OutputSwap)
 {
-	PwmOutputNoSwap,
-	PwmOutputSwap
-};
+	No,
+	Yes
+}
+SCOPED_ENUM_DECLARE_END(OutputSwap)
 
 
 /**
  * @brief PWM config.
  */
-template <PhaseCount PhaseCount>
+template <PhaseCount::enum_type PhaseCount>
 struct Config
 {
 	Peripheral module[PhaseCount];
@@ -142,7 +150,7 @@ namespace impl {
 /**
  * @brief PWM module implementation.
  */
-template <PhaseCount PhaseCount>
+template <PhaseCount::enum_type PhaseCount>
 struct Module
 {
 	Peripheral instance[PhaseCount];
@@ -165,7 +173,7 @@ extern const uint32_t pwmPinOutBConfigs[12];
 /**
  * @brief PWM unit class.
  */
-template <PhaseCount Phases>
+template <PhaseCount::enum_type Phases>
 class Module
 {
 private:
@@ -201,15 +209,15 @@ public:
 		, m_counterMode(cfg.counterMode)
 		, m_switchingFreq(cfg.switchingFreq)
 		, m_deadtimeCycles(cfg.deadtime_ns / m_timebaseCycle_ns)
-		, m_state(PwmOff)
+		, m_state(State::Off)
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{
 			m_module.instance[i] = cfg.module[i];
-			m_module.base[i] = impl::pwmBases[cfg.module[i]];
+			m_module.base[i] = impl::pwmBases[cfg.module[i].underlying_value()];
 		}
-		m_module.pieEventIntNum = impl::pwmPieEventIntNums[cfg.module[0]];
-		m_module.pieTripIntNum = impl::pwmPieTripIntNums[cfg.module[0]];
+		m_module.pieEventIntNum = impl::pwmPieEventIntNums[cfg.module[0].underlying_value()];
+		m_module.pieTripIntNum = impl::pwmPieTripIntNums[cfg.module[0].underlying_value()];
 
 		for (size_t i = 0; i < Phases; ++i)
 		{
@@ -228,13 +236,13 @@ public:
 
 		/* ========================================================================== */
 		// Calculate TBPRD value
-		switch (cfg.counterMode)
+		switch (cfg.counterMode.native_value())
 		{
-		case PwmCounterModeUp:
-		case PwmCounterModeDown:
+		case CounterMode::Up:
+		case CounterMode::Down:
 			m_period = (m_timebaseClkFreq / m_switchingFreq) - 1;
 			break;
-		case PwmCounterModeUpDown:
+		case CounterMode::UpDown:
 			m_period = (m_timebaseClkFreq / m_switchingFreq) / 2;
 			break;
 		}
@@ -247,8 +255,8 @@ public:
 			/* ========================================================================== */
 			// Clock prescaler
 			EPWM_setClockPrescaler(m_module.base[i],
-					static_cast<EPWM_ClockDivider>(cfg.clkDivider),
-					static_cast<EPWM_HSClockDivider>(cfg.hsclkDivider));
+					static_cast<EPWM_ClockDivider>(cfg.clkDivider.underlying_value()),
+					static_cast<EPWM_HSClockDivider>(cfg.hsclkDivider.underlying_value()));
 
 			/* ========================================================================== */
 			// Compare values
@@ -256,7 +264,8 @@ public:
 
 			/* ========================================================================== */
 			// Counter mode
-			EPWM_setTimeBaseCounterMode(m_module.base[i], static_cast<EPWM_TimeBaseCountMode>(cfg.counterMode));
+			EPWM_setTimeBaseCounterMode(m_module.base[i],
+					static_cast<EPWM_TimeBaseCountMode>(cfg.counterMode.underlying_value()));
 
 #ifdef CPU1
 			/* ========================================================================== */
@@ -281,8 +290,8 @@ public:
 			// Sync out pulse event
 			switch (Phases)
 			{
-			case PwmSixPhase:
-			case PwmThreePhase:
+			case PhaseCount::Six:
+			case PhaseCount::Three:
 				if ((i == 0) && (m_module.base[i] == EPWM1_BASE))
 				{
 					// EPWM1 is master
@@ -294,7 +303,7 @@ public:
 					EPWM_setSyncOutPulseMode(m_module.base[i], EPWM_SYNC_OUT_PULSE_ON_EPWMxSYNCIN);
 				}
 				break;
-			case PwmOnePhase:
+			case PhaseCount::One:
 				if (m_module.base[i] == EPWM1_BASE)
 				{
 					EPWM_setSyncOutPulseMode(m_module.base[i], EPWM_SYNC_OUT_PULSE_ON_COUNTER_ZERO);
@@ -310,8 +319,8 @@ public:
 			// Time-base counter synchronization and phase shift
 			switch (Phases)
 			{
-			case PwmSixPhase:
-			case PwmThreePhase:
+			case PhaseCount::Six:
+			case PhaseCount::Three:
 				if ((i == 0) && (m_module.base[i] == EPWM1_BASE))
 				{
 					// EPWM1 is master, EPWM4,7,10 are synced to it
@@ -330,7 +339,7 @@ public:
 				}
 				break;
 
-			case PwmOnePhase:
+			case PhaseCount::One:
 				if (m_module.base[i] == EPWM1_BASE)
 				{
 					EPWM_disablePhaseShiftLoad(m_module.base[i]);
@@ -354,21 +363,21 @@ public:
 			/* ========================================================================== */
 			// CMPA actions
 				// PWMxA configuration for typical waveforms, change this if other is needed
-			switch (cfg.operatingMode)
+			switch (cfg.operatingMode.native_value())
 			{
-			case PwmCounterModeUp:
+			case CounterMode::Up:
 				EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
 				break;
-			case PwmCounterModeDown:
+			case CounterMode::Down:
 				EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);
 				break;
-			case PwmCounterModeUpDown:
+			case CounterMode::UpDown:
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
 						EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
 				EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_A,
@@ -391,13 +400,13 @@ public:
 			EPWM_setDeadBandDelayMode(m_module.base[i], EPWM_DB_FED, true);
 			EPWM_setDeadBandDelayMode(m_module.base[i], EPWM_DB_RED, true);
 
-			switch (cfg.operatingMode)
+			switch (cfg.operatingMode.native_value())
 			{
-			case PwmActiveHighComplementary:
+			case OperatingMode::ActiveHighComplementary:
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_RED, EPWM_DB_POLARITY_ACTIVE_HIGH);
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_FED, EPWM_DB_POLARITY_ACTIVE_LOW);
 				break;
-			case PwmActiveLowComplementary:
+			case OperatingMode::ActiveLowComplementary:
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_RED, EPWM_DB_POLARITY_ACTIVE_LOW);
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_FED, EPWM_DB_POLARITY_ACTIVE_HIGH);
 				break;
@@ -409,13 +418,13 @@ public:
 			EPWM_setFallingEdgeDelayCount(m_module.base[i], m_deadtimeCycles);
 			EPWM_setDeadBandCounterClock(m_module.base[i], EPWM_DB_COUNTER_CLOCK_FULL_CYCLE);
 
-			switch (cfg.outputSwap)
+			switch (cfg.outputSwap.native_value())
 			{
-			case PwmOutputNoSwap:
+			case OutputSwap::No:
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_A, false);
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_B, false);
 				break;
-			case PwmOutputSwap:
+			case OutputSwap::Yes:
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_A, true);
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_B, true);
 				break;
@@ -423,13 +432,13 @@ public:
 
 			/* ========================================================================== */
 			// Trip-Zone actions
-			switch (cfg.operatingMode)
+			switch (cfg.operatingMode.native_value())
 			{
-			case PwmActiveHighComplementary:
+			case OperatingMode::ActiveHighComplementary:
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_LOW);
 				break;
-			case PwmActiveLowComplementary:
+			case OperatingMode::ActiveLowComplementary:
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_HIGH);
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZB, EPWM_TZ_ACTION_HIGH);
 				break;
@@ -669,7 +678,7 @@ public:
 	 */
 	void start()
 	{
-		m_state = PWM_ON;
+		m_state = State::On;
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
 			EPWM_clearTripZoneFlag(m_module.base[i], EPWM_TZ_INTERRUPT | EPWM_TZ_FLAG_OST);
@@ -687,7 +696,7 @@ public:
 		{
 			EPWM_forceTripZoneEvent(m_module.base[i], EPWM_TZ_FORCE_EVENT_OST);
 		}
-		m_state = PwmOff;
+		m_state = State::Off;
 	}
 
 	/**
@@ -792,10 +801,10 @@ protected:
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{
-			GPIO_setPadConfig(cfg.module[i] * 2, GPIO_PIN_TYPE_STD);
-			GPIO_setPadConfig(cfg.module[i] * 2 + 1, GPIO_PIN_TYPE_STD);
-			GPIO_setPinConfig(impl::pwmPinOutAConfigs[cfg.module[i]]);
-			GPIO_setPinConfig(impl::pwmPinOutBConfigs[cfg.module[i]]);
+			GPIO_setPadConfig(cfg.module[i].underlying_value() * 2, GPIO_PIN_TYPE_STD);
+			GPIO_setPadConfig(cfg.module[i].underlying_value() * 2 + 1, GPIO_PIN_TYPE_STD);
+			GPIO_setPinConfig(impl::pwmPinOutAConfigs[cfg.module[i].underlying_value()]);
+			GPIO_setPinConfig(impl::pwmPinOutBConfigs[cfg.module[i].underlying_value()]);
 		}
 	}
 #endif

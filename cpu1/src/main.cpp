@@ -142,9 +142,9 @@ void main()
 
 	Syslog::IpcFlags syslogIpcFlags =
 	{
-		.resetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcModeDualcore),
-		.addMessage = mcu::ipc::Flag(11, mcu::ipc::IpcModeDualcore),
-		.popMessage = mcu::ipc::Flag(12, mcu::ipc::IpcModeDualcore)
+		.resetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
+		.addMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
+		.popMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
 	};
 	Syslog::init(syslogIpcFlags);
 	Syslog::addMessage(sys::Message::DEVICE_CPU1_BOOT_SUCCESS);

@@ -125,7 +125,7 @@ public:
 		CAN_initModule(m_module.base);
 		CAN_selectClockSource(m_module.base, CAN_CLOCK_SOURCE_SYS);
 
-		switch (bitrate.underlying_value())
+		switch (bitrate.native_value())
 		{
 		case Bitrate::Bitrate125K:
 		case Bitrate::Bitrate500K:
