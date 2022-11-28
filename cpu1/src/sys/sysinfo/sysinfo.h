@@ -18,14 +18,18 @@ namespace sys {
 /// @{
 
 
-extern const char* DEVICE_NAME;
-extern const char* DEVICE_NAME_SHORT;
+class Sysinfo
+{
+public:
+	static const char* deviceName;
+	static const char* deviceNameShort;
 
-extern const char* FIRMWARE_VERSION;
-extern const uint32_t FIRMWARE_VERSION_NUM;
+	static const char* firmwareVersion;
+	static const uint32_t firmwareVersionNum;
 
-extern const char* BUILD_CONFIGURATION;
-extern const char* BUILD_CONFIGURATION_SHORT;
+	static const char* buildConfiguration;
+	static const char* buildConfigurationShort;
+};
 
 
 /// @}

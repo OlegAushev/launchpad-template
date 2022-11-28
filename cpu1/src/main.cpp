@@ -36,19 +36,19 @@
 /* ========================================================================== */
 /* ============================ SYSTEM INFO ================================= */
 /* ========================================================================== */
-const char* sys::DEVICE_NAME = "LaunchPad template project";
-const char* sys::DEVICE_NAME_SHORT = "C28x";
-const char* sys::FIRMWARE_VERSION = GIT_DESCRIBE;
-const uint32_t sys::FIRMWARE_VERSION_NUM = GIT_COMMIT_NUM;
+const char* sys::Sysinfo::deviceName = "LaunchPad template project";
+const char* sys::Sysinfo::deviceNameShort = "C28x";
+const char* sys::Sysinfo::firmwareVersion = GIT_DESCRIBE;
+const uint32_t sys::Sysinfo::firmwareVersionNum = GIT_COMMIT_NUM;
 
 #if defined(TEST_BUILD)
-const char* sys::BUILD_CONFIGURATION = "TEST";
+const char* sys::Sysinfo::buildConfiguration = "TEST";
 #elif defined(DEBUG)
-const char* sys::BUILD_CONFIGURATION = "DEBUG";
+const char* sys::Sysinfo::buildConfiguration = "DEBUG";
 #else
-const char* sys::BUILD_CONFIGURATION = "RELEASE";
+const char* sys::Sysinfo::buildConfiguration = "RELEASE";
 #endif
-const char* sys::BUILD_CONFIGURATION_SHORT = sys::BUILD_CONFIGURATION;
+const char* sys::Sysinfo::buildConfigurationShort = sys::Sysinfo::buildConfiguration;
 
 
 /* ========================================================================== */
@@ -95,7 +95,7 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_COLOR_GREEN);
 	cli::print_blocking("launchpad-template | ");
-	cli::print_blocking(sys::FIRMWARE_VERSION);
+	cli::print_blocking(sys::Sysinfo::firmwareVersion);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 has booted successfully");
