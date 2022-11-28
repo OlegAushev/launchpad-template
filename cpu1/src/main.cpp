@@ -1,7 +1,5 @@
-
 ///
-#define FIRMWARE_VERSION_STRDEF "v22.08.2"
-#define FIRMWARE_VERSION_NUMDEF 22082
+
 
 #include "../auto-generated/git_version.h"
 
@@ -110,8 +108,9 @@ void main()
 	cli::print_blocking("initialize bsp... ");
 
 #ifdef DUALCORE
-	mcu::configureLaunchPadLeds(GPIO_CORE_CPU1, GPIO_CORE_CPU2);
-	mcu::turnLedOff(mcu::LED_BLUE);
+	bsp::initLedBlue(mcu::gpio::MasterCore::Cpu1);
+	bsp::initLedRed(mcu::gpio::MasterCore::Cpu2);
+	bsp::ledBlue.reset();
 #else
 	bsp::initLedBlue();
 	bsp::initLedRed();
