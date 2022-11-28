@@ -129,7 +129,7 @@ SCOPED_ENUM_DECLARE_END(OutputSwap)
 template <PhaseCount::enum_type PhaseCount>
 struct Config
 {
-	Peripheral module[PhaseCount];
+	Peripheral peripheral[PhaseCount];
 	float switchingFreq;
 	float deadtime_ns;
 	uint32_t clockPrescaler;	// must be the product of clkDivider and hsclkDivider
@@ -200,24 +200,24 @@ private:
 public:
 	/**
 	 * @brief Initializes MCU PWM unit.
-	 * @param cfg - PWM config
+	 * @param conf - PWM config
 	 * @param (none)
 	 */
-	Module(const pwm::Config<Phases>& cfg)
-		: m_timebaseClkFreq(s_pwmClkFreq / cfg.clockPrescaler)
-		, m_timebaseCycle_ns(s_pwmClkCycle_ns * cfg.clockPrescaler)
-		, m_counterMode(cfg.counterMode)
-		, m_switchingFreq(cfg.switchingFreq)
-		, m_deadtimeCycles(cfg.deadtime_ns / m_timebaseCycle_ns)
+	Module(const pwm::Config<Phases>& conf)
+		: m_timebaseClkFreq(s_pwmClkFreq / conf.clockPrescaler)
+		, m_timebaseCycle_ns(s_pwmClkCycle_ns * conf.clockPrescaler)
+		, m_counterMode(conf.counterMode)
+		, m_switchingFreq(conf.switchingFreq)
+		, m_deadtimeCycles(conf.deadtime_ns / m_timebaseCycle_ns)
 		, m_state(State::Off)
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{
-			m_module.instance[i] = cfg.module[i];
-			m_module.base[i] = impl::pwmBases[cfg.module[i].underlying_value()];
+			m_module.instance[i] = conf.peripheral[i];
+			m_module.base[i] = impl::pwmBases[conf.peripheral[i].underlying_value()];
 		}
-		m_module.pieEventIntNum = impl::pwmPieEventIntNums[cfg.module[0].underlying_value()];
-		m_module.pieTripIntNum = impl::pwmPieTripIntNums[cfg.module[0].underlying_value()];
+		m_module.pieEventIntNum = impl::pwmPieEventIntNums[conf.peripheral[0].underlying_value()];
+		m_module.pieTripIntNum = impl::pwmPieTripIntNums[conf.peripheral[0].underlying_value()];
 
 		for (size_t i = 0; i < Phases; ++i)
 		{
@@ -225,7 +225,7 @@ public:
 		}
 
 #ifdef CPU1
-		_initPins(cfg);
+		_initPins(conf);
 #else
 		EMB_UNUSED(impl::pwmPinOutAConfigs);
 		EMB_UNUSED(impl::pwmPinOutBConfigs);
@@ -236,7 +236,7 @@ public:
 
 		/* ========================================================================== */
 		// Calculate TBPRD value
-		switch (cfg.counterMode.native_value())
+		switch (conf.counterMode.native_value())
 		{
 		case CounterMode::Up:
 		case CounterMode::Down:
@@ -255,8 +255,8 @@ public:
 			/* ========================================================================== */
 			// Clock prescaler
 			EPWM_setClockPrescaler(m_module.base[i],
-					static_cast<EPWM_ClockDivider>(cfg.clkDivider.underlying_value()),
-					static_cast<EPWM_HSClockDivider>(cfg.hsclkDivider.underlying_value()));
+					static_cast<EPWM_ClockDivider>(conf.clkDivider.underlying_value()),
+					static_cast<EPWM_HSClockDivider>(conf.hsclkDivider.underlying_value()));
 
 			/* ========================================================================== */
 			// Compare values
@@ -265,7 +265,7 @@ public:
 			/* ========================================================================== */
 			// Counter mode
 			EPWM_setTimeBaseCounterMode(m_module.base[i],
-					static_cast<EPWM_TimeBaseCountMode>(cfg.counterMode.underlying_value()));
+					static_cast<EPWM_TimeBaseCountMode>(conf.counterMode.underlying_value()));
 
 #ifdef CPU1
 			/* ========================================================================== */
@@ -363,7 +363,7 @@ public:
 			/* ========================================================================== */
 			// CMPA actions
 				// PWMxA configuration for typical waveforms, change this if other is needed
-			switch (cfg.operatingMode.native_value())
+			switch (conf.operatingMode.native_value())
 			{
 			case CounterMode::Up:
 				EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_A,
@@ -400,7 +400,7 @@ public:
 			EPWM_setDeadBandDelayMode(m_module.base[i], EPWM_DB_FED, true);
 			EPWM_setDeadBandDelayMode(m_module.base[i], EPWM_DB_RED, true);
 
-			switch (cfg.operatingMode.native_value())
+			switch (conf.operatingMode.native_value())
 			{
 			case OperatingMode::ActiveHighComplementary:
 				EPWM_setDeadBandDelayPolarity(m_module.base[i], EPWM_DB_RED, EPWM_DB_POLARITY_ACTIVE_HIGH);
@@ -418,7 +418,7 @@ public:
 			EPWM_setFallingEdgeDelayCount(m_module.base[i], m_deadtimeCycles);
 			EPWM_setDeadBandCounterClock(m_module.base[i], EPWM_DB_COUNTER_CLOCK_FULL_CYCLE);
 
-			switch (cfg.outputSwap.native_value())
+			switch (conf.outputSwap.native_value())
 			{
 			case OutputSwap::No:
 				EPWM_setDeadBandOutputSwapMode(m_module.base[i], EPWM_DB_OUTPUT_A, false);
@@ -432,7 +432,7 @@ public:
 
 			/* ========================================================================== */
 			// Trip-Zone actions
-			switch (cfg.operatingMode.native_value())
+			switch (conf.operatingMode.native_value())
 			{
 			case OperatingMode::ActiveHighComplementary:
 				EPWM_setTripZoneAction(m_module.base[i], EPWM_TZ_ACTION_EVENT_TZA, EPWM_TZ_ACTION_LOW);
@@ -450,23 +450,23 @@ public:
 
 		/* ========================================================================== */
 		// ADC Trigger configuration, only first module triggers ADC
-		if (cfg.adcTriggerEnable[0])
+		if (conf.adcTriggerEnable[0])
 		{
-			EPWM_setADCTriggerSource(m_module.base[0], EPWM_SOC_A, cfg.adcTriggerSource[0]);
+			EPWM_setADCTriggerSource(m_module.base[0], EPWM_SOC_A, conf.adcTriggerSource[0]);
 			EPWM_setADCTriggerEventPrescale(m_module.base[0], EPWM_SOC_A, 1);
 			EPWM_enableADCTrigger(m_module.base[0], EPWM_SOC_A);
 		}
 
-		if (cfg.adcTriggerEnable[1])
+		if (conf.adcTriggerEnable[1])
 		{
-			EPWM_setADCTriggerSource(m_module.base[0], EPWM_SOC_B, cfg.adcTriggerSource[1]);
+			EPWM_setADCTriggerSource(m_module.base[0], EPWM_SOC_B, conf.adcTriggerSource[1]);
 			EPWM_setADCTriggerEventPrescale(m_module.base[0], EPWM_SOC_B, 1);
 			EPWM_enableADCTrigger(m_module.base[0], EPWM_SOC_B);
 		}
 
 		/* ========================================================================== */
 		// Interrupts, only interrupt on first module is required
-		EPWM_setInterruptSource(m_module.base[0], cfg.eventInterruptSource);
+		EPWM_setInterruptSource(m_module.base[0], conf.eventInterruptSource);
 		EPWM_setInterruptEventCount(m_module.base[0], 1U);
 
 		stop();
@@ -679,7 +679,7 @@ public:
 	void start()
 	{
 		m_state = State::On;
-		for (size_t i = 0; i < PhaseCount; ++i)
+		for (size_t i = 0; i < Phases; ++i)
 		{
 			EPWM_clearTripZoneFlag(m_module.base[i], EPWM_TZ_INTERRUPT | EPWM_TZ_FLAG_OST);
 		}
@@ -797,14 +797,14 @@ public:
 
 protected:
 #ifdef CPU1
-	void _initPins(const pwm::Config<Phases>& cfg)
+	void _initPins(const pwm::Config<Phases>& conf)
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{
-			GPIO_setPadConfig(cfg.module[i].underlying_value() * 2, GPIO_PIN_TYPE_STD);
-			GPIO_setPadConfig(cfg.module[i].underlying_value() * 2 + 1, GPIO_PIN_TYPE_STD);
-			GPIO_setPinConfig(impl::pwmPinOutAConfigs[cfg.module[i].underlying_value()]);
-			GPIO_setPinConfig(impl::pwmPinOutBConfigs[cfg.module[i].underlying_value()]);
+			GPIO_setPadConfig(conf.peripheral[i].underlying_value() * 2, GPIO_PIN_TYPE_STD);
+			GPIO_setPadConfig(conf.peripheral[i].underlying_value() * 2 + 1, GPIO_PIN_TYPE_STD);
+			GPIO_setPinConfig(impl::pwmPinOutAConfigs[conf.peripheral[i].underlying_value()]);
+			GPIO_setPinConfig(impl::pwmPinOutBConfigs[conf.peripheral[i].underlying_value()]);
 		}
 	}
 #endif

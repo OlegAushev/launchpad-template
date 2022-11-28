@@ -106,9 +106,9 @@ public:
 	 * @brief Initializes MCU I2C unit.
 	 * @param sdaPin - MCU I2C-SDA pin config
 	 * @param sclPin - MCU I2C-SCL pin config
-	 * @param cfg - I2C config
+	 * @param conf - I2C config
 	 */
-	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Config& cfg)
+	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Config& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::i2cBases[Instance])
 	{
@@ -117,10 +117,10 @@ public:
 #endif
 		I2C_disableModule(m_module.base);
 
-		I2C_initMaster(m_module.base, mcu::sysclkFreq(), cfg.bitrate,
-				static_cast<I2C_DutyCycle>(cfg.dutyCycle.underlying_value()));
-		I2C_setBitCount(m_module.base, static_cast<I2C_BitCount>(cfg.bitCount.underlying_value()));
-		I2C_setSlaveAddress(m_module.base, cfg.slaveAddr);
+		I2C_initMaster(m_module.base, mcu::sysclkFreq(), conf.bitrate,
+				static_cast<I2C_DutyCycle>(conf.dutyCycle.underlying_value()));
+		I2C_setBitCount(m_module.base, static_cast<I2C_BitCount>(conf.bitCount.underlying_value()));
+		I2C_setSlaveAddress(m_module.base, conf.slaveAddr);
 		I2C_setEmulationMode(m_module.base, I2C_EMULATION_FREE_RUN);
 
 		I2C_disableFIFO(m_module.base);

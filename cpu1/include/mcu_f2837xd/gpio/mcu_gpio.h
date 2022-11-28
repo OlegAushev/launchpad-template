@@ -151,7 +151,7 @@ namespace impl {
 class GpioBase
 {
 protected:
-	Config m_cfg;
+	Config m_conf;
 	bool m_initialized;
 	GpioBase() : m_initialized(false) {}
 public:
@@ -163,9 +163,9 @@ public:
 	void setMasterCore(MasterCore masterCore)
 	{
 		assert(m_initialized);
-		m_cfg.masterCore = masterCore;
+		m_conf.masterCore = masterCore;
 #ifdef CPU1
-		GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(masterCore.underlying_value()));
+		GPIO_setMasterCore(m_conf.no, static_cast<GPIO_CoreSelect>(masterCore.underlying_value()));
 #endif
 	}
 
@@ -176,7 +176,7 @@ public:
 	 */
 	const Config& config() const
 	{
-		return m_cfg;
+		return m_conf;
 	}
 
 	/**
@@ -186,7 +186,7 @@ public:
 	 */
 	uint32_t no() const
 	{
-		return m_cfg.no;
+		return m_conf.no;
 	}
 };
 
@@ -211,31 +211,31 @@ public:
 
 	/**
 	 * @brief Constructs GPIO input pin.
-	 * @param cfg - pin config
+	 * @param conf - pin config
 	 */
-	Input(const Config& cfg)
+	Input(const Config& conf)
 	{
-		init(cfg);
+		init(conf);
 	}
 
 	/**
 	 * @brief Initializes GPIO input pin.
-	 * @param cfg - pin config
+	 * @param conf - pin config
 	 * @return (none)
 	 */
-	void init(const Config& cfg)
+	void init(const Config& conf)
 	{
-		m_cfg = cfg;
-		if (m_cfg.valid)
+		m_conf = conf;
+		if (m_conf.valid)
 		{
-			assert(cfg.direction == Direction::Input);
+			assert(conf.direction == Direction::Input);
 #ifdef CPU1
-			GPIO_setQualificationPeriod(m_cfg.no, m_cfg.qualPeriod);
-			GPIO_setQualificationMode(m_cfg.no, static_cast<GPIO_QualificationMode>(m_cfg.qualMode.underlying_value()));
-			GPIO_setPadConfig(m_cfg.no, m_cfg.type.underlying_value());
-			GPIO_setPinConfig(m_cfg.mux);
-			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_IN);
-			GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(m_cfg.masterCore.underlying_value()));
+			GPIO_setQualificationPeriod(m_conf.no, m_conf.qualPeriod);
+			GPIO_setQualificationMode(m_conf.no, static_cast<GPIO_QualificationMode>(m_conf.qualMode.underlying_value()));
+			GPIO_setPadConfig(m_conf.no, m_conf.type.underlying_value());
+			GPIO_setPinConfig(m_conf.mux);
+			GPIO_setDirectionMode(m_conf.no, GPIO_DIR_MODE_IN);
+			GPIO_setMasterCore(m_conf.no, static_cast<GPIO_CoreSelect>(m_conf.masterCore.underlying_value()));
 #endif
 			m_initialized = true;
 		}
@@ -250,7 +250,7 @@ public:
 	{
 		assert(m_initialized);
 		return static_cast<emb::gpio::State>(1
-				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
+				- (GPIO_readPin(m_conf.no) ^ static_cast<uint32_t>(m_conf.activeState.underlying_value())));
 	}
 
 public:
@@ -262,7 +262,7 @@ public:
 #ifdef CPU1
 	void setInterrupt(GPIO_ExternalIntNum intNum)
 	{
-		GPIO_setInterruptPin(m_cfg.no, intNum);	// X-Bar may be configured on CPU1 only
+		GPIO_setInterruptPin(m_conf.no, intNum);	// X-Bar may be configured on CPU1 only
 	}
 #endif
 
@@ -328,32 +328,32 @@ public:
 
 	/**
 	 * @brief Constructs GPIO output pin.
-	 * @param cfg - pin config
+	 * @param conf - pin config
 	 */
-	Output(const Config& cfg)
+	Output(const Config& conf)
 	{
-		init(cfg);
+		init(conf);
 	}
 
 	/**
 	 * @brief Initializes GPIO output pin.
-	 * @param cfg - pin config
+	 * @param conf - pin config
 	 * @return (none)
 	 */
-	void init(const Config& cfg)
+	void init(const Config& conf)
 	{
-		m_cfg = cfg;
-		if (m_cfg.valid)
+		m_conf = conf;
+		if (m_conf.valid)
 		{
-			assert(cfg.direction == Direction::Output);
+			assert(conf.direction == Direction::Output);
 #ifdef CPU1
-			GPIO_setPadConfig(m_cfg.no, m_cfg.type.underlying_value());
+			GPIO_setPadConfig(m_conf.no, m_conf.type.underlying_value());
 			//set() - is virtual, shouldn't be called in ctor
-			GPIO_writePin(m_cfg.no, 1
-					- (static_cast<uint32_t>(emb::gpio::State::Inactive) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
-			GPIO_setPinConfig(m_cfg.mux);
-			GPIO_setDirectionMode(m_cfg.no, GPIO_DIR_MODE_OUT);
-			GPIO_setMasterCore(m_cfg.no, static_cast<GPIO_CoreSelect>(m_cfg.masterCore.underlying_value()));
+			GPIO_writePin(m_conf.no, 1
+					- (static_cast<uint32_t>(emb::gpio::State::Inactive) ^ static_cast<uint32_t>(m_conf.activeState.underlying_value())));
+			GPIO_setPinConfig(m_conf.mux);
+			GPIO_setDirectionMode(m_conf.no, GPIO_DIR_MODE_OUT);
+			GPIO_setMasterCore(m_conf.no, static_cast<GPIO_CoreSelect>(m_conf.masterCore.underlying_value()));
 #endif
 			m_initialized = true;
 		}
@@ -368,7 +368,7 @@ public:
 	{
 		assert(m_initialized);
 		return static_cast<emb::gpio::State>(1
-				- (GPIO_readPin(m_cfg.no) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
+				- (GPIO_readPin(m_conf.no) ^ static_cast<uint32_t>(m_conf.activeState.underlying_value())));
 	}
 
 	/**
@@ -379,8 +379,8 @@ public:
 	virtual void set(emb::gpio::State state = emb::gpio::State::Active) const
 	{
 		assert(m_initialized);
-		GPIO_writePin(m_cfg.no, 1
-				- (static_cast<uint32_t>(state.underlying_value()) ^ static_cast<uint32_t>(m_cfg.activeState.underlying_value())));
+		GPIO_writePin(m_conf.no, 1
+				- (static_cast<uint32_t>(state.underlying_value()) ^ static_cast<uint32_t>(m_conf.activeState.underlying_value())));
 	}
 
 	/**
@@ -402,7 +402,7 @@ public:
 	virtual void toggle() const
 	{
 		assert(m_initialized);
-		GPIO_togglePin(m_cfg.no);
+		GPIO_togglePin(m_conf.no);
 	}
 };
 
