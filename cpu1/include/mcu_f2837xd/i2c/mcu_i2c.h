@@ -26,33 +26,36 @@ namespace i2c {
 
 
 /// I2C modules
-enum Peripheral
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
 	I2CA,
 	I2CB
-};
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// Count of bits per data word.
-enum BitCount
+SCOPED_ENUM_DECLARE_BEGIN(BitCount)
 {
-	I2CBitCount1 = ::I2C_BITCOUNT_1,
-	I2CBitCount2 = ::I2C_BITCOUNT_2,
-	I2CBitCount3 = ::I2C_BITCOUNT_3,
-	I2CBitCount4 = ::I2C_BITCOUNT_4,
-	I2CBitCount5 = ::I2C_BITCOUNT_5,
-	I2CBitCount6 = ::I2C_BITCOUNT_6,
-	I2CBitCount7 = ::I2C_BITCOUNT_7,
-	I2CBitCount8 = ::I2C_BITCOUNT_8
-};
+	BC1 = ::I2C_BITCOUNT_1,
+	BC2 = ::I2C_BITCOUNT_2,
+	BC3 = ::I2C_BITCOUNT_3,
+	BC4 = ::I2C_BITCOUNT_4,
+	BC5 = ::I2C_BITCOUNT_5,
+	BC6 = ::I2C_BITCOUNT_6,
+	BC7 = ::I2C_BITCOUNT_7,
+	BC8 = ::I2C_BITCOUNT_8
+}
+SCOPED_ENUM_DECLARE_END(BitCount)
 
 
 /// I2C clock duty cycle.
-enum DutyCycle
+SCOPED_ENUM_DECLARE_BEGIN(DutyCycle)
 {
-    I2CDutyCycle33 = ::I2C_DUTYCYCLE_33,
-    I2CDutyCycle50 = ::I2C_DUTYCYCLE_50
-};
+	DC33 = ::I2C_DUTYCYCLE_33,
+	DC50 = ::I2C_DUTYCYCLE_50
+}
+SCOPED_ENUM_DECLARE_END(DutyCycle)
 
 
 /**
@@ -89,7 +92,7 @@ extern const uint32_t i2cBases[2];
 /**
  * @brief I2C unit class.
  */
-template <Peripheral Instance>
+template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
@@ -114,8 +117,9 @@ public:
 #endif
 		I2C_disableModule(m_module.base);
 
-		I2C_initMaster(m_module.base, mcu::sysclkFreq(), cfg.bitrate, static_cast<I2C_DutyCycle>(cfg.dutyCycle));
-		I2C_setBitCount(m_module.base, static_cast<I2C_BitCount>(cfg.bitCount));
+		I2C_initMaster(m_module.base, mcu::sysclkFreq(), cfg.bitrate,
+				static_cast<I2C_DutyCycle>(cfg.dutyCycle.underlying_value()));
+		I2C_setBitCount(m_module.base, static_cast<I2C_BitCount>(cfg.bitCount.underlying_value()));
 		I2C_setSlaveAddress(m_module.base, cfg.slaveAddr);
 		I2C_setEmulationMode(m_module.base, I2C_EMULATION_FREE_RUN);
 
