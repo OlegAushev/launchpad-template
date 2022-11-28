@@ -11,7 +11,7 @@
 ///
 mcu::chrono::TaskStatus taskWatchdogTimeout()
 {
-	//Syslog::setError(sys::Error::CONNECTION_LOST);
+	//SysLog::setError(sys::Error::CONNECTION_LOST);
 	return mcu::chrono::TaskStatus::Success;
 }
 

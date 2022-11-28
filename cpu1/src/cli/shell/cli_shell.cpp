@@ -29,7 +29,7 @@ Cmd Shell::COMMANDS[] =
 {"sysinfo",		cli_sysinfo,		"Prints basic information about system."},
 {"reboot",		cli_reboot,		"Reboots device."},
 {"uptime",		cli_uptime,		"Shows system uptime."},
-{"syslog",		cli_syslog,		"Syslog control utility."},
+{"syslog",		cli_syslog,		"SysLog control utility."},
 {"sysctl",		cli_sysctl,		"System control utility."},
 };
 

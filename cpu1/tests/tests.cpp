@@ -11,7 +11,7 @@
 
 void emb::run_tests()
 {
-	Syslog::init(Syslog::IpcFlags());
+	SysLog::init(SysLog::IpcFlags());
 	mcu::chrono::SystemClock::init();
 
 	mcu::adc::Config adcConfig =

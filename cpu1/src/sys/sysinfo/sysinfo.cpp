@@ -7,12 +7,6 @@
 #include "sysinfo.h"
 
 
-namespace sys {
 
-
-
-
-
-} // namespace sys
 
 

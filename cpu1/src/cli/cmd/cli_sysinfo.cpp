@@ -16,13 +16,13 @@ int cli_sysinfo(int argc, const char** argv)
 {
 	cli::nextline();
 	cli::print("device name: ");
-	cli::print(sys::Sysinfo::deviceName);
+	cli::print(SysInfo::deviceName);
 	cli::nextline();
 	cli::print("firmware version: ");
-	cli::print(sys::Sysinfo::firmwareVersion);
+	cli::print(SysInfo::firmwareVersion);
 	cli::nextline();
 	cli::print("build configuration: ");
-	cli::print(sys::Sysinfo::buildConfiguration);
+	cli::print(SysInfo::buildConfiguration);
 	return 0;
 }
 

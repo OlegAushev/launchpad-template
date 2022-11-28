@@ -36,19 +36,19 @@
 /* ========================================================================== */
 /* ============================ SYSTEM INFO ================================= */
 /* ========================================================================== */
-const char* sys::Sysinfo::deviceName = "LaunchPad template project";
-const char* sys::Sysinfo::deviceNameShort = "C28x";
-const char* sys::Sysinfo::firmwareVersion = GIT_DESCRIBE;
-const uint32_t sys::Sysinfo::firmwareVersionNum = GIT_COMMIT_NUM;
+const char* SysInfo::deviceName = "LaunchPad template project";
+const char* SysInfo::deviceNameShort = "C28x";
+const char* SysInfo::firmwareVersion = GIT_DESCRIBE;
+const uint32_t SysInfo::firmwareVersionNum = GIT_COMMIT_NUM;
 
 #if defined(TEST_BUILD)
-const char* sys::Sysinfo::buildConfiguration = "TEST";
+const char* SysInfo::buildConfiguration = "TEST";
 #elif defined(DEBUG)
-const char* sys::Sysinfo::buildConfiguration = "DEBUG";
+const char* SysInfo::buildConfiguration = "DEBUG";
 #else
-const char* sys::Sysinfo::buildConfiguration = "RELEASE";
+const char* SysInfo::buildConfiguration = "RELEASE";
 #endif
-const char* sys::Sysinfo::buildConfigurationShort = sys::Sysinfo::buildConfiguration;
+const char* SysInfo::buildConfigurationShort = SysInfo::buildConfiguration;
 
 
 /* ========================================================================== */
@@ -95,7 +95,7 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_COLOR_GREEN);
 	cli::print_blocking("launchpad-template | ");
-	cli::print_blocking(sys::Sysinfo::firmwareVersion);
+	cli::print_blocking(SysInfo::firmwareVersion);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 has booted successfully");
@@ -141,14 +141,14 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("initialize syslog... ");
 
-	Syslog::IpcFlags syslogIpcFlags =
+	SysLog::IpcFlags syslogIpcFlags =
 	{
 		.resetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
 		.addMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
 		.popMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
 	};
-	Syslog::init(syslogIpcFlags);
-	Syslog::addMessage(sys::Message::DEVICE_CPU1_BOOT_SUCCESS);
+	SysLog::init(syslogIpcFlags);
+	SysLog::addMessage(sys::Message::DEVICE_CPU1_BOOT_SUCCESS);
 
 	cli::print_blocking("done");
 
@@ -211,9 +211,9 @@ void main()
 	cli::print_blocking("boot CPU2... ");
 
 	mcu::bootCpu2();
-	Syslog::addMessage(sys::Message::DEVICE_CPU2_BOOT);
+	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT);
 	mcu::ipc::flags::cpu2Booted.remote.wait();
-	Syslog::addMessage(sys::Message::DEVICE_CPU2_BOOT_SUCCESS);
+	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT_SUCCESS);
 
 	cli::print_blocking("success");
 #else
@@ -268,7 +268,7 @@ void main()
 	cli::print_blocking("waiting for CPU2 periphery configured... ");
 
 	mcu::ipc::flags::cpu2PeripheryConfigured.remote.wait();
-	Syslog::addMessage(sys::Message::DEVICE_CPU2_READY);
+	SysLog::addMessage(sys::Message::DEVICE_CPU2_READY);
 
 	cli::print_blocking("success");
 #endif
@@ -285,21 +285,21 @@ void main()
 #ifdef DUALCORE
 	mcu::ipc::flags::cpu1PeripheryConfigured.local.set();
 #endif
-	Syslog::addMessage(sys::Message::DEVICE_CPU1_READY);
+	SysLog::addMessage(sys::Message::DEVICE_CPU1_READY);
 
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 periphery has been successfully configured");
 
 /*####################################################################################################################*/
 	//mcu::SystemClock::enableWatchdog();
-	Syslog::addMessage(sys::Message::DEVICE_READY);
+	SysLog::addMessage(sys::Message::DEVICE_READY);
 
 	cli::nextline_blocking();
 	cli::print_blocking("device is ready!");
 
 	while (true)
 	{
-		Syslog::processIpcSignals();
+		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
 	}

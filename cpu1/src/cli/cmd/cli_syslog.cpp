@@ -26,20 +26,20 @@ int cli_syslog(int argc, const char** argv)
 		if (argc == 1)
 		{
 			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX"CLI_ENDL"warnings: 0x%08lX",
-					Syslog::errors(),
-					Syslog::warnings());
+					SysLog::errors(),
+					SysLog::warnings());
 			goto cli_syslog_print;
 		}
 
 		if (strcmp(argv[1], "errors") == 0)
 		{
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", Syslog::errors());
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", SysLog::errors());
 			goto cli_syslog_print;
 		}
 
 		if (strcmp(argv[1], "warnings") == 0)
 		{
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", Syslog::warnings());
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", SysLog::warnings());
 			goto cli_syslog_print;
 		}
 
@@ -58,15 +58,15 @@ int cli_syslog(int argc, const char** argv)
 
 		if (strcmp(argv[1], "error") == 0)
 		{
-			Syslog::setError(static_cast<sys::Error::Error>(atoll(argv[2])));
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", Syslog::errors());
+			SysLog::setError(static_cast<sys::Error::Error>(atoll(argv[2])));
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", SysLog::errors());
 			goto cli_syslog_print;
 		}
 
 		if (strcmp(argv[1], "warning") == 0)
 		{
-			Syslog::setWarning(static_cast<sys::Warning::Warning>(atoll(argv[2])));
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", Syslog::warnings());
+			SysLog::setWarning(static_cast<sys::Warning::Warning>(atoll(argv[2])));
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", SysLog::warnings());
 			goto cli_syslog_print;
 		}
 
@@ -79,10 +79,10 @@ int cli_syslog(int argc, const char** argv)
 	{
 		if (argc == 1)
 		{
-			Syslog::resetErrorsWarnings();
+			SysLog::resetErrorsWarnings();
 			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX"CLI_ENDL"warnings: 0x%08lX",
-					Syslog::errors(),
-					Syslog::warnings());
+					SysLog::errors(),
+					SysLog::warnings());
 			goto cli_syslog_print;
 		}
 
@@ -94,15 +94,15 @@ int cli_syslog(int argc, const char** argv)
 
 		if (strcmp(argv[1], "error") == 0)
 		{
-			Syslog::resetError(static_cast<sys::Error::Error>(atoll(argv[2])));
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", Syslog::errors());
+			SysLog::resetError(static_cast<sys::Error::Error>(atoll(argv[2])));
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "errors: 0x%08lX", SysLog::errors());
 			goto cli_syslog_print;
 		}
 
 		if (strcmp(argv[1], "warning") == 0)
 		{
-			Syslog::resetWarning(static_cast<sys::Warning::Warning>(atoll(argv[2])));
-			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", Syslog::warnings());
+			SysLog::resetWarning(static_cast<sys::Warning::Warning>(atoll(argv[2])));
+			snprintf(CLI_CMD_OUTPUT, CLI_CMD_OUTPUT_LENGTH, "warnings: 0x%08lX", SysLog::warnings());
 			goto cli_syslog_print;
 		}
 
@@ -123,12 +123,12 @@ int cli_syslog(int argc, const char** argv)
 		{
 			if (strcmp(argv[2], "all") == 0)
 			{
-				Syslog::enableAllErrors();
+				SysLog::enableAllErrors();
 				strncpy(CLI_CMD_OUTPUT, "All errors are enabled.", CLI_CMD_OUTPUT_LENGTH);
 				goto cli_syslog_print;
 			}
 
-			Syslog::enableError(static_cast<sys::Error::Error>(atoll(argv[2])));
+			SysLog::enableError(static_cast<sys::Error::Error>(atoll(argv[2])));
 			return 0;
 		}
 
@@ -149,12 +149,12 @@ int cli_syslog(int argc, const char** argv)
 		{
 			if (strcmp(argv[2], "all") == 0)
 			{
-				Syslog::disableAllErrors();
+				SysLog::disableAllErrors();
 				strncpy(CLI_CMD_OUTPUT, "All errors are disabled.", CLI_CMD_OUTPUT_LENGTH);
 				goto cli_syslog_print;
 			}
 
-			Syslog::disableError(static_cast<sys::Error::Error>(atoll(argv[2])));
+			SysLog::disableError(static_cast<sys::Error::Error>(atoll(argv[2])));
 			return 0;
 		}
 

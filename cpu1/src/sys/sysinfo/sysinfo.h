@@ -1,5 +1,5 @@
 /**
- * @defgroup sysinfo Sysinfo
+ * @defgroup sysinfo SysInfo
  *
  * @file
  * @ingroup sysinfo
@@ -13,12 +13,11 @@
 #include <stddef.h>
 
 
-namespace sys {
 /// @addtogroup sysinfo
 /// @{
 
 
-class Sysinfo
+class SysInfo
 {
 public:
 	static const char* deviceName;
@@ -33,6 +32,5 @@ public:
 
 
 /// @}
-} // namespace sys
 
 

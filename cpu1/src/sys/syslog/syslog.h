@@ -1,5 +1,5 @@
 /**
- * @defgroup syslog Syslog
+ * @defgroup syslog SysLog
  *
  * @file
  * @ingroup syslog
@@ -26,7 +26,7 @@
 /**
  * @brief System logger class.
  */
-class Syslog : public emb::monostate<Syslog>
+class SysLog : public emb::monostate<SysLog>
 {
 public:
 	struct IpcFlags
@@ -46,9 +46,9 @@ public:
 	};
 
 private:
-	Syslog();				// no constructor
-	Syslog(const Syslog& other);		// no copy constructor
-	Syslog& operator=(const Syslog& other);	// no copy assignment operator
+	SysLog();				// no constructor
+	SysLog(const SysLog& other);		// no copy constructor
+	SysLog& operator=(const SysLog& other);	// no copy assignment operator
 
 private:
 	static emb::Queue<sys::Message::Message, 32> m_messages;
@@ -67,7 +67,7 @@ private:
 
 public:
 	/**
-	 * @brief Initializes Syslog.
+	 * @brief Initializes SysLog.
 	 * @param (none)
 	 * @return (none)
 	 */
@@ -123,7 +123,7 @@ public:
 	/**
 	 * @brief Reads front message from message queue.
 	 * @param (none)
-	 * @return Front message from Syslog message queue.
+	 * @return Front message from SysLog message queue.
 	 */
 	static sys::Message::Message readMessage()
 	{
@@ -164,7 +164,7 @@ public:
 	}
 
 	/**
-	 * @brief Checks and processes Syslog IPC signals.
+	 * @brief Checks and processes SysLog IPC signals.
 	 * @param (none)
 	 * @return (none)
 	 */
