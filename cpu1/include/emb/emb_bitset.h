@@ -20,31 +20,31 @@ class Bitset
 {
 	EMB_STATIC_ASSERT(BitCount > 0);
 private:
-	static const size_t BYTES_COUNT = (BitCount + CHAR_BIT - 1) / CHAR_BIT;
-	static const size_t EXTRA_BITS = BitCount % CHAR_BIT;
+	static const size_t s_bytesCount = (BitCount + CHAR_BIT - 1) / CHAR_BIT;
+	static const size_t s_extraBits = BitCount % CHAR_BIT;
 
-	unsigned int m_data[BYTES_COUNT];
+	unsigned int m_data[s_bytesCount];
 
 	static size_t _whichByte(size_t pos) { return pos / CHAR_BIT; }
 	static size_t _whichBit(size_t pos) { return pos % CHAR_BIT; }
-	unsigned int& _hiByte() { return m_data[BYTES_COUNT-1]; }
-	unsigned int _hiByte() const { return m_data[BYTES_COUNT-1]; }
-	static void _resetUnusedBits(unsigned int& hiByte) { if (EXTRA_BITS) hiByte &= ~(~0U << EXTRA_BITS); }
+	unsigned int& _hiByte() { return m_data[s_bytesCount-1]; }
+	unsigned int _hiByte() const { return m_data[s_bytesCount-1]; }
+	static void _resetUnusedBits(unsigned int& hiByte) { if (s_extraBits) hiByte &= ~(~0U << s_extraBits); }
 
 public:
 	class Reference;
 
 	Bitset()
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			m_data[i] = 0U;
 		}
 	}
 
-	Bitset(const emb::Array<unsigned int, BYTES_COUNT>& words)
+	Bitset(const emb::Array<unsigned int, s_bytesCount>& words)
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			m_data[i] = words[i];
 		}
@@ -53,9 +53,9 @@ public:
 
 	Bitset(uint64_t value)
 	{
-		EMB_STATIC_ASSERT(BYTES_COUNT <= 4);
+		EMB_STATIC_ASSERT(s_bytesCount <= 4);
 		uint64_t val = value;	// protection against implicit conversion and wrong memcpy()
-		memcpy(m_data, &val, BYTES_COUNT);
+		memcpy(m_data, &val, s_bytesCount);
 		_resetUnusedBits(_hiByte());
 	}
 
@@ -84,14 +84,14 @@ public:
 	bool all() const
 	{
 		// int index is used to suppress "pointless comparison of unsigned integer with zero" warning
-		for (int i = 0; i < BYTES_COUNT-1; ++i)
+		for (int i = 0; i < s_bytesCount-1; ++i)
 		{
 			if (m_data[i] != 0xFFFF) return false;
 		}
 
-		if (EXTRA_BITS)
+		if (s_extraBits)
 		{
-			if (_hiByte() != ~(~0U << EXTRA_BITS)) return false;
+			if (_hiByte() != ~(~0U << s_extraBits)) return false;
 		}
 		else
 		{
@@ -102,7 +102,7 @@ public:
 
 	bool any() const
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			if (m_data[i] != 0) return true;
 		}
@@ -126,7 +126,7 @@ public:
 
 	void set()
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			m_data[i] = 0xFFFF;
 		}
@@ -144,7 +144,7 @@ public:
 
 	void reset()
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			m_data[i] = 0U;
 		}
@@ -158,7 +158,7 @@ public:
 
 	void flip()
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			m_data[i] = ~m_data[i];
 		}
@@ -173,7 +173,7 @@ public:
 
 	bool operator==(const Bitset& rhs) const
 	{
-		for (size_t i = 0; i < BYTES_COUNT; ++i)
+		for (size_t i = 0; i < s_bytesCount; ++i)
 		{
 			if (m_data[i] != rhs.m_data[i]) return false;
 		}

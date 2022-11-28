@@ -19,7 +19,7 @@ namespace emb {
 class DurationLogger_us
 {
 private:
-	static uint64_t (*m_timeNowFunc)();
+	static uint64_t (*s_timeNowFunc)();
 	char m_message[32];
 	volatile uint64_t m_start;
 
@@ -27,12 +27,12 @@ public:
 	explicit DurationLogger_us(const char* message)
 	{
 		strcpy(m_message, message);
-		m_start = m_timeNowFunc();
+		m_start = s_timeNowFunc();
 	}
 
 	~DurationLogger_us()
 	{
-		volatile uint64_t finish = m_timeNowFunc();
+		volatile uint64_t finish = s_timeNowFunc();
 		if (finish < m_start)
 		{
 			printf("%s: timer overflow\n", m_message);
@@ -45,7 +45,7 @@ public:
 
 	static void init(uint64_t (*timeNowFunc_ns)(void))
 	{
-		m_timeNowFunc = timeNowFunc_ns;
+		s_timeNowFunc = timeNowFunc_ns;
 	}
 };
 
@@ -60,7 +60,7 @@ public:
 class DurationLogger_clk
 {
 private:
-	static uint32_t (*m_timeNowFunc)();
+	static uint32_t (*s_timeNowFunc)();
 	char m_message[32];
 	volatile uint32_t m_start;
 
@@ -68,12 +68,12 @@ public:
 	explicit DurationLogger_clk(const char* message)
 	{
 		strcpy(m_message, message);
-		m_start = m_timeNowFunc();
+		m_start = s_timeNowFunc();
 	}
 
 	~DurationLogger_clk()
 	{
-		volatile uint32_t finish = m_timeNowFunc();
+		volatile uint32_t finish = s_timeNowFunc();
 		if (finish > m_start)
 		{
 			printf("%s: timer overflow\n", m_message);
@@ -86,7 +86,7 @@ public:
 
 	static void init(uint32_t (*timeNowFunc_clk)(void))
 	{
-		m_timeNowFunc = timeNowFunc_clk;
+		s_timeNowFunc = timeNowFunc_clk;
 	}
 };
 
@@ -101,8 +101,8 @@ public:
 class DurationLoggerAsync_us
 {
 private:
-	static uint64_t (*m_timeNowFunc)();
-	static const size_t CAPACITY = 10;
+	static uint64_t (*s_timeNowFunc)();
+	static const size_t s_capacity = 10;
 
 	struct DurationData
 	{
@@ -111,7 +111,7 @@ private:
 		DurationData() : value(0) {}
 	};
 
-	static DurationData m_durationsUs[CAPACITY];
+	static DurationData s_durations_us[s_capacity];
 
 	const size_t m_channel;
 	volatile uint64_t m_start;
@@ -119,35 +119,35 @@ public:
 	DurationLoggerAsync_us(const char* message, size_t channel)
 		: m_channel(channel)
 	{
-		m_durationsUs[m_channel].message = message;
-		m_start = m_timeNowFunc();
+		s_durations_us[m_channel].message = message;
+		m_start = s_timeNowFunc();
 	}
 
 	~DurationLoggerAsync_us()
 	{
-		volatile uint64_t finish = m_timeNowFunc();
+		volatile uint64_t finish = s_timeNowFunc();
 		if (finish < m_start)
 		{
-			m_durationsUs[m_channel].value = 0;
+			s_durations_us[m_channel].value = 0;
 		}
 		else
 		{
-			m_durationsUs[m_channel].value = float(finish - m_start) / 1000.f;
+			s_durations_us[m_channel].value = float(finish - m_start) / 1000.f;
 		}
 	}
 
 	static void init(uint64_t (*timeNowFunc)(void))
 	{
-		m_timeNowFunc = timeNowFunc;
+		s_timeNowFunc = timeNowFunc;
 	}
 
 	static void print()
 	{
-		for (size_t i = 0; i < CAPACITY; ++i)
+		for (size_t i = 0; i < s_capacity; ++i)
 		{
-			if (m_durationsUs[i].value != 0)
+			if (s_durations_us[i].value != 0)
 			{
-				printf("%s: %.3f us\n", m_durationsUs[i].message, m_durationsUs[i].value);
+				printf("%s: %.3f us\n", s_durations_us[i].message, s_durations_us[i].value);
 			}
 		}
 	}

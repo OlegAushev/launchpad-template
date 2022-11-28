@@ -20,19 +20,19 @@ template <size_t Capacity>
 class String
 {
 private:
-	static const size_t DATA_LEN = Capacity + 1;
-	char m_data[DATA_LEN];
+	static const size_t s_dataLen = Capacity + 1;
+	char m_data[s_dataLen];
 	size_t m_len;
 public:
 	String()
 	{
-		memset(m_data, 0, DATA_LEN);
+		memset(m_data, 0, s_dataLen);
 		m_len = 0;
 	}
 
 	String(const char str[])
 	{
-		memset(m_data, 0, DATA_LEN);
+		memset(m_data, 0, s_dataLen);
 		strncpy(m_data, str, Capacity);
 		m_len = strlen(str);
 	}
@@ -138,7 +138,7 @@ public:
 
 	void clear()
 	{
-		memset(m_data, 0, DATA_LEN);
+		memset(m_data, 0, s_dataLen);
 		m_len = 0;
 	}
 

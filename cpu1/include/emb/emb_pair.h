@@ -19,9 +19,9 @@ public:
 	T1 first;
 	T2 second;
 	Pair() {}
-	Pair(const T1& _first, const T2& _second)
-		: first(_first)
-		, second(_second) {}
+	Pair(const T1& first_, const T2& second_)
+		: first(first_)
+		, second(second_) {}
 
 	Pair& operator=(const Pair& other)
 	{

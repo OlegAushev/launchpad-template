@@ -29,7 +29,7 @@ public:
 	IFilter() {}
 	virtual ~IFilter() {}
 
-	virtual void push(T value) {}
+	virtual void push(T value) = 0;
 	virtual T output() const = 0;
 	virtual void setOutput(T value) = 0;
 	virtual void reset() = 0;

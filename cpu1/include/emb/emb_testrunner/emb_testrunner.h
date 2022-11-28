@@ -29,22 +29,22 @@ private:
 	static void print_nextline_dbg() { printf("\n"); }
 
 private:
-	static int nAssertsTotal;
-	static int nAssertsFailedInTest;
-	static int nAssertsFailedTotal;
-	static int nTestsTotal;
-	static int nTestsFailed;
-	static int nTestsPassed;
+	static int s_nAssertsTotal;
+	static int s_nAssertsFailedInTest;
+	static int s_nAssertsFailedTotal;
+	static int s_nTestsTotal;
+	static int s_nTestsFailed;
+	static int s_nTestsPassed;
 
 public:
 	template <typename T, typename U>
 	static void assertEqual(const T& t, const U& u, const char* hint)
 	{
-		++nAssertsTotal;
+		++s_nAssertsTotal;
 		if (!(t == u))
 		{
-			++nAssertsFailedInTest;
-			++nAssertsFailedTotal;
+			++s_nAssertsFailedInTest;
+			++s_nAssertsFailedTotal;
 			print(hint);
 			print_nextline();
 		}
@@ -59,19 +59,19 @@ public:
 	template <class TestFunc>
 	static void runTest(TestFunc testFunc, const char* test_name)
 	{
-		++nTestsTotal;
-		nAssertsFailedInTest = 0;
+		++s_nTestsTotal;
+		s_nAssertsFailedInTest = 0;
 		testFunc();
-		if (nAssertsFailedInTest == 0)
+		if (s_nAssertsFailedInTest == 0)
 		{
-			++nTestsPassed;
+			++s_nTestsPassed;
 			print("[ PASSED ] ");
 			print(test_name);
 			print_nextline();
 		}
 		else
 		{
-			++nTestsFailed;
+			++s_nTestsFailed;
 			print("[ FAILED ] ");
 			print(test_name);
 			print_nextline();
@@ -83,16 +83,16 @@ public:
 		print_nextline();
 
 		char str[64] = {0};
-		snprintf(str, 63, "Asserts: %d failed, %d passed", nAssertsFailedTotal, nAssertsTotal - nAssertsFailedTotal);
+		snprintf(str, 63, "Asserts: %d failed, %d passed", s_nAssertsFailedTotal, s_nAssertsTotal - s_nAssertsFailedTotal);
 		print(str);
 		print_nextline();
 
 		memset(str, 0, 64);
-		snprintf(str, 63, "Tests:   %d failed, %d passed", nTestsFailed, nTestsPassed);
+		snprintf(str, 63, "Tests:   %d failed, %d passed", s_nTestsFailed, s_nTestsPassed);
 		print(str);
 		print_nextline();
 
-		if (nTestsFailed == 0)
+		if (s_nTestsFailed == 0)
 		{
 			print("OK");
 			print_nextline();
@@ -106,7 +106,7 @@ public:
 
 	static bool passed()
 	{
-		if (nTestsFailed == 0)
+		if (s_nTestsFailed == 0)
 		{
 			return true;
 		}

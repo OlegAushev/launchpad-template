@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "emb_core.h"
 #include "emb_algorithm.h"
 #include "float.h"
 
@@ -12,17 +13,18 @@ namespace emb {
 
 
 /// Controller logic
-enum ControllerLogic
+SCOPED_ENUM_DECLARE_BEGIN(ControllerLogic)
 {
-	CONTROLLER_DIRECT,
-	CONTROLLER_INVERSE
-};
+	Direct,
+	Inverse
+}
+SCOPED_ENUM_DECLARE_END(ControllerLogic)
 
 
 /*
  * @brief PI controller interface
  */
-template <ControllerLogic Logic>
+template <ControllerLogic::enum_type Logic>
 class IPiController
 {
 private:
@@ -71,14 +73,14 @@ public:
 };
 
 
-inline float IPiController<CONTROLLER_DIRECT>::_error(float ref, float meas) { return ref - meas; }
-inline float IPiController<CONTROLLER_INVERSE>::_error(float ref, float meas) { return meas - ref; }
+inline float IPiController<ControllerLogic::Direct>::_error(float ref, float meas) { return ref - meas; }
+inline float IPiController<ControllerLogic::Inverse>::_error(float ref, float meas) { return meas - ref; }
 
 
 /*
  * @brief PI controller with back-calculation
  */
-template <ControllerLogic Logic>
+template <ControllerLogic::enum_type Logic>
 class PiControllerBC : public IPiController<Logic>
 {
 private:
@@ -121,7 +123,7 @@ public:
 /*
  * @brief PI controller with clamping
  */
-template <ControllerLogic Logic>
+template <ControllerLogic::enum_type Logic>
 class PiControllerCl : public IPiController<Logic>
 {
 private:

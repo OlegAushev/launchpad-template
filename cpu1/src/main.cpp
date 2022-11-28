@@ -7,8 +7,6 @@
 #include "device.h"
 #include <new>
 
-#include "emb/emb_profiler/emb_profiler.h"
-
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 #include "mcu_f2837xd/chrono/mcu_chrono.h"
@@ -29,6 +27,8 @@
 
 #include "bsp_launchxl_f28379d/bsp_launchxl_f28379d_def.h"
 #include "bsp_launchxl_f28379d/leds/leds.h"
+
+#include "emb/emb_profiler/emb_profiler.h"
 
 #include "tests/tests.h"
 

@@ -22,26 +22,27 @@ namespace emb {
  */
 class motorspeed_t
 {
+public
+	const int polePairs;
 private:
-	const int POLE_PAIRS;
 	float m_radps_elec;
 public:
-	explicit motorspeed_t(int polePairs)
-		: POLE_PAIRS(polePairs)
+	explicit motorspeed_t(int polePairs_)
+		: polePairs(polePairs_)
 		, m_radps_elec(0)
 	{}
 
-	motorspeed_t(float radpsElec, int polePairs)
-		: POLE_PAIRS(polePairs)
+	motorspeed_t(float radpsElec, int polePairs_)
+		: polePairs(polePairs_)
 		, m_radps_elec(radpsElec)
 	{}
 
 	float to_radps() const { return m_radps_elec; }
-	float to_rpm() const { return 60 * m_radps_elec / (2 * PI * POLE_PAIRS); }
-	float to_radps_mech() const { return m_radps_elec / POLE_PAIRS; }
+	float to_rpm() const { return 60 * m_radps_elec / (2 * PI * polePairs); }
+	float to_radps_mech() const { return m_radps_elec / polePairs; }
 
 	void from_radps(float value) { m_radps_elec = value; }
-	void from_rpm(float value) { m_radps_elec = 2 * PI * POLE_PAIRS * value / 60; }
+	void from_rpm(float value) { m_radps_elec = 2 * PI * polePairs * value / 60; }
 };
 
 
