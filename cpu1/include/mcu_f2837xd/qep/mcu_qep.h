@@ -17,64 +17,72 @@
 
 
 namespace mcu {
+
+
+namespace qep {
 /// @addtogroup mcu_pwm
 /// @{
 
 
 /// QEP modules
-enum QepModule
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
-	QEP1,
-	QEP2,
-	QEP3
-};
+	Qep1,
+	Qep2,
+	Qep3
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// QEP position counter input mode
-enum QepInputMode
+SCOPED_ENUM_DECLARE_BEGIN(InputMode)
 {
-	QEP_QUADRATURE = EQEP_CONFIG_QUADRATURE,
-	QEP_CLOCK_DIR = EQEP_CONFIG_CLOCK_DIR,
-	QEP_UP_COUNT = EQEP_CONFIG_UP_COUNT,
-	QEP_DOWN_COUNT = EQEP_CONFIG_DOWN_COUNT
-};
+	Quadrature = EQEP_CONFIG_QUADRATURE,
+	ClockDir = EQEP_CONFIG_CLOCK_DIR,
+	UpCount = EQEP_CONFIG_UP_COUNT,
+	DownCount = EQEP_CONFIG_DOWN_COUNT
+}
+SCOPED_ENUM_DECLARE_END(InputMode)
 
 
 /// QEP resolution
-enum QepResolution
+SCOPED_ENUM_DECLARE_BEGIN(Resolution)
 {
-	QEP_2X_RESOLUTION = EQEP_CONFIG_2X_RESOLUTION,	//!< Count rising and falling edge
-	QEP_1X_RESOLUTION = EQEP_CONFIG_1X_RESOLUTION	//!< Count rising edge only
-};
+	X2 = EQEP_CONFIG_2X_RESOLUTION,
+	X1 = EQEP_CONFIG_1X_RESOLUTION
+}
+SCOPED_ENUM_DECLARE_END(Resolution)
 
 
 /// QEP swap QEPA and QEPB pins mode
-enum QepSwapAB
+SCOPED_ENUM_DECLARE_BEGIN(SwapAB)
 {
-	QEP_AB_NO_SWAP = EQEP_CONFIG_NO_SWAP,
-	QEP_AB_SWAP = EQEP_CONFIG_SWAP
-};
+	No = EQEP_CONFIG_NO_SWAP,
+	Yes = EQEP_CONFIG_SWAP
+}
+SCOPED_ENUM_DECLARE_END(SwapAB)
 
 
 /// QEP position counter operating (position reset) mode
-enum QepPositionResetMode
+SCOPED_ENUM_DECLARE_BEGIN(PositionResetMode)
 {
-	QEP_POSITION_RESET_ON_IDX = EQEP_POSITION_RESET_IDX,
-	QEP_POSITION_RESET_ON_MAX = EQEP_POSITION_RESET_MAX_POS,
-	QEP_POSITION_RESET_ON_1ST_IDX = EQEP_POSITION_RESET_1ST_IDX,
-	QEP_POSITION_RESET_ON_TIMEOUT = EQEP_POSITION_RESET_UNIT_TIME_OUT
-};
+	ResetOnIdx = EQEP_POSITION_RESET_IDX,
+	ResetOnMax = EQEP_POSITION_RESET_MAX_POS,
+	ResetOn1stIdx = EQEP_POSITION_RESET_1ST_IDX,
+	ResetOnTimeout = EQEP_POSITION_RESET_UNIT_TIME_OUT
+}
+SCOPED_ENUM_DECLARE_END(PositionResetMode)
 
 
 /**
  * @brief QEP unit config.
  */
-struct QepConfig
+struct Config
 {
-	QepInputMode inputMode;
-	QepResolution resolution;
-	QepSwapAB swapAB;
-	QepPositionResetMode resetMode;
+	InputMode inputMode;
+	Resolution resolution;
+	SwapAB swapAB;
+	PositionResetMode resetMode;
 	uint32_t maxPosition;
 	uint32_t timeoutFreq;
 	uint32_t latchMode;
@@ -92,12 +100,12 @@ namespace impl {
 /**
  * @brief QEP module implementation.
  */
-struct QepModuleImpl
+struct Module
 {
 	uint32_t base;
 	uint16_t intFlags;
 	uint32_t pieIntNum;
-	QepModuleImpl(uint32_t _base, uint16_t _intFlags, uint32_t _pieIntNum)
+	Module(uint32_t _base, uint16_t _intFlags, uint32_t _pieIntNum)
 		: base(_base), intFlags(_intFlags), pieIntNum(_pieIntNum) {}
 };
 
@@ -112,24 +120,24 @@ extern const uint32_t qepPieIntNums[3];
 /**
  * @brief QEP unit class.
  */
-template <QepModule Module>
-class Qep : public emb::c28x::interrupt_invoker<Qep<Module> >
+template <Peripheral::enum_type Instance>
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
 {
 private:
-	impl::QepModuleImpl m_module;
+	impl::Module m_module;
 
 private:
-	Qep(const Qep& other);			// no copy constructor
-	Qep& operator=(const Qep& other);	// no copy assignment operator
+	Module(const Module& other);			// no copy constructor
+	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU QEP unit.
 	 * @param (none)
 	 */
-	Qep(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
-			const gpio::Config& qepiPin, const QepConfig& cfg)
-		: emb::c28x::singleton<Qep<Module> >(this)
-		, m_module(impl::qepBases[Module], cfg.intFlags, impl::qepPieIntNums[Module])
+	Module(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+			const gpio::Config& qepiPin, const Config& conf)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
+		, m_module(impl::qepBases[Instance], conf.intFlags, impl::qepPieIntNums[Instance])
 	{
 #ifdef CPU1
 		_initPins(qepaPin, qepbPin, qepiPin);
@@ -137,29 +145,30 @@ public:
 
 		// Configure the decoder
 		EQEP_setDecoderConfig(m_module.base,
-				static_cast<uint16_t>(cfg.inputMode)
-				| static_cast<uint16_t>(cfg.resolution)
-				| static_cast<uint16_t>(cfg.swapAB));
+				static_cast<uint16_t>(conf.inputMode.underlying_value())
+				| static_cast<uint16_t>(conf.resolution.underlying_value())
+				| static_cast<uint16_t>(conf.swapAB.underlying_value()));
 		EQEP_setEmulationMode(m_module.base, EQEP_EMULATIONMODE_RUNFREE);
 
 		// Configure the position counter to reset on an index event
-		EQEP_setPositionCounterConfig(m_module.base, static_cast<EQEP_PositionResetMode>(cfg.resetMode), cfg.maxPosition);
+		EQEP_setPositionCounterConfig(m_module.base,
+				static_cast<EQEP_PositionResetMode>(conf.resetMode.underlying_value()), conf.maxPosition);
 
 		// Configure initial position
-		EQEP_setPositionInitMode(m_module.base, cfg.initMode);
-		EQEP_setInitialPosition(m_module.base, cfg.initPosition);
+		EQEP_setPositionInitMode(m_module.base, conf.initMode);
+		EQEP_setInitialPosition(m_module.base, conf.initPosition);
 
 		// Enable the unit timer, setting the frequency
-		EQEP_enableUnitTimer(m_module.base, (mcu::sysclkFreq() / cfg.timeoutFreq));
+		EQEP_enableUnitTimer(m_module.base, (mcu::sysclkFreq() / conf.timeoutFreq));
 
 		// Configure the position counter to be latched on a unit time out
-		EQEP_setLatchMode(m_module.base, cfg.latchMode);
+		EQEP_setLatchMode(m_module.base, conf.latchMode);
 
 		// Enable the eQEP1 module
 		EQEP_enableModule(m_module.base);
 
 		// Configure and enable the edge-capture unit.
-		EQEP_setCaptureConfig(m_module.base, cfg.capPrescaler, cfg.eventPrescaler);
+		EQEP_setCaptureConfig(m_module.base, conf.capPrescaler, conf.eventPrescaler);
 		EQEP_enableCapture(m_module.base);
 	}
 
@@ -226,6 +235,9 @@ protected:
 
 
 /// @}
+} // namespace qep
+
+
 } // namespace mcu
 
 
