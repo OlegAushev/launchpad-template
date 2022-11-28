@@ -501,6 +501,62 @@ public:
 };
 
 
+/*============================================================================*/
+/// Duration logger via GPIO mode.
+SCOPED_ENUM_DECLARE_BEGIN(DurationLoggerMode)
+{
+	SetReset,
+	Toggle
+}
+SCOPED_ENUM_DECLARE_END(DurationLoggerMode)
+
+
+/**
+ * @brief
+ * @tparam Mode
+ */
+template <DurationLoggerMode::enum_type Mode = DurationLoggerMode::SetReset>
+class DurationLogger
+{
+private:
+	const uint32_t m_pin;
+public:
+	explicit DurationLogger(const mcu::gpio::Output& pin)
+		: m_pin(pin.no())
+	{
+		if (Mode == DurationLoggerMode::SetReset)
+		{
+			GPIO_writePin(m_pin, 1);
+		}
+		else
+		{
+			GPIO_togglePin(m_pin);
+			NOP; NOP; NOP; NOP; NOP; NOP; NOP; NOP;
+			GPIO_togglePin(m_pin);
+		}
+	}
+
+	~DurationLogger()
+	{
+		if (Mode == DurationLoggerMode::SetReset)
+		{
+			GPIO_writePin(m_pin, 0);
+		}
+		else
+		{
+			GPIO_togglePin(m_pin);
+		}
+	}
+};
+
+
+
+
+
+
+
+
+
 /// @}
 } //namespace gpio
 
