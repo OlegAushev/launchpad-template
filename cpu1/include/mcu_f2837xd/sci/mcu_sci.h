@@ -130,14 +130,10 @@ extern const uint16_t sciPieIntGroups[4];
  * @brief SCI unit class.
  */
 template <Peripheral::enum_type Instance>
-class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, public emb::IUart
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, public emb::IUart, private emb::noncopyable
 {
 private:
 	impl::Module m_module;
-
-private:
-	Module(const Module& other);			// no copy constructor
-	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU SCI unit.

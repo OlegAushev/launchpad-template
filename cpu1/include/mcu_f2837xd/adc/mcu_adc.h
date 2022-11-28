@@ -124,19 +124,13 @@ void initIrqs(emb::Array<impl::Irq, IrqName::Count>& irqs);
 /**
  * @brief ADC unit class.
  */
-class Module : public emb::c28x::interrupt_invoker<Module>
+class Module : public emb::c28x::interrupt_invoker<Module>, private emb::noncopyable
 {
 private:
 	impl::Module m_module[4];
-
 	static emb::Array<impl::Channel, ChannelName::Count> s_channels;
 	static emb::Array<impl::Irq, IrqName::Count> s_irqs;
-
 	const uint32_t m_sampleWindowCycles;
-
-private:
-	Module(const Module& other);		// no copy constructor
-	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU ADC unit.

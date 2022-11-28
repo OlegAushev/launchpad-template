@@ -105,15 +105,11 @@ extern const uint32_t spiRxPieIntNums[3];
  * @brief SPI unit class.
  */
 template <SpiModule Module>
-class Spi : public emb::c28x::interrupt_invoker<Spi<Module> >
+class Spi : public emb::c28x::interrupt_invoker<Spi<Module> >, private emb::noncopyable
 {
 private:
 	impl::SpiModuleImpl m_module;
 	SpiWordLen m_wordLen;
-
-private:
-	Spi(const Spi& other);			// no copy constructor
-	Spi& operator=(const Spi& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU SPI unit.

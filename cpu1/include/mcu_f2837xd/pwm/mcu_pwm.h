@@ -174,7 +174,7 @@ extern const uint32_t pwmPinOutBConfigs[12];
  * @brief PWM unit class.
  */
 template <PhaseCount::enum_type Phases>
-class Module
+class Module : private emb::noncopyable
 {
 private:
 	// there is a divider ( EPWMCLKDIV ) of the system clock
@@ -193,10 +193,6 @@ private:
 	uint16_t m_phaseShift[Phases];	// TBPHS registers values
 
 	State m_state;
-
-private:
-	Module(const Module& other);		// no copy constructor
-	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU PWM unit.

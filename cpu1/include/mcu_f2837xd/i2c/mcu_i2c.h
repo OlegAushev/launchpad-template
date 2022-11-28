@@ -93,14 +93,10 @@ extern const uint32_t i2cBases[2];
  * @brief I2C unit class.
  */
 template <Peripheral::enum_type Instance>
-class Module : public emb::c28x::interrupt_invoker<Module<Instance> >
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
 	impl::Module m_module;
-
-private:
-	Module(const Module& other);		// no copy constructor
-	Module& operator=(const Module& other);	// no copy assignment operator
 public:
 	/**
 	 * @brief Initializes MCU I2C unit.

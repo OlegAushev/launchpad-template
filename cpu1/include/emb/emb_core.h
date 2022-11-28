@@ -8,6 +8,7 @@
 
 #include "emb_core/emb_c28x.h"
 #include "emb_core/emb_monostate.h"
+#include "emb_core/emb_noncopyable.h"
 #include "emb_core/emb_scopedenum.h"
 
 

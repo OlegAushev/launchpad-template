@@ -29,6 +29,12 @@ protected:
 		s_instance = self;
 		s_initialized = true;
 	}
+
+	~interrupt_invoker()
+	{
+		s_initialized = false;
+		s_instance = static_cast<T*>(NULL);
+	}
 public:
 	static T* instance()
 	{
@@ -37,12 +43,6 @@ public:
 	}
 
 	static bool initialized() { return s_initialized; }
-
-	virtual ~interrupt_invoker()
-	{
-		s_initialized = false;
-		s_instance = static_cast<T*>(NULL);
-	}
 };
 
 template <class T>
