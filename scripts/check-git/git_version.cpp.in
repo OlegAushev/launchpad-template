@@ -1,0 +1,11 @@
+#include "git_version.h"
+
+
+const char* GIT_DESCRIBE = "@GIT_DESCRIBE@";
+const char* GIT_DIFF = "@GIT_DIFF@";
+const char* GIT_HASH = "@GIT_HASH@";
+const char* GIT_BRANCH = "@GIT_BRANCH@";
+const unsigned int GIT_COMMIT_NUM = @GIT_COMMIT_NUM@;
+
+
+

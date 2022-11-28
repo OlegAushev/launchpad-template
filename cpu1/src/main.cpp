@@ -3,6 +3,8 @@
 #define FIRMWARE_VERSION_STRDEF "v22.08.2"
 #define FIRMWARE_VERSION_NUMDEF 22082
 
+#include "../auto-generated/git_version.h"
+
 #include "F28x_Project.h"
 #include "device.h"
 #include <new>
@@ -39,8 +41,8 @@
 /* ========================================================================== */
 const char* sys::DEVICE_NAME = "LaunchPad template project";
 const char* sys::DEVICE_NAME_SHORT = "C28x";
-const char* sys::FIRMWARE_VERSION = FIRMWARE_VERSION_STRDEF;
-const uint32_t sys::FIRMWARE_VERSION_NUM = FIRMWARE_VERSION_NUMDEF;
+const char* sys::FIRMWARE_VERSION = GIT_DESCRIBE;
+const uint32_t sys::FIRMWARE_VERSION_NUM = GIT_COMMIT_NUM;
 
 #if defined(TEST_BUILD)
 const char* sys::BUILD_CONFIGURATION = "TEST";
@@ -94,7 +96,8 @@ void main()
 	cli::print_blocking(CLI_WELCOME_STRING);
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_COLOR_GREEN);
-	cli::print_blocking("launchpad-template | v0.1");
+	cli::print_blocking("launchpad-template | ");
+	cli::print_blocking(sys::FIRMWARE_VERSION);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 has booted successfully");
