@@ -17,64 +17,72 @@
 
 
 namespace mcu {
+
+
+namespace spi {
 /// @addtogroup mcu_spi
 /// @{
 
 
 /// SPI modules
-enum SpiModule
+SCOPED_ENUM_DECLARE_BEGIN(Peripheral)
 {
-	SPIA,
-	SPIB,
-	SPIC
-};
+	SpiA,
+	SpiB,
+	SpiC
+}
+SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// SPI protocol
-enum SpiProtocol
+SCOPED_ENUM_DECLARE_BEGIN(Protocol)
 {
-	SPI_PROTOCOL_POL0PHA0 = SPI_PROT_POL0PHA0,	//!< Mode 0. Polarity 0, phase 0. Rising edge without delay
-	SPI_PROTOCOL_POL0PHA1 =  SPI_PROT_POL0PHA1,	//!< Mode 1. Polarity 0, phase 1. Rising edge with delay.
-	SPI_PROTOCOL_POL1PHA0 = SPI_PROT_POL1PHA0,	//!< Mode 2. Polarity 1, phase 0. Falling edge without delay.
-	SPI_PROTOCOL_POL1PHA1 = SPI_PROT_POL1PHA1	//!< Mode 3. Polarity 1, phase 1. Falling edge with delay.
-};
+	Pol0Pha0 = SPI_PROT_POL0PHA0,	//!< Mode 0. Polarity 0, phase 0. Rising edge without delay
+	Pol0Pha1 =  SPI_PROT_POL0PHA1,	//!< Mode 1. Polarity 0, phase 1. Rising edge with delay.
+	Pol1Pha0 = SPI_PROT_POL1PHA0,	//!< Mode 2. Polarity 1, phase 0. Falling edge without delay.
+	Pol1Pha1 = SPI_PROT_POL1PHA1	//!< Mode 3. Polarity 1, phase 1. Falling edge with delay.
+}
+SCOPED_ENUM_DECLARE_END(Protocol)
 
 
 /// SPI mode
-enum SpiMode
+SCOPED_ENUM_DECLARE_BEGIN(Mode)
 {
-	SPI_MODE_SLAVE = ::SPI_MODE_SLAVE,		//!< SPI slave
-	SPI_MODE_MASTER = ::SPI_MODE_MASTER,		//!< SPI master
-	SPI_MODE_SLAVE_OD = ::SPI_MODE_SLAVE_OD,	//!< SPI slave w/ output (TALK) disabled
-	SPI_MODE_MASTER_OD = ::SPI_MODE_MASTER_OD	//!< SPI master w/ output (TALK) disabled
-};
+	Slave = SPI_MODE_SLAVE,			//!< SPI slave
+	Master = SPI_MODE_MASTER,		//!< SPI master
+	SlaveNoTalk = SPI_MODE_SLAVE_OD,	//!< SPI slave w/ output (TALK) disabled
+	MasterNoTalk = SPI_MODE_MASTER_OD	//!< SPI master w/ output (TALK) disabled
+}
+SCOPED_ENUM_DECLARE_END(Mode)
 
 
 /// SPI bitrates
-enum SpiBitrate
+SCOPED_ENUM_DECLARE_BEGIN(Bitrate)
 {
-	SPI_BITRATE_1M = 1000000,
-	SPI_BITRATE_12M5 = 12500000,
-};
+	Bitrate1M = 1000000,
+	Bitrate12M5 = 12500000,
+}
+SCOPED_ENUM_DECLARE_END(Bitrate)
 
 
 /// SPI word length
-enum SpiWordLen
+SCOPED_ENUM_DECLARE_BEGIN(WordLen)
 {
-	SPI_WORD_8BIT = 8,
-	SPI_WORD_16BIT = 16
-};
+	Word8Bit = 8,
+	Word16Bit = 16
+}
+SCOPED_ENUM_DECLARE_END(WordLen)
 
 
 /**
  * @brief SPI unit config.
  */
-struct SpiConfig
+struct Config
 {
-	SpiProtocol protocol;
-	SpiMode mode;
-	SpiBitrate bitrate;
-	SpiWordLen wordLen;
+	Protocol protocol;
+	Mode mode;
+	Bitrate bitrate;
+	WordLen wordLen;
 	uint16_t dataSize;
 };
 
@@ -85,11 +93,11 @@ namespace impl {
 /**
  * @brief SPI module implementation.
  */
-struct SpiModuleImpl
+struct Module
 {
 	uint32_t base;
 	uint32_t pieRxIntNum;
-	SpiModuleImpl(uint32_t _base, uint32_t _pieRxIntNum)
+	Module(uint32_t _base, uint32_t _pieRxIntNum)
 		: base(_base), pieRxIntNum(_pieRxIntNum) {}
 };
 
@@ -104,12 +112,12 @@ extern const uint32_t spiRxPieIntNums[3];
 /**
  * @brief SPI unit class.
  */
-template <SpiModule Module>
-class Spi : public emb::c28x::interrupt_invoker<Spi<Module> >, private emb::noncopyable
+template <Peripheral::enum_type Instance>
+class Spi : public emb::c28x::interrupt_invoker<Spi<Instance> >, private emb::noncopyable
 {
 private:
-	impl::SpiModuleImpl m_module;
-	SpiWordLen m_wordLen;
+	impl::Module m_module;
+	WordLen m_wordLen;
 public:
 	/**
 	 * @brief Initializes MCU SPI unit.
@@ -121,9 +129,9 @@ public:
 	 */
 	Spi(const gpio::Config& mosiPin, const gpio::Config& misoPin,
 			const gpio::Config& clkPin, const gpio::Config& csPin,
-			const SpiConfig& cfg)
-		: emb::c28x::singleton<Spi<Module> >(this)
-		, m_module(impl::spiBases[Module], impl::spiRxPieIntNums[Module])
+			const Config& cfg)
+		: emb::c28x::interrupt_invoker<Spi<Instance> >(this)
+		, m_module(impl::spiBases[Instance], impl::spiRxPieIntNums[Instance])
 	{
 		assert((cfg.dataSize >= 1) && (cfg.dataSize <= 16));
 
@@ -131,9 +139,10 @@ public:
 
 		SPI_disableModule(m_module.base);
 		SPI_setConfig(m_module.base, DEVICE_LSPCLK_FREQ,
-				static_cast<SPI_TransferProtocol>(cfg.protocol),
-				static_cast<SPI_Mode>(cfg.mode),
-				static_cast<uint32_t>(cfg.bitrate), static_cast<uint16_t>(cfg.wordLen));
+				static_cast<SPI_TransferProtocol>(cfg.protocol.underlying_value()),
+				static_cast<SPI_Mode>(cfg.mode.underlying_value()),
+				static_cast<uint32_t>(cfg.bitrate.underlying_value()),
+				static_cast<uint16_t>(cfg.wordLen.underlying_value()));
 		SPI_disableLoopback(m_module.base);
 		SPI_setEmulationMode(m_module.base, SPI_EMULATION_FREE_RUN);
 
@@ -169,7 +178,7 @@ public:
 		}
 
 		SysCtl_selectCPUForPeripheral(SYSCTL_CPUSEL6_SPI,
-				static_cast<uint16_t>(Module)+1, SYSCTL_CPUSEL_CPU2);
+				static_cast<uint16_t>(Instance)+1, SYSCTL_CPUSEL_CPU2);
 	}
 #endif
 
@@ -200,18 +209,18 @@ public:
 	template <typename T>
 	void recv(T& data) const
 	{
-		switch (m_wordLen)
+		switch (m_wordLen.native_value())
 		{
-		case SPI_WORD_8BIT:
+		case WordLen::Word8Bit:
 			uint16_t byte8[sizeof(T)*2];
 			for (size_t i = 0; i < sizeof(T)*2; ++i)
 			{
 				byte8[i] = SPI_readDataBlockingFIFO(m_module.base) & 0x00FF;
 			}
-			emb::c28x::from_bytes8<T>(data, byte8);
+			emb::c28x::from_bytes<T>(data, byte8);
 			break;
 
-		case SPI_WORD_16BIT:
+		case WordLen::Word16Bit:
 			uint16_t byte16[sizeof(T)];
 			for (size_t i = 0; i < sizeof(T); ++i)
 			{
@@ -230,18 +239,18 @@ public:
 	template <typename T>
 	void send(const T& data) const
 	{
-		switch (m_wordLen)
+		switch (m_wordLen.native_value())
 		{
-		case SPI_WORD_8BIT:
+		case WordLen::Word8Bit:
 			uint16_t byte8[sizeof(T)*2];
-			emb::c28x::to_bytes8<T>(byte8, data);
+			emb::c28x::to_bytes<T>(byte8, data);
 			for (size_t i = 0; i < sizeof(T)*2; ++i)
 			{
 				SPI_writeDataBlockingFIFO(m_module.base, byte8[i] << 8);
 			}
 			break;
 
-		case SPI_WORD_16BIT:
+		case WordLen::Word16Bit:
 			uint16_t byte16[sizeof(T)];
 			memcpy(byte16, &data, sizeof(T));
 			for (size_t i = 0; i < sizeof(T); ++i)
@@ -343,6 +352,9 @@ protected:
 
 
 /// @}
+} // namespace spi
+
+
 } // namespace mcu
 
 

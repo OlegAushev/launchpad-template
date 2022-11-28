@@ -55,7 +55,7 @@ bool interrupt_invoker<T>::s_initialized = false;
  * @brief
  */
 template <typename T>
-void from_bytes8(T& dest, const uint16_t* src)
+void from_bytes(T& dest, const uint16_t* src)
 {
 	uint16_t c28_byte[sizeof(T)];
 	for (size_t i = 0; i < sizeof(T); ++i)
@@ -70,7 +70,7 @@ void from_bytes8(T& dest, const uint16_t* src)
  * @brief
  */
 template <typename T>
-void to_bytes8(uint16_t* dest, const T& src)
+void to_bytes(uint16_t* dest, const T& src)
 {
 	uint16_t c28_byte[sizeof(T)];
 	memcpy(&c28_byte, &src, sizeof(T));
@@ -91,8 +91,8 @@ bool is_equal(const T& obj1, const T& obj2)
 	uint16_t obj1_byte8[sizeof(T)*2];
 	uint16_t obj2_byte8[sizeof(T)*2];
 
-	to_bytes8<T>(obj1_byte8, obj1);
-	to_bytes8<T>(obj2_byte8, obj2);
+	to_bytes<T>(obj1_byte8, obj1);
+	to_bytes<T>(obj2_byte8, obj2);
 
 	for(size_t i = 0; i < sizeof(T)*2; ++i)
 	{
