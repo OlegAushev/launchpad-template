@@ -34,11 +34,8 @@
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
 
-#include "bsp_launchxl_f28379d/bsp_launchxl_f28379d_def.h"
-#include "bsp_launchxl_f28379d/leds/leds.h"
-
+#include "bsp_launchxl_f28379d/bsp_launchxl_f28379d.h"
 #include "emb/emb_profiler/emb_profiler.h"
-
 #include "tests/tests.h"
 
 
@@ -107,14 +104,14 @@ void main()
 	cli::print_blocking(SysInfo::firmwareVersion);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
-	cli::print_blocking("CPU1 has booted successfully");
+	cli::print_blocking("CPU1 has booted successfully.");
 
 /*############################################################################*/
 	/*#######*/
 	/*# BSP #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("initialize bsp... ");
+	cli::print_blocking("Initialize bsp... ");
 
 #ifdef DUALCORE
 	bsp::initLedBlue(mcu::gpio::MasterCore::Cpu1);
@@ -127,7 +124,7 @@ void main()
 	bsp::ledRed.reset();
 #endif
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*############################################################################*/
 	/*#########*/
@@ -148,18 +145,18 @@ void main()
 	/*# SYSLOG #*/
 	/*##########*/
 	cli::nextline_blocking();
-	cli::print_blocking("initialize syslog... ");
+	cli::print_blocking("Initialize syslog... ");
 
 	SysLog::IpcFlags syslogIpcFlags =
 	{
-		.resetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
-		.addMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
-		.popMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
+		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
+		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
+		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
 	};
 	SysLog::init(syslogIpcFlags);
 	SysLog::addMessage(sys::Message::DEVICE_CPU1_BOOT_SUCCESS);
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 // BEGIN of CPU1 PERIPHERY CONFIGURATION and OBJECTS CREATION
 /*############################################################################*/
@@ -167,7 +164,7 @@ void main()
 	/*# CLOCK #*/
 	/*#########*/
 	cli::nextline_blocking();
-	cli::print_blocking("configure system clock and high resolution clock... ");
+	cli::print_blocking("Configure system clock and high resolution clock... ");
 
 	mcu::chrono::SystemClock::init();
 	mcu::chrono::HighResolutionClock::init(1000000);
@@ -175,7 +172,7 @@ void main()
 	emb::DurationLogger_us::init(mcu::chrono::HighResolutionClock::now);
 	emb::DurationLogger_clk::init(mcu::chrono::HighResolutionClock::counter);
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 	// ALL PERFORMANCE TESTS MUST BE PERFORMED AFTER THIS POINT!!!
 
@@ -192,7 +189,7 @@ void main()
 	/*# POWERUP DELAY #*/
 	/*#################*/
 	cli::nextline_blocking();
-	cli::print_blocking("startup delay... ");
+	cli::print_blocking("Startup delay... ");
 
 	for (size_t i = 0; i < 10; ++i)
 	{
@@ -200,16 +197,16 @@ void main()
 		mcu::delay_us(100000);
 	}
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*############################################################################*/
 	cli::nextline_blocking();
-	cli::print_blocking("enable interrupts... ");
+	cli::print_blocking("Enable interrupts... ");
 
 	mcu::enableMaskableInterrupts();	// cpu timer interrupt is used for timeouts
 	mcu::enableDebugEvents();
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*############################################################################*/
 	/*#############*/
@@ -217,14 +214,14 @@ void main()
 	/*#############*/
 #ifdef DUALCORE
 	cli::nextline_blocking();
-	cli::print_blocking("boot CPU2... ");
+	cli::print_blocking("Boot CPU2... ");
 
 	mcu::bootCpu2();
 	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT);
 	mcu::ipc::flags::cpu2Booted.remote.wait();
 	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT_SUCCESS);
 
-	cli::print_blocking("success");
+	cli::print_blocking("success.");
 #else
 	cli::nextline_blocking();
 	cli::print_blocking("CPU2 is disabled. CPU2 boot skipped.");
@@ -235,7 +232,7 @@ void main()
 	/*# ADC #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("configure ADC... ");
+	cli::print_blocking("Configure ADC... ");
 
 	mcu::adc::Config adcConfig =
 	{
@@ -244,42 +241,42 @@ void main()
 
 	mcu::adc::Module adc(adcConfig);
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*############################################################################*/
 	/*#######*/
 	/*# DAC #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("configure DAC... ");
+	cli::print_blocking("Configure DAC... ");
 
 	mcu::dac::Module<mcu::dac::Peripheral::DacA> dacA;
-	mcu::dac::Module<mcu::dac::Peripheral::DacA> dacB;
+	mcu::dac::Module<mcu::dac::Peripheral::DacB> dacB;
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*####################################################################################################################*/
 	/*###############*/
 	/*# CLOCK TASKS #*/
 	/*###############*/
 	cli::nextline_blocking();
-	cli::print_blocking("register periodic tasks... ");
+	cli::print_blocking("Register periodic tasks... ");
 
 	mcu::chrono::SystemClock::registerTask(taskToggleLed, 1000);
 
 	mcu::chrono::SystemClock::registerWatchdogTask(taskWatchdogTimeout, 1000);
 
-	cli::print_blocking("done");
+	cli::print_blocking("done.");
 
 /*####################################################################################################################*/
 #ifdef DUALCORE
 	cli::nextline_blocking();
-	cli::print_blocking("waiting for CPU2 periphery configured... ");
+	cli::print_blocking("Waiting for CPU2 periphery configured... ");
 
 	mcu::ipc::flags::cpu2PeripheryConfigured.remote.wait();
 	SysLog::addMessage(sys::Message::DEVICE_CPU2_READY);
 
-	cli::print_blocking("success");
+	cli::print_blocking("success.");
 #endif
 
 /*####################################################################################################################*/
@@ -297,14 +294,14 @@ void main()
 	SysLog::addMessage(sys::Message::DEVICE_CPU1_READY);
 
 	cli::nextline_blocking();
-	cli::print_blocking("CPU1 periphery has been successfully configured");
+	cli::print_blocking("CPU1 periphery has been successfully configured.");
 
 /*####################################################################################################################*/
 	//mcu::SystemClock::enableWatchdog();
 	SysLog::addMessage(sys::Message::DEVICE_READY);
 
 	cli::nextline_blocking();
-	cli::print_blocking("device is ready!");
+	cli::print_blocking("Device is ready!");
 
 	while (true)
 	{

@@ -13,17 +13,16 @@
 #include "F28x_Project.h"
 #include "device.h"
 
-#include "profiler/profiler.h"
-
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
-#include "mcu_f2837xd/cputimers/mcu_cputimers.h"
+#include "mcu_f2837xd/chrono/mcu_chrono.h"
 #include "mcu_f2837xd/spi/mcu_spi.h"
 #include "mcu_f2837xd/dac/mcu_dac.h"
-#include "mcu_f2837xd/support/mcu_support.h"
 
 #include "sys/syslog/syslog.h"
 #include "clocktasks/clocktasks_cpu2.h"
+
+#include "bsp_launchxl_f28379d/bsp_launchxl_f28379d.h"
 
 
 /* ========================================================================== */
@@ -40,32 +39,33 @@ void main()
 	/*# SYSTEM #*/
 	/*##########*/
 	mcu::initDevice();
-	mcu::setLocalIpcFlag(CPU2_BOOTED);
+	mcu::ipc::flags::cpu2Booted.local.set();
 
-	mcu::turnLedOff(mcu::LED_RED);
+	bsp::initLedRed(mcu::gpio::MasterCore::Cpu2);
+	bsp::ledRed.reset();
 
 /*############################################################################*/
 	/*##########*/
 	/*# SYSLOG #*/
 	/*##########*/
-	Syslog::IpcFlags syslogIpcFlags =
+	SysLog::IpcFlags syslogIpcFlags =
 	{
-		.RESET_ERRORS_WARNINGS = mcu::IpcFlag(10),
-		.ADD_MESSAGE = mcu::IpcFlag(11),
-		.POP_MESSAGE = mcu::IpcFlag(12)
+		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
+		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
+		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
 	};
-	Syslog::init(syslogIpcFlags);
+	SysLog::init(syslogIpcFlags);
 
 /*############################################################################*/
 	/*#########*/
 	/*# CLOCK #*/
 	/*#########*/
-	mcu::SystemClock::init();
-	mcu::SystemClock::setTaskPeriod(0, 2000);
-	mcu::SystemClock::registerTask(0, taskToggleLed);
-	mcu::HighResolutionClock::init(100);
-	//mcu::HighResolutionClock::registerInterruptHandler(onSystickInterrupt);
-	mcu::HighResolutionClock::start();
+	mcu::chrono::SystemClock::init();
+	mcu::chrono::SystemClock::registerTask(taskToggleLed, 2000);
+
+	mcu::chrono::HighResolutionClock::init(100);
+	//mcu::chronoHighResolutionClock::registerInterruptHandler(onSystickInterrupt);
+	mcu::chrono::HighResolutionClock::start();
 
 /*############################################################################*/
 	/*#################*/
@@ -73,23 +73,23 @@ void main()
 	/*#################*/
 	for (size_t i = 0; i < 10; ++i)
 	{
-		mcu::toggleLed(mcu::LED_RED);
+		bsp::ledRed.toggle();
 		mcu::delay_us(100000);
 	}
 
 /*############################################################################*/
-	mcu::setLocalIpcFlag(CPU2_PERIPHERY_CONFIGURED);
-	mcu::waitForRemoteIpcFlag(CPU1_PERIPHERY_CONFIGURED);
+	mcu::ipc::flags::cpu2PeripheryConfigured.local.set();
+	mcu::ipc::flags::cpu1PeripheryConfigured.remote.wait();
 
 /*############################################################################*/
-	mcu::SystemClock::reset();
+	mcu::chrono::SystemClock::reset();
 	mcu::enableMaskableInterrupts();
 	mcu::enableDebugEvents();
 
 	while (true)
 	{
-		Syslog::processIpcSignals();
-		mcu::SystemClock::runTasks();
+		SysLog::processIpcSignals();
+		mcu::chrono::SystemClock::runTasks();
 	}
 }
 

@@ -38,9 +38,9 @@ class SysLog : public emb::monostate<SysLog>
 public:
 	struct IpcFlags
 	{
-		mcu::ipc::Flag resetErrorsWarnings;
-		mcu::ipc::Flag addMessage;
-		mcu::ipc::Flag popMessage;
+		mcu::ipc::Flag ipcResetErrorsWarnings;
+		mcu::ipc::Flag ipcAddMessage;
+		mcu::ipc::Flag ipcPopMessage;
 	};
 
 	struct Data
@@ -118,12 +118,12 @@ public:
 			m_messages.push(msg);
 		}
 #else
-		if (mcu::isLocalIpcFlagSet(ADD_MESSAGE.local))
+		if (s_ipcFlags.ipcAddMessage.local.check())
 		{
 			return;
 		}
 		m_cpu2Message = msg;
-		mcu::setLocalIpcFlag(ADD_MESSAGE.local);
+		s_ipcFlags.ipcAddMessage.local.set();
 #endif
 	}
 
@@ -155,7 +155,7 @@ public:
 			m_messages.pop();
 		}
 #else
-		mcu::setLocalIpcFlag(POP_MESSAGE.local);
+		s_ipcFlags.ipcPopMessage.local.set();
 #endif
 	}
 
@@ -179,23 +179,23 @@ public:
 	{
 #ifdef DUALCORE
 #ifdef CPU1
-		if (s_ipcFlags.popMessage.remote.check())
+		if (s_ipcFlags.ipcPopMessage.remote.check())
 		{
 			popMessage();
-			s_ipcFlags.popMessage.remote.acknowledge();
+			s_ipcFlags.ipcPopMessage.remote.acknowledge();
 		}
 
-		if (s_ipcFlags.addMessage.remote.check())
+		if (s_ipcFlags.ipcAddMessage.remote.check())
 		{
 			addMessage(m_cpu2Message);
-			s_ipcFlags.addMessage.remote.acknowledge();
+			s_ipcFlags.ipcAddMessage.remote.acknowledge();
 		}
 #endif
 #ifdef CPU2
-		if (s_ipcFlags.resetErrorsWarnings.remote.check())
+		if (s_ipcFlags.ipcResetErrorsWarnings.remote.check())
 		{
 			resetErrorsWarnings();
-			s_ipcFlags.resetErrorsWarnings.remote.acknowledge();
+			s_ipcFlags.ipcResetErrorsWarnings.remote.acknowledge();
 		}
 #endif
 #endif
@@ -370,7 +370,7 @@ public:
 		m_thisCpuData->errors = m_thisCpuData->errors & m_thisCpuData->fatalErrorMask;
 		m_thisCpuData->warnings = m_thisCpuData->warnings & m_thisCpuData->fatalWarningMask;
 #if (defined(CPU1) && defined(DUALCORE))
-		s_ipcFlags.resetErrorsWarnings.local.set();
+		s_ipcFlags.ipcResetErrorsWarnings.local.set();
 #endif
 	}
 

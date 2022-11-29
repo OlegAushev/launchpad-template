@@ -16,22 +16,22 @@
 ///
 ///
 ///
-mcu::ClockTaskStatus taskToggleLed()
+mcu::chrono::TaskStatus taskToggleLed(size_t taskIndex)
 {
 	const uint64_t periods[4] = {100, 100, 100, 1700};
 	static size_t index = 0;
 
-	mcu::SystemClock::setTaskPeriod(0, periods[index]);
+	mcu::chrono::SystemClock::setTaskPeriod(taskIndex, periods[index]);
 	if ((index % 2) == 0)
 	{
-		mcu::turnLedOn(mcu::LED_RED);
+		bsp::ledRed.set();
 	}
 	else
 	{
-		mcu::turnLedOff(mcu::LED_RED);
+		bsp::ledRed.reset();
 	}
 	index = (index + 1) % 4;
-	return mcu::ClockTaskSuccess;
+	return mcu::chrono::TaskStatus::Success;
 }
 
 

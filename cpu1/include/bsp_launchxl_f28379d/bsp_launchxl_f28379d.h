@@ -18,6 +18,8 @@
 
 #include "mcu_f2837xd/gpio/mcu_gpio.h"
 
+#include "leds/leds.h"
+
 
 namespace bsp {
 /// @addtogroup bsp
