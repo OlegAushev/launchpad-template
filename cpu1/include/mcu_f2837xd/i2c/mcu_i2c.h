@@ -68,7 +68,7 @@ SCOPED_ENUM_DECLARE_END(DutyCycle)
 /**
  * @brief I2C module config.
  */
-struct Config
+struct Configuration
 {
 	uint32_t bitrate;
 	BitCount bitCount;
@@ -111,7 +111,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @param conf - I2C config
 	 */
-	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Config& conf)
+	Module(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin, const i2c::Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::i2cBases[Instance])
 	{
@@ -137,7 +137,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Config& sdaPin, const gpio::Config& sclPin)
+	static void transferControlToCpu2(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
 	{
 		_initPins(sdaPin, sclPin);
 		GPIO_setMasterCore(sdaPin.no, GPIO_CORE_CPU2);
@@ -177,7 +177,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const gpio::Config& sdaPin, const gpio::Config& sclPin)
+	static void _initPins(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
 	{
 		GPIO_setPadConfig(sdaPin.no, GPIO_PIN_TYPE_PULLUP);
 		GPIO_setQualificationMode(sdaPin.no, GPIO_QUAL_ASYNC);

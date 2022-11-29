@@ -18,7 +18,7 @@ namespace bsp {
 
 
 mcu::gpio::Output ledBlue;
-extern const mcu::gpio::Config ledBlueConfig(
+extern const mcu::gpio::Configuration ledBlueConfig(
 	31,
 	GPIO_31_GPIO31,
 	mcu::gpio::Direction::Output,
@@ -30,7 +30,7 @@ extern const mcu::gpio::Config ledBlueConfig(
 
 
 mcu::gpio::Output ledRed;
-extern const mcu::gpio::Config ledRedConfig(
+extern const mcu::gpio::Configuration ledRedConfig(
 	34,
 	GPIO_34_GPIO34,
 	mcu::gpio::Direction::Output,

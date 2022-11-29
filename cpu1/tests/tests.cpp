@@ -14,11 +14,11 @@ void emb::run_tests()
 	SysLog::init(SysLog::IpcFlags());
 	mcu::chrono::SystemClock::init();
 
-	mcu::adc::Config adcConfig =
+	mcu::adc::Configuration adcConf =
 	{
 		.sampleWindow_ns = 200,
 	};
-	mcu::adc::Module adc(adcConfig);
+	mcu::adc::Module adc(adcConf);
 	adc.enableInterrupts();
 
 #ifdef _LAUNCHXL_F28379D

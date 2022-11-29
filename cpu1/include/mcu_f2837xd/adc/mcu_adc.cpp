@@ -32,7 +32,7 @@ emb::Array<impl::Irq, IrqName::Count> Module::s_irqs;
 ///
 ///
 ///
-Module::Module(const adc::Config& conf)
+Module::Module(const adc::Configuration& conf)
 	: emb::c28x::interrupt_invoker<Module>(this)
 	, m_sampleWindowCycles(conf.sampleWindow_ns / (1000000000 / mcu::sysclkFreq()))
 {

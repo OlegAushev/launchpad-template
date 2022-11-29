@@ -87,7 +87,7 @@ extern const uint16_t pieXIntGroups[5];
 /**
  * @brief GPIO pin config.
  */
-struct Config
+struct Configuration
 {
 	bool valid;
 	uint32_t no;
@@ -103,7 +103,7 @@ struct Config
 	 * @brief Constructs default GPIO pin config.
 	 * @param (none)
 	 */
-	Config() : valid(false) {}
+	Configuration() : valid(false) {}
 
 	/**
 	 * @brief Constructs GPIO pin config.
@@ -116,7 +116,7 @@ struct Config
 	 * @param _qualPeriod - pin qualification period (divider)
 	 * @param _masterCore - master core
 	 */
-	Config(uint32_t _no, uint32_t _mux, Direction _direction, emb::gpio::ActiveState _activeState,
+	Configuration(uint32_t _no, uint32_t _mux, Direction _direction, emb::gpio::ActiveState _activeState,
 			Type _type, QualMode _qualMode, uint32_t _qualPeriod,
 			MasterCore _masterCore = MasterCore::Cpu1)
 		: valid(true)
@@ -135,7 +135,7 @@ struct Config
 	 * @param _no - pin number
 	 * @param _mux - pin mux
 	 */
-	Config(uint32_t _no, uint32_t _mux)
+	Configuration(uint32_t _no, uint32_t _mux)
 		: valid(false)
 		, no(_no)
 		, mux(_mux)
@@ -144,7 +144,7 @@ struct Config
 	/**
 	 * @brief Constructs config for pin which must not be configured.
 	 */
-	Config(tag::not_configured) : valid(false) {}
+	Configuration(tag::not_configured) : valid(false) {}
 };
 
 
@@ -158,7 +158,7 @@ namespace impl {
 class GpioBase
 {
 protected:
-	Config m_conf;
+	Configuration m_conf;
 	bool m_initialized;
 	GpioBase() : m_initialized(false) {}
 public:
@@ -181,7 +181,7 @@ public:
 	 * @param (none)
 	 * @return Reference to pin config.
 	 */
-	const Config& config() const
+	const Configuration& config() const
 	{
 		return m_conf;
 	}
@@ -220,7 +220,7 @@ public:
 	 * @brief Constructs GPIO input pin.
 	 * @param conf - pin config
 	 */
-	Input(const Config& conf)
+	Input(const Configuration& conf)
 	{
 		init(conf);
 	}
@@ -230,7 +230,7 @@ public:
 	 * @param conf - pin config
 	 * @return (none)
 	 */
-	void init(const Config& conf)
+	void init(const Configuration& conf)
 	{
 		m_conf = conf;
 		if (m_conf.valid)
@@ -337,7 +337,7 @@ public:
 	 * @brief Constructs GPIO output pin.
 	 * @param conf - pin config
 	 */
-	Output(const Config& conf)
+	Output(const Configuration& conf)
 	{
 		init(conf);
 	}
@@ -347,7 +347,7 @@ public:
 	 * @param conf - pin config
 	 * @return (none)
 	 */
-	void init(const Config& conf)
+	void init(const Configuration& conf)
 	{
 		m_conf = conf;
 		if (m_conf.valid)

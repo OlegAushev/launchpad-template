@@ -134,7 +134,7 @@ SCOPED_ENUM_DECLARE_END(OutputSwap)
  * @brief PWM config.
  */
 template <PhaseCount::enum_type PhaseCount>
-struct Config
+struct Configuration
 {
 	Peripheral peripheral[PhaseCount];
 	float switchingFreq;
@@ -206,7 +206,7 @@ public:
 	 * @param conf - PWM config
 	 * @param (none)
 	 */
-	Module(const pwm::Config<Phases>& conf)
+	Module(const pwm::Configuration<Phases>& conf)
 		: m_timebaseClkFreq(s_pwmClkFreq / conf.clockPrescaler)
 		, m_timebaseCycle_ns(s_pwmClkCycle_ns * conf.clockPrescaler)
 		, m_counterMode(conf.counterMode)
@@ -800,7 +800,7 @@ public:
 
 protected:
 #ifdef CPU1
-	void _initPins(const pwm::Config<Phases>& conf)
+	void _initPins(const pwm::Configuration<Phases>& conf)
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{

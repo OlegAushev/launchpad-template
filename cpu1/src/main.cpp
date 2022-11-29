@@ -78,7 +78,7 @@ void main()
 	/*#############*/
 	/*# SCI & CLI #*/
 	/*#############*/
-	mcu::sci::Config sciBConfig =
+	mcu::sci::Configuration sciBConf =
 	{
 		.baudrate = mcu::sci::Baudrate::Baudrate9600,
 		.wordLen = mcu::sci::WordLen::Word8Bit,
@@ -87,9 +87,9 @@ void main()
 		.autoBaudMode = mcu::sci::AutoBaudMode::Disabled,
 	};
 	mcu::sci::Module<mcu::sci::Peripheral::SciB> sciB(
-			mcu::gpio::Config(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
-			mcu::gpio::Config(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
-			sciBConfig);
+			mcu::gpio::Configuration(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
+			mcu::gpio::Configuration(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
+			sciBConf);
 
 	cli::Server cliServer("launchpad", &sciB, NULL, NULL);
 	cli::Shell::init();
@@ -234,12 +234,12 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("Configure ADC... ");
 
-	mcu::adc::Config adcConfig =
+	mcu::adc::Configuration adcConf =
 	{
 		.sampleWindow_ns = 200,
 	};
 
-	mcu::adc::Module adc(adcConfig);
+	mcu::adc::Module adc(adcConf);
 
 	cli::print_blocking("done.");
 

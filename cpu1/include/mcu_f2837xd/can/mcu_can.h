@@ -117,7 +117,7 @@ public:
 	 * @param bitrate - CAN bus bitrate
 	 * @param mode - CAN mode
 	 */
-	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
+	Module(const gpio::Configuration& rxPin, const gpio::Configuration& txPin,
 			Bitrate bitrate, Mode mode)
 		: emb::c28x::interrupt_invoker<Can<Instance> >(this)
 		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
@@ -158,7 +158,7 @@ public:
 	 * @param txPin - MCU CAN-TX pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
+	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
@@ -250,7 +250,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
+	static void _initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setPinConfig(txPin.mux);

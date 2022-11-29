@@ -47,7 +47,7 @@ SCOPED_ENUM_DECLARE_END(Peripheral)
 /**
  * @brief ADC unit config.
  */
-struct Config
+struct Configuration
 {
 	uint32_t sampleWindow_ns;
 };
@@ -143,7 +143,7 @@ public:
 	 * @brief Initializes MCU ADC unit.
 	 * @param conf - ADC config
 	 */
-	Module(const adc::Config& conf);
+	Module(const adc::Configuration& conf);
 
 	/**
 	 * @brief Starts conversion on specified channel.

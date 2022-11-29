@@ -99,7 +99,7 @@ SCOPED_ENUM_DECLARE_END(AutoBaudMode)
 /**
  * @brief SCI unit config.
  */
-struct Config
+struct Configuration
 {
 	Baudrate baudrate;
 	WordLen wordLen;
@@ -148,8 +148,8 @@ public:
 	 * @param txPin
 	 * @param conf
 	 */
-	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
-			const Config& conf)
+	Module(const gpio::Configuration& rxPin, const gpio::Configuration& txPin,
+			const Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::sciBases[Instance],
 				impl::sciRxPieIntNums[Instance],
@@ -193,7 +193,7 @@ public:
 	 * @param rxPin
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
+	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
@@ -340,7 +340,7 @@ public:
 	}
 
 protected:
-	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
+	static void _initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setDirectionMode(rxPin.no, GPIO_DIR_MODE_IN);
