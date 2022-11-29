@@ -2,8 +2,15 @@
  * @defgroup mcu_gpio GPIO
  * @ingroup mcu
  *
- * @file
+ * @file mcu_gpio.h
  * @ingroup mcu mcu_gpio
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 

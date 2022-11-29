@@ -35,7 +35,7 @@ private:
 	static emb::gpio::IOutput* s_pinRTS;
 	static emb::gpio::IInput* s_pinCTS;
 
-	static char PROMPT[CLI_PROMPT_MAX_LENGTH];
+	static char s_prompt[CLI_PROMPT_MAX_LENGTH];
 	static emb::String<CLI_CMDLINE_MAX_LENGTH> s_cmdline;
 	static emb::String<CLI_ESCSEQ_MAX_LENGTH> s_escseq;
 

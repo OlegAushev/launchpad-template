@@ -1,6 +1,13 @@
 /**
- * @file
- * @ingroup mcu mcu_cpu_timers
+ * @file mcu_chrono.cpp
+ * @ingroup mcu mcu_chrono
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 

@@ -10,15 +10,15 @@
 namespace cli {
 
 
-const char* PROMPT_BEGIN = CLI_PROMPT_BEGIN;
-const char* PROMPT_END = CLI_PROMPT_END;
+const char* promptBegin = CLI_PROMPT_BEGIN;
+const char* promptEnd = CLI_PROMPT_END;
 
 
 emb::IUart* Server::s_uart = static_cast<emb::IUart*>(NULL);
 emb::gpio::IOutput* Server::s_pinRTS = static_cast<emb::gpio::IOutput*>(NULL);
 emb::gpio::IInput* Server::s_pinCTS = static_cast<emb::gpio::IInput*>(NULL);
 
-char Server::PROMPT[CLI_PROMPT_MAX_LENGTH] = {0};
+char Server::s_prompt[CLI_PROMPT_MAX_LENGTH] = {0};
 emb::String<CLI_CMDLINE_MAX_LENGTH> Server::s_cmdline;
 emb::String<CLI_ESCSEQ_MAX_LENGTH> Server::s_escseq;
 
@@ -62,10 +62,10 @@ Server::Server(const char* deviceName, emb::IUart* uart, emb::gpio::IOutput* pin
 	s_pinRTS = pinRTS;	// output
 	s_pinCTS = pinCTS;	// input
 
-	memset(PROMPT, 0, CLI_PROMPT_MAX_LENGTH);
-	strcat(PROMPT, PROMPT_BEGIN);
-	strncat(PROMPT, deviceName, CLI_DEVICE_NAME_MAX_LENGTH);
-	strcat(PROMPT, PROMPT_END);
+	memset(s_prompt, 0, CLI_PROMPT_MAX_LENGTH);
+	strcat(s_prompt, promptBegin);
+	strncat(s_prompt, deviceName, CLI_DEVICE_NAME_MAX_LENGTH);
+	strcat(s_prompt, promptEnd);
 
 	printPrompt();
 }
@@ -232,7 +232,7 @@ void Server::moveCursor(int offset)
 void Server::printPrompt()
 {
 	print(CLI_ENDL);
-	print(PROMPT);
+	print(s_prompt);
 	s_cmdline.clear();
 	s_cursorPos = 0;
 }

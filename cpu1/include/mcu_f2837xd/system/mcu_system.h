@@ -3,9 +3,16 @@
  *
  * @defgroup mcu_system System
  * @ingroup mcu
- *
- * @file
+ * 
+ * @file mcu_system.h
  * @ingroup mcu mcu_system
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 

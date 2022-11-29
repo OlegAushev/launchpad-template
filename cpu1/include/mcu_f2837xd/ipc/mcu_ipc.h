@@ -2,8 +2,15 @@
  * @defgroup mcu_ipc IPC
  * @ingroup mcu
  *
- * @file
+ * @file mcu_ipc.h
  * @ingroup mcu mcu_ipc
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 

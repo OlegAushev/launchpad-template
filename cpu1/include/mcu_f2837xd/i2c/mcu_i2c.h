@@ -2,8 +2,15 @@
  * @defgroup mcu_i2c I2C
  * @ingroup mcu
  *
- * @file
+ * @file mcu_i2c.h
  * @ingroup mcu mcu_i2c
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 

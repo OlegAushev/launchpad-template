@@ -1,9 +1,16 @@
 /**
  * @defgroup mcu_adc ADC
  * @ingroup mcu
- *
- * @file
+ * 
+ * @file mcu_adc.h
  * @ingroup mcu mcu_adc
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
 
 
