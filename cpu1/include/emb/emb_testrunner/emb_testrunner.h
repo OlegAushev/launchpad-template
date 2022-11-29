@@ -1,4 +1,16 @@
-///
+/**
+ * @file emb_testrunner.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #pragma once
 
 
@@ -10,6 +22,8 @@
 
 
 namespace emb {
+/// @addtogroup emb
+/// @{
 
 
 void run_tests();
@@ -115,7 +129,12 @@ public:
 };
 
 
+/// @}
 } // namespace emb
+
+
+/// @addtogroup emb
+/// @{
 
 
 /**
@@ -150,5 +169,8 @@ public:
 #else
 #define EMB_ASSERT_TRUE(x) ((void)0)
 #endif
+
+
+/// @}
 
 

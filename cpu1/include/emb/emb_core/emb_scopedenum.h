@@ -1,12 +1,27 @@
-///
-/// Simplified scoped_enum from boost
-/// https://github.com/steinwurf/boost/blob/master/boost/core/scoped_enum.hpp
+/**
+ * @file emb_scopedenum.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief Simplified scoped_enum from boost
+ * https://github.com/steinwurf/boost/blob/master/boost/core/scoped_enum.hpp
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #pragma once
 
 
 #include <stdint.h>
 #include <stddef.h>
 #include <assert.h>
+
+
+/// @addtogroup emb
+/// @{
 
 
 #define SCOPED_ENUM_UT_DECLARE_BEGIN(EnumType, UnderlyingType)		\
@@ -54,5 +69,8 @@
  */
 #define SCOPED_ENUM_DECLARE_BEGIN(EnumType) \
 	SCOPED_ENUM_UT_DECLARE_BEGIN(EnumType, unsigned int)
+
+
+/// @}
 
 

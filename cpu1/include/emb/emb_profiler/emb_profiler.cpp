@@ -1,8 +1,22 @@
-///
+/**
+ * @file emb_profiler.cpp
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #include "emb_profiler.h"
 
 
 namespace emb {
+/// @addtogroup emb
+/// @{
 
 
 uint64_t timeNowFuncNone_us()
@@ -23,6 +37,7 @@ uint64_t (*DurationLoggerAsync_us::s_timeNowFunc)() = timeNowFuncNone_us;
 DurationLoggerAsync_us::DurationData DurationLoggerAsync_us::s_durations_us[s_capacity];
 
 
+/// @}
 }
 
 

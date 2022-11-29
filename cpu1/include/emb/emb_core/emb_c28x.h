@@ -1,4 +1,16 @@
-///
+/**
+ * @file emb_c28x.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #pragma once
 
 
@@ -8,6 +20,8 @@
 
 
 namespace emb {
+/// @addtogroup emb
+/// @{
 
 
 namespace c28x {
@@ -108,6 +122,7 @@ bool is_equal(const T& obj1, const T& obj2)
 } // namespace c28x
 
 
+/// @}
 } // namespace emb
 
 

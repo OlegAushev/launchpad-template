@@ -1,4 +1,16 @@
-///
+/**
+ * @file emb_motorcontrol.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #pragma once
 
 
@@ -15,6 +27,8 @@
 
 
 namespace emb {
+/// @addtogroup emb
+/// @{
 
 
 /**
@@ -22,7 +36,7 @@ namespace emb {
  */
 class motorspeed_t
 {
-public
+public:
 	const int polePairs;
 private:
 	float m_radps_elec;
@@ -38,30 +52,30 @@ public:
 	{}
 
 	float to_radps() const { return m_radps_elec; }
-	float to_rpm() const { return 60 * m_radps_elec / (2 * PI * polePairs); }
+	float to_rpm() const { return 60 * m_radps_elec / (numbers::two_pi * polePairs); }
 	float to_radps_mech() const { return m_radps_elec / polePairs; }
 
 	void from_radps(float value) { m_radps_elec = value; }
-	void from_rpm(float value) { m_radps_elec = 2 * PI * polePairs * value / 60; }
+	void from_rpm(float value) { m_radps_elec = numbers::two_pi * polePairs * value / 60; }
 };
 
 
 /**
  * @brief
  */
-inline float to_radps(float speed_rpm, int polePairs) { return 2 * PI * polePairs * speed_rpm / 60; }
+inline float to_radps(float speed_rpm, int polePairs) { return numbers::two_pi * polePairs * speed_rpm / 60; }
 
 
 /**
  * @brief
  */
-inline float to_radps(float speed_rpm) { return 2 * PI * speed_rpm / 60; }
+inline float to_radps(float speed_rpm) { return numbers::two_pi * speed_rpm / 60; }
 
 
 /**
  * @brief
  */
-inline float to_rpm(float speed_radps, int polePairs) { return 60 * speed_radps / (2 * PI * polePairs); }
+inline float to_rpm(float speed_radps, int polePairs) { return 60 * speed_radps / (numbers::two_pi * polePairs); }
 
 
 /**
@@ -70,14 +84,14 @@ inline float to_rpm(float speed_radps, int polePairs) { return 60 * speed_radps 
 inline emb::Array<float, 3> calculate_svpwm(float voltageMag, float voltageAngle, float voltageDc)
 {
 	voltageAngle = normalize_2pi(voltageAngle);
-	voltageMag = clamp<float>(voltageMag, 0, voltageDc / SQRT_3);
+	voltageMag = clamp<float>(voltageMag, 0, voltageDc / numbers::sqrt_3);
 
-	int32_t sector = static_cast<int32_t>(voltageAngle / PI_OVER_3);
-	float theta = voltageAngle - float(sector) * PI_OVER_3;
+	int32_t sector = static_cast<int32_t>(voltageAngle / numbers::pi_over_3);
+	float theta = voltageAngle - float(sector) * numbers::pi_over_3;
 
 	// base vector times calculation
-	float tb1 = SQRT_3 * (voltageMag / voltageDc) * sinf(PI_OVER_3 - theta);
-	float tb2 = SQRT_3 * (voltageMag / voltageDc) * sinf(theta);
+	float tb1 = numbers::sqrt_3 * (voltageMag / voltageDc) * sinf(numbers::pi_over_3 - theta);
+	float tb2 = numbers::sqrt_3 * (voltageMag / voltageDc) * sinf(theta);
 	float tb0 = (1.f - tb1 - tb2) / 2.f;
 
 	emb::Array<float, 3> pulseTimes;
@@ -198,6 +212,7 @@ inline AlphaBetaPair clarke_transform(float a, float b, float c)
 }
 
 
+/// @}
 } // namespace emb
 
 

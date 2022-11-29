@@ -28,7 +28,7 @@ namespace mcu {
 
 
 namespace chrono {
-/// @addtogroup mcu_cpu_timers
+/// @addtogroup mcu_chrono
 /// @{
 
 

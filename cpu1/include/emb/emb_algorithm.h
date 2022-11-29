@@ -1,4 +1,16 @@
-///
+/**
+ * @file emb_algorithm.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
 #pragma once
 
 
@@ -8,10 +20,19 @@
 
 
 namespace emb {
+/// @addtogroup emb
+/// @{
 
 
 /**
  * @brief Returns pointer to the first element in range [first; last) that is equal to value.
+ * 
+ * @tparam It 
+ * @tparam T 
+ * @param first 
+ * @param last 
+ * @param value 
+ * @return It 
  */
 template <class It, class T>
 inline It find(It first, It last, const T& value)
@@ -30,6 +51,13 @@ inline It find(It first, It last, const T& value)
 /**
  * @brief Returns pointer to the element in range [first; last) that is equal to value.
  * Range must be sorted.
+ * 
+ * @tparam It 
+ * @tparam T 
+ * @param first 
+ * @param last 
+ * @param value 
+ * @return It 
  */
 template <class It, class T>
 inline It binary_find(It first, It last, const T& value)
@@ -61,6 +89,12 @@ inline It binary_find(It first, It last, const T& value)
 
 /**
  * @brief Assigns the given value to the elements in the range [first, last).
+ * 
+ * @tparam It 
+ * @tparam T 
+ * @param first 
+ * @param last 
+ * @param value 
  */
 template <class It, class T>
 inline void fill(It first, It last, const T& value)
@@ -74,6 +108,13 @@ inline void fill(It first, It last, const T& value)
 
 /**
  * @brief Returns the number of elements in the range [first, last) that is equal to value.
+ * 
+ * @tparam It 
+ * @tparam T 
+ * @param first 
+ * @param last 
+ * @param value 
+ * @return size_t 
  */
 template <class It, class T>
 inline size_t count(It first, It last, const T& value)
@@ -92,6 +133,13 @@ inline size_t count(It first, It last, const T& value)
 
 /**
  * @brief Copies the elements in the range, defined by [first, last), to another range beginning at d_first.
+ * 
+ * @tparam InputIt 
+ * @tparam OutputIt 
+ * @param first 
+ * @param last 
+ * @param d_first 
+ * @return OutputIt 
  */
 template <class InputIt, class OutputIt>
 inline OutputIt copy(InputIt first, InputIt last, OutputIt d_first)
@@ -106,6 +154,13 @@ inline OutputIt copy(InputIt first, InputIt last, OutputIt d_first)
 
 /**
  * @brief Returns true if the range [first1, last1) is equal to the range [first2, first2 + (last1 - first1)), and false otherwise.
+ * 
+ * @tparam It 
+ * @param first1 
+ * @param last1 
+ * @param first2 
+ * @return true 
+ * @return false 
  */
 template <class It>
 inline bool equal(It first1, It last1, It first2)
@@ -123,6 +178,12 @@ inline bool equal(It first1, It last1, It first2)
 
 /**
  * @brief Clamps a value between a pair of boundary values.
+ * 
+ * @tparam T 
+ * @param value 
+ * @param lo 
+ * @param hi 
+ * @return const T& 
  */
 template <class T>
 inline const T& clamp(const T& value, const T& lo, const T& hi)
@@ -133,6 +194,11 @@ inline const T& clamp(const T& value, const T& lo, const T& hi)
 
 /**
  * @brief Finds the greatest element in the range [first, last).
+ * 
+ * @tparam It 
+ * @param first 
+ * @param last 
+ * @return It 
  */
 template <class It>
 inline It max_element(It first, It last)
@@ -157,6 +223,11 @@ inline It max_element(It first, It last)
 
 /**
  * @brief Finds the smallest element in the range [first, last).
+ * 
+ * @tparam It 
+ * @param first 
+ * @param last 
+ * @return It 
  */
 template <class It>
 inline It min_element(It first, It last)
@@ -181,6 +252,11 @@ inline It min_element(It first, It last)
 
 /**
  * @brief Finds the smallest and greatest element in the range [first, last).
+ * 
+ * @tparam It 
+ * @param first 
+ * @param last 
+ * @return Pair<It, It> 
  */
 template <class It>
 inline Pair<It, It> minmax_element(It first, It last)
@@ -228,6 +304,7 @@ inline Pair<It, It> minmax_element(It first, It last)
 }
 
 
+/// @}
 } // namespace emb
 
 

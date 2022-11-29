@@ -1,4 +1,16 @@
-///
+/**
+ * @defgroup emb emb
+ * 
+ * @file emb_core.h
+ * @ingroup emb
+ * @author Oleg Aushev (aushevom@protonmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-11-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #pragma once
 
 
@@ -10,6 +22,10 @@
 #include "emb_core/emb_monostate.h"
 #include "emb_core/emb_noncopyable.h"
 #include "emb_core/emb_scopedenum.h"
+
+
+/// @addtogroup emb
+/// @{
 
 
 /**
@@ -33,7 +49,11 @@
 #define EMB_STATIC_ASSERT(cond) typedef int EMB_CAT(assert, __LINE__)[(cond) ? 1 : -1]
 
 
+/// @}
+
+
 namespace emb {
+/// @addtogroup emb
 
 
 /**
@@ -57,6 +77,7 @@ enum ProcessStatus
 };
 
 
+/// @}
 } // namespace emb
 
 
