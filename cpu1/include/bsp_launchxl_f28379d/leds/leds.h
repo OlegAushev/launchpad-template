@@ -18,6 +18,8 @@
 
 
 namespace bsp {
+/// @addtogroup bsp
+/// @{
 
 
 extern mcu::gpio::Output ledBlue;
@@ -26,10 +28,24 @@ extern const mcu::gpio::Config ledBlueConfig;
 extern mcu::gpio::Output ledRed;
 extern const mcu::gpio::Config ledRedConfig;
 
+
+/**
+ * @brief 
+ * 
+ * @param core 
+ */
 void initLedBlue(mcu::gpio::MasterCore core = mcu::gpio::MasterCore::Cpu1);
+
+
+/**
+ * @brief 
+ * 
+ * @param core 
+ */
 void initLedRed(mcu::gpio::MasterCore core = mcu::gpio::MasterCore::Cpu1);
 
 
+/// @}
 } // namespace bsp
 
 

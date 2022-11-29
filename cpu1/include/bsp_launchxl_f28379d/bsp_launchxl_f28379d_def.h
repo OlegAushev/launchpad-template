@@ -20,6 +20,8 @@
 
 
 namespace bsp {
+/// @addtogroup bsp
+/// @{
 
 
 const uint32_t j1_sciB_rxPin = 19;
@@ -29,6 +31,7 @@ const uint32_t j1_sciB_txPin = 18;
 const uint32_t j1_sciB_txPinMux = GPIO_18_SCITXDB;
 
 
+/// @}
 } // namespace bsp
 
 
