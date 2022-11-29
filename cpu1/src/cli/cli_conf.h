@@ -1,7 +1,7 @@
 /**
  * @defgroup cli CLI
  * 
- * @file cli_config.h
+ * @file cli_conf.h
  * @ingroup cli
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 

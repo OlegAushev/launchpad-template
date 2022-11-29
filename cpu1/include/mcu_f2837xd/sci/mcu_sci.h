@@ -146,7 +146,7 @@ public:
 	 * @brief Initializes MCU SCI unit.
 	 * @param rxPin
 	 * @param txPin
-	 * @param cfg
+	 * @param conf
 	 */
 	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
 			const Config& conf)

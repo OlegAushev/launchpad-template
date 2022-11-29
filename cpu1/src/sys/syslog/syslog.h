@@ -23,7 +23,7 @@
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 
-#include "syslogconfig.h"
+#include "syslog_conf.h"
 
 
 /// @addtogroup syslog
@@ -58,17 +58,17 @@ private:
 	SysLog& operator=(const SysLog& other);	// no copy assignment operator
 
 private:
-	static emb::Queue<sys::Message::Message, 32> m_messages;
+	static emb::Queue<sys::Message::Message, 32> s_messages;
 #ifdef DUALCORE
-	static sys::Message::Message m_cpu2Message;
+	static sys::Message::Message s_cpu2Message;
 #endif
 
-	static Data m_cpu1Data;
+	static Data s_cpu1Data;
 #ifdef DUALCORE
-	static Data m_cpu2Data;
+	static Data s_cpu2Data;
 #endif
 
-	static Data* m_thisCpuData;
+	static Data* s_thisCpuData;
 
 	static IpcFlags s_ipcFlags;
 
@@ -84,20 +84,20 @@ public:
 		{
 			return;
 		}
-		m_messages.clear();
+		s_messages.clear();
 
 #ifdef CPU1
-		m_thisCpuData = &m_cpu1Data;
+		s_thisCpuData = &s_cpu1Data;
 #endif
 #ifdef CPU2
-		m_thisCpuData = &m_cpu2Data;
+		s_thisCpuData = &s_cpu2Data;
 #endif
 
-		m_thisCpuData->errors = 0;
-		m_thisCpuData->warnings = 0;
-		m_thisCpuData->enabledErrorMask = 0xFFFFFFFF;
-		m_thisCpuData->fatalErrorMask = sys::Error::FATAL_ERRORS;
-		m_thisCpuData->fatalWarningMask = sys::Warning::FATAL_WARNINGS;
+		s_thisCpuData->errors = 0;
+		s_thisCpuData->warnings = 0;
+		s_thisCpuData->enabledErrorMask = 0xFFFFFFFF;
+		s_thisCpuData->fatalErrorMask = sys::fatalErrors;
+		s_thisCpuData->fatalWarningMask = sys::fatalWarnings;
 
 		s_ipcFlags = ipcFlags;
 
@@ -113,16 +113,16 @@ public:
 	{
 		mcu::CriticalSection cs;
 #ifdef CPU1
-		if (!m_messages.full())
+		if (!s_messages.full())
 		{
-			m_messages.push(msg);
+			s_messages.push(msg);
 		}
 #else
 		if (s_ipcFlags.ipcAddMessage.local.check())
 		{
 			return;
 		}
-		m_cpu2Message = msg;
+		s_cpu2Message = msg;
 		s_ipcFlags.ipcAddMessage.local.set();
 #endif
 	}
@@ -132,13 +132,13 @@ public:
 	 * @param (none)
 	 * @return Front message from SysLog message queue.
 	 */
-	static sys::Message::Message readMessage()
+	static sys::Message readMessage()
 	{
-		if (m_messages.empty())
+		if (s_messages.empty())
 		{
-			return sys::Message::NO_MESSAGE;
+			return sys::Message::NoMessage;
 		}
-		return m_messages.front();
+		return s_messages.front();
 	}
 
 	/**
@@ -150,9 +150,9 @@ public:
 	{
 		mcu::CriticalSection cs;
 #ifdef CPU1
-		if (!m_messages.empty())
+		if (!s_messages.empty())
 		{
-			m_messages.pop();
+			s_messages.pop();
 		}
 #else
 		s_ipcFlags.ipcPopMessage.local.set();
@@ -167,7 +167,7 @@ public:
 	static void clearMessages()
 	{
 		mcu::CriticalSection cs;
-		m_messages.clear();
+		s_messages.clear();
 	}
 
 	/**
@@ -187,7 +187,7 @@ public:
 
 		if (s_ipcFlags.ipcAddMessage.remote.check())
 		{
-			addMessage(m_cpu2Message);
+			addMessage(s_cpu2Message);
 			s_ipcFlags.ipcAddMessage.remote.acknowledge();
 		}
 #endif
@@ -206,10 +206,10 @@ public:
 	 * @param error - error to be enabled
 	 * @return (none)
 	 */
-	static void enableError(sys::Error::Error error)
+	static void enableError(sys::Error error)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->enabledErrorMask = m_thisCpuData->enabledErrorMask | (1UL << error);
+		s_thisCpuData->enabledErrorMask = s_thisCpuData->enabledErrorMask | (1UL << error.underlying_value());
 	}
 
 	/**
@@ -220,7 +220,7 @@ public:
 	static void enableAllErrors()
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->enabledErrorMask = 0xFFFFFFFF;
+		s_thisCpuData->enabledErrorMask = 0xFFFFFFFF;
 	}
 
 	/**
@@ -228,10 +228,10 @@ public:
 	 * @param error - error to be disabled
 	 * @return (none)
 	 */
-	static void disableError(sys::Error::Error error)
+	static void disableError(sys::Error error)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->enabledErrorMask = m_thisCpuData->enabledErrorMask & ((1UL << error) ^ 0xFFFFFFFF);
+		s_thisCpuData->enabledErrorMask = s_thisCpuData->enabledErrorMask & ((1UL << error.underlying_value()) ^ 0xFFFFFFFF);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public:
 	static void disableAllErrors()
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->enabledErrorMask = 0;
+		s_thisCpuData->enabledErrorMask = 0;
 	}
 
 	/**
@@ -250,10 +250,10 @@ public:
 	 * @param error  - error to be set
 	 * @return (none)
 	 */
-	static void setError(sys::Error::Error error)
+	static void setError(sys::Error error)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->errors = m_thisCpuData->errors | ((1UL << error) & m_thisCpuData->enabledErrorMask);
+		s_thisCpuData->errors = s_thisCpuData->errors | ((1UL << error.underlying_value()) & s_thisCpuData->enabledErrorMask);
 	}
 
 	/**
@@ -261,12 +261,12 @@ public:
 	 * @param error - warning to be checked
 	 * @return \c true if error is set, \c false otherwise.
 	 */
-	static bool hasError(sys::Error::Error error)
+	static bool hasError(sys::Error error)
 	{
 #ifdef DUALCORE
-		return (m_cpu1Data.errors | m_cpu2Data.errors) & (1UL << error);
+		return (s_cpu1Data.errors | s_cpu2Data.errors) & (1UL << error.underlying_value());
 #else
-		return m_thisCpuData->errors & (1UL << error);
+		return s_thisCpuData->errors & (1UL << error.underlying_value());
 #endif
 	}
 
@@ -275,10 +275,10 @@ public:
 	 * @param error - error to be reset
 	 * @return (none)
 	 */
-	static void resetError(sys::Error::Error error)
+	static void resetError(sys::Error error)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->errors = m_thisCpuData->errors & ((1UL << error) ^ 0xFFFFFFFF);
+		s_thisCpuData->errors = s_thisCpuData->errors & ((1UL << error.underlying_value()) ^ 0xFFFFFFFF);
 	}
 
 	/**
@@ -289,9 +289,9 @@ public:
 	static uint32_t errors()
 	{
 #ifdef DUALCORE
-		return m_cpu1Data.errors | m_cpu2Data.errors;
+		return s_cpu1Data.errors | s_cpu2Data.errors;
 #else
-		return m_thisCpuData->errors;
+		return s_thisCpuData->errors;
 #endif
 	}
 
@@ -303,9 +303,9 @@ public:
 	static bool hasFatalErrors()
 	{
 #ifdef DUALCORE
-		return (m_cpu1Data.errors & m_cpu1Data.fatalErrorMask) || (m_cpu2Data.errors & m_cpu2Data.fatalErrorMask);
+		return (s_cpu1Data.errors & s_cpu1Data.fatalErrorMask) || (s_cpu2Data.errors & s_cpu2Data.fatalErrorMask);
 #else
-		return m_thisCpuData->errors & m_thisCpuData->fatalErrorMask;
+		return s_thisCpuData->errors & s_thisCpuData->fatalErrorMask;
 #endif
 	}
 
@@ -314,10 +314,10 @@ public:
 	 * @param warning - warning to be set
 	 * @return (none)
 	 */
-	static void setWarning(sys::Warning::Warning warning)
+	static void setWarning(sys::Warning warning)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->warnings = m_thisCpuData->warnings | (1UL << warning);
+		s_thisCpuData->warnings = s_thisCpuData->warnings | (1UL << warning.underlying_value());
 	}
 
 	/**
@@ -325,12 +325,12 @@ public:
 	 * @param warning - warning to be checked
 	 * @return \c true if warning is set, \c false otherwise.
 	 */
-	static bool hasWarning(sys::Warning::Warning warning)
+	static bool hasWarning(sys::Warning warning)
 	{
 #ifdef DUALCORE
-		return (m_cpu1Data.warnings | m_cpu2Data.warnings) & (1UL << warning);
+		return (s_cpu1Data.warnings | s_cpu2Data.warnings) & (1UL << warning.underlying_value());
 #else
-		return m_thisCpuData->warnings & (1UL << warning);
+		return s_thisCpuData->warnings & (1UL << warning.underlying_value());
 #endif
 	}
 
@@ -339,10 +339,10 @@ public:
 	 * @param warning - warning to be reset
 	 * @return (none)
 	 */
-	static void resetWarning(sys::Warning::Warning warning)
+	static void resetWarning(sys::Warning warning)
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->warnings = m_thisCpuData->warnings & ((1UL << warning) ^ 0xFFFFFFFF);
+		s_thisCpuData->warnings = s_thisCpuData->warnings & ((1UL << warning.underlying_value()) ^ 0xFFFFFFFF);
 	}
 
 	/**
@@ -353,9 +353,9 @@ public:
 	static uint32_t warnings()
 	{
 #ifdef DUALCORE
-		return m_cpu1Data.warnings | m_cpu2Data.warnings;
+		return s_cpu1Data.warnings | s_cpu2Data.warnings;
 #else
-		return m_thisCpuData->warnings;
+		return s_thisCpuData->warnings;
 #endif
 	}
 
@@ -367,8 +367,8 @@ public:
 	static void resetErrorsWarnings()
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->errors = m_thisCpuData->errors & m_thisCpuData->fatalErrorMask;
-		m_thisCpuData->warnings = m_thisCpuData->warnings & m_thisCpuData->fatalWarningMask;
+		s_thisCpuData->errors = s_thisCpuData->errors & s_thisCpuData->fatalErrorMask;
+		s_thisCpuData->warnings = s_thisCpuData->warnings & s_thisCpuData->fatalWarningMask;
 #if (defined(CPU1) && defined(DUALCORE))
 		s_ipcFlags.ipcResetErrorsWarnings.local.set();
 #endif
@@ -382,8 +382,8 @@ public:
 	static void clearCriticalMasks()
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->fatalErrorMask = 0;
-		m_thisCpuData->fatalWarningMask = 0;
+		s_thisCpuData->fatalErrorMask = 0;
+		s_thisCpuData->fatalWarningMask = 0;
 	}
 
 	/**
@@ -394,8 +394,8 @@ public:
 	static void enableCriticalMasks()
 	{
 		mcu::CriticalSection cs;
-		m_thisCpuData->fatalErrorMask = sys::Error::FATAL_ERRORS;
-		m_thisCpuData->fatalWarningMask = sys::Warning::FATAL_WARNINGS;
+		s_thisCpuData->fatalErrorMask = sys::fatalErrors;
+		s_thisCpuData->fatalWarningMask = sys::fatalWarnings;
 	}
 };
 

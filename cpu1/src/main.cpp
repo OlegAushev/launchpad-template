@@ -154,7 +154,7 @@ void main()
 		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
 	};
 	SysLog::init(syslogIpcFlags);
-	SysLog::addMessage(sys::Message::DEVICE_CPU1_BOOT_SUCCESS);
+	SysLog::addMessage(sys::Message::DeviceCpu1BootSuccess);
 
 	cli::print_blocking("done.");
 
@@ -217,9 +217,9 @@ void main()
 	cli::print_blocking("Boot CPU2... ");
 
 	mcu::bootCpu2();
-	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT);
+	SysLog::addMessage(sys::Message::DeviceCpu2Boot);
 	mcu::ipc::flags::cpu2Booted.remote.wait();
-	SysLog::addMessage(sys::Message::DEVICE_CPU2_BOOT_SUCCESS);
+	SysLog::addMessage(sys::Message::DeviceCpu2BootSuccess);
 
 	cli::print_blocking("success.");
 #else
@@ -274,7 +274,7 @@ void main()
 	cli::print_blocking("Waiting for CPU2 periphery configured... ");
 
 	mcu::ipc::flags::cpu2PeripheryConfigured.remote.wait();
-	SysLog::addMessage(sys::Message::DEVICE_CPU2_READY);
+	SysLog::addMessage(sys::Message::DeviceCpu2Ready);
 
 	cli::print_blocking("success.");
 #endif
@@ -291,14 +291,14 @@ void main()
 #ifdef DUALCORE
 	mcu::ipc::flags::cpu1PeripheryConfigured.local.set();
 #endif
-	SysLog::addMessage(sys::Message::DEVICE_CPU1_READY);
+	SysLog::addMessage(sys::Message::DeviceCpu1Ready);
 
 	cli::nextline_blocking();
 	cli::print_blocking("CPU1 periphery has been successfully configured.");
 
 /*####################################################################################################################*/
 	//mcu::SystemClock::enableWatchdog();
-	SysLog::addMessage(sys::Message::DEVICE_READY);
+	SysLog::addMessage(sys::Message::DeviceReady);
 
 	cli::nextline_blocking();
 	cli::print_blocking("Device is ready!");

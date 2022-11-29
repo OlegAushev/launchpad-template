@@ -92,9 +92,9 @@ private:
 public:
 	/**
 	 * @brief Initializes MCU CAP unit.
-	 * @param cfg - CAP unit config
+	 * @param conf - CAP unit config
 	 */
-	Cap(const CapConfig<ChannelCount>& cfg)
+	Cap(const CapConfig<ChannelCount>& conf)
 	{
 		EMB_STATIC_ASSERT(ChannelCount > 0);
 		EMB_STATIC_ASSERT(ChannelCount <= 6);
@@ -102,11 +102,11 @@ public:
 		// XBAR setup
 		for (size_t i = 0; i < ChannelCount; ++i)
 		{
-			m_module.instance[i] = cfg.module[i];
-			m_module.base[i] = impl::capBases[cfg.module[i]];
-			m_module.xbarInput[i] = impl::capXbarInputs[cfg.module[i]];
-			m_module.pieIntNum[i] = impl::capPieIntNums[cfg.module[i]];
-			XBAR_setInputPin(m_module.xbarInput[i], cfg.inputPin[i].config().no);
+			m_module.instance[i] = conf.module[i];
+			m_module.base[i] = impl::capBases[conf.module[i]];
+			m_module.xbarInput[i] = impl::capXbarInputs[conf.module[i]];
+			m_module.pieIntNum[i] = impl::capPieIntNums[conf.module[i]];
+			XBAR_setInputPin(m_module.xbarInput[i], conf.inputPin[i].config().no);
 		}
 
 		/* ECAP setup */

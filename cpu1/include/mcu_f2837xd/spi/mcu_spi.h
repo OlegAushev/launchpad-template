@@ -132,24 +132,24 @@ public:
 	 * @param misoPin
 	 * @param clkPin
 	 * @param csPin
-	 * @param cfg
+	 * @param conf
 	 */
 	Spi(const gpio::Config& mosiPin, const gpio::Config& misoPin,
 			const gpio::Config& clkPin, const gpio::Config& csPin,
-			const Config& cfg)
+			const Config& conf)
 		: emb::c28x::interrupt_invoker<Spi<Instance> >(this)
 		, m_module(impl::spiBases[Instance], impl::spiRxPieIntNums[Instance])
 	{
-		assert((cfg.dataSize >= 1) && (cfg.dataSize <= 16));
+		assert((conf.dataSize >= 1) && (conf.dataSize <= 16));
 
-		m_wordLen = cfg.wordLen;
+		m_wordLen = conf.wordLen;
 
 		SPI_disableModule(m_module.base);
 		SPI_setConfig(m_module.base, DEVICE_LSPCLK_FREQ,
-				static_cast<SPI_TransferProtocol>(cfg.protocol.underlying_value()),
-				static_cast<SPI_Mode>(cfg.mode.underlying_value()),
-				static_cast<uint32_t>(cfg.bitrate.underlying_value()),
-				static_cast<uint16_t>(cfg.wordLen.underlying_value()));
+				static_cast<SPI_TransferProtocol>(conf.protocol.underlying_value()),
+				static_cast<SPI_Mode>(conf.mode.underlying_value()),
+				static_cast<uint32_t>(conf.bitrate.underlying_value()),
+				static_cast<uint16_t>(conf.wordLen.underlying_value()));
 		SPI_disableLoopback(m_module.base);
 		SPI_setEmulationMode(m_module.base, SPI_EMULATION_FREE_RUN);
 
@@ -158,7 +158,7 @@ public:
 #endif
 
 		SPI_enableFIFO(m_module.base);
-		SPI_setFIFOInterruptLevel(m_module.base, SPI_FIFO_TXEMPTY, static_cast<SPI_RxFIFOLevel>(cfg.dataSize));
+		SPI_setFIFOInterruptLevel(m_module.base, SPI_FIFO_TXEMPTY, static_cast<SPI_RxFIFOLevel>(conf.dataSize));
 		SPI_enableModule(m_module.base);
 	}
 
