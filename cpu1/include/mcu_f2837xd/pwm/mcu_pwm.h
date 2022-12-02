@@ -365,7 +365,7 @@ public:
 
 			/* ========================================================================== */
 			// CMPA actions
-				// PWMxA configuration for typical waveforms, change this if other is needed
+				// PWMxA configuration for typical waveforms
 			switch (conf.operatingMode.native_value())
 			{
 			case CounterMode::Up:
@@ -471,6 +471,8 @@ public:
 		// Interrupts, only interrupt on first module is required
 		EPWM_setInterruptSource(m_module.base[0], conf.eventInterruptSource);
 		EPWM_setInterruptEventCount(m_module.base[0], 1U);
+
+		initCustomOptions();
 
 		stop();
 
@@ -811,6 +813,15 @@ protected:
 		}
 	}
 #endif
+
+	/**
+	 * @brief Initializes user-defined custom options.
+	 *
+	 */
+	void initCustomOptions()
+	{
+		// place custom options here
+	}
 };
 
 
