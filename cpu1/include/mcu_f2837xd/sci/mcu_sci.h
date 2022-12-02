@@ -143,7 +143,7 @@ private:
 	impl::Module m_module;
 public:
 	/**
-	 * @brief Initializes MCU SCI unit.
+	 * @brief Initializes MCU SCI module.
 	 * @param rxPin
 	 * @param txPin
 	 * @param conf
@@ -156,7 +156,7 @@ public:
 				impl::sciPieIntGroups[Instance])
 	{
 #ifdef CPU1
-		_initPins(rxPin, txPin);
+		initPins(rxPin, txPin);
 #endif
 		SCI_disableModule(m_module.base);
 
@@ -195,7 +195,7 @@ public:
 	 */
 	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
-		_initPins(rxPin, txPin);
+		initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 		SysCtl_selectCPUForPeripheral(SYSCTL_CPUSEL5_SCI,
@@ -340,7 +340,7 @@ public:
 	}
 
 protected:
-	static void _initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setDirectionMode(rxPin.no, GPIO_DIR_MODE_IN);

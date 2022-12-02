@@ -99,7 +99,7 @@ private:
 	impl::Module m_module;
 public:
 	/**
-	 * @brief Initializes MCU DAC unit.
+	 * @brief Initializes MCU DAC module.
 	 * @param (none)
 	 */
 	Module()

@@ -202,7 +202,7 @@ private:
 	State m_state;
 public:
 	/**
-	 * @brief Initializes MCU PWM unit.
+	 * @brief Initializes MCU PWM module.
 	 * @param conf - PWM config
 	 * @param (none)
 	 */
@@ -228,7 +228,7 @@ public:
 		}
 
 #ifdef CPU1
-		_initPins(conf);
+		initPins(conf);
 #else
 		EMB_UNUSED(impl::pwmPinOutAConfigs);
 		EMB_UNUSED(impl::pwmPinOutBConfigs);
@@ -802,7 +802,7 @@ public:
 
 protected:
 #ifdef CPU1
-	void _initPins(const pwm::Configuration<Phases>& conf)
+	void initPins(const pwm::Configuration<Phases>& conf)
 	{
 		for (size_t i = 0; i < Phases; ++i)
 		{

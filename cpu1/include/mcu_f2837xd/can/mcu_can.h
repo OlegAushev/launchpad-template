@@ -111,7 +111,7 @@ private:
 	impl::Module m_module;
 public:
 	/**
-	 * @brief Initializes MCU CAN unit.
+	 * @brief Initializes MCU CAN module.
 	 * @param rxPin	- MCU CAN-RX pin config
 	 * @param txPin - MCU CAN-TX pin config
 	 * @param bitrate - CAN bus bitrate
@@ -123,7 +123,7 @@ public:
 		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
 	{
 #ifdef CPU1
-		_initPins(rxPin, txPin);
+		initPins(rxPin, txPin);
 #endif
 
 		CAN_initModule(m_module.base);
@@ -160,7 +160,7 @@ public:
 	 */
 	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
-		_initPins(rxPin, txPin);
+		initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 
@@ -250,7 +250,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setPinConfig(txPin.mux);

@@ -140,7 +140,7 @@ private:
 	const uint32_t m_sampleWindowCycles;
 public:
 	/**
-	 * @brief Initializes MCU ADC unit.
+	 * @brief Initializes MCU ADC module.
 	 * @param conf - ADC config
 	 */
 	Module(const adc::Configuration& conf);

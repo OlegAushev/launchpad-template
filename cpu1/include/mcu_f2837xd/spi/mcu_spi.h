@@ -127,7 +127,7 @@ private:
 	WordLen m_wordLen;
 public:
 	/**
-	 * @brief Initializes MCU SPI unit.
+	 * @brief Initializes MCU SPI module.
 	 * @param mosiPin
 	 * @param misoPin
 	 * @param clkPin
@@ -154,7 +154,7 @@ public:
 		SPI_setEmulationMode(m_module.base, SPI_EMULATION_FREE_RUN);
 
 #ifdef CPU1
-		_initPins(mosiPin, misoPin, clkPin, csPin);
+		initPins(mosiPin, misoPin, clkPin, csPin);
 #endif
 
 		SPI_enableFIFO(m_module.base);
@@ -175,7 +175,7 @@ public:
 	static void transferControlToCpu2(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
 			const gpio::Configuration& clkPin, const gpio::Configuration& csPin)
 	{
-		_initPins(mosiPin, misoPin, clkPin, csPin);
+		initPins(mosiPin, misoPin, clkPin, csPin);
 		GPIO_setMasterCore(mosiPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(misoPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(clkPin.no, GPIO_CORE_CPU2);
@@ -333,7 +333,7 @@ public:
 	}
 
 protected:
-	static void _initPins(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
+	static void initPins(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
 			const gpio::Configuration& clkPin, const gpio::Configuration& csPin)
 	{
 		GPIO_setPinConfig(mosiPin.mux);

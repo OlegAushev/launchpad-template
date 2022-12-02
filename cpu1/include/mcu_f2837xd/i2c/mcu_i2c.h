@@ -106,7 +106,7 @@ private:
 	impl::Module m_module;
 public:
 	/**
-	 * @brief Initializes MCU I2C unit.
+	 * @brief Initializes MCU I2C module.
 	 * @param sdaPin - MCU I2C-SDA pin config
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @param conf - I2C config
@@ -116,7 +116,7 @@ public:
 		, m_module(impl::i2cBases[Instance])
 	{
 #ifdef CPU1
-		_initPins(sdaPin, sclPin);
+		initPins(sdaPin, sclPin);
 #endif
 		I2C_disableModule(m_module.base);
 
@@ -139,7 +139,7 @@ public:
 	 */
 	static void transferControlToCpu2(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
 	{
-		_initPins(sdaPin, sclPin);
+		initPins(sdaPin, sclPin);
 		GPIO_setMasterCore(sdaPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(sclPin.no, GPIO_CORE_CPU2);
 
@@ -177,7 +177,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
+	static void initPins(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
 	{
 		GPIO_setPadConfig(sdaPin.no, GPIO_PIN_TYPE_PULLUP);
 		GPIO_setQualificationMode(sdaPin.no, GPIO_QUAL_ASYNC);

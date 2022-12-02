@@ -134,7 +134,7 @@ private:
 	impl::Module m_module;
 public:
 	/**
-	 * @brief Initializes MCU QEP unit.
+	 * @brief Initializes MCU QEP module.
 	 * @param (none)
 	 */
 	Module(const gpio::Configuration& qepaPin, const gpio::Configuration& qepbPin,
@@ -143,7 +143,7 @@ public:
 		, m_module(impl::qepBases[Instance], conf.intFlags, impl::qepPieIntNums[Instance])
 	{
 #ifdef CPU1
-		_initPins(qepaPin, qepbPin, qepiPin);
+		initPins(qepaPin, qepbPin, qepiPin);
 #endif
 
 		// Configure the decoder
@@ -215,7 +215,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void _initPins(const gpio::Configuration& qepaPin, const gpio::Configuration& qepbPin,
+	static void initPins(const gpio::Configuration& qepaPin, const gpio::Configuration& qepbPin,
 			const gpio::Configuration& qepiPin)
 	{
 		GPIO_setPadConfig(qepaPin.no, GPIO_PIN_TYPE_STD);
