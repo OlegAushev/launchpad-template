@@ -387,15 +387,15 @@ public:
 						EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
 				break;
 			}
-				// LEGACY PWMxB configuration, but only PWMxA is used by dead-band submodule
-//			EPWM_setActionQualifierAction(m_module.base[i],
-//					EPWM_AQ_OUTPUT_B,
-//					EPWM_AQ_OUTPUT_HIGH,
-//					EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
-//			EPWM_setActionQualifierAction(m_module.base[i],
-//					EPWM_AQ_OUTPUT_B,
-//					EPWM_AQ_OUTPUT_LOW,
-//					EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
+				// PWMxB configuration - always LOW: typically only PWMxA is used by dead-band submodule
+			EPWM_setActionQualifierAction(m_module.base[i],	EPWM_AQ_OUTPUT_B,
+					EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);
+			EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_B,
+					EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_UP_CMPA);
+			EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_B,
+					EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPA);
+			EPWM_setActionQualifierAction(m_module.base[i], EPWM_AQ_OUTPUT_B,
+					EPWM_AQ_OUTPUT_LOW, EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);
 
 			/* ========================================================================== */
 			// Dead-Band

@@ -64,19 +64,19 @@ inline void initDevice()
  * @param nsDelay - delay in nanoseconds
  * @return (none)
  */
-inline void delay_ns(uint32_t nsDelay)
+inline void delay_ns(uint32_t delay_ns)
 {
-	const uint32_t CYCLE_NS = 1000000000 / DEVICE_SYSCLK_FREQ;
-	const uint32_t LOOP_NS = 5 * CYCLE_NS;
-	const uint32_t OVERHEAD_NS = 9 * CYCLE_NS;
+	const uint32_t sysclkCycle_ns = 1000000000 / DEVICE_SYSCLK_FREQ;
+	const uint32_t delayLoop_ns = 5 * sysclkCycle_ns;
+	const uint32_t delayOverhead_ns = 9 * sysclkCycle_ns;
 
-	if (nsDelay < LOOP_NS + OVERHEAD_NS)
+	if (delay_ns < delayLoop_ns + delayOverhead_ns)
 	{
 		SysCtl_delay(1);
 	}
 	else
 	{
-		SysCtl_delay((nsDelay - OVERHEAD_NS) / LOOP_NS);
+		SysCtl_delay((delay_ns - delayOverhead_ns) / delayLoop_ns);
 	}
 }
 
@@ -86,9 +86,9 @@ inline void delay_ns(uint32_t nsDelay)
  * @param usDelay - delay in microseconds
  * @return (none)
  */
-inline void delay_us(uint32_t usDelay)
+inline void delay_us(uint32_t delay_us)
 {
-	DEVICE_DELAY_US(usDelay);
+	DEVICE_DELAY_US(delay_us);
 }
 
 
