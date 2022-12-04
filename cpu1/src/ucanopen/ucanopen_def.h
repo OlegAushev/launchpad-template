@@ -26,6 +26,45 @@ namespace ucanopen {
 /// @{
 
 
+/// CAN payload
+typedef emb::Array<uint16_t, 8> can_payload;
+
+
+/**
+ * @brief
+ *
+ * @tparam T
+ * @param message
+ * @return
+ */
+template <typename T>
+inline can_payload toPayload(T message)
+{
+	static_assert(sizeof(T) <= 4);
+	can_payload payload;
+	payload.fill(0);
+	emb::c28x::to_bytes(payload.data, message);
+	return payload;
+}
+
+
+/**
+ * @brief
+ *
+ * @tparam T
+ * @param payload
+ * @return
+ */
+template <typename T>
+inline T fromPayload(can_payload payload)
+{
+	static_assert(sizeof(T) <= 4);
+	T message;
+	emb::c28x::from_bytes(message, payload.data);
+	return message;
+}
+
+
 /**
  * @brief Node ID class.
  */
