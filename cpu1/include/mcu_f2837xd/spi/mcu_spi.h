@@ -201,7 +201,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableLoopback() const
+	void enableLoopback()
 	{
 		SPI_disableModule(m_module.base);
 		SPI_enableLoopback(m_module.base);
@@ -214,7 +214,7 @@ public:
 	 * @return (none)
 	 */
 	template <typename T>
-	void recv(T& data) const
+	void recv(T& data)
 	{
 		switch (m_wordLen.native_value())
 		{
@@ -244,7 +244,7 @@ public:
 	 * @return (none)
 	 */
 	template <typename T>
-	void send(const T& data) const
+	void send(const T& data)
 	{
 		switch (m_wordLen.native_value())
 		{
@@ -273,7 +273,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerRxInterruptHandler(void (*handler)(void)) const
+	void registerRxInterruptHandler(void (*handler)(void))
 	{
 		SPI_disableModule(m_module.base);
 		Interrupt_register(m_module.pieRxIntNum, handler);
@@ -286,7 +286,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableRxInterrupts() const
+	void enableRxInterrupts()
 	{
 		Interrupt_enable(m_module.pieRxIntNum);
 	}
@@ -296,7 +296,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableRxInterrupts() const
+	void disableRxInterrupts()
 	{
 		Interrupt_disable(m_module.pieRxIntNum);
 	}
@@ -306,7 +306,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void acknowledgeRxInterrupt() const
+	void acknowledgeRxInterrupt()
 	{
 		SPI_clearInterruptStatus(m_module.base, SPI_INT_RXFF);
 		Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP6);
@@ -317,7 +317,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void resetRxFifo() const
+	void resetRxFifo()
 	{
 		SPI_resetRxFIFO(m_module.base);
 	}
@@ -327,7 +327,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void resetTxFifo() const
+	void resetTxFifo()
 	{
 		SPI_resetTxFIFO(m_module.base);
 	}

@@ -608,7 +608,7 @@ public:
 	 * @param cmpValues - compare values array pointer
 	 * @return (none)
 	 */
-	void setCompareValues(const uint16_t cmpValues[]) const
+	void setCompareValues(const uint16_t cmpValues[])
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -621,7 +621,7 @@ public:
 	/**
 	 * @overload
 	 */
-	void setCompareValues(const emb::Array<uint16_t, Phases>& cmpValues) const
+	void setCompareValues(const emb::Array<uint16_t, Phases>& cmpValues)
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -636,7 +636,7 @@ public:
 	 * @param cmpValue - compare value
 	 * @return (none)
 	 */
-	void setCompareValue(uint16_t cmpValue) const
+	void setCompareValue(uint16_t cmpValue)
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -651,7 +651,7 @@ public:
 	 * @param dutyCycles - reference to duty cycles array
 	 * @return (none)
 	 */
-	void setDutyCycles(const emb::Array<float, Phases>& dutyCycles) const
+	void setDutyCycles(const emb::Array<float, Phases>& dutyCycles)
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -666,7 +666,7 @@ public:
 	 * @param dutyCycle - duty cycle value for all modules
 	 * @return (none)
 	 */
-	void setDutyCycle(float dutyCycle) const
+	void setDutyCycle(float dutyCycle)
 	{
 		for (size_t i = 0; i < PhaseCount; ++i)
 		{
@@ -722,7 +722,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableEventInterrupts() const
+	void enableEventInterrupts()
 	{
 		EPWM_enableInterrupt(m_module.base[0]);
 	}
@@ -732,7 +732,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableTripInterrupts() const
+	void enableTripInterrupts()
 	{
 		EPWM_enableTripZoneInterrupt(m_module.base[0], EPWM_TZ_INTERRUPT_OST);
 	}
@@ -742,7 +742,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableEventInterrupts() const
+	void disableEventInterrupts()
 	{
 		EPWM_disableInterrupt(m_module.base[0]);
 	}
@@ -752,7 +752,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableTripInterrupts() const
+	void disableTripInterrupts()
 	{
 		EPWM_disableTripZoneInterrupt(m_module.base[0], EPWM_TZ_INTERRUPT_OST);
 	}
@@ -762,7 +762,7 @@ public:
 	 * @param handler - pointer to handler
 	 * @return (none)
 	 */
-	void registerEventInterruptHandler(void (*handler)(void)) const
+	void registerEventInterruptHandler(void (*handler)(void))
 	{
 		Interrupt_register(m_module.pieEventIntNum, handler);
 		Interrupt_enable(m_module.pieEventIntNum);
@@ -773,7 +773,7 @@ public:
 	 * @param handler - pointer to handler
 	 * @return (none)
 	 */
-	void registerTripInterruptHandler(void (*handler)(void)) const
+	void registerTripInterruptHandler(void (*handler)(void))
 	{
 		Interrupt_register(m_module.pieTripIntNum, handler);
 		Interrupt_enable(m_module.pieTripIntNum);
@@ -784,7 +784,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void acknowledgeEventInterrupt() const
+	void acknowledgeEventInterrupt()
 	{
 		EPWM_clearEventTriggerInterruptFlag(m_module.base[0]);
 		Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP3);
@@ -795,7 +795,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void acknowledgeTripInterrupt() const
+	void acknowledgeTripInterrupt()
 	{
 		Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP2);
 	}

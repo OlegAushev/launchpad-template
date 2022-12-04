@@ -182,7 +182,7 @@ public:
 	 * @param dataBuf - pointer to data destination buffer
 	 * @return \c true if new data was retrieved, \c false otherwise.
 	 */
-	bool recv(uint32_t objId, uint16_t* dataBuf) const
+	bool recv(uint32_t objId, uint16_t* dataBuf)
 	{
 		return CAN_readMessage(m_module.base, objId, dataBuf);
 	}
@@ -194,7 +194,7 @@ public:
 	 * @param dataLen - data length
 	 * @return (none)
 	 */
-	void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen) const
+	void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
 	{
 		CAN_sendMessage(m_module.base, objId, dataLen, dataBuf);
 	}
@@ -204,7 +204,7 @@ public:
 	 * @param msgObj - message object
 	 * @return (none)
 	 */
-	void setupMessageObject(MessageObject& msgObj) const
+	void setupMessageObject(MessageObject& msgObj)
 	{
 		CAN_setupMessageObject(m_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
 				msgObj.objType, msgObj.frameIdMask, msgObj.flags, msgObj.dataLen);
@@ -215,7 +215,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerInterruptHandler(void (*handler)(void)) const
+	void registerInterruptHandler(void (*handler)(void))
 	{
 		Interrupt_register(m_module.pieIntNum, handler);
 		CAN_enableInterrupt(m_module.base, CAN_INT_IE0 | CAN_INT_ERROR | CAN_INT_STATUS);
@@ -227,21 +227,21 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() const { Interrupt_enable(m_module.pieIntNum); }
+	void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Disables interrupts.
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() const { Interrupt_disable(m_module.pieIntNum); }
+	void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Acknowledges interrupt.
 	 * @param intCause - interrupt cause
 	 * @return (none)
 	 */
-	void acknowledgeInterrupt(uint32_t intCause) const
+	void acknowledgeInterrupt(uint32_t intCause)
 	{
 		CAN_clearInterruptStatus(m_module.base, intCause);
 		CAN_clearGlobalInterruptStatus(m_module.base, CAN_GLOBAL_INT_CANINT0);

@@ -66,9 +66,9 @@ public:
 	virtual ~IOutput() {}
 
 	virtual State read() const = 0;
-	virtual void set(State state = State::Active) const = 0;
-	virtual void reset() const = 0;
-	virtual void toggle() const = 0;
+	virtual void set(State state = State::Active) = 0;
+	virtual void reset() = 0;
+	virtual void toggle() = 0;
 };
 
 

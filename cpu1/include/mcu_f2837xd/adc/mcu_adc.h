@@ -150,7 +150,7 @@ public:
 	 * @param channel - ADC channel
 	 * @return (none)
 	 */
-	void start(ChannelName channel) const
+	void start(ChannelName channel)
 	{
 		ADC_forceSOC(s_channels[channel.underlying_value()].base, s_channels[channel.underlying_value()].soc);
 	}
@@ -173,7 +173,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() const
+	void enableInterrupts()
 	{
 		for (size_t i = 0; i < IrqName::Count; ++i)
 		{
@@ -186,7 +186,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() const
+	void disableInterrupts()
 	{
 		for (size_t i = 0; i < IrqName::Count; ++i)
 		{
@@ -200,7 +200,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerInterruptHandler(IrqName irq, void (*handler)(void)) const
+	void registerInterruptHandler(IrqName irq, void (*handler)(void))
 	{
 		Interrupt_register(s_irqs[irq.underlying_value()].pieIntNum, handler);
 	}
@@ -210,7 +210,7 @@ public:
 	 * @param irq - interrupt request
 	 * @return (none)
 	 */
-	void acknowledgeInterrupt(IrqName irq) const
+	void acknowledgeInterrupt(IrqName irq)
 	{
 		ADC_clearInterruptStatus(s_irqs[irq.underlying_value()].base, s_irqs[irq.underlying_value()].intNum);
 		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq.underlying_value()].intNum]);
@@ -221,7 +221,7 @@ public:
 	 * @param irq - interrupt request
 	 * @return \c true if the interrupt flag is set and \c false if it is not.
 	 */
-	bool interruptPending(IrqName irq)
+	bool interruptPending(IrqName irq) const
 	{
 		return ADC_getInterruptStatus(s_irqs[irq.underlying_value()].base, s_irqs[irq.underlying_value()].intNum);
 	}
@@ -284,7 +284,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void start() const
+	void start()
 	{
 		adc->start(m_channelName);
 	}

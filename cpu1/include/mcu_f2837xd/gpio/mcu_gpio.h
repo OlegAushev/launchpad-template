@@ -292,7 +292,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() const
+	void enableInterrupts()
 	{
 		GPIO_enableInterrupt(m_intNum);
 
@@ -303,7 +303,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() const
+	void disableInterrupts()
 	{
 		GPIO_disableInterrupt(m_intNum);
 	}
@@ -313,7 +313,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void acknowledgeInterrupt() const
+	void acknowledgeInterrupt()
 	{
 		Interrupt_clearACKGroup(impl::pieXIntGroups[m_intNum]);
 	}
@@ -383,7 +383,7 @@ public:
 	 * @param state - pin state
 	 * @return (none)
 	 */
-	virtual void set(emb::gpio::State state = emb::gpio::State::Active) const
+	virtual void set(emb::gpio::State state = emb::gpio::State::Active)
 	{
 		assert(m_initialized);
 		GPIO_writePin(m_conf.no, 1
@@ -395,7 +395,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	virtual void reset() const
+	virtual void reset()
 	{
 		assert(m_initialized);
 		set(emb::gpio::State::Inactive);
@@ -406,7 +406,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	virtual void toggle() const
+	virtual void toggle()
 	{
 		assert(m_initialized);
 		GPIO_togglePin(m_conf.no);

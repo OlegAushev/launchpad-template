@@ -56,25 +56,7 @@ namespace emb {
 /// @addtogroup emb
 
 
-/**
- * @brief
- */
-enum MasterSlaveMode
-{
-	ModeMaster,
-	ModeSlave
-};
 
-
-/**
- * @brief
- */
-enum ProcessStatus
-{
-	ProcessSuccess = 0,
-	ProcessFail = 1,
-	ProcessInProgress = 2,
-};
 
 
 /// @}

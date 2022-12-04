@@ -192,9 +192,7 @@ SCOPED_ENUM_DECLARE_END(TpdoType)
 
 inline CobType toCobType(TpdoType tpdoType)
 {
-	return static_cast<CobType>(
-		static_cast<unsigned int>(CobType::Tpdo1) + 2 * static_cast<unsigned int>(tpdoType.underlying_value())
-	);
+	return static_cast<CobType>(static_cast<unsigned int>(CobType::Tpdo1) + 2 * tpdoType.underlying_value());
 }
 
 

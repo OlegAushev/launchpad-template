@@ -187,7 +187,7 @@ public:
 	 * @param handler - pointer to interrupt handler
 	 * @return (none)
 	 */
-	void registerInterruptHandler(void (*handler)(void)) const
+	void registerInterruptHandler(void (*handler)(void))
 	{
 		Interrupt_register(m_module.pieIntNum, handler);
 		EQEP_enableInterrupt(m_module.base, m_module.intFlags);
@@ -198,7 +198,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() const
+	void enableInterrupts()
 	{
 		Interrupt_enable(m_module.pieIntNum);
 	}
@@ -208,7 +208,7 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() const
+	void disableInterrupts()
 	{
 		Interrupt_disable(m_module.pieIntNum);
 	}
