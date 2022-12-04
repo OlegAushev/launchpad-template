@@ -16,6 +16,7 @@
 
 #include "../ucanopen_def.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
+#include "mcu_f2837xd/can/mcu_can.h"
 
 
 namespace ucanopen {
@@ -40,7 +41,27 @@ struct IpcFlags
 /**
  * @brief uCANopen server interface.
  */
-//template typename
+template <mcu::ipc::Mode::enum_type IpcMode, mcu::ipc::Role::enum_type IpcRole>
+class IServer : public emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >
+{
+private:
+
+
+
+public:
+	IServer(NodeId nodeId, mcu::can::IModule* canModule)
+		: emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >(this)
+	{
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
+	}
+
+	IServer()
+			: emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >(this)
+	{
+		EMB_STATIC_ASSERT(IpcMode != mcu::ipc::Mode::Singlecore);
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
+	}
+};
 
 
 

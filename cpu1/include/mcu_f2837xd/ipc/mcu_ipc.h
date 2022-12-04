@@ -32,12 +32,21 @@ namespace ipc {
 
 
 ///
-SCOPED_ENUM_DECLARE_BEGIN(IpcMode)
+SCOPED_ENUM_DECLARE_BEGIN(Mode)
 {
 	Singlecore,
 	Dualcore
 }
-SCOPED_ENUM_DECLARE_END(IpcMode)
+SCOPED_ENUM_DECLARE_END(Mode)
+
+
+///
+SCOPED_ENUM_DECLARE_BEGIN(Role)
+{
+	Primary,
+	Secondary
+}
+SCOPED_ENUM_DECLARE_END(Role)
 
 
 /**
@@ -141,12 +150,12 @@ public:
 class Flag
 {
 private:
-	IpcMode m_mode;
+	Mode m_mode;
 public:
 	LocalFlag local;
 	RemoteFlag remote;
 	Flag() {}
-	explicit Flag(uint32_t flagNo, IpcMode mode)
+	explicit Flag(uint32_t flagNo, Mode mode)
 		: m_mode(mode)
 		, local(flagNo)
 		, remote(flagNo)
@@ -161,9 +170,9 @@ public:
 	{
 		switch (m_mode.native_value())
 		{
-		case mcu::ipc::IpcMode::Singlecore:
+		case mcu::ipc::Mode::Singlecore:
 			return local.check();
-		case mcu::ipc::IpcMode::Dualcore:
+		case mcu::ipc::Mode::Dualcore:
 			return remote.check();
 		}
 		return false;
@@ -178,10 +187,10 @@ public:
 	{
 		switch (m_mode.native_value())
 		{
-		case mcu::ipc::IpcMode::Singlecore:
+		case mcu::ipc::Mode::Singlecore:
 			local.reset();
 			return;
-		case mcu::ipc::IpcMode::Dualcore:
+		case mcu::ipc::Mode::Dualcore:
 			remote.acknowledge();
 			return;
 		}

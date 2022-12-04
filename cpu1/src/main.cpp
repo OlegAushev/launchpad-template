@@ -20,10 +20,7 @@
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 #include "mcu_f2837xd/chrono/mcu_chrono.h"
 #include "mcu_f2837xd/adc/mcu_adc.h"
-#include "mcu_f2837xd/can/mcu_can.h"
 #include "mcu_f2837xd/dac/mcu_dac.h"
-
-#include "mcu_f2837xd/spi/mcu_spi.h"
 
 
 #include "sys/syslog/syslog.h"
@@ -33,6 +30,9 @@
 #include "mcu_f2837xd/sci/mcu_sci.h"
 #include "cli/cli_server.h"
 #include "cli/shell/cli_shell.h"
+
+#include "mcu_f2837xd/can/mcu_can.h"
+#include "ucanopen/ucanopen_server/ucanopen_server.h"
 
 #include "bsp_launchxl_f28379d/bsp_launchxl_f28379d.h"
 #include "emb/emb_profiler/emb_profiler.h"
@@ -149,9 +149,9 @@ void main()
 
 	SysLog::IpcFlags syslogIpcFlags =
 	{
-		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
-		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
-		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
+		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::Mode::Dualcore),
+		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::Mode::Dualcore),
+		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::Mode::Dualcore)
 	};
 	SysLog::init(syslogIpcFlags);
 	SysLog::addMessage(sys::Message::DeviceCpu1BootSuccess);
@@ -213,6 +213,17 @@ void main()
 	/*# BOOT CPU2 #*/
 	/*#############*/
 #ifdef DUALCORE
+
+	cli::nextline_blocking();
+	cli::print_blocking("Transfer control over CANB to CPU2... ");
+
+	mcu::can::Module<mcu::can::Peripheral::CanB>::transferControlToCpu2(
+			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
+			mcu::gpio::Configuration(12, GPIO_12_CANTXB)
+	);
+
+	cli::print_blocking("success.");
+
 	cli::nextline_blocking();
 	cli::print_blocking("Boot CPU2... ");
 
@@ -263,10 +274,17 @@ void main()
 	cli::print_blocking("Configure CAN... ");
 
 	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
-			mcu::gpio::Configuration(17, GPIO_17_CANRXB), mcu::gpio::Configuration(12, GPIO_12_CANTXB),
+			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
+			mcu::gpio::Configuration(12, GPIO_12_CANTXB),
 			mcu::can::Bitrate::Bitrate125K,
 			mcu::can::Mode::Normal
 	);
+
+#ifdef DUALCORE
+	ucanopen::IServer<mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
+#else
+	ucanopen::IServer<mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(ucanopen::NodeId(0x42), &canB);
+#endif
 
 	cli::print_blocking("done.");
 
