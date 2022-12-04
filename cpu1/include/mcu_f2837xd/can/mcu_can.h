@@ -102,10 +102,25 @@ extern const uint32_t canPieIntNums[2];
 
 
 /**
- * @brief CAN unit class.
+ * @brief CAN module class interface.
+ */
+class IModule
+{
+public:
+	virtual bool recv(uint32_t objId, uint16_t* dataBuf) = 0;
+	virtual void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen) = 0;
+	virtual void setupMessageObject(MessageObject& msgObj) = 0;
+	virtual void registerInterruptCallback(void (*callback)(IModule*, uint32_t, uint16_t)) = 0;
+	virtual void enableInterrupts() = 0;
+	virtual void disableInterrupts() = 0;
+};
+
+
+/**
+ * @brief CAN module class.
  */
 template <Peripheral::enum_type Instance>
-class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
+class Module : public IModule, public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
 	impl::Module m_module;
@@ -119,7 +134,7 @@ public:
 	 */
 	Module(const gpio::Configuration& rxPin, const gpio::Configuration& txPin,
 			Bitrate bitrate, Mode mode)
-		: emb::c28x::interrupt_invoker<Can<Instance> >(this)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
 	{
 #ifdef CPU1
@@ -182,7 +197,7 @@ public:
 	 * @param dataBuf - pointer to data destination buffer
 	 * @return \c true if new data was retrieved, \c false otherwise.
 	 */
-	bool recv(uint32_t objId, uint16_t* dataBuf)
+	virtual bool recv(uint32_t objId, uint16_t* dataBuf)
 	{
 		return CAN_readMessage(m_module.base, objId, dataBuf);
 	}
@@ -194,7 +209,7 @@ public:
 	 * @param dataLen - data length
 	 * @return (none)
 	 */
-	void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
+	virtual void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
 	{
 		CAN_sendMessage(m_module.base, objId, dataLen, dataBuf);
 	}
@@ -204,7 +219,7 @@ public:
 	 * @param msgObj - message object
 	 * @return (none)
 	 */
-	void setupMessageObject(MessageObject& msgObj)
+	virtual void setupMessageObject(MessageObject& msgObj)
 	{
 		CAN_setupMessageObject(m_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
 				msgObj.objType, msgObj.frameIdMask, msgObj.flags, msgObj.dataLen);
@@ -223,18 +238,29 @@ public:
 	}
 
 	/**
+	 * @brief Registers interrupt callback.
+	 * @param callback - pointer to interrupt callback
+	 * @return (none)
+	 */
+	virtual void registerInterruptCallback(void (*callback)(IModule*, uint32_t, uint16_t))
+	{
+		registerInterruptHandler(onInterrupt);
+		onInterruptCallback = callback;
+	}
+
+	/**
 	 * @brief Enables interrupts.
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
+	virtual void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Disables interrupts.
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
+	virtual void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Acknowledges interrupt.
@@ -256,7 +282,23 @@ protected:
 		GPIO_setPinConfig(txPin.mux);
 	}
 #endif
+
+	static void (*onInterruptCallback)(IModule*, uint32_t, uint16_t);
+
+	static interrupt void onInterrupt()
+	{
+		uint32_t interruptCause = CAN_getInterruptCause(Module<Instance>::instance()->base());
+		uint16_t status = CAN_getStatus(Module<Instance>::instance()->base());
+
+		onInterruptCallback(Module<Instance>::instance(), interruptCause, status);
+
+		Module<Instance>::instance()->acknowledgeInterrupt(interruptCause);
+	}
 };
+
+
+template <Peripheral::enum_type Instance>
+void (*Module<Instance>::onInterruptCallback)(IModule*, uint32_t, uint16_t);
 
 
 /// @}

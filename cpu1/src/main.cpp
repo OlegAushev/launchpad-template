@@ -255,6 +255,21 @@ void main()
 
 	cli::print_blocking("done.");
 
+/*############################################################################*/
+	/*#######*/
+	/*# CAN #*/
+	/*#######*/
+	cli::nextline_blocking();
+	cli::print_blocking("Configure CAN... ");
+
+	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
+			mcu::gpio::Configuration(17, GPIO_17_CANRXB), mcu::gpio::Configuration(12, GPIO_12_CANTXB),
+			mcu::can::Bitrate::Bitrate125K,
+			mcu::can::Mode::Normal
+	);
+
+	cli::print_blocking("done.");
+
 /*####################################################################################################################*/
 	/*###############*/
 	/*# CLOCK TASKS #*/

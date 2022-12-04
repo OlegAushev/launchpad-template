@@ -120,7 +120,7 @@ extern const uint32_t spiRxPieIntNums[3];
  * @brief SPI unit class.
  */
 template <Peripheral::enum_type Instance>
-class Spi : public emb::c28x::interrupt_invoker<Spi<Instance> >, private emb::noncopyable
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
 	impl::Module m_module;
@@ -134,10 +134,10 @@ public:
 	 * @param csPin
 	 * @param conf
 	 */
-	Spi(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
+	Module(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
 			const gpio::Configuration& clkPin, const gpio::Configuration& csPin,
 			const Configuration& conf)
-		: emb::c28x::interrupt_invoker<Spi<Instance> >(this)
+		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::spiBases[Instance], impl::spiRxPieIntNums[Instance])
 	{
 		assert((conf.dataSize >= 1) && (conf.dataSize <= 16));
