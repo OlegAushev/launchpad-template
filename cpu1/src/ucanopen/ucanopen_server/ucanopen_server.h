@@ -159,8 +159,145 @@ public:
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
 	}
 
+	/**
+	 * @brief Enables server.
+	 *
+	 * @param (none)
+	 * @return (none)
+	 */
+	void enable()
+	{
+		m_canModule->enableInterrupts();
+		m_nmtState = NmtState::Operational;
+	}
+
+	/**
+	 * @brief Disables server.
+	 *
+	 * @param (none)
+	 * @return (none)
+	 */
+	void disable()
+	{
+		m_canModule->disableRxInterrupt();
+		m_nmtState = NmtState::Stopped;
+	}
+
+	/**
+	 * @brief Runs all server operations.
+	 *
+	 * @param (none)
+	 * @return (none)
+	 */
+	void run()
+	{
+		switch (IpcMode)
+		{
+		case mcu::ipc::Mode::Singlecore:
+			sendPeriodic();
+			//processRawRdo();
+			//m_rpdoService->respondToProcessedRpdo();
+			//m_sdoService->processRequest();
+			//sendSdoResponse();
+			break;
+		case mcu::ipc::Mode::Dualcore:
+			//switch (Mode)
+			//{
+			//case emb::MODE_MASTER:
+			//	processRawRdo();
+			//	runPeriodicTasks();
+			//	sendSdoResponse();
+			//	break;
+			//case emb::MODE_SLAVE:
+			//	m_rpdoService->respondToProcessedRpdo();
+			//	m_sdoService->processRequest();
+			//	break;
+			//}
+			break;
+		}
+	}
 
 protected:
+	void sendPeriodic()
+	{
+		if (m_heartbeatInfo.period != 0)
+		{
+			if (mcu::chrono::SystemClock::now() >= m_heartbeatInfo.timepoint + m_heartbeatInfo.period)
+			{
+				can_payload payload;
+				payload[0] = m_nmtState.underlying_value();
+				m_canModule->send(CobType::Heartbeat, payload.data, cobDataLen[m_nmtState.underlying_value()]);
+				m_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
+			}
+		}
+
+		for (size_t i = 0; i < m_tpdoList.size(); ++i)
+		{
+			if (m_tpdoList[i].period == 0) continue;
+			if (mcu::chrono::SystemClock::now() < m_tpdoList[i].timepoint + m_tpdoList[i].period) continue;
+
+			can_payload payload;
+			switch (i)
+			{
+			case 0:
+				payload = createTpdo1();
+				break;
+			case 1:
+				payload = createTpdo2();
+				break;
+			case 2:
+				payload = createTpdo3();
+				break;
+			case 3:
+				payload = createTpdo4();
+				break;
+			}
+
+			CobType cob = toCobType(TpdoType(i));
+			m_canModule->send(cob.underlying_value(), payload.data, cobDataLen[cob.underlying_value()]);
+			m_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * @brief Initializes message objects.
 	 *

@@ -357,6 +357,7 @@ void main()
 		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
+		canServer.run();
 	}
 }
 
