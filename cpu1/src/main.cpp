@@ -281,9 +281,25 @@ void main()
 	);
 
 #ifdef DUALCORE
+	ucanopen::IpcFlags canIpcFlags =
+	{
+		.rpdo1Reveived = mcu::ipc::Flag(4, mcu::ipc::Mode::Dualcore),
+		.rpdo2Reveived = mcu::ipc::Flag(5, mcu::ipc::Mode::Dualcore),
+		.rpdo3Reveived = mcu::ipc::Flag(6, mcu::ipc::Mode::Dualcore),
+		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
+		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore)
+	};
 	ucanopen::IServer<mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
 #else
-	ucanopen::IServer<mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(ucanopen::NodeId(0x42), &canB);
+	ucanopen::IpcFlags canIpcFlags =
+	{
+		.rpdo1Reveived = mcu::ipc::Flag(4, mcu::ipc::Mode::Singlecore),
+		.rpdo2Reveived = mcu::ipc::Flag(5, mcu::ipc::Mode::Singlecore),
+		.rpdo3Reveived = mcu::ipc::Flag(6, mcu::ipc::Mode::Singlecore),
+		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Singlecore),
+		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore)
+	};
+	ucanopen::IServer<mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(ucanopen::NodeId(0x42), &canB, canIpcFlags);
 #endif
 
 	cli::print_blocking("done.");
