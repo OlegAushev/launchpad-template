@@ -95,7 +95,7 @@ public:
 	 * @param (none)
 	 * @return \c true if local IPC flag is set, \c false otherwise.
 	 */
-	bool check()
+	bool isSet()
 	{
 		return IPCLtoRFlagBusy(m_mask);
 	}
@@ -139,7 +139,7 @@ public:
 	 * @param (none)
 	 * @return \c true if remote IPC flag is set, \c false otherwise.
 	 */
-	bool check()
+	bool isSet()
 	{
 		return IPCRtoLFlagBusy(m_mask);
 	}
@@ -185,14 +185,14 @@ public:
 	 * @param (none)
 	 * @return \c true if flag is set, \c false otherwise.
 	 */
-	bool check()
+	bool isSet()
 	{
 		switch (m_mode.native_value())
 		{
 		case mcu::ipc::Mode::Singlecore:
-			return local.check();
+			return local.isSet();
 		case mcu::ipc::Mode::Dualcore:
-			return remote.check();
+			return remote.isSet();
 		}
 		return false;
 	}

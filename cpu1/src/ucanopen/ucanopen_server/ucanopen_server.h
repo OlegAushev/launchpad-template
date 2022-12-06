@@ -109,13 +109,8 @@ protected:
 	/* RPDO */
 private:
 	emb::Array<impl::RpdoInfo, 4>* m_rpdoList;
-protected:
 	emb::Array<mcu::ipc::Flag, 4> m_rpdoReceived;
-	const emb::Array<impl::RpdoInfo, 4>& rpdoData(RpdoType type)
-	{
-		return m_rpdoList[type.underlying_value()].data;
-	}
-
+protected:
 	void registerRpdo(RpdoType type, uint64_t timeout, unsigned int id = 0)
 	{
 		m_rpdoList[type.underlying_value()].timeout = timeout;
@@ -305,27 +300,27 @@ protected:
 	 */
 	void handleRpdo()
 	{
-		if (m_rpdoReceived[RpdoType::Rpdo1].check())
+		if (m_rpdoReceived[RpdoType::Rpdo1].isSet())
 		{
-			handleRpdo1(rpdoData(RpdoType::Rpdo1));
+			handleRpdo1((*m_rpdoList)[RpdoType::Rpdo1].data);
 			m_rpdoReceived[RpdoType::Rpdo1].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo2].check())
+		if (m_rpdoReceived[RpdoType::Rpdo2].isSet())
 		{
-			handleRpdo2(rpdoData(RpdoType::Rpdo2));
+			handleRpdo2((*m_rpdoList)[RpdoType::Rpdo2].data);
 			m_rpdoReceived[RpdoType::Rpdo2].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo3].check())
+		if (m_rpdoReceived[RpdoType::Rpdo3].isSet())
 		{
-			handleRpdo3(rpdoData(RpdoType::Rpdo3));
+			handleRpdo3((*m_rpdoList)[RpdoType::Rpdo3].data);
 			m_rpdoReceived[RpdoType::Rpdo3].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo4].check())
+		if (m_rpdoReceived[RpdoType::Rpdo4].isSet())
 		{
-			handleRpdo4(rpdoData(RpdoType::Rpdo4));
+			handleRpdo4((*m_rpdoList)[RpdoType::Rpdo4].data);
 			m_rpdoReceived[RpdoType::Rpdo4].reset();
 		}
 	}
@@ -457,7 +452,7 @@ protected:
 			(*server->m_rpdoList)[rpdoIdx].timepoint = mcu::chrono::SystemClock::now();
 			(*server->m_rpdoList)[rpdoIdx].isOnSchedule = true;
 
-			if (server->m_rpdoReceived[rpdoIdx].local.check())
+			if (server->m_rpdoReceived[rpdoIdx].local.isSet())
 			{
 				SysLog::setWarning(sys::Warning::CanBusOverrun);
 			}
