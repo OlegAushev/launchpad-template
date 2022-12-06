@@ -104,18 +104,18 @@ SECTIONS
       SHARED_UCANOPEN_TPDO_DATA
       SHARED_UCANOPEN_CAN1_TSDO_DATA
       SHARED_UCANOPEN_CAN2_TSDO_DATA
-      SHARED_SYSLOG_DATA_CPU1
-      SHARED_SYSLOG_MESSAGES
-      SHARED_DRIVE2
+      shared_syslog_data_cpu1
+      shared_syslog_messages
    }
 
    GROUP : > RAMGS10
    {
-      SHARED_UCANOPEN_RPDO_DATA
+      shared_ucanopen_cana_rpdo_data
+      shared_ucanopen_canb_rpdo_data
       SHARED_UCANOPEN_CAN1_RSDO_DATA
       SHARED_UCANOPEN_CAN2_RSDO_DATA
-      SHARED_SYSLOG_DATA_CPU2
-      SHARED_SYSLOG_MESSAGE_CPU2
+      shared_syslog_data_cpu2
+      shared_syslog_message_cpu2
    }
    // USER END
 

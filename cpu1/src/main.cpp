@@ -277,8 +277,7 @@ void main()
 			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
 			mcu::gpio::Configuration(12, GPIO_12_CANTXB),
 			mcu::can::Bitrate::Bitrate125K,
-			mcu::can::Mode::Normal
-	);
+			mcu::can::Mode::Normal);
 
 #ifdef DUALCORE
 	ucanopen::IpcFlags canIpcFlags =
@@ -289,17 +288,18 @@ void main()
 		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
 		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore)
 	};
-	ucanopen::IServer<mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
+	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
 #else
 	ucanopen::IpcFlags canIpcFlags =
 	{
-		.rpdo1Reveived = mcu::ipc::Flag(4, mcu::ipc::Mode::Singlecore),
-		.rpdo2Reveived = mcu::ipc::Flag(5, mcu::ipc::Mode::Singlecore),
-		.rpdo3Reveived = mcu::ipc::Flag(6, mcu::ipc::Mode::Singlecore),
-		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Singlecore),
-		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore)
+		.rpdo1Received = mcu::ipc::Flag(4, mcu::ipc::Mode::Singlecore),
+		.rpdo2Received = mcu::ipc::Flag(5, mcu::ipc::Mode::Singlecore),
+		.rpdo3Received = mcu::ipc::Flag(6, mcu::ipc::Mode::Singlecore),
+		.rpdo4Received = mcu::ipc::Flag(7, mcu::ipc::Mode::Singlecore),
+		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore)
 	};
-	ucanopen::IServer<mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(ucanopen::NodeId(0x42), &canB, canIpcFlags);
+	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
+			ucanopen::NodeId(0x42), &canB, canIpcFlags);
 #endif
 
 	cli::print_blocking("done.");

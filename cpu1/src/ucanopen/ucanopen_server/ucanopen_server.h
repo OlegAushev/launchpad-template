@@ -14,10 +14,12 @@
 #pragma once
 
 
+#include <new>
 #include "../ucanopen_def.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 #include "mcu_f2837xd/can/mcu_can.h"
 #include "mcu_f2837xd/chrono/mcu_chrono.h"
+#include "sys/syslog/syslog.h"
 
 
 namespace ucanopen {
@@ -31,46 +33,68 @@ namespace ucanopen {
  */
 struct IpcFlags
 {
-	mcu::ipc::Flag rpdo1Reveived;
-	mcu::ipc::Flag rpdo2Reveived;
-	mcu::ipc::Flag rpdo3Reveived;
-	mcu::ipc::Flag rpdo4Reveived;
-	mcu::ipc::Flag rsdoReveived;
+	mcu::ipc::Flag rpdo1Received;
+	mcu::ipc::Flag rpdo2Received;
+	mcu::ipc::Flag rpdo3Received;
+	mcu::ipc::Flag rpdo4Received;
+	mcu::ipc::Flag rsdoReceived;
 };
+
+
+namespace impl {
+
+
+struct HeartbeatInfo
+{
+	uint64_t period;
+	uint64_t timepoint;
+};
+
+
+struct TpdoInfo
+{
+	uint64_t period;
+	uint64_t timepoint;
+};
+
+
+struct RpdoInfo
+{
+	unsigned int id;
+	uint64_t timeout;
+	uint64_t timepoint;
+	bool isOnSchedule;
+	can_payload data;
+};
+
+
+extern unsigned char cana_rpdoinfo_dualcore_alloc[sizeof(emb::Array<impl::RpdoInfo, 4>)];
+extern unsigned char canb_rpdoinfo_dualcore_alloc[sizeof(emb::Array<impl::RpdoInfo, 4>)];
+
+
+} // namespace impl
 
 
 /**
  * @brief uCANopen server interface.
  */
-template <mcu::ipc::Mode::enum_type IpcMode, mcu::ipc::Role::enum_type IpcRole>
-class IServer : public emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >
+template <mcu::can::Peripheral::enum_type CanPeripheral, mcu::ipc::Mode::enum_type IpcMode, mcu::ipc::Role::enum_type IpcRole>
+class IServer : public emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >
 {
 private:
 	NodeId m_nodeId;
-	mcu::can::IModule* m_canModule;
+	mcu::can::Module<CanPeripheral>* m_canModule;
 	NmtState m_nmtState;
 
 	emb::Array<mcu::can::MessageObject, cobTypeCount> m_messageObjects;
 
-	IpcFlags m_ipcFlags;
-
 	/* HEARTBEAT */
 private:
-	struct HeartbeatInfo
-	{
-		uint64_t period;
-		uint64_t timepoint;
-	};
-	HeartbeatInfo m_heartbeatInfo;
+	impl::HeartbeatInfo m_heartbeatInfo;
 
 	/* TPDO */
 private:
-	struct TpdoInfo
-	{
-		uint64_t period;
-		uint64_t timepoint;
-	};
-	emb::Array<TpdoInfo, 4> m_tpdoList;
+	emb::Array<impl::TpdoInfo, 4> m_tpdoList;
 protected:
 	void registerTpdo(TpdoType type, uint64_t period)
 	{
@@ -84,16 +108,14 @@ protected:
 
 	/* RPDO */
 private:
-	struct RpdoInfo
-	{
-		unsigned int id;
-		uint64_t timeout;
-		uint64_t timepoint;
-		bool isOnSchedule;
-		bool isUnprocessed;
-	};
-	emb::Array<RpdoInfo, 4> m_rpdoList;
+	emb::Array<impl::RpdoInfo, 4>* m_rpdoList;
 protected:
+	emb::Array<mcu::ipc::Flag, 4> m_rpdoReceived;
+	const emb::Array<impl::RpdoInfo, 4>& rpdoData(RpdoType type)
+	{
+		return m_rpdoList[type.underlying_value()].data;
+	}
+
 	void registerRpdo(RpdoType type, uint64_t timeout, unsigned int id = 0)
 	{
 		m_rpdoList[type.underlying_value()].timeout = timeout;
@@ -105,22 +127,22 @@ protected:
 		}
 	}
 
-	virtual void handleRpdo1(can_payload data) {}
-	virtual void handleRpdo2(can_payload data) {}
-	virtual void handleRpdo3(can_payload data) {}
-	virtual void handleRpdo4(can_payload data) {}
+	virtual void handleRpdo1(const can_payload& data) {}
+	virtual void handleRpdo2(const can_payload& data) {}
+	virtual void handleRpdo3(const can_payload& data) {}
+	virtual void handleRpdo4(const can_payload& data) {}
 
 public:
 
-	IServer(NodeId nodeId, mcu::can::IModule* canModule, const IpcFlags& ipcFlags)
-		: emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >(this)
+	IServer(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags)
+		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, m_nodeId(nodeId)
 		, m_canModule(canModule)
-		, m_ipcFlags(ipcFlags)
 	{
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
 		m_nmtState = NmtState::Initializing;
 
+		initAllocation();
 		initMessageObjects();
 
 		for (size_t i = 1; i < cobTypeCount; ++i)	// count from 1 - skip dummy COB
@@ -129,19 +151,26 @@ public:
 		}
 
 		m_heartbeatInfo.period = 1000; // default HB period = 1000ms
+
 		for (size_t i = 0; i < m_tpdoList.size(); ++i)
 		{
 			m_tpdoList[i].period = 0;
 			m_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
 		}
-		for (size_t i = 0; i < m_rpdoList.size(); ++i)
+
+		for (size_t i = 0; i < m_rpdoList->size(); ++i)
 		{
-			m_rpdoList[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId.value());
-			m_rpdoList[i].timeout = 0;
-			m_rpdoList[i].timepoint = mcu::chrono::SystemClock::now();
-			m_rpdoList[i].isOnSchedule = false;
-			m_rpdoList[i].isUnprocessed = false;
+			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId.value());
+			(*m_rpdoList)[i].timeout = 0;
+			(*m_rpdoList)[i].timepoint = mcu::chrono::SystemClock::now();
+			(*m_rpdoList)[i].isOnSchedule = false;
 		}
+
+		m_rpdoReceived[CobType::Rpdo1] = ipcFlags.rpdo1Received;
+		m_rpdoReceived[CobType::Rpdo2] = ipcFlags.rpdo2Received;
+		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
+		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
+
 
 		m_canModule->registerInterruptCallback(onFrameReceived);
 
@@ -150,13 +179,20 @@ public:
 
 
 	IServer(const IpcFlags& ipcFlags)
-		: emb::c28x::interrupt_invoker<IServer<IpcMode, IpcRole> >(this)
+		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, m_nodeId(NodeId(0))
 		, m_canModule(NULL)
 		, m_ipcFlags(ipcFlags)
 	{
 		EMB_STATIC_ASSERT(IpcMode != mcu::ipc::Mode::Singlecore);
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
+
+		initAllocation();
+
+		m_rpdoReceived[CobType::Rpdo1] = ipcFlags.rpdo1Received;
+		m_rpdoReceived[CobType::Rpdo2] = ipcFlags.rpdo2Received;
+		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
+		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
 	}
 
 	/**
@@ -179,7 +215,7 @@ public:
 	 */
 	void disable()
 	{
-		m_canModule->disableRxInterrupt();
+		m_canModule->disableInterrupts();
 		m_nmtState = NmtState::Stopped;
 	}
 
@@ -195,29 +231,33 @@ public:
 		{
 		case mcu::ipc::Mode::Singlecore:
 			sendPeriodic();
+			handleRpdo();
 			//processRawRdo();
-			//m_rpdoService->respondToProcessedRpdo();
 			//m_sdoService->processRequest();
 			//sendSdoResponse();
 			break;
 		case mcu::ipc::Mode::Dualcore:
-			//switch (Mode)
-			//{
-			//case emb::MODE_MASTER:
+			switch (IpcRole)
+			{
+			case mcu::ipc::Role::Primary:
+				sendPeriodic();
 			//	processRawRdo();
-			//	runPeriodicTasks();
 			//	sendSdoResponse();
-			//	break;
-			//case emb::MODE_SLAVE:
-			//	m_rpdoService->respondToProcessedRpdo();
+				break;
+			case mcu::ipc::Role::Secondary:
+				handleRpdo();
 			//	m_sdoService->processRequest();
-			//	break;
-			//}
+				break;
+			}
 			break;
 		}
 	}
 
 protected:
+	/**
+	 * @brief
+	 *
+	 */
 	void sendPeriodic()
 	{
 		if (m_heartbeatInfo.period != 0)
@@ -259,44 +299,69 @@ protected:
 		}
 	}
 
+	/**
+	 * @brief
+	 *
+	 */
+	void handleRpdo()
+	{
+		if (m_rpdoReceived[RpdoType::Rpdo1].check())
+		{
+			handleRpdo1(rpdoData(RpdoType::Rpdo1));
+			m_rpdoReceived[RpdoType::Rpdo1].reset();
+		}
 
+		if (m_rpdoReceived[RpdoType::Rpdo2].check())
+		{
+			handleRpdo2(rpdoData(RpdoType::Rpdo2));
+			m_rpdoReceived[RpdoType::Rpdo2].reset();
+		}
 
+		if (m_rpdoReceived[RpdoType::Rpdo3].check())
+		{
+			handleRpdo3(rpdoData(RpdoType::Rpdo3));
+			m_rpdoReceived[RpdoType::Rpdo3].reset();
+		}
 
+		if (m_rpdoReceived[RpdoType::Rpdo4].check())
+		{
+			handleRpdo4(rpdoData(RpdoType::Rpdo4));
+			m_rpdoReceived[RpdoType::Rpdo4].reset();
+		}
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * @brief Initializes shared or non-shared objects.
+	 *
+	 */
+	void initAllocation()
+	{
+		switch (CanPeripheral)
+		{
+		case mcu::can::Peripheral::CanA:
+			switch (IpcMode)
+			{
+			case mcu::ipc::Mode::Singlecore:
+				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				break;
+			case mcu::ipc::Mode::Dualcore:
+				m_rpdoList = new(impl::cana_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				break;
+			}
+			break;
+		case mcu::can::Peripheral::CanB:
+			switch (IpcMode)
+			{
+			case mcu::ipc::Mode::Singlecore:
+				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				break;
+			case mcu::ipc::Mode::Dualcore:
+				m_rpdoList = new(impl::canb_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				break;
+			}
+			break;
+		}
+	}
 
 	/**
 	 * @brief Initializes message objects.
@@ -358,9 +423,62 @@ protected:
 	 * @brief
 	 *
 	 */
-	static void onFrameReceived(mcu::can::IModule* canModule, uint32_t interruptCause, uint16_t status)
+	static void onFrameReceived(mcu::can::Module<CanPeripheral>* canModule, uint32_t interruptCause, uint16_t status)
 	{
+		IServer<CanPeripheral, IpcMode, IpcRole>* server = IServer<CanPeripheral, IpcMode, IpcRole>::instance();
 
+		switch (interruptCause)
+		{
+		case CAN_INT_INT0ID_STATUS:
+			switch (status)
+			{
+			case CAN_STATUS_PERR:
+			case CAN_STATUS_BUS_OFF:
+			case CAN_STATUS_EWARN:
+			case CAN_STATUS_LEC_BIT1:
+			case CAN_STATUS_LEC_BIT0:
+			case CAN_STATUS_LEC_CRC:
+				SysLog::setWarning(sys::Warning::CanBusError);
+				break;
+			default:
+				break;
+			}
+			break;
+
+		case CobType::Rpdo1:
+		case CobType::Rpdo2:
+		case CobType::Rpdo3:
+		case CobType::Rpdo4:
+		{
+			SysLog::resetWarning(sys::Warning::CanBusError);
+
+			size_t rpdoIdx = (interruptCause - static_cast<size_t>(CobType::Rpdo1)) / 2;
+
+			(*server->m_rpdoList)[rpdoIdx].timepoint = mcu::chrono::SystemClock::now();
+			(*server->m_rpdoList)[rpdoIdx].isOnSchedule = true;
+
+			if (server->m_rpdoReceived[rpdoIdx].local.check())
+			{
+				SysLog::setWarning(sys::Warning::CanBusOverrun);
+			}
+			else
+			{
+				// there is no unprocessed RPDO of this type
+				canModule->recv(interruptCause, (*server->m_rpdoList)[rpdoIdx].data.data);
+				server->m_rpdoReceived[rpdoIdx].local.set();
+			}
+		}
+
+		case CobType::Rsdo:
+		{
+			SysLog::resetWarning(sys::Warning::CanBusError);
+
+			break;
+		}
+
+		default:
+			break;
+		}
 	}
 };
 

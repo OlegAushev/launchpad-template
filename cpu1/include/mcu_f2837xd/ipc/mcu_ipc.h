@@ -64,6 +64,12 @@ public:
 		assert(flagNo < 32);
 	}
 
+	void init(uint32_t flagNo)
+	{
+		assert(flagNo < 32);
+		m_mask = 1UL << flagNo;
+	}
+
 	/**
 	 * @brief Sends IPC signal by setting local IPC flag.
 	 * @param (none)
@@ -109,6 +115,12 @@ public:
 		: m_mask(1UL << flagNo)
 	{
 		assert(flagNo < 32);
+	}
+
+	void init(uint32_t flagNo)
+	{
+		assert(flagNo < 32);
+		m_mask = 1UL << flagNo;
 	}
 
 	/**
@@ -160,6 +172,13 @@ public:
 		, local(flagNo)
 		, remote(flagNo)
 	{}
+
+	void init(uint32_t flagNo, Mode mode)
+	{
+		m_mode = mode;
+		local.init(flagNo);
+		remote.init(flagNo);
+	}
 
 	/**
 	 * @brief Checks if local or remote (according to ipc mode) flag is set.

@@ -37,7 +37,8 @@ const uint32_t fatalErrors = 0;
 /// System warnings
 SCOPED_ENUM_UT_DECLARE_BEGIN(Warning, uint32_t)
 {
-
+	CanBusError,
+	CanBusOverrun,
 }
 SCOPED_ENUM_DECLARE_END(Warning)
 

@@ -75,7 +75,6 @@ struct MessageObject
 	uint32_t frameIdMask;
 	uint32_t flags;
 	uint16_t dataLen;
-	uint16_t data[8];
 };
 
 
@@ -102,25 +101,10 @@ extern const uint32_t canPieIntNums[2];
 
 
 /**
- * @brief CAN module class interface.
- */
-class IModule
-{
-public:
-	virtual bool recv(uint32_t objId, uint16_t* dataBuf) = 0;
-	virtual void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen) = 0;
-	virtual void setupMessageObject(MessageObject& msgObj) = 0;
-	virtual void registerInterruptCallback(void (*callback)(IModule*, uint32_t, uint16_t)) = 0;
-	virtual void enableInterrupts() = 0;
-	virtual void disableInterrupts() = 0;
-};
-
-
-/**
  * @brief CAN module class.
  */
 template <Peripheral::enum_type Instance>
-class Module : public IModule, public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
+class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
 	impl::Module m_module;
@@ -197,7 +181,7 @@ public:
 	 * @param dataBuf - pointer to data destination buffer
 	 * @return \c true if new data was retrieved, \c false otherwise.
 	 */
-	virtual bool recv(uint32_t objId, uint16_t* dataBuf)
+	bool recv(uint32_t objId, uint16_t* dataBuf)
 	{
 		return CAN_readMessage(m_module.base, objId, dataBuf);
 	}
@@ -209,7 +193,7 @@ public:
 	 * @param dataLen - data length
 	 * @return (none)
 	 */
-	virtual void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
+	void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
 	{
 		CAN_sendMessage(m_module.base, objId, dataLen, dataBuf);
 	}
@@ -219,7 +203,7 @@ public:
 	 * @param msgObj - message object
 	 * @return (none)
 	 */
-	virtual void setupMessageObject(MessageObject& msgObj)
+	void setupMessageObject(MessageObject& msgObj)
 	{
 		CAN_setupMessageObject(m_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
 				msgObj.objType, msgObj.frameIdMask, msgObj.flags, msgObj.dataLen);
@@ -242,7 +226,7 @@ public:
 	 * @param callback - pointer to interrupt callback
 	 * @return (none)
 	 */
-	virtual void registerInterruptCallback(void (*callback)(IModule*, uint32_t, uint16_t))
+	void registerInterruptCallback(void (*callback)(Module*, uint32_t, uint16_t))
 	{
 		registerInterruptHandler(onInterrupt);
 		onInterruptCallback = callback;
@@ -253,14 +237,14 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	virtual void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
+	void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Disables interrupts.
 	 * @param (none)
 	 * @return (none)
 	 */
-	virtual void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
+	void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
 
 	/**
 	 * @brief Acknowledges interrupt.
@@ -283,7 +267,7 @@ protected:
 	}
 #endif
 
-	static void (*onInterruptCallback)(IModule*, uint32_t, uint16_t);
+	static void (*onInterruptCallback)(Module*, uint32_t, uint16_t);
 
 	static interrupt void onInterrupt()
 	{
@@ -298,7 +282,7 @@ protected:
 
 
 template <Peripheral::enum_type Instance>
-void (*Module<Instance>::onInterruptCallback)(IModule*, uint32_t, uint16_t);
+void (*Module<Instance>::onInterruptCallback)(Module*, uint32_t, uint16_t);
 
 
 /// @}
