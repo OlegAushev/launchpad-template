@@ -175,6 +175,7 @@ public:
 
 		// heartbeat setup
 		m_heartbeatInfo.period = 1000; // default HB period = 1000ms
+		m_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
 
 		// tpdo setup
 		for (size_t i = 0; i < m_tpdoList.size(); ++i)
@@ -192,10 +193,10 @@ public:
 			(*m_rpdoList)[i].isOnSchedule = false;
 		}
 
-		m_rpdoReceived[CobType::Rpdo1] = ipcFlags.rpdo1Received;
-		m_rpdoReceived[CobType::Rpdo2] = ipcFlags.rpdo2Received;
-		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
-		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
+		m_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
+		m_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
+		m_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
+		m_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
 
 		// sdo setup
 		initObjectDictionary();
@@ -227,10 +228,10 @@ public:
 
 		initAllocation();
 
-		m_rpdoReceived[CobType::Rpdo1] = ipcFlags.rpdo1Received;
-		m_rpdoReceived[CobType::Rpdo2] = ipcFlags.rpdo2Received;
-		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
-		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
+		m_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
+		m_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
+		m_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
+		m_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
 
 		initObjectDictionary();
 		m_rsdoReceived = ipcFlags.rsdoReceived;
@@ -306,7 +307,7 @@ private:
 			{
 				can_payload payload;
 				payload[0] = m_nmtState.underlying_value();
-				m_canModule->send(CobType::Heartbeat, payload.data, cobDataLen[m_nmtState.underlying_value()]);
+				m_canModule->send(CobType::Heartbeat, payload.data, cobDataLen[CobType::Heartbeat]);
 				m_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
 			}
 		}
@@ -560,6 +561,11 @@ private:
 				= m_messageObjects[CobType::Rpdo4].flags
 				= m_messageObjects[CobType::Rsdo].flags
 				= CAN_MSG_OBJ_RX_INT_ENABLE;
+
+		for (size_t i = 1; i < cobTypeCount; ++i)
+		{
+			m_canModule->setupMessageObject(m_messageObjects[i]);
+		}
 	}
 
 	/**

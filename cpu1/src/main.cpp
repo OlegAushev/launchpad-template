@@ -48,7 +48,7 @@ const char* SysInfo::deviceNameShort = "C28x";
 const char* SysInfo::firmwareVersion = GIT_DESCRIBE;
 const uint32_t SysInfo::firmwareVersionNum = GIT_COMMIT_NUM;
 
-#if defined(TEST_BUILD)
+#if defined(ON_TARGET_TEST_BUILD)
 const char* SysInfo::buildConfiguration = "TEST";
 const char* SysInfo::buildConfigurationShort = "TEST";
 #elif defined(DEBUG)
@@ -238,7 +238,7 @@ void main()
 	cli::print_blocking("success.");
 #else
 	cli::nextline_blocking();
-	cli::print_blocking("CPU2 is disabled. CPU2 boot skipped.");
+	cli::print_blocking("CPU2 is disabled. CPU2 boot is skipped.");
 #endif
 
 /*############################################################################*/
@@ -304,7 +304,8 @@ void main()
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Singlecore)
 	};
 	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
-			ucanopen::NodeId(0x42), &canB, canIpcFlags, NULL, 0);
+			ucanopen::NodeId(0x142), &canB, canIpcFlags,
+			ucanopen::tests::objectDictionary, ucanopen::tests::objectDictionaryLen);
 #endif
 
 	cli::print_blocking("done.");
@@ -357,12 +358,16 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("Device is ready!");
 
+	canServer.enable();
+
 	while (true)
 	{
 		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
-		canServer.run();
+		//canServer.run();
+		uint16_t buf[] = {0x05};
+		canB.send(15, buf, 1);
 	}
 }
 

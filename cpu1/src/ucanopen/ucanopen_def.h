@@ -112,6 +112,7 @@ SCOPED_ENUM_DECLARE_END(NmtState)
 
 SCOPED_ENUM_DECLARE_BEGIN(CobType)
 {
+	Dummy,
 	Nmt,
 	Sync,
 	Emcy,
