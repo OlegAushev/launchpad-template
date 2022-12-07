@@ -299,7 +299,7 @@ void main()
 		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore)
 	};
 	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
-			ucanopen::NodeId(0x42), &canB, canIpcFlags);
+			ucanopen::NodeId(0x42), &canB, canIpcFlags, NULL, 0);
 #endif
 
 	cli::print_blocking("done.");

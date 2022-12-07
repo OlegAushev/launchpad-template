@@ -15,6 +15,7 @@
 
 
 #include <new>
+#include <algorithm>
 #include "../ucanopen_def.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 #include "mcu_f2837xd/can/mcu_can.h"
@@ -127,12 +128,24 @@ protected:
 	virtual void handleRpdo3(const can_payload& data) {}
 	virtual void handleRpdo4(const can_payload& data) {}
 
+	/* SDO */
+private:
+	ODEntry* m_dictionary;
+	size_t m_dictionaryLen;
+
+
+
+
+
 public:
 
-	IServer(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags)
+	IServer(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags,
+			ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, m_nodeId(nodeId)
 		, m_canModule(canModule)
+		, m_dictionary(objectDictionary)
+		, m_dictionaryLen(objectDictionaryLen)
 	{
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
 		m_nmtState = NmtState::Initializing;
@@ -145,14 +158,17 @@ public:
 			m_canModule->setupMessageObject(m_messageObjects[i]);
 		}
 
+		// heartbeat setup
 		m_heartbeatInfo.period = 1000; // default HB period = 1000ms
 
+		// tpdo setup
 		for (size_t i = 0; i < m_tpdoList.size(); ++i)
 		{
 			m_tpdoList[i].period = 0;
 			m_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
 		}
 
+		// rpdo setup
 		for (size_t i = 0; i < m_rpdoList->size(); ++i)
 		{
 			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId.value());
@@ -166,6 +182,8 @@ public:
 		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
 		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
 
+		// sdo setup
+		initObjectDictionary();
 
 		m_canModule->registerInterruptCallback(onFrameReceived);
 
@@ -173,11 +191,13 @@ public:
 	}
 
 
-	IServer(const IpcFlags& ipcFlags)
+	IServer(const IpcFlags& ipcFlags, ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, m_nodeId(NodeId(0))
 		, m_canModule(NULL)
 		, m_ipcFlags(ipcFlags)
+		, m_dictionary(objectDictionary)
+		, m_dictionaryLen(objectDictionaryLen)
 	{
 		EMB_STATIC_ASSERT(IpcMode != mcu::ipc::Mode::Singlecore);
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
@@ -188,6 +208,8 @@ public:
 		m_rpdoReceived[CobType::Rpdo2] = ipcFlags.rpdo2Received;
 		m_rpdoReceived[CobType::Rpdo3] = ipcFlags.rpdo3Received;
 		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
+
+		initObjectDictionary();
 	}
 
 	/**
@@ -413,6 +435,70 @@ protected:
 				= m_messageObjects[CobType::Rsdo].flags
 				= CAN_MSG_OBJ_RX_INT_ENABLE;
 	}
+
+	/**
+	 * @brief
+	 *
+	 */
+	void initObjectDictionary()
+	{
+		if (IpcMode == mcu::ipc::Mode::Dualcore
+				&& IpcRole == mcu::ipc::Role::Primary)
+		{
+			assert(m_dictionary == NULL);
+			return;
+		}
+
+		assert(m_dictionary != NULL);
+
+		std::sort(m_dictionary, m_dictionary + m_dictionaryLen);
+
+		// Check OBJECT DICTIONARY correctness
+		for (size_t i = 0; i < m_dictionaryLen; ++i)
+		{
+			// OD is sorted
+			if (i < (m_dictionaryLen - 1))
+			{
+				assert(m_dictionary[i] < m_dictionary[i+1]);
+			}
+
+			for (size_t j = i+1; j < m_dictionaryLen; ++j)
+			{
+				// no od-entries with equal {index, subinex}
+				assert((m_dictionary[i].key.index != m_dictionary[j].key.index)
+					|| (m_dictionary[i].key.subindex != m_dictionary[j].key.subindex));
+
+				// no od-entries with equal {category, subcategory, name}
+				bool categoryEqual = ((strcmp(m_dictionary[i].value.category, m_dictionary[j].value.category) == 0) ? true : false);
+				bool subcategoryEqual = ((strcmp(m_dictionary[i].value.subcategory, m_dictionary[j].value.subcategory) == 0) ? true : false);
+				bool nameEqual = ((strcmp(m_dictionary[i].value.name, m_dictionary[j].value.name) == 0) ? true : false);
+				assert(!categoryEqual || !subcategoryEqual || !nameEqual);
+			}
+
+			if (m_dictionary[i].hasReadAccess())
+			{
+				assert((m_dictionary[i].value.readAccessFunc != OD_NO_INDIRECT_READ_ACCESS)
+						|| (m_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
+			}
+			else
+			{
+				assert(m_dictionary[i].value.readAccessFunc == OD_NO_INDIRECT_READ_ACCESS
+						&& (m_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
+			}
+
+			if (m_dictionary[i].hasWriteAccess())
+			{
+				assert(m_dictionary[i].value.writeAccessFunc != OD_NO_INDIRECT_WRITE_ACCESS
+						|| (m_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
+			}
+			else
+			{
+				assert(m_dictionary[i].value.writeAccessFunc == OD_NO_INDIRECT_WRITE_ACCESS
+						&& (m_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
+			}
+		}
+	}
+
 
 	/**
 	 * @brief
