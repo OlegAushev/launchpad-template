@@ -39,6 +39,7 @@ struct IpcFlags
 	mcu::ipc::Flag rpdo3Received;
 	mcu::ipc::Flag rpdo4Received;
 	mcu::ipc::Flag rsdoReceived;
+	mcu::ipc::Flag tsdoReady;
 };
 
 
@@ -71,6 +72,12 @@ struct RpdoInfo
 
 extern unsigned char cana_rpdoinfo_dualcore_alloc[sizeof(emb::Array<impl::RpdoInfo, 4>)];
 extern unsigned char canb_rpdoinfo_dualcore_alloc[sizeof(emb::Array<impl::RpdoInfo, 4>)];
+
+extern unsigned char cana_rsdo_dualcore_alloc[sizeof(can_payload)];
+extern unsigned char canb_rsdo_dualcore_alloc[sizeof(can_payload)];
+
+extern unsigned char cana_tsdo_dualcore_alloc[sizeof(can_payload)];
+extern unsigned char canb_tsdo_dualcore_alloc[sizeof(can_payload)];
 
 
 } // namespace impl
@@ -132,13 +139,21 @@ protected:
 private:
 	ODEntry* m_dictionary;
 	size_t m_dictionaryLen;
-
-
-
-
+	mcu::ipc::Flag m_rsdoReceived;
+	mcu::ipc::Flag m_tsdoReady;
+	can_payload* m_rsdoData;
+	can_payload* m_tsdoData;
 
 public:
-
+	/**
+	 * @brief
+	 *
+	 * @param nodeId
+	 * @param canModule
+	 * @param ipcFlags
+	 * @param objectDictionary
+	 * @param objectDictionaryLen
+	 */
 	IServer(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags,
 			ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
@@ -184,13 +199,21 @@ public:
 
 		// sdo setup
 		initObjectDictionary();
+		m_rsdoReceived = ipcFlags.rsdoReceived;
+		m_tsdoReady = ipcFlags.tsdoReady;
 
 		m_canModule->registerInterruptCallback(onFrameReceived);
 
 		m_nmtState = NmtState::PreOperational;
 	}
 
-
+	/**
+	 * @brief
+	 *
+	 * @param ipcFlags
+	 * @param objectDictionary
+	 * @param objectDictionaryLen
+	 */
 	IServer(const IpcFlags& ipcFlags, ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, m_nodeId(NodeId(0))
@@ -210,6 +233,8 @@ public:
 		m_rpdoReceived[CobType::Rpdo4] = ipcFlags.rpdo4Received;
 
 		initObjectDictionary();
+		m_rsdoReceived = ipcFlags.rsdoReceived;
+		m_tsdoReady = ipcFlags.tsdoReady;
 	}
 
 	/**
@@ -249,28 +274,26 @@ public:
 		case mcu::ipc::Mode::Singlecore:
 			sendPeriodic();
 			handleRpdo();
-			//processRawRdo();
-			//m_sdoService->processRequest();
-			//sendSdoResponse();
+			handleRsdo();
+			sendTsdo();
 			break;
 		case mcu::ipc::Mode::Dualcore:
 			switch (IpcRole)
 			{
 			case mcu::ipc::Role::Primary:
 				sendPeriodic();
-			//	processRawRdo();
-			//	sendSdoResponse();
+				sendTsdo();
 				break;
 			case mcu::ipc::Role::Secondary:
 				handleRpdo();
-			//	m_sdoService->processRequest();
+				handleRsdo();
 				break;
 			}
 			break;
 		}
 	}
 
-protected:
+private:
 	/**
 	 * @brief
 	 *
@@ -348,6 +371,101 @@ protected:
 	}
 
 	/**
+	 * @brief
+	 *
+	 * @param data
+	 */
+	void handleRsdo()
+	{
+		if (!m_rsdoReceived.isSet()) return;
+
+		ODAccessStatus status = ODAccessStatus::NoAccess;
+		ODEntry* dictionaryEnd = m_dictionary + m_dictionaryLen;
+
+		CobSdo rsdo = fromPayload<CobSdo>(*m_rsdoData);
+		CobSdo tsdo;
+
+		m_rsdoReceived.reset();
+
+		const ODEntry* odEntry = emb::binary_find(m_dictionary, dictionaryEnd,
+				ODEntryKeyAux(rsdo.index, rsdo.subindex));
+
+		if (odEntry == dictionaryEnd) return;	// OD-entry not found
+
+		if (rsdo.cs == cs_codes::sdoCcsRead)
+		{
+			if ((odEntry->value.dataPtr != OD_NO_DIRECT_ACCESS) && odEntry->hasReadAccess())
+			{
+				memcpy(&tsdo.data.u32, odEntry->value.dataPtr, odEntryDataSizes[odEntry->value.dataType]);
+				status = ODAccessStatus::Success;
+			}
+			else
+			{
+				status = odEntry->value.readAccessFunc(tsdo.data);
+			}
+		}
+		else if (rsdo.cs == cs_codes::sdoCcsWrite)
+		{
+			if ((odEntry->value.dataPtr != OD_NO_DIRECT_ACCESS) && odEntry->hasWriteAccess())
+			{
+				memcpy(odEntry->value.dataPtr, &rsdo.data.u32, odEntryDataSizes[odEntry->value.dataType]);
+				status = ODAccessStatus::Success;
+			}
+			else
+			{
+				status = odEntry->value.writeAccessFunc(rsdo.data);
+			}
+		}
+		else
+		{
+			return;
+		}
+
+		switch (status.underlying_value())
+		{
+		case ODAccessStatus::Success:
+			tsdo.index = rsdo.index;
+			tsdo.subindex = rsdo.subindex;
+			if (rsdo.cs == cs_codes::sdoCcsRead)
+			{
+				tsdo.cs = cs_codes::sdoScsRead;		// read/upload response
+				tsdo.expeditedTransfer = 1;
+				tsdo.dataSizeIndicated = 1;
+				tsdo.dataEmptyBytes = 0;
+			}
+			else if (rsdo.cs == cs_codes::sdoCcsWrite)
+			{
+				tsdo.cs = cs_codes::sdoScsWrite;	// write/download response
+				tsdo.expeditedTransfer = 0;
+				tsdo.dataSizeIndicated = 0;
+				tsdo.dataEmptyBytes = 0;
+			}
+			else
+			{
+				return;
+			}
+			toPayload<CobSdo>(*m_tsdoData, tsdo);
+			m_tsdoReady.local.set();
+			break;
+
+		case ODAccessStatus::Fail:
+		case ODAccessStatus::NoAccess:
+			return;
+		}
+	}
+
+	/**
+	 * @brief
+	 *
+	 */
+	void sendTsdo()
+	{
+		if (!m_tsdoReady.isSet()) return;
+		m_canModule->send(CobType::Tsdo, m_tsdoData->data, cobDataLen[CobType::Tsdo]);
+		m_tsdoReady.reset();
+	}
+
+	/**
 	 * @brief Initializes shared or non-shared objects.
 	 *
 	 */
@@ -360,9 +478,13 @@ protected:
 			{
 			case mcu::ipc::Mode::Singlecore:
 				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				m_rsdoData = new can_payload;
+				m_tsdoData = new can_payload;
 				break;
 			case mcu::ipc::Mode::Dualcore:
 				m_rpdoList = new(impl::cana_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				m_rsdoData = new(impl::cana_rsdo_dualcore_alloc) can_payload;
+				m_tsdoData = new(impl::cana_tsdo_dualcore_alloc) can_payload;
 				break;
 			}
 			break;
@@ -371,9 +493,13 @@ protected:
 			{
 			case mcu::ipc::Mode::Singlecore:
 				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				m_rsdoData = new can_payload;
+				m_tsdoData = new can_payload;
 				break;
 			case mcu::ipc::Mode::Dualcore:
 				m_rpdoList = new(impl::canb_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				m_rsdoData = new(impl::canb_rsdo_dualcore_alloc) can_payload;
+				m_tsdoData = new(impl::canb_tsdo_dualcore_alloc) can_payload;
 				break;
 			}
 			break;
@@ -553,7 +679,17 @@ protected:
 		case CobType::Rsdo:
 		{
 			SysLog::resetWarning(sys::Warning::CanBusError);
-
+			if (server->m_rsdoReceived.local.isSet()
+					|| server->m_tsdoReady.isSet())
+			{
+				SysLog::setWarning(sys::Warning::CanBusOverrun);
+				SysLog::addMessage(sys::Message::CanSdoRequestLost);
+			}
+			else
+			{
+				canModule->recv(interruptCause, server->m_rsdoData->data);
+				server->m_rsdoReceived.local.set();
+			}
 			break;
 		}
 
@@ -562,14 +698,6 @@ protected:
 		}
 	}
 };
-
-
-
-
-
-
-
-
 
 
 /// @}

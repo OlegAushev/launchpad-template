@@ -40,7 +40,7 @@ typedef emb::Array<uint16_t, 8> can_payload;
 template <typename T>
 inline can_payload toPayload(T message)
 {
-	static_assert(sizeof(T) <= 4);
+	EMB_STATIC_ASSERT(sizeof(T) <= 4);
 	can_payload payload;
 	payload.fill(0);
 	emb::c28x::to_bytes(payload.data, message);
@@ -53,12 +53,29 @@ inline can_payload toPayload(T message)
  *
  * @tparam T
  * @param payload
+ * @param message
  * @return
  */
 template <typename T>
-inline T fromPayload(can_payload payload)
+inline void toPayload(can_payload& payload, T message)
 {
-	static_assert(sizeof(T) <= 4);
+	EMB_STATIC_ASSERT(sizeof(T) <= 4);
+	payload.fill(0);
+	emb::c28x::to_bytes(payload.data, message);
+}
+
+
+/**
+ * @brief
+ *
+ * @tparam T
+ * @param payload
+ * @return
+ */
+template <typename T>
+inline T fromPayload(const can_payload& payload)
+{
+	EMB_STATIC_ASSERT(sizeof(T) <= 4);
 	T message;
 	emb::c28x::from_bytes(message, payload.data);
 	return message;

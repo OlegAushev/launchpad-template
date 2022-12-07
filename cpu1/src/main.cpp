@@ -286,7 +286,8 @@ void main()
 		.rpdo2Reveived = mcu::ipc::Flag(5, mcu::ipc::Mode::Dualcore),
 		.rpdo3Reveived = mcu::ipc::Flag(6, mcu::ipc::Mode::Dualcore),
 		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
-		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore)
+		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore),
+		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Dualcore)
 	};
 	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
 #else
@@ -296,7 +297,8 @@ void main()
 		.rpdo2Received = mcu::ipc::Flag(5, mcu::ipc::Mode::Singlecore),
 		.rpdo3Received = mcu::ipc::Flag(6, mcu::ipc::Mode::Singlecore),
 		.rpdo4Received = mcu::ipc::Flag(7, mcu::ipc::Mode::Singlecore),
-		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore)
+		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore),
+		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Singlecore)
 	};
 	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
 			ucanopen::NodeId(0x42), &canB, canIpcFlags, NULL, 0);

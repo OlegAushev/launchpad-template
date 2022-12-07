@@ -100,10 +100,11 @@ SECTIONS
 
    GROUP : > RAMGS9
    {
-      SHARED_DRIVE
-      SHARED_UCANOPEN_TPDO_DATA
-      SHARED_UCANOPEN_CAN1_TSDO_DATA
-      SHARED_UCANOPEN_CAN2_TSDO_DATA
+      shared_drive
+      shared_ucanopen_cana_tpdo_data
+      shared_ucanopen_canb_tpdo_data
+      shared_ucanopen_cana_tsdo_data
+      shared_ucanopen_canb_tsdo_data
       shared_syslog_data_cpu1
       shared_syslog_messages
    }
@@ -112,8 +113,8 @@ SECTIONS
    {
       shared_ucanopen_cana_rpdo_data
       shared_ucanopen_canb_rpdo_data
-      SHARED_UCANOPEN_CAN1_RSDO_DATA
-      SHARED_UCANOPEN_CAN2_RSDO_DATA
+      shared_ucanopen_cana_rsdo_data
+      shared_ucanopen_canb_rsdo_data
       shared_syslog_data_cpu2
       shared_syslog_message_cpu2
    }

@@ -60,6 +60,7 @@ SCOPED_ENUM_UT_DECLARE_BEGIN(Message, uint32_t)
 	DeviceReady,
 	DeviceBusy,
 	DeviceSoftwareReset,
+	CanSdoRequestLost,
 }
 SCOPED_ENUM_DECLARE_END(Message)
 
