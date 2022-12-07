@@ -42,7 +42,7 @@ SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// CAN bitrates
-SCOPED_ENUM_DECLARE_BEGIN(Bitrate)
+SCOPED_ENUM_UT_DECLARE_BEGIN(Bitrate, uint32_t)
 {
 	Bitrate125K = 125000,
 	Bitrate500K = 500000,

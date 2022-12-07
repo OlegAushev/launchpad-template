@@ -64,7 +64,7 @@ SCOPED_ENUM_DECLARE_END(Mode)
 
 
 /// SPI bitrates
-SCOPED_ENUM_DECLARE_BEGIN(Bitrate)
+SCOPED_ENUM_UT_DECLARE_BEGIN(Bitrate, uint32_t)
 {
 	Bitrate1M = 1000000,
 	Bitrate12M5 = 12500000,

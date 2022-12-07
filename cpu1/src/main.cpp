@@ -280,7 +280,7 @@ void main()
 			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
 			mcu::gpio::Configuration(12, GPIO_12_CANTXB),
 			mcu::can::Bitrate::Bitrate125K,
-			mcu::can::Mode::Normal);
+			mcu::can::Mode::Loopback);
 
 #ifdef DUALCORE
 	ucanopen::IpcFlags canIpcFlags =
@@ -360,17 +360,12 @@ void main()
 
 	canServer.enable();
 
-	CAN_setupMessageObject(CANB_BASE, 1, 0x111, CAN_MSG_FRAME_STD, CAN_MSG_OBJ_TYPE_TX, 0, CAN_MSG_OBJ_NO_FLAGS, 1);
-
 	while (true)
 	{
 		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
-		//canServer.run();
-		uint16_t buf[1] = {0x05};
-		canB.send(1, buf, 1);
-		mcu::delay_us(10000);
+		canServer.run();
 	}
 }
 

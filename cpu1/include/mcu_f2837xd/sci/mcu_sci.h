@@ -44,7 +44,7 @@ SCOPED_ENUM_DECLARE_END(Peripheral)
 
 
 /// SCI baudrates
-SCOPED_ENUM_DECLARE_BEGIN(Baudrate)
+SCOPED_ENUM_UT_DECLARE_BEGIN(Baudrate, uint32_t)
 {
 	Baudrate9600 = 9600,
 	Baudrate115200 = 115200,
