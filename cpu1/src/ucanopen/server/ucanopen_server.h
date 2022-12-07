@@ -561,11 +561,6 @@ private:
 				= m_messageObjects[CobType::Rpdo4].flags
 				= m_messageObjects[CobType::Rsdo].flags
 				= CAN_MSG_OBJ_RX_INT_ENABLE;
-
-		for (size_t i = 1; i < cobTypeCount; ++i)
-		{
-			m_canModule->setupMessageObject(m_messageObjects[i]);
-		}
 	}
 
 	/**

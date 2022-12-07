@@ -360,14 +360,17 @@ void main()
 
 	canServer.enable();
 
+	CAN_setupMessageObject(CANB_BASE, 1, 0x111, CAN_MSG_FRAME_STD, CAN_MSG_OBJ_TYPE_TX, 0, CAN_MSG_OBJ_NO_FLAGS, 1);
+
 	while (true)
 	{
 		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
 		cliServer.run();
 		//canServer.run();
-		uint16_t buf[] = {0x05};
-		canB.send(15, buf, 1);
+		uint16_t buf[1] = {0x05};
+		canB.send(1, buf, 1);
+		mcu::delay_us(10000);
 	}
 }
 
