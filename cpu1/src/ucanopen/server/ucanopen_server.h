@@ -109,10 +109,10 @@ protected:
 		m_tpdoList[type.underlying_value()].period = period;
 	}
 
-	virtual can_payload createTpdo1() {}
-	virtual can_payload createTpdo2() {}
-	virtual can_payload createTpdo3() {}
-	virtual can_payload createTpdo4() {}
+	virtual can_payload createTpdo1() = 0;
+	virtual can_payload createTpdo2() = 0;
+	virtual can_payload createTpdo3() = 0;
+	virtual can_payload createTpdo4() = 0;
 
 	/* RPDO */
 private:
@@ -130,10 +130,10 @@ protected:
 		}
 	}
 
-	virtual void handleRpdo1(const can_payload& data) {}
-	virtual void handleRpdo2(const can_payload& data) {}
-	virtual void handleRpdo3(const can_payload& data) {}
-	virtual void handleRpdo4(const can_payload& data) {}
+	virtual void handleRpdo1(const can_payload& data) = 0;
+	virtual void handleRpdo2(const can_payload& data) = 0;
+	virtual void handleRpdo3(const can_payload& data) = 0;
+	virtual void handleRpdo4(const can_payload& data) = 0;
 
 	/* SDO */
 private:

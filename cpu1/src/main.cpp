@@ -32,7 +32,8 @@
 #include "cli/shell/cli_shell.h"
 
 #include "mcu_f2837xd/can/mcu_can.h"
-#include "ucanopen/ucanopen_server/ucanopen_server.h"
+#include "ucanopen/server/ucanopen_server.h"
+#include "ucanopen/tests/ucanopen_tests.h"
 
 #include "bsp_launchxl_f28379d/bsp_launchxl_f28379d.h"
 #include "emb/emb_profiler/emb_profiler.h"
@@ -49,12 +50,14 @@ const uint32_t SysInfo::firmwareVersionNum = GIT_COMMIT_NUM;
 
 #if defined(TEST_BUILD)
 const char* SysInfo::buildConfiguration = "TEST";
+const char* SysInfo::buildConfigurationShort = "TEST";
 #elif defined(DEBUG)
 const char* SysInfo::buildConfiguration = "DEBUG";
+const char* SysInfo::buildConfigurationShort = "DBG";
 #else
 const char* SysInfo::buildConfiguration = "RELEASE";
+const char* SysInfo::buildConfigurationShort = "RLS";
 #endif
-const char* SysInfo::buildConfigurationShort = SysInfo::buildConfiguration;
 
 
 /* ========================================================================== */
@@ -300,7 +303,7 @@ void main()
 		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Singlecore),
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Singlecore)
 	};
-	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
+	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
 			ucanopen::NodeId(0x42), &canB, canIpcFlags, NULL, 0);
 #endif
 
