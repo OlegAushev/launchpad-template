@@ -107,14 +107,14 @@ void main()
 	cli::print_blocking(SysInfo::firmwareVersion);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
-	cli::print_blocking("CPU1 has booted successfully.");
+	cli::print_blocking("CPU1 boot... success.");
 
 /*############################################################################*/
 	/*#######*/
 	/*# BSP #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("Initialize bsp... ");
+	cli::print_blocking("Initializing bsp... ");
 
 #ifdef DUALCORE
 	bsp::initLedBlue(mcu::gpio::MasterCore::Cpu1);
@@ -138,7 +138,7 @@ void main()
 	emb::TestRunner::print_nextline = cli::nextline_blocking;
 
 	cli::nextline_blocking();
-	cli::print_blocking(CLI_COLOR_YELLOW "on-target testing build configuration is selected, run tests..." CLI_COLOR_OFF);
+	cli::print_blocking(CLI_COLOR_YELLOW "on-target testing build configuration selected, running tests..." CLI_COLOR_OFF);
 	cli::nextline_blocking();
 	emb::run_tests();
 #endif
@@ -148,7 +148,7 @@ void main()
 	/*# SYSLOG #*/
 	/*##########*/
 	cli::nextline_blocking();
-	cli::print_blocking("Initialize syslog... ");
+	cli::print_blocking("Initializing syslog... ");
 
 	SysLog::IpcFlags syslogIpcFlags =
 	{
@@ -167,7 +167,7 @@ void main()
 	/*# CLOCK #*/
 	/*#########*/
 	cli::nextline_blocking();
-	cli::print_blocking("Configure system clock and high resolution clock... ");
+	cli::print_blocking("Configuring system clock and high resolution clock... ");
 
 	mcu::chrono::SystemClock::init();
 	mcu::chrono::HighResolutionClock::init(1000000);
@@ -204,7 +204,7 @@ void main()
 
 /*############################################################################*/
 	cli::nextline_blocking();
-	cli::print_blocking("Enable interrupts... ");
+	cli::print_blocking("Enabling interrupts... ");
 
 	mcu::enableMaskableInterrupts();	// cpu timer interrupt is used for timeouts
 	mcu::enableDebugEvents();
@@ -218,7 +218,7 @@ void main()
 #ifdef DUALCORE
 
 	cli::nextline_blocking();
-	cli::print_blocking("Transfer control over CANB to CPU2... ");
+	cli::print_blocking("Transferring control over CANB to CPU2... ");
 
 	mcu::can::Module<mcu::can::Peripheral::CanB>::transferControlToCpu2(
 			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
@@ -228,7 +228,7 @@ void main()
 	cli::print_blocking("success.");
 
 	cli::nextline_blocking();
-	cli::print_blocking("Boot CPU2... ");
+	cli::print_blocking("CPU2 boot... ");
 
 	mcu::bootCpu2();
 	SysLog::addMessage(sys::Message::DeviceCpu2Boot);
@@ -238,7 +238,7 @@ void main()
 	cli::print_blocking("success.");
 #else
 	cli::nextline_blocking();
-	cli::print_blocking("CPU2 is disabled. CPU2 boot is skipped.");
+	cli::print_blocking("CPU2 disabled. Skip CPU2 boot.");
 #endif
 
 /*############################################################################*/
@@ -246,7 +246,7 @@ void main()
 	/*# ADC #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("Configure ADC... ");
+	cli::print_blocking("Configuring ADC... ");
 
 	mcu::adc::Configuration adcConf =
 	{
@@ -262,7 +262,7 @@ void main()
 	/*# DAC #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("Configure DAC... ");
+	cli::print_blocking("Configuring DAC... ");
 
 	mcu::dac::Module<mcu::dac::Peripheral::DacA> dacA;
 	mcu::dac::Module<mcu::dac::Peripheral::DacB> dacB;
@@ -274,13 +274,13 @@ void main()
 	/*# CAN #*/
 	/*#######*/
 	cli::nextline_blocking();
-	cli::print_blocking("Configure CAN... ");
+	cli::print_blocking("Configuring CAN... ");
 
 	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
 			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
 			mcu::gpio::Configuration(12, GPIO_12_CANTXB),
 			mcu::can::Bitrate::Bitrate125K,
-			mcu::can::Mode::Loopback);
+			mcu::can::Mode::Normal);
 
 #ifdef DUALCORE
 	ucanopen::IpcFlags canIpcFlags =
@@ -315,7 +315,7 @@ void main()
 	/*# CLOCK TASKS #*/
 	/*###############*/
 	cli::nextline_blocking();
-	cli::print_blocking("Register periodic tasks... ");
+	cli::print_blocking("Registering periodic tasks... ");
 
 	mcu::chrono::SystemClock::registerTask(taskToggleLed, 1000);
 
@@ -349,14 +349,14 @@ void main()
 	SysLog::addMessage(sys::Message::DeviceCpu1Ready);
 
 	cli::nextline_blocking();
-	cli::print_blocking("CPU1 periphery has been successfully configured.");
+	cli::print_blocking("CPU1 periphery successfully configured.");
 
 /*####################################################################################################################*/
 	//mcu::SystemClock::enableWatchdog();
 	SysLog::addMessage(sys::Message::DeviceReady);
 
 	cli::nextline_blocking();
-	cli::print_blocking("Device is ready!");
+	cli::print_blocking("Device ready!");
 
 	canServer.enable();
 
