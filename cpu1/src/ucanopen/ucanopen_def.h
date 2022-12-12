@@ -163,7 +163,7 @@ const emb::Array<uint32_t, cobTypeCount> cobFunctionCodes =
  * @param nodeId - node ID
  * @return COB ID.
  */
-inline uint32_t calculateCobId(CobType cobType, unsigned int nodeId)
+inline uint32_t calculateCobId(CobType cobType, NodeId nodeId)
 {
 	if ((cobType == CobType::Nmt)
 			|| (cobType == CobType::Sync)
@@ -171,7 +171,7 @@ inline uint32_t calculateCobId(CobType cobType, unsigned int nodeId)
 	{
 		return cobFunctionCodes[cobType.underlying_value()];
 	}
-	return cobFunctionCodes[cobType.underlying_value()] + nodeId;
+	return cobFunctionCodes[cobType.underlying_value()] + nodeId.value();
 }
 
 

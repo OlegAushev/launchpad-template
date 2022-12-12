@@ -187,7 +187,7 @@ public:
 		// rpdo setup
 		for (size_t i = 0; i < m_rpdoList->size(); ++i)
 		{
-			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId.value());
+			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId);
 			(*m_rpdoList)[i].timeout = 0;
 			(*m_rpdoList)[i].timepoint = mcu::chrono::SystemClock::now();
 			(*m_rpdoList)[i].isOnSchedule = false;
@@ -518,7 +518,7 @@ private:
 		for (size_t i = 0; i < cobTypeCount; ++i)
 		{
 			m_messageObjects[i].objId = i;
-			m_messageObjects[i].frameId = calculateCobId(CobType(i), m_nodeId.value());
+			m_messageObjects[i].frameId = calculateCobId(CobType(i), m_nodeId);
 			m_messageObjects[i].frameType = CAN_MSG_FRAME_STD;
 			m_messageObjects[i].frameIdMask = 0;
 			m_messageObjects[i].dataLen = cobDataLen[i];
