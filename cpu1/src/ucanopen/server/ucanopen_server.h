@@ -65,7 +65,6 @@ struct RpdoInfo
 	unsigned int id;
 	uint64_t timeout;
 	uint64_t timepoint;
-	bool isOnSchedule;
 	can_payload data;
 };
 
@@ -190,7 +189,6 @@ public:
 			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId);
 			(*m_rpdoList)[i].timeout = 0;
 			(*m_rpdoList)[i].timepoint = mcu::chrono::SystemClock::now();
-			(*m_rpdoList)[i].isOnSchedule = false;
 		}
 
 		m_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
@@ -661,9 +659,7 @@ private:
 			SysLog::resetWarning(sys::Warning::CanBusError);
 
 			size_t rpdoIdx = (interruptCause - static_cast<size_t>(CobType::Rpdo1)) / 2;
-
 			(*server->m_rpdoList)[rpdoIdx].timepoint = mcu::chrono::SystemClock::now();
-			(*server->m_rpdoList)[rpdoIdx].isOnSchedule = true;
 
 			if (server->m_rpdoReceived[rpdoIdx].local.isSet())
 			{
