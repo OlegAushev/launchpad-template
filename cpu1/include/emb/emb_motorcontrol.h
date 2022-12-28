@@ -39,24 +39,24 @@ class motorspeed_t
 public:
 	const int polePairs;
 private:
-	float m_radps_elec;
+	float _radps_elec;
 public:
 	explicit motorspeed_t(int polePairs_)
 		: polePairs(polePairs_)
-		, m_radps_elec(0)
+		, _radps_elec(0)
 	{}
 
-	motorspeed_t(float radpsElec, int polePairs_)
+	motorspeed_t(float radps_elec_, int polePairs_)
 		: polePairs(polePairs_)
-		, m_radps_elec(radpsElec)
+		, _radps_elec(radps_elec_)
 	{}
 
-	float to_radps() const { return m_radps_elec; }
-	float to_rpm() const { return 60 * m_radps_elec / (numbers::two_pi * polePairs); }
-	float to_radps_mech() const { return m_radps_elec / polePairs; }
+	float to_radps() const { return _radps_elec; }
+	float to_rpm() const { return 60 * _radps_elec / (numbers::two_pi * polePairs); }
+	float to_radps_mech() const { return _radps_elec / polePairs; }
 
-	void from_radps(float value) { m_radps_elec = value; }
-	void from_rpm(float value) { m_radps_elec = numbers::two_pi * polePairs * value / 60; }
+	void from_radps(float value) { _radps_elec = value; }
+	void from_rpm(float value) { _radps_elec = numbers::two_pi * polePairs * value / 60; }
 };
 
 

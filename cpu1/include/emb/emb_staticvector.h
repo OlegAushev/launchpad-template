@@ -33,22 +33,22 @@ template <typename T, size_t Capacity>
 class StaticVector
 {
 private:
-	T m_data[Capacity];
-	size_t m_size;
+	T _data[Capacity];
+	size_t _size;
 public:
 	StaticVector()
-		: m_size(0)
+		: _size(0)
 	{}
 
 	explicit StaticVector(size_t size)
-		: m_size(size)
+		: _size(size)
 	{
 		assert(size <= Capacity);
 		emb::fill(begin(), end(), T());
 	}
 
 	StaticVector(size_t size, const T& value)
-		: m_size(size)
+		: _size(size)
 	{
 		assert(size <= Capacity);
 		emb::fill(begin(), end(), value);
@@ -56,7 +56,7 @@ public:
 
 	template <class V>
 	StaticVector(V* first, V* last)
-		: m_size(last - first)
+		: _size(last - first)
 	{
 		assert(first <= last);
 		assert((last - first) <= Capacity);
@@ -65,14 +65,14 @@ public:
 
 public:
 	size_t capacity() const { return Capacity; }
-	size_t size() const { return m_size; }
-	bool empty() const { return m_size == 0; }
-	bool full() const { return m_size == Capacity; }
+	size_t size() const { return _size; }
+	bool empty() const { return _size == 0; }
+	bool full() const { return _size == Capacity; }
 
 	T& operator[] (size_t pos)
 	{
 #ifdef NDEBUG
-		return m_data[pos];
+		return _data[pos];
 #else
 		return at(pos);
 #endif
@@ -81,7 +81,7 @@ public:
 	const T& operator[](size_t pos) const
 	{
 #ifdef NDEBUG
-		return m_data[pos];
+		return _data[pos];
 #else
 		return at(pos);
 #endif
@@ -89,86 +89,86 @@ public:
 
 	T& at(size_t pos)
 	{
-		assert(pos < m_size);
-		return m_data[pos];
+		assert(pos < _size);
+		return _data[pos];
 	}
 
 	const T& at(size_t pos) const
 	{
-		assert(pos < m_size);
-		return m_data[pos];
+		assert(pos < _size);
+		return _data[pos];
 	}
 
 public:
-	T* begin() { return m_data; }
-	T* end() { return m_data + m_size; }
-	const T* begin() const { return m_data; }
-	const T* end() const { return m_data + m_size; }
+	T* begin() { return _data; }
+	T* end() { return _data + _size; }
+	const T* begin() const { return _data; }
+	const T* end() const { return _data + _size; }
 
-	T* data() { return m_data; }
-	const T* data() const { return m_data; }
+	T* data() { return _data; }
+	const T* data() const { return _data; }
 
 	T& front()
 	{
 		assert(!empty());
-		return m_data[0];
+		return _data[0];
 	}
 
 	const T& front() const
 	{
 		assert(!empty());
-		return m_data[0];
+		return _data[0];
 	}
 
 	T& back()
 	{
 		assert(!empty());
-		return m_data[m_size - 1];
+		return _data[_size - 1];
 	}
 
 	const T& back() const
 	{
 		assert(!empty());
-		return m_data[m_size - 1];
+		return _data[_size - 1];
 	}
 
 public:
 	void resize(size_t size)
 	{
 		assert(size <= Capacity);
-		if (size > m_size)
+		if (size > _size)
 		{
-			emb::fill(m_data + m_size, m_data + size, T());
+			emb::fill(_data + _size, _data + size, T());
 		}
-		m_size = size;
+		_size = size;
 	}
 
 	void resize(size_t size, const T& value)
 	{
 		assert(size <= Capacity);
-		if (size > m_size)
+		if (size > _size)
 		{
-			emb::fill(m_data + m_size, m_data + size, value);
+			emb::fill(_data + _size, _data + size, value);
 		}
-		m_size = size;
+		_size = size;
 	}
 
 	void clear()
 	{
-		m_size = 0;
+		_size = 0;
 	}
 
 public:
 	void push_back(const T& value)
 	{
 		assert(!full());
-		m_data[m_size++] = value;
+		_data[_size++] = value;
 	}
 
 	void pop_back()
 	{
 		assert(!empty());
-		--m_size;
+		--_size;
 	}
 
 	void insert(T* pos, const T& value)
@@ -179,12 +179,12 @@ public:
 		StaticVector<T, Capacity> buf(pos, end());
 		*pos++ = value;
 		emb::copy(buf.begin(), buf.end(), pos);
-		++m_size;
+		++_size;
 	}
 
 	void insert(T* pos, size_t count, const T& value)
 	{
-		assert((m_size + count) <= Capacity);
+		assert((_size + count) <= Capacity);
 		assert(pos <= end());
 
 		StaticVector<T, Capacity> buf(pos, end());
@@ -193,20 +193,20 @@ public:
 			*pos++ = value;
 		}
 		emb::copy(buf.begin(), buf.end(), pos);
-		m_size += count;
+		_size += count;
 	}
 
 	template <class V>
 	void insert(T* pos, V* first, V* last)
 	{
 		assert(first <= last);
-		assert((m_size + last - first) <= Capacity);
+		assert((_size + last - first) <= Capacity);
 		assert(pos <= end());
 
 		StaticVector<T, Capacity> buf(pos, end());
 		pos = emb::copy(first, last, pos);
 		emb::copy(buf.begin(), buf.end(), pos);
-		m_size = m_size + last - first;
+		_size = _size + last - first;
 	}
 
 public:
@@ -216,19 +216,19 @@ public:
 		assert(pos < end());
 
 		StaticVector<T, Capacity> buf(pos + 1, end());
-		--m_size;
+		--_size;
 		return emb::copy(buf.begin(), buf.end(), pos);
 	}
 
 	T* erase(T* first, T* last)
 	{
-		assert(m_size >= (last - first));
+		assert(_size >= (last - first));
 		assert(begin() <= first);
 		assert(first <= last);
 		assert(last <= end());
 
 		StaticVector<T, Capacity> buf(last, end());
-		m_size = m_size - (last - first);
+		_size = _size - (last - first);
 		return emb::copy(buf.begin(), buf.end(), first);
 	}
 };

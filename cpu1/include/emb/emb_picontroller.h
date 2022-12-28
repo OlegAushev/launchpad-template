@@ -39,51 +39,47 @@ SCOPED_ENUM_DECLARE_END(ControllerLogic)
  * @brief PI controller interface
  */
 template <ControllerLogic::enum_type Logic>
-class IPiController
+class IPiController : public emb::noncopyable
 {
-private:
-	IPiController(const IPiController& other);		// no copy constructor
-	IPiController& operator=(const IPiController& other);	// no copy assignment operator
-
 protected:
-	float m_kP;		// proportional gain
-	float m_kI;		// integral gain
-	float m_dt;		// time slice
-	float m_sumI;		// integrator sum;
-	float m_outMin;		// PI output minimum limit
-	float m_outMax;		// PI output maximum limit
-	float m_out;		// PI output;
+	float _kP;		// proportional gain
+	float _kI;		// integral gain
+	float _dt;		// time slice
+	float _sumI;		// integrator sum;
+	float _outMin;		// PI output minimum limit
+	float _outMax;		// PI output maximum limit
+	float _out;		// PI output;
 
 	static float _error(float ref, float meas);
 public:
 	IPiController(float kP, float kI, float dt, float outMin, float outMax)
-		: m_kP(kP)
-		, m_kI(kI)
-		, m_dt(dt)
-		, m_sumI(0)
-		, m_outMin(outMin)
-		, m_outMax(outMax)
-		, m_out(0)
+		: _kP(kP)
+		, _kI(kI)
+		, _dt(dt)
+		, _sumI(0)
+		, _outMin(outMin)
+		, _outMax(outMax)
+		, _out(0)
 	{}
 
 	virtual ~IPiController() {}
 	virtual void update(float ref, float meas) = 0;
 	virtual void reset()
 	{
-		m_sumI = 0;
-		m_out = 0;
+		_sumI = 0;
+		_out = 0;
 	}
-	float output() const { return m_out; }
-	void setOutputMin(float value) { m_outMin = value; }
-	void setOutputMax(float value) { m_outMax = value; }
-	float outputMin() const { return m_outMin; }
-	float outputMax() const { return m_outMax; }
+	float output() const { return _out; }
+	void setOutputMin(float value) { _outMin = value; }
+	void setOutputMax(float value) { _outMax = value; }
+	float outputMin() const { return _outMin; }
+	float outputMax() const { return _outMax; }
 
-	void setKp(float value) { m_kP = value; }
-	void setKi(float value) { m_kI = value; }
-	float kP() const { return m_kP; }
-	float kI() const { return m_kI; }
-	float sumI() const { return m_sumI; }
+	void setKp(float value) { _kP = value; }
+	void setKi(float value) { _kI = value; }
+	float kP() const { return _kP; }
+	float kI() const { return _kI; }
+	float sumI() const { return _sumI; }
 };
 
 
@@ -97,38 +93,33 @@ inline float IPiController<ControllerLogic::Inverse>::_error(float ref, float me
 template <ControllerLogic::enum_type Logic>
 class PiControllerBC : public IPiController<Logic>
 {
-private:
-	PiControllerBC(const PiControllerBC& other);		// no copy constructor
-	PiControllerBC& operator=(const PiControllerBC& other);	// no copy assignment operator
-
 protected:
-	float m_kC;		// anti-windup gain
-
+	float _kC;	// anti-windup gain
 public:
 	PiControllerBC(float kP, float kI, float dt, float kC, float outMin, float outMax)
 		: IPiController<Logic>(kP, kI, dt, outMin, outMax)
-		, m_kC(kC)
+		, _kC(kC)
 	{}
 
 	virtual void update(float ref, float meas)
 	{
 		float error = IPiController<Logic>::_error(ref, meas);
-		float out = emb::clamp(error * this->m_kP + this->m_sumI, -FLT_MAX, FLT_MAX);
+		float out = emb::clamp(error * this->_kP + this->_sumI, -FLT_MAX, FLT_MAX);
 
-		if (out > this->m_outMax)
+		if (out > this->_outMax)
 		{
-			this->m_out = this->m_outMax;
+			this->_out = this->_outMax;
 		}
-		else if (out < this->m_outMin)
+		else if (out < this->_outMin)
 		{
-			this->m_out = this->m_outMin;
+			this->_out = this->_outMin;
 		}
 		else
 		{
-			this->m_out = out;
+			this->_out = out;
 		}
 
-		this->m_sumI = emb::clamp(this->m_sumI + this->m_kI * this->m_dt * error - m_kC * (out - this->m_out),
+		this->_sumI = emb::clamp(this->_sumI + this->_kI * this->_dt * error - _kC * (out - this->_out),
 				-FLT_MAX, FLT_MAX);
 	}
 };
@@ -140,55 +131,50 @@ public:
 template <ControllerLogic::enum_type Logic>
 class PiControllerCl : public IPiController<Logic>
 {
-private:
-	PiControllerCl(const PiControllerCl& other);		// no copy constructor
-	PiControllerCl& operator=(const PiControllerCl& other);	// no copy assignment operator
-
 protected:
-	float m_error;
-
+	float _error;
 public:
 	PiControllerCl(float kP, float kI, float dt, float outMin, float outMax)
 		: IPiController<Logic>(kP, kI, dt, outMin, outMax)
-		, m_error(0)
+		, _error(0)
 	{}
 
 	virtual void update(float ref, float meas)
 	{
 		float error = IPiController<Logic>::_error(ref, meas);
-		float outp = error * this->m_kP;
-		float sumI = (error + m_error) * 0.5f * this->m_kI * this->m_dt + this->m_sumI;
-		m_error = error;
+		float outp = error * this->_kP;
+		float sumI = (error + _error) * 0.5f * this->_kI * this->_dt + this->_sumI;
+		_error = error;
 		float out = outp + sumI;
 
-		if (out > this->m_outMax)
+		if (out > this->_outMax)
 		{
-			this->m_out = this->m_outMax;
-			if (outp < this->m_outMax)
+			this->_out = this->_outMax;
+			if (outp < this->_outMax)
 			{
-				this->m_sumI = this->m_outMax - outp;
+				this->_sumI = this->_outMax - outp;
 			}
 		}
-		else if (out < this->m_outMin)
+		else if (out < this->_outMin)
 		{
-			this->m_out = this->m_outMin;
-			if (outp > this->m_outMin)
+			this->_out = this->_outMin;
+			if (outp > this->_outMin)
 			{
-				this->m_sumI = this->m_outMin - outp;
+				this->_sumI = this->_outMin - outp;
 			}
 		}
 		else
 		{
-			this->m_out = out;
-			this->m_sumI = sumI;
+			this->_out = out;
+			this->_sumI = sumI;
 		}
 	}
 
 	virtual void reset()
 	{
-		this->m_sumI = 0;
-		m_error = 0;
-		this->m_out = 0;
+		this->_sumI = 0;
+		_error = 0;
+		this->_out = 0;
 	}
 };
 

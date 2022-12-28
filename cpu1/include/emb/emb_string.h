@@ -34,34 +34,34 @@ template <size_t Capacity>
 class String
 {
 private:
-	static const size_t s_dataLen = Capacity + 1;
-	char m_data[s_dataLen];
-	size_t m_len;
+	static const size_t _dataLen = Capacity + 1;
+	char _data[_dataLen];
+	size_t _len;
 public:
 	String()
 	{
-		memset(m_data, 0, s_dataLen);
-		m_len = 0;
+		memset(_data, 0, _dataLen);
+		_len = 0;
 	}
 
 	String(const char str[])
 	{
-		memset(m_data, 0, s_dataLen);
-		strncpy(m_data, str, Capacity);
-		m_len = strlen(str);
+		memset(_data, 0, _dataLen);
+		strncpy(_data, str, Capacity);
+		_len = strlen(str);
 	}
 
 public:
 	size_t capacity() const { return Capacity; }
-	size_t lenght() const { return m_len; }
-	size_t size() const { return m_len; }
-	bool empty() const { return m_len == 0; }
-	bool full() const { return m_len == Capacity; }
+	size_t lenght() const { return _len; }
+	size_t size() const { return _len; }
+	bool empty() const { return _len == 0; }
+	bool full() const { return _len == Capacity; }
 
 	char& operator[] (size_t pos)
 	{
 #ifdef NDEBUG
-		return m_data[pos];
+		return _data[pos];
 #else
 		return at(pos);
 #endif
@@ -70,7 +70,7 @@ public:
 	const char& operator[](size_t pos) const
 	{
 #ifdef NDEBUG
-		return m_data[pos];
+		return _data[pos];
 #else
 		return at(pos);
 #endif
@@ -78,95 +78,95 @@ public:
 
 	char& at(size_t pos)
 	{
-		assert(pos < m_len);
-		return m_data[pos];
+		assert(pos < _len);
+		return _data[pos];
 	}
 
 	const char& at(size_t pos) const
 	{
-		assert(pos < m_len);
-		return m_data[pos];
+		assert(pos < _len);
+		return _data[pos];
 	}
 
 public:
-	char* begin() { return m_data; }
-	char* end() { return m_data + m_len; }
-	const char* begin() const { return m_data; }
-	const char* end() const { return m_data + m_len; }
+	char* begin() { return _data; }
+	char* end() { return _data + _len; }
+	const char* begin() const { return _data; }
+	const char* end() const { return _data + _len; }
 
-	char* data() { return m_data; }
-	const char* data() const { return m_data; }
+	char* data() { return _data; }
+	const char* data() const { return _data; }
 
 	char& front()
 	{
 		assert(!empty());
-		return m_data[0];
+		return _data[0];
 	}
 
 	const char& front() const
 	{
 		assert(!empty());
-		return m_data[0];
+		return _data[0];
 	}
 
 	char& back()
 	{
 		assert(!empty());
-		return m_data[m_len - 1];
+		return _data[_len - 1];
 	}
 
 	const char& back() const
 	{
 		assert(!empty());
-		return m_data[m_len - 1];
+		return _data[_len - 1];
 	}
 
 public:
 	void resize(size_t len)
 	{
 		assert(len <= Capacity);
-		if (len > m_len)
+		if (len > _len)
 		{
-			emb::fill(m_data + m_len, m_data + len, 0);
+			emb::fill(_data + _len, _data + len, 0);
 		}
 		else
 		{
-			emb::fill(m_data + len, m_data + m_len, 0);
+			emb::fill(_data + len, _data + _len, 0);
 		}
-		m_len = len;
+		_len = len;
 	}
 
 	void resize(size_t len, char ch)
 	{
 		assert(len <= Capacity);
-		if (len > m_len)
+		if (len > _len)
 		{
-			emb::fill(m_data + m_len, m_data + len, ch);
+			emb::fill(_data + _len, _data + len, ch);
 		}
 		else
 		{
-			emb::fill(m_data + len, m_data + m_len, ch);
+			emb::fill(_data + len, _data + _len, ch);
 		}
-		m_len = len;
+		_len = len;
 	}
 
 	void clear()
 	{
-		memset(m_data, 0, s_dataLen);
-		m_len = 0;
+		memset(_data, 0, _dataLen);
+		_len = 0;
 	}
 
 public:
 	void push_back(char ch)
 	{
 		assert(!full());
-		m_data[m_len++] = ch;
+		_data[_len++] = ch;
 	}
 
 	void pop_back()
 	{
 		assert(!empty());
-		m_data[--m_len] = 0;
+		_data[--_len] = 0;
 	}
 
 public:
@@ -175,15 +175,15 @@ public:
 		assert(!full());
 		assert(index <= lenght());
 
-		if (index == m_len)
+		if (index == _len)
 		{
 			push_back(ch);
 			return;
 		}
 
-		memmove(m_data + index + 1 , m_data + index, m_len - index);
-		m_data[index] = ch;
-		++m_len;
+		memmove(_data + index + 1 , _data + index, _len - index);
+		_data[index] = ch;
+		++_len;
 	}
 };
 

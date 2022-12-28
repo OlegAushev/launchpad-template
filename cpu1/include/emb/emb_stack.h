@@ -30,37 +30,36 @@ template <typename T, size_t Capacity>
 class Stack
 {
 private:
-	T m_data[Capacity];
-	size_t m_size;
-
+	T _data[Capacity];
+	size_t _size;
 public:
 	Stack()
-		: m_size(0)
+		: _size(0)
 	{}
 
-	void clear() { m_size = 0; }
-	bool empty() const { return m_size == 0; }
-	bool full() const { return m_size == Capacity; }
+	void clear() { _size = 0; }
+	bool empty() const { return _size == 0; }
+	bool full() const { return _size == Capacity; }
 	size_t capacity() const { return Capacity; }
-	size_t size() const { return m_size; }
+	size_t size() const { return _size; }
 
 	void push(const T& value)
 	{
 		assert(!full());
-		m_data[m_size] = value;
-		++m_size;
+		_data[_size] = value;
+		++_size;
 	}
 
 	const T& top() const
 	{
 		assert(!empty());
-		return m_data[m_size-1];
+		return _data[_size-1];
 	}
 
 	void pop()
 	{
 		assert(!empty());
-		--m_size;
+		--_size;
 	}
 };
 

@@ -34,7 +34,7 @@ namespace emb {
  * @brief Filter interface
  */
 template <typename T>
-class IFilter : emb::noncopyable
+class IFilter : public emb::noncopyable
 {
 public:
 	IFilter() {}
