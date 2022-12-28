@@ -55,21 +55,21 @@ public:
 class EepromStorage
 {
 private:
-	IEeprom* m_eeprom;
-	const unsigned int m_pageSize;
-	const unsigned int m_nPages;
+	IEeprom* _eeprom;
+	const unsigned int _pageSize;
+	const unsigned int _nPages;
 
 public:
 	EepromStorage(IEeprom* eeprom, unsigned int pageSize, unsigned int nPages)
-		: m_eeprom(eeprom)
-		, m_pageSize(pageSize)
-		, m_nPages(nPages)
+		: _eeprom(eeprom)
+		, _pageSize(pageSize)
+		, _nPages(nPages)
 	{}
 
 	template <typename T>
 	EepromStatus write(EepromAddr addr, const T& data, uint64_t timeoutMs)
 	{
-		if ((addr.page >= m_nPages/3) || (addr.offset + sizeof(T) >= m_pageSize))
+		if ((addr.page >= _nPages/3) || (addr.offset + sizeof(T) >= _pageSize))
 		{
 			return EEPROM_INVALID_ADDRESS;
 		}
@@ -77,11 +77,11 @@ public:
 		char dataBuf[sizeof(T)];
 		memcpy(dataBuf, &data, sizeof(T));
 
-		EepromStatus s1 = m_eeprom->write(addr,
+		EepromStatus s1 = _eeprom->write(addr,
 				dataBuf, sizeof(T), timeoutMs);
-		EepromStatus s2 = m_eeprom->write(EepromAddr(addr.page + m_nPages/3, addr.offset),
+		EepromStatus s2 = _eeprom->write(EepromAddr(addr.page + _nPages/3, addr.offset),
 				dataBuf, sizeof(T), timeoutMs);
-		EepromStatus s3 = m_eeprom->write(EepromAddr(addr.page + 2*m_nPages/3, addr.offset),
+		EepromStatus s3 = _eeprom->write(EepromAddr(addr.page + 2*_nPages/3, addr.offset),
 				dataBuf, sizeof(T), timeoutMs);
 
 		if ((s1 == s2 == EEPROM_SUCCESS)
@@ -97,7 +97,7 @@ public:
 	template <typename T>
 	EepromStatus read(EepromAddr addr, T& data, uint64_t timeoutMs)
 	{
-		if ((addr.page >= m_nPages/3) || (addr.offset + sizeof(T) >= m_pageSize))
+		if ((addr.page >= _nPages/3) || (addr.offset + sizeof(T) >= _pageSize))
 		{
 			return EEPROM_INVALID_ADDRESS;
 		}

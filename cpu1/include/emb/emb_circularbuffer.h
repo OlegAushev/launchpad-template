@@ -30,40 +30,40 @@ template <typename T, size_t Capacity>
 class CircularBuffer
 {
 private:
-	T m_data[Capacity];
-	size_t m_front;
-	size_t m_back;
-	bool m_full;
+	T _data[Capacity];
+	size_t _front;
+	size_t _back;
+	bool _full;
 public:
 	CircularBuffer()
-		: m_front(0)
-		, m_back(0)
-		, m_full(false)
+		: _front(0)
+		, _back(0)
+		, _full(false)
 	{}
 
 	void clear()
 	{
-		m_front = 0;
-		m_back = 0;
-		m_full = false;
+		_front = 0;
+		_back = 0;
+		_full = false;
 	}
 
-	bool empty() const { return (!m_full && (m_front == m_back)); }
-	bool full() const { return m_full; }
+	bool empty() const { return (!_full && (_front == _back)); }
+	bool full() const { return _full; }
 	size_t capacity() const { return Capacity; }
 
 	size_t size() const
 	{
 		size_t size = Capacity;
-		if (!m_full)
+		if (!_full)
 		{
-			if (m_back >= m_front)
+			if (_back >= _front)
 			{
-				size = m_back - m_front;
+				size = _back - _front;
 			}
 			else
 			{
-				size = Capacity + m_back - m_front;
+				size = Capacity + _back - _front;
 			}
 		}
 
@@ -72,43 +72,43 @@ public:
 
 	void push(const T& value)
 	{
-		m_data[m_back] = value;
-		if (m_full)
+		_data[_back] = value;
+		if (_full)
 		{
-			m_front = (m_front + 1) % Capacity;
+			_front = (_front + 1) % Capacity;
 		}
-		m_back = (m_back + 1) % Capacity;
-		m_full = (m_front == m_back);
+		_back = (_back + 1) % Capacity;
+		_full = (_front == _back);
 	}
 
 	const T& front() const
 	{
 		assert(!empty());
-		return m_data[m_front];
+		return _data[_front];
 	}
 
 	const T& back() const
 	{
 		assert(!empty());
-		return m_data[(m_back + Capacity - 1) % Capacity];
+		return _data[(_back + Capacity - 1) % Capacity];
 	}
 
 	void pop()
 	{
 		assert(!empty());
-		m_full = false;
-		m_front = (m_front + 1) % Capacity;
+		_full = false;
+		_front = (_front + 1) % Capacity;
 	}
 
-	const T* data() const { return m_data; }
-	const T* begin() const { return m_data; }
-	const T* end() const { return m_data + Capacity; }
+	const T* data() const { return _data; }
+	const T* begin() const { return _data; }
+	const T* end() const { return _data + Capacity; }
 
 	void fill(const T& value)
 	{
 		for (size_t i = 0; i < Capacity; ++i)
 		{
-			m_data[i] = value;
+			_data[i] = value;
 		}
 	}
 };

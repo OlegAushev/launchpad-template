@@ -98,40 +98,40 @@ template <typename T>
 class Range
 {
 private:
-	T lo_;
-	T hi_;
+	T _lo;
+	T _hi;
 public:
 	Range(const T& val1, const T& val2)
 	{
 		if (val1 < val2)
 		{
-			lo_ = val1;
-			hi_ = val2;
+			_lo = val1;
+			_hi = val2;
 		}
 		else
 		{
-			lo_ = val2;
-			hi_ = val1;
+			_lo = val2;
+			_hi = val1;
 		}
 	}
 
-	bool contains(const T& val) const { return (lo_ <= val) && (val <= hi_); }
+	bool contains(const T& val) const { return (_lo <= val) && (val <= _hi); }
 
-	const T& lo() const { return lo_; }
+	const T& lo() const { return _lo; }
 	void setLo(const T& value)
 	{
-		if (value <= hi_)
+		if (value <= _hi)
 		{
-			lo_ = value;
+			_lo = value;
 		}
 	}
 
-	const T& hi() const { return hi_; }
+	const T& hi() const { return _hi; }
 	void setHi(const T& value)
 	{
-		if (value >= lo_)
+		if (value >= _lo)
 		{
-			hi_ = value;
+			_hi = value;
 		}
 	}
 };
@@ -144,34 +144,34 @@ template <typename T, typename Time>
 class Integrator
 {
 private:
-	T m_sum;
-	Time m_dt;
-	T m_init;
+	T _sum;
+	Time _dt;
+	T _init;
 public:
 	Range<T> range;
 
-	Integrator(const Range<T>& _range, const Time& _dt, const T& _init)
-		: range(_range)
-		, m_dt(_dt)
-		, m_init(_init)
+	Integrator(const Range<T>& range_, const Time& dt_, const T& init_)
+		: range(range_)
+		, _dt(dt_)
+		, _init(init_)
 	{
 		reset();
 	}
 
 	void integrate(const T& value)
 	{
-		m_sum = clamp(m_sum + value * m_dt, range.lo(), range.hi());
+		_sum = clamp(_sum + value * _dt, range.lo(), range.hi());
 	}
 
 	void add(const T& value)
 	{
-		m_sum = clamp(m_sum + value, range.lo(), range.hi());
+		_sum = clamp(_sum + value, range.lo(), range.hi());
 	}
 
-	const T& value() const { return m_sum; }
+	const T& value() const { return _sum; }
 	void reset()
 	{
-		m_sum = clamp(m_init, range.lo(), range.hi());
+		_sum = clamp(_init, range.lo(), range.hi());
 	}
 };
 

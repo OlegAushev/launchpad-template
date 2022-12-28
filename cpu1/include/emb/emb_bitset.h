@@ -34,42 +34,42 @@ class Bitset
 {
 	EMB_STATIC_ASSERT(BitCount > 0);
 private:
-	static const size_t s_bytesCount = (BitCount + CHAR_BIT - 1) / CHAR_BIT;
-	static const size_t s_extraBits = BitCount % CHAR_BIT;
+	static const size_t _byteCount = (BitCount + CHAR_BIT - 1) / CHAR_BIT;
+	static const size_t _extraBits = BitCount % CHAR_BIT;
 
-	unsigned int m_data[s_bytesCount];
+	unsigned int _data[_byteCount];
 
 	static size_t _whichByte(size_t pos) { return pos / CHAR_BIT; }
 	static size_t _whichBit(size_t pos) { return pos % CHAR_BIT; }
-	unsigned int& _hiByte() { return m_data[s_bytesCount-1]; }
-	unsigned int _hiByte() const { return m_data[s_bytesCount-1]; }
-	static void _resetUnusedBits(unsigned int& hiByte) { if (s_extraBits) hiByte &= ~(~0U << s_extraBits); }
+	unsigned int& _hiByte() { return _data[_byteCount-1]; }
+	unsigned int _hiByte() const { return _data[_byteCount-1]; }
+	static void _resetUnusedBits(unsigned int& hiByte) { if (_extraBits) hiByte &= ~(~0U << _extraBits); }
 
 public:
 	class Reference;
 
 	Bitset()
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			m_data[i] = 0U;
+			_data[i] = 0U;
 		}
 	}
 
-	Bitset(const emb::Array<unsigned int, s_bytesCount>& words)
+	Bitset(const emb::Array<unsigned int, _byteCount>& words)
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			m_data[i] = words[i];
+			_data[i] = words[i];
 		}
 		_resetUnusedBits(_hiByte());
 	}
 
 	Bitset(uint64_t value)
 	{
-		EMB_STATIC_ASSERT(s_bytesCount <= 4);
+		EMB_STATIC_ASSERT(_byteCount <= 4);
 		uint64_t val = value;	// protection against implicit conversion and wrong memcpy()
-		memcpy(m_data, &val, s_bytesCount);
+		memcpy(_data, &val, _byteCount);
 		_resetUnusedBits(_hiByte());
 	}
 
@@ -78,7 +78,7 @@ public:
 	bool operator[](size_t pos) const
 	{
 #ifdef NDEBUG
-		return m_data[_whichByte(pos)] & (1U << _whichBit(pos));
+		return _data[_whichByte(pos)] & (1U << _whichBit(pos));
 #else
 		return test(pos);
 #endif
@@ -92,20 +92,20 @@ public:
 	bool test(size_t pos) const
 	{
 		assert(pos < BitCount);
-		return m_data[_whichByte(pos)] & (1U << _whichBit(pos));
+		return _data[_whichByte(pos)] & (1U << _whichBit(pos));
 	}
 
 	bool all() const
 	{
 		// int index is used to suppress "pointless comparison of unsigned integer with zero" warning
-		for (int i = 0; i < s_bytesCount-1; ++i)
+		for (int i = 0; i < _byteCount-1; ++i)
 		{
-			if (m_data[i] != 0xFFFF) return false;
+			if (_data[i] != 0xFFFF) return false;
 		}
 
-		if (s_extraBits)
+		if (_extraBits)
 		{
-			if (_hiByte() != ~(~0U << s_extraBits)) return false;
+			if (_hiByte() != ~(~0U << _extraBits)) return false;
 		}
 		else
 		{
@@ -116,9 +116,9 @@ public:
 
 	bool any() const
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			if (m_data[i] != 0) return true;
+			if (_data[i] != 0) return true;
 		}
 		return false;
 	}
@@ -140,9 +140,9 @@ public:
 
 	void set()
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			m_data[i] = 0xFFFF;
+			_data[i] = 0xFFFF;
 		}
 		_resetUnusedBits(_hiByte());
 	}
@@ -151,30 +151,30 @@ public:
 	{
 		assert(pos < BitCount);
 		if (value)
-			m_data[_whichByte(pos)] |= 1U << _whichBit(pos);
+			_data[_whichByte(pos)] |= 1U << _whichBit(pos);
 		else
-			m_data[_whichByte(pos)] &= ~(1U << _whichBit(pos));
+			_data[_whichByte(pos)] &= ~(1U << _whichBit(pos));
 	}
 
 	void reset()
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			m_data[i] = 0U;
+			_data[i] = 0U;
 		}
 	}
 
 	void reset(size_t pos)
 	{
 		assert(pos < BitCount);
-		m_data[_whichByte(pos)] &= ~(1U << _whichBit(pos));
+		_data[_whichByte(pos)] &= ~(1U << _whichBit(pos));
 	}
 
 	void flip()
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			m_data[i] = ~m_data[i];
+			_data[i] = ~_data[i];
 		}
 		_resetUnusedBits(_hiByte());
 	}
@@ -182,14 +182,14 @@ public:
 	void flip(size_t pos)
 	{
 		assert(pos < BitCount);
-		m_data[_whichByte(pos)] ^= 1U << _whichBit(pos);
+		_data[_whichByte(pos)] ^= 1U << _whichBit(pos);
 	}
 
 	bool operator==(const Bitset& rhs) const
 	{
-		for (size_t i = 0; i < s_bytesCount; ++i)
+		for (size_t i = 0; i < _byteCount; ++i)
 		{
-			if (m_data[i] != rhs.m_data[i]) return false;
+			if (_data[i] != rhs._data[i]) return false;
 		}
 		return true;
 	}
@@ -203,7 +203,7 @@ public:
 	{
 		Bitset* self;
 		size_t pos;
-		Reference(Bitset* _self, size_t _pos) : self(_self), pos(_pos) {}
+		Reference(Bitset* self_, size_t pos_) : self(self_), pos(pos_) {}
 		operator bool() const { return self->test(pos); }
 		Reference& operator=(bool value)
 		{

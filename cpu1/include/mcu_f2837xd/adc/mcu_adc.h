@@ -47,7 +47,7 @@ SCOPED_ENUM_DECLARE_END(Peripheral)
 /**
  * @brief ADC unit config.
  */
-struct Configuration
+struct Config
 {
 	uint32_t sampleWindow_ns;
 };
@@ -80,12 +80,12 @@ struct Channel
 	ADC_SOCNumber soc;
 	ADC_Trigger trigger;
 	Channel() {}
-	Channel(uint32_t _base, uint32_t _resultBase, ADC_Channel _channel, ADC_SOCNumber _soc, ADC_Trigger _trigger)
-		: base(_base)
-		, resultBase(_resultBase)
-		, channel(_channel)
-		, soc(_soc)
-		, trigger(_trigger)
+	Channel(uint32_t base_, uint32_t resultBase_, ADC_Channel channel_, ADC_SOCNumber soc_, ADC_Trigger trigger_)
+		: base(base_)
+		, resultBase(resultBase_)
+		, channel(channel_)
+		, soc(soc_)
+		, trigger(trigger_)
 	{}
 };
 
@@ -100,11 +100,11 @@ struct Irq
 	ADC_SOCNumber soc;
 	uint32_t pieIntNum;
 	Irq() {}
-	Irq(uint32_t _base, ADC_IntNumber _intNum, ADC_SOCNumber _soc, uint32_t _pieIntNum)
-		: base(_base)
-		, intNum(_intNum)
-		, soc(_soc)
-		, pieIntNum(_pieIntNum)
+	Irq(uint32_t base_, ADC_IntNumber intNum_, ADC_SOCNumber soc_, uint32_t pieIntNum_)
+		: base(base_)
+		, intNum(intNum_)
+		, soc(soc_)
+		, pieIntNum(pieIntNum_)
 	{}
 };
 
@@ -134,16 +134,16 @@ void initIrqs(emb::Array<impl::Irq, IrqName::Count>& irqs);
 class Module : public emb::c28x::interrupt_invoker<Module>, private emb::noncopyable
 {
 private:
-	impl::Module m_module[4];
-	static emb::Array<impl::Channel, ChannelName::Count> s_channels;
-	static emb::Array<impl::Irq, IrqName::Count> s_irqs;
-	const uint32_t m_sampleWindowCycles;
+	impl::Module _module[4];
+	static emb::Array<impl::Channel, ChannelName::Count> _channels;
+	static emb::Array<impl::Irq, IrqName::Count> _irqs;
+	const uint32_t _sampleWindowCycles;
 public:
 	/**
 	 * @brief Initializes MCU ADC module.
 	 * @param conf - ADC config
 	 */
-	Module(const adc::Configuration& conf);
+	Module(const adc::Config& conf);
 
 	/**
 	 * @brief Starts conversion on specified channel.
@@ -152,7 +152,7 @@ public:
 	 */
 	void start(ChannelName channel)
 	{
-		ADC_forceSOC(s_channels[channel.underlying_value()].base, s_channels[channel.underlying_value()].soc);
+		ADC_forceSOC(_channels[channel.underlying_value()].base, _channels[channel.underlying_value()].soc);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public:
 	 */
 	uint16_t read(ChannelName channel) const
 	{
-		return ADC_readResult(s_channels[channel.underlying_value()].resultBase, s_channels[channel.underlying_value()].soc);
+		return ADC_readResult(_channels[channel.underlying_value()].resultBase, _channels[channel.underlying_value()].soc);
 	}
 
 /*============================================================================*/
@@ -177,7 +177,7 @@ public:
 	{
 		for (size_t i = 0; i < IrqName::Count; ++i)
 		{
-			Interrupt_enable(s_irqs[i].pieIntNum);
+			Interrupt_enable(_irqs[i].pieIntNum);
 		}
 	}
 
@@ -190,7 +190,7 @@ public:
 	{
 		for (size_t i = 0; i < IrqName::Count; ++i)
 		{
-			Interrupt_disable(s_irqs[i].pieIntNum);
+			Interrupt_disable(_irqs[i].pieIntNum);
 		}
 	}
 
@@ -202,7 +202,7 @@ public:
 	 */
 	void registerInterruptHandler(IrqName irq, void (*handler)(void))
 	{
-		Interrupt_register(s_irqs[irq.underlying_value()].pieIntNum, handler);
+		Interrupt_register(_irqs[irq.underlying_value()].pieIntNum, handler);
 	}
 
 	/**
@@ -212,8 +212,8 @@ public:
 	 */
 	void acknowledgeInterrupt(IrqName irq)
 	{
-		ADC_clearInterruptStatus(s_irqs[irq.underlying_value()].base, s_irqs[irq.underlying_value()].intNum);
-		Interrupt_clearACKGroup(impl::adcPieIntGroups[s_irqs[irq.underlying_value()].intNum]);
+		ADC_clearInterruptStatus(_irqs[irq.underlying_value()].base, _irqs[irq.underlying_value()].intNum);
+		Interrupt_clearACKGroup(impl::adcPieIntGroups[_irqs[irq.underlying_value()].intNum]);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public:
 	 */
 	bool interruptPending(IrqName irq) const
 	{
-		return ADC_getInterruptStatus(s_irqs[irq.underlying_value()].base, s_irqs[irq.underlying_value()].intNum);
+		return ADC_getInterruptStatus(_irqs[irq.underlying_value()].base, _irqs[irq.underlying_value()].intNum);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public:
 	 */
 	void clearInterruptStatus(IrqName irq)
 	{
-		ADC_clearInterruptStatus(s_irqs[irq.underlying_value()].base, s_irqs[irq.underlying_value()].intNum);
+		ADC_clearInterruptStatus(_irqs[irq.underlying_value()].base, _irqs[irq.underlying_value()].intNum);
 	}
 };
 
@@ -246,7 +246,7 @@ class Channel
 public:
 	Module* adc;
 private:
-	ChannelName m_channelName;
+	ChannelName _channelName;
 public:
 	/**
 	 * @brief Initializes ADC channel.
@@ -254,7 +254,7 @@ public:
 	 */
 	Channel()
 		: adc(Module::instance())
-		, m_channelName(ChannelName::Count)	// dummy write
+		, _channelName(ChannelName::Count)	// dummy write
 	{}
 
 
@@ -264,7 +264,7 @@ public:
 	 */
 	Channel(ChannelName channelName)
 		: adc(Module::instance())
-		, m_channelName(channelName)
+		, _channelName(channelName)
 	{}
 
 
@@ -275,7 +275,7 @@ public:
 	 */
 	void init(ChannelName channelName)
 	{
-		m_channelName = channelName;
+		_channelName = channelName;
 	}
 
 
@@ -286,7 +286,7 @@ public:
 	 */
 	void start()
 	{
-		adc->start(m_channelName);
+		adc->start(_channelName);
 	}
 
 
@@ -297,7 +297,7 @@ public:
 	 */
 	uint16_t read() const
 	{
-		return adc->read(m_channelName);
+		return adc->read(_channelName);
 	}
 };
 

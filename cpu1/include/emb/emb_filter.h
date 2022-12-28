@@ -34,11 +34,8 @@ namespace emb {
  * @brief Filter interface
  */
 template <typename T>
-class IFilter
+class IFilter : emb::noncopyable
 {
-private:
-	IFilter(const IFilter& other);			// no copy constructor
-	IFilter& operator=(const IFilter& other);	// no copy assignment operator
 public:
 	IFilter() {}
 	virtual ~IFilter() {}
@@ -57,65 +54,62 @@ template <typename T, size_t WindowSize>
 class MovingAvgFilter : public IFilter<T>
 {
 private:
-	size_t m_size;
-	T* m_window;
-	size_t m_index;
-	T m_sum;
-	bool m_heapUsed;
-
-	MovingAvgFilter(const MovingAvgFilter& other);			// no copy constructor
-	MovingAvgFilter& operator=(const MovingAvgFilter& other);	// no copy assignment operator
+	size_t _size;
+	T* _window;
+	size_t _index;
+	T _sum;
+	bool _heapUsed;
 public:
 	MovingAvgFilter()
-		: m_size(WindowSize)
-		, m_window(new T[WindowSize])
-		, m_index(0)
-		, m_sum(0)
-		, m_heapUsed(true)
+		: _size(WindowSize)
+		, _window(new T[WindowSize])
+		, _index(0)
+		, _sum(0)
+		, _heapUsed(true)
 	{
 		reset();
 	}
 
 	MovingAvgFilter(emb::Array<T, WindowSize>& dataArray)
-		: m_size(WindowSize)
-		, m_window(dataArray.data)
-		, m_index(0)
-		, m_sum(T(0))
-		, m_heapUsed(false)
+		: _size(WindowSize)
+		, _window(dataArray.data)
+		, _index(0)
+		, _sum(T(0))
+		, _heapUsed(false)
 	{
 		reset();
 	}
 
 	~MovingAvgFilter()
 	{
-		if (m_heapUsed == true)
+		if (_heapUsed == true)
 		{
-			delete[] m_window;
+			delete[] _window;
 		}
 	}
 
 	virtual void push(T value)
 	{
-		m_sum = m_sum + value - m_window[m_index];
-		m_window[m_index] = value;
-		m_index = (m_index + 1) % m_size;
+		_sum = _sum + value - _window[_index];
+		_window[_index] = value;
+		_index = (_index + 1) % _size;
 	}
 
-	virtual T output() const { return m_sum / m_size; }
+	virtual T output() const { return _sum / _size; }
 
 	virtual void setOutput(T value)
 	{
-		for (size_t i = 0; i < m_size; ++i)
+		for (size_t i = 0; i < _size; ++i)
 		{
-			m_window[i] = value;
+			_window[i] = value;
 		}
-		m_index = 0;
-		m_sum = value * m_size;
+		_index = 0;
+		_sum = value * _size;
 	}
 
 	virtual void reset() { setOutput(0); }
 
-	int size() const { return m_size; }
+	int size() const { return _size; }
 
 	void resize(size_t size)
 	{
@@ -125,11 +119,11 @@ public:
 		}
 		if (size > WindowSize)
 		{
-			m_size = WindowSize;
+			_size = WindowSize;
 			reset();
 			return;
 		}
-		m_size = size;
+		_size = size;
 		reset();
 	}
 };
@@ -142,12 +136,8 @@ template <typename T, size_t WindowSize>
 class MedianFilter : public IFilter<T>
 {
 private:
-	CircularBuffer<T, WindowSize> m_window;
-	T m_out;
-
-	MedianFilter(const MedianFilter& other);		// no copy constructor
-	MedianFilter& operator=(const MedianFilter& other);	// no copy assignment operator
-
+	CircularBuffer<T, WindowSize> _window;
+	T _out;
 public:
 	MedianFilter()
 	{
@@ -157,19 +147,19 @@ public:
 
 	virtual void push(T value)
 	{
-		m_window.push(value);
+		_window.push(value);
 		Array<T, WindowSize> windowSorted;
-		emb::copy(m_window.begin(), m_window.end(), windowSorted.begin());
+		emb::copy(_window.begin(), _window.end(), windowSorted.begin());
 		std::sort(windowSorted.begin(), windowSorted.end());
-		m_out = windowSorted[WindowSize/2];
+		_out = windowSorted[WindowSize/2];
 	}
 
-	virtual T output() const { return m_out; }
+	virtual T output() const { return _out; }
 
 	virtual void setOutput(T value)
 	{
-		m_window.fill(value);
-		m_out = value;
+		_window.fill(value);
+		_out = value;
 	}
 
 	virtual void reset() { setOutput(0); }
@@ -183,43 +173,39 @@ template <typename T>
 class ExponentialFilter : public IFilter<T>
 {
 private:
-	float m_smoothFactor;
-	T m_out;
-	T m_outPrev;
-
-	ExponentialFilter(const ExponentialFilter& other);		// no copy constructor
-	ExponentialFilter& operator=(const ExponentialFilter& other);	// no copy assignment operator
-
+	float _smoothFactor;
+	T _out;
+	T _outPrev;
 public:
 	ExponentialFilter()
-		: m_smoothFactor(0)
+		: _smoothFactor(0)
 	{
 		reset();
 	}
 
 	ExponentialFilter(float smoothFactor)
-		: m_smoothFactor(smoothFactor)
+		: _smoothFactor(smoothFactor)
 	{
 		reset();
 	}
 
 	virtual void push(T value)
 	{
-		m_out = m_outPrev + m_smoothFactor * (value - m_outPrev);
-		m_outPrev = m_out;
+		_out = _outPrev + _smoothFactor * (value - _outPrev);
+		_outPrev = _out;
 	}
 
-	virtual T output() const { return m_out; }
+	virtual T output() const { return _out; }
 
 	virtual void setOutput(T value)
 	{
-		m_out = value;
-		m_outPrev = value;
+		_out = value;
+		_outPrev = value;
 	}
 
 	virtual void reset() { setOutput(0); }
 
-	void setSmoothFactor(float smoothFactor) { m_smoothFactor = smoothFactor; }
+	void setSmoothFactor(float smoothFactor) { _smoothFactor = smoothFactor; }
 };
 
 
@@ -230,24 +216,20 @@ template <typename T, size_t WindowSize>
 class ExponentialMedianFilter : public IFilter<T>
 {
 private:
-	CircularBuffer<T, WindowSize> m_window;
-	float m_smoothFactor;
-	T m_out;
-	T m_outPrev;
-
-	ExponentialMedianFilter(const ExponentialMedianFilter& other);			// no copy constructor
-	ExponentialMedianFilter& operator=(const ExponentialMedianFilter& other);	// no copy assignment operator
-
+	CircularBuffer<T, WindowSize> _window;
+	float _smoothFactor;
+	T _out;
+	T _outPrev;
 public:
 	ExponentialMedianFilter()
-		: m_smoothFactor(0)
+		: _smoothFactor(0)
 	{
 		EMB_STATIC_ASSERT((WindowSize % 2) == 1);
 		reset();
 	}
 
 	ExponentialMedianFilter(float smoothFactor)
-		: m_smoothFactor(smoothFactor)
+		: _smoothFactor(smoothFactor)
 	{
 		EMB_STATIC_ASSERT((WindowSize % 2) == 1);
 		reset();
@@ -255,28 +237,28 @@ public:
 
 	virtual void push(T value)
 	{
-		m_window.push(value);
+		_window.push(value);
 		Array<T, WindowSize> windowSorted;
-		emb::copy(m_window.begin(), m_window.end(), windowSorted.begin());
+		emb::copy(_window.begin(), _window.end(), windowSorted.begin());
 		std::sort(windowSorted.begin(), windowSorted.end());
 		value = windowSorted[WindowSize/2];
 
-		m_out = m_outPrev + m_smoothFactor * (value - m_outPrev);
-		m_outPrev = m_out;
+		_out = _outPrev + _smoothFactor * (value - _outPrev);
+		_outPrev = _out;
 	}
 
-	virtual T output() const { return m_out; }
+	virtual T output() const { return _out; }
 
 	virtual void setOutput(T value)
 	{
-		m_window.fill(value);
-		m_out = value;
-		m_outPrev = value;
+		_window.fill(value);
+		_out = value;
+		_outPrev = value;
 	}
 
 	virtual void reset() { setOutput(0); }
 
-	void setSmoothFactor(float smoothFactor) { m_smoothFactor = smoothFactor; }
+	void setSmoothFactor(float smoothFactor) { _smoothFactor = smoothFactor; }
 };
 
 

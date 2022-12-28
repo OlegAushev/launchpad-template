@@ -221,8 +221,8 @@ void main()
 	cli::print_blocking("Transferring control over CANB to CPU2... ");
 
 	mcu::can::Module<mcu::can::Peripheral::CanB>::transferControlToCpu2(
-			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
-			mcu::gpio::Configuration(12, GPIO_12_CANTXB)
+			mcu::gpio::Config(17, GPIO_17_CANRXB),
+			mcu::gpio::Config(12, GPIO_12_CANTXB)
 	);
 
 	cli::print_blocking("success.");
@@ -248,12 +248,12 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("Configuring ADC... ");
 
-	mcu::adc::Configuration adcConf =
+	mcu::adc::Config adcConfig =
 	{
 		.sampleWindow_ns = 200,
 	};
 
-	mcu::adc::Module adc(adcConf);
+	mcu::adc::Module adc(adcConfig);
 
 	cli::print_blocking("done.");
 
