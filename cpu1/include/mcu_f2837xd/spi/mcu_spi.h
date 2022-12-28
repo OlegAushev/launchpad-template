@@ -134,8 +134,8 @@ public:
 	 * @param csPin
 	 * @param conf
 	 */
-	Module(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
-			const gpio::Configuration& clkPin, const gpio::Configuration& csPin,
+	Module(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin,
 			const Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::spiBases[Instance], impl::spiRxPieIntNums[Instance])
@@ -172,8 +172,8 @@ public:
 	 * @param csMode
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
-			const gpio::Configuration& clkPin, const gpio::Configuration& csPin)
+	static void transferControlToCpu2(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin)
 	{
 		initPins(mosiPin, misoPin, clkPin, csPin);
 		GPIO_setMasterCore(mosiPin.no, GPIO_CORE_CPU2);
@@ -333,8 +333,8 @@ public:
 	}
 
 protected:
-	static void initPins(const gpio::Configuration& mosiPin, const gpio::Configuration& misoPin,
-			const gpio::Configuration& clkPin, const gpio::Configuration& csPin)
+	static void initPins(const gpio::Config& mosiPin, const gpio::Config& misoPin,
+			const gpio::Config& clkPin, const gpio::Config& csPin)
 	{
 		GPIO_setPinConfig(mosiPin.mux);
 		//GPIO_setPadConfig(mosiPin.no, GPIO_PIN_TYPE_PULLUP);

@@ -90,8 +90,8 @@ void main()
 		.autoBaudMode = mcu::sci::AutoBaudMode::Disabled,
 	};
 	mcu::sci::Module<mcu::sci::Peripheral::SciB> sciB(
-			mcu::gpio::Configuration(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
-			mcu::gpio::Configuration(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
+			mcu::gpio::Config(bsp::j1_sciB_rxPin, bsp::j1_sciB_rxPinMux),
+			mcu::gpio::Config(bsp::j1_sciB_txPin, bsp::j1_sciB_txPinMux),
 			sciBConf);
 
 	cli::Server cliServer("launchpad", &sciB, NULL, NULL);
@@ -277,8 +277,8 @@ void main()
 	cli::print_blocking("Configuring CAN... ");
 
 	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
-			mcu::gpio::Configuration(17, GPIO_17_CANRXB),
-			mcu::gpio::Configuration(12, GPIO_12_CANTXB),
+			mcu::gpio::Config(17, GPIO_17_CANRXB),
+			mcu::gpio::Config(12, GPIO_12_CANTXB),
 			mcu::can::Bitrate::Bitrate125K,
 			mcu::can::Mode::Normal);
 

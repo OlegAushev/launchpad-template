@@ -148,7 +148,7 @@ public:
 	 * @param txPin
 	 * @param conf
 	 */
-	Module(const gpio::Configuration& rxPin, const gpio::Configuration& txPin,
+	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
 			const Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::sciBases[Instance],
@@ -193,7 +193,7 @@ public:
 	 * @param rxPin
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
@@ -340,7 +340,7 @@ public:
 	}
 
 protected:
-	static void initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setDirectionMode(rxPin.no, GPIO_DIR_MODE_IN);

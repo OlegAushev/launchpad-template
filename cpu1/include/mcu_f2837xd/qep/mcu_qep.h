@@ -137,8 +137,8 @@ public:
 	 * @brief Initializes MCU QEP module.
 	 * @param (none)
 	 */
-	Module(const gpio::Configuration& qepaPin, const gpio::Configuration& qepbPin,
-			const gpio::Configuration& qepiPin, const Configuration& conf)
+	Module(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+			const gpio::Config& qepiPin, const Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::qepBases[Instance], conf.intFlags, impl::qepPieIntNums[Instance])
 	{
@@ -215,8 +215,8 @@ public:
 
 protected:
 #ifdef CPU1
-	static void initPins(const gpio::Configuration& qepaPin, const gpio::Configuration& qepbPin,
-			const gpio::Configuration& qepiPin)
+	static void initPins(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+			const gpio::Config& qepiPin)
 	{
 		GPIO_setPadConfig(qepaPin.no, GPIO_PIN_TYPE_STD);
 		GPIO_setPinConfig(qepaPin.mux);

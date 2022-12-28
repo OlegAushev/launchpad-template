@@ -7,8 +7,8 @@
 void McuTest::GpioTest()
 {
 #ifdef _LAUNCHXL_F28379D
-	mcu::gpio::Configuration ledBlueCfg(31, GPIO_31_GPIO31, mcu::gpio::Direction::Output, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
-	mcu::gpio::Configuration ledRedCfg(34, GPIO_34_GPIO34, mcu::gpio::Direction::Output, emb::gpio::ActiveState::Low, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
+	mcu::gpio::Config ledBlueCfg(31, GPIO_31_GPIO31, mcu::gpio::Direction::Output, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
+	mcu::gpio::Config ledRedCfg(34, GPIO_34_GPIO34, mcu::gpio::Direction::Output, emb::gpio::ActiveState::Low, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
 
 	mcu::gpio::Output ledBlue(ledBlueCfg);
 	mcu::gpio::Output ledRed(ledRedCfg);
@@ -44,9 +44,9 @@ void McuTest::GpioTest()
 #endif
 
 #ifdef _LAUNCHXL_F28379D
-	mcu::gpio::Configuration outCfg(27, GPIO_27_GPIO27, mcu::gpio::Direction::Output, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
-	mcu::gpio::Configuration in1Cfg(25, GPIO_25_GPIO25, mcu::gpio::Direction::Input, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
-	mcu::gpio::Configuration in2Cfg(25, GPIO_25_GPIO25, mcu::gpio::Direction::Input, emb::gpio::ActiveState::Low, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
+	mcu::gpio::Config outCfg(27, GPIO_27_GPIO27, mcu::gpio::Direction::Output, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
+	mcu::gpio::Config in1Cfg(25, GPIO_25_GPIO25, mcu::gpio::Direction::Input, emb::gpio::ActiveState::High, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
+	mcu::gpio::Config in2Cfg(25, GPIO_25_GPIO25, mcu::gpio::Direction::Input, emb::gpio::ActiveState::Low, mcu::gpio::Type::Std, mcu::gpio::QualMode::Sync, 1);
 
 	mcu::gpio::Output out(outCfg);
 	mcu::gpio::Input in1(in1Cfg);

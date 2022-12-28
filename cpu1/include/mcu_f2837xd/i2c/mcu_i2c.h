@@ -111,7 +111,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @param conf - I2C config
 	 */
-	Module(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin, const i2c::Configuration& conf)
+	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Configuration& conf)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
 		, m_module(impl::i2cBases[Instance])
 	{
@@ -137,7 +137,7 @@ public:
 	 * @param sclPin - MCU I2C-SCL pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
+	static void transferControlToCpu2(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
 		initPins(sdaPin, sclPin);
 		GPIO_setMasterCore(sdaPin.no, GPIO_CORE_CPU2);
@@ -177,7 +177,7 @@ public:
 
 protected:
 #ifdef CPU1
-	static void initPins(const gpio::Configuration& sdaPin, const gpio::Configuration& sclPin)
+	static void initPins(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
 		GPIO_setPadConfig(sdaPin.no, GPIO_PIN_TYPE_PULLUP);
 		GPIO_setQualificationMode(sdaPin.no, GPIO_QUAL_ASYNC);

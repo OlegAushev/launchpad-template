@@ -107,7 +107,7 @@ template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
-	impl::Module m_module;
+	impl::Module _module;
 public:
 	/**
 	 * @brief Initializes MCU CAN module.
@@ -116,38 +116,38 @@ public:
 	 * @param bitrate - CAN bus bitrate
 	 * @param mode - CAN mode
 	 */
-	Module(const gpio::Configuration& rxPin, const gpio::Configuration& txPin,
+	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
 			Bitrate bitrate, Mode mode)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
-		, m_module(impl::canBases[Instance], impl::canPieIntNums[Instance])
+		, _module(impl::canBases[Instance], impl::canPieIntNums[Instance])
 	{
 #ifdef CPU1
-		initPins(rxPin, txPin);
+		_initPins(rxPin, txPin);
 #endif
 
-		CAN_initModule(m_module.base);
-		CAN_selectClockSource(m_module.base, CAN_CLOCK_SOURCE_SYS);
+		CAN_initModule(_module.base);
+		CAN_selectClockSource(_module.base, CAN_CLOCK_SOURCE_SYS);
 
 		switch (bitrate.native_value())
 		{
 		case Bitrate::Bitrate125K:
 		case Bitrate::Bitrate500K:
-			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 16);
+			CAN_setBitRate(_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 16);
 			break;
 		case Bitrate::Bitrate1M:
-			CAN_setBitRate(m_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 10);
+			CAN_setBitRate(_module.base, mcu::sysclkFreq(), static_cast<uint32_t>(bitrate.underlying_value()), 10);
 			break;
 		}
 
-		CAN_setAutoBusOnTime(m_module.base, 0);
-		CAN_enableAutoBusOn(m_module.base);
+		CAN_setAutoBusOnTime(_module.base, 0);
+		CAN_enableAutoBusOn(_module.base);
 
 		if (mode != Mode::Normal)
 		{
-			CAN_enableTestMode(m_module.base, static_cast<uint16_t>(mode.underlying_value()));
+			CAN_enableTestMode(_module.base, static_cast<uint16_t>(mode.underlying_value()));
 		}
 
-		CAN_startModule(m_module.base);
+		CAN_startModule(_module.base);
 	}
 
 #ifdef CPU1
@@ -157,9 +157,9 @@ public:
 	 * @param txPin - MCU CAN-TX pin config
 	 * @return (none)
 	 */
-	static void transferControlToCpu2(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
-		initPins(rxPin, txPin);
+		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 
@@ -173,7 +173,7 @@ public:
 	 * @param (none)
 	 * @return Base of CAN-unit.
 	 */
-	uint32_t base() const { return m_module.base; }
+	uint32_t base() const { return _module.base; }
 
 	/**
 	 * @brief Retrieves received data.
@@ -183,7 +183,7 @@ public:
 	 */
 	bool recv(uint32_t objId, uint16_t* dataBuf)
 	{
-		return CAN_readMessage(m_module.base, objId, dataBuf);
+		return CAN_readMessage(_module.base, objId, dataBuf);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public:
 	 */
 	void send(uint32_t objId, const uint16_t* dataBuf, uint16_t dataLen)
 	{
-		CAN_sendMessage(m_module.base, objId, dataLen, dataBuf);
+		CAN_sendMessage(_module.base, objId, dataLen, dataBuf);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public:
 	 */
 	void setupMessageObject(MessageObject& msgObj)
 	{
-		CAN_setupMessageObject(m_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
+		CAN_setupMessageObject(_module.base, msgObj.objId, msgObj.frameId, msgObj.frameType,
 				msgObj.objType, msgObj.frameIdMask, msgObj.flags, msgObj.dataLen);
 	}
 
@@ -216,9 +216,9 @@ public:
 	 */
 	void registerInterruptHandler(void (*handler)(void))
 	{
-		Interrupt_register(m_module.pieIntNum, handler);
-		CAN_enableInterrupt(m_module.base, CAN_INT_IE0 | CAN_INT_ERROR | CAN_INT_STATUS);
-		CAN_enableGlobalInterrupt(m_module.base, CAN_GLOBAL_INT_CANINT0);
+		Interrupt_register(_module.pieIntNum, handler);
+		CAN_enableInterrupt(_module.base, CAN_INT_IE0 | CAN_INT_ERROR | CAN_INT_STATUS);
+		CAN_enableGlobalInterrupt(_module.base, CAN_GLOBAL_INT_CANINT0);
 	}
 
 	/**
@@ -228,8 +228,8 @@ public:
 	 */
 	void registerInterruptCallback(void (*callback)(Module*, uint32_t, uint16_t))
 	{
-		registerInterruptHandler(onInterrupt);
-		onInterruptCallback = callback;
+		registerInterruptHandler(_onInterrupt);
+		_onInterruptCallback = callback;
 	}
 
 	/**
@@ -237,14 +237,14 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enableInterrupts() { Interrupt_enable(m_module.pieIntNum); }
+	void enableInterrupts() { Interrupt_enable(_module.pieIntNum); }
 
 	/**
 	 * @brief Disables interrupts.
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disableInterrupts() { Interrupt_disable(m_module.pieIntNum); }
+	void disableInterrupts() { Interrupt_disable(_module.pieIntNum); }
 
 	/**
 	 * @brief Acknowledges interrupt.
@@ -253,28 +253,28 @@ public:
 	 */
 	void acknowledgeInterrupt(uint32_t intCause)
 	{
-		CAN_clearInterruptStatus(m_module.base, intCause);
-		CAN_clearGlobalInterruptStatus(m_module.base, CAN_GLOBAL_INT_CANINT0);
+		CAN_clearInterruptStatus(_module.base, intCause);
+		CAN_clearGlobalInterruptStatus(_module.base, CAN_GLOBAL_INT_CANINT0);
 		Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
 	}
 
 protected:
 #ifdef CPU1
-	static void initPins(const gpio::Configuration& rxPin, const gpio::Configuration& txPin)
+	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setPinConfig(txPin.mux);
 	}
 #endif
 
-	static void (*onInterruptCallback)(Module*, uint32_t, uint16_t);
+	static void (*_onInterruptCallback)(Module*, uint32_t, uint16_t);
 
-	static interrupt void onInterrupt()
+	static interrupt void _onInterrupt()
 	{
 		uint32_t interruptCause = CAN_getInterruptCause(Module<Instance>::instance()->base());
 		uint16_t status = CAN_getStatus(Module<Instance>::instance()->base());
 
-		onInterruptCallback(Module<Instance>::instance(), interruptCause, status);
+		_onInterruptCallback(Module<Instance>::instance(), interruptCause, status);
 
 		Module<Instance>::instance()->acknowledgeInterrupt(interruptCause);
 	}
@@ -282,7 +282,7 @@ protected:
 
 
 template <Peripheral::enum_type Instance>
-void (*Module<Instance>::onInterruptCallback)(Module*, uint32_t, uint16_t);
+void (*Module<Instance>::_onInterruptCallback)(Module*, uint32_t, uint16_t);
 
 
 /// @}

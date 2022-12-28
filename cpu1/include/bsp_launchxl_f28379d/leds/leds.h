@@ -23,10 +23,10 @@ namespace bsp {
 
 
 extern mcu::gpio::Output ledBlue;
-extern const mcu::gpio::Configuration ledBlueConfig;
+extern const mcu::gpio::Config ledBlueConfig;
 
 extern mcu::gpio::Output ledRed;
-extern const mcu::gpio::Configuration ledRedConfig;
+extern const mcu::gpio::Config ledRedConfig;
 
 
 /**
