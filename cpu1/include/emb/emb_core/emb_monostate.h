@@ -31,26 +31,26 @@ template <class T>
 class monostate
 {
 private:
-	static bool s_initialized;
+	static bool _initialized;
 protected:
 	monostate()
 	{
-		assert(s_initialized);
+		assert(_initialized);
 	}
 
 	~monostate() {}
 
-	static void set_initialized()
+	static void _set_initialized()
 	{
-		assert(!s_initialized);
-		s_initialized = true;
+		assert(!_initialized);
+		_initialized = true;
 	}
 public:
-	static bool initialized() { return s_initialized; }
+	static bool initialized() { return _initialized; }
 };
 
 template <class T>
-bool monostate<T>::s_initialized = false;
+bool monostate<T>::_initialized = false;
 
 
 /// @}

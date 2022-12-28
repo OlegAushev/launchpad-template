@@ -34,35 +34,35 @@ template <class T>
 class interrupt_invoker
 {
 private:
-	static T* s_instance;
-	static bool s_initialized;
+	static T* _instance;
+	static bool _initialized;
 protected:
 	interrupt_invoker(T* self)
 	{
-		assert(!s_initialized);
-		s_instance = self;
-		s_initialized = true;
+		assert(!_initialized);
+		_instance = self;
+		_initialized = true;
 	}
 
 	~interrupt_invoker()
 	{
-		s_initialized = false;
-		s_instance = static_cast<T*>(NULL);
+		_initialized = false;
+		_instance = static_cast<T*>(NULL);
 	}
 public:
 	static T* instance()
 	{
-		assert(s_initialized);
-		return s_instance;
+		assert(_initialized);
+		return _instance;
 	}
 
-	static bool initialized() { return s_initialized; }
+	static bool initialized() { return _initialized; }
 };
 
 template <class T>
-T* interrupt_invoker<T>::s_instance = static_cast<T*>(NULL);
+T* interrupt_invoker<T>::_instance = static_cast<T*>(NULL);
 template <class T>
-bool interrupt_invoker<T>::s_initialized = false;
+bool interrupt_invoker<T>::_initialized = false;
 
 
 /**

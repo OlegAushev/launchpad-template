@@ -101,7 +101,7 @@ public:
 
 		s_ipcFlags = ipcFlags;
 
-		set_initialized();
+		_set_initialized();
 	}
 
 	/**

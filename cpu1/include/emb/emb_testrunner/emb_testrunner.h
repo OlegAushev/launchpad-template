@@ -43,22 +43,22 @@ private:
 	static void print_nextline_dbg() { printf("\n"); }
 
 private:
-	static int s_nAssertsTotal;
-	static int s_nAssertsFailedInTest;
-	static int s_nAssertsFailedTotal;
-	static int s_nTestsTotal;
-	static int s_nTestsFailed;
-	static int s_nTestsPassed;
+	static int _nAssertsTotal;
+	static int _nAssertsFailedInTest;
+	static int _nAssertsFailedTotal;
+	static int _nTestsTotal;
+	static int _nTestsFailed;
+	static int _nTestsPassed;
 
 public:
 	template <typename T, typename U>
 	static void assertEqual(const T& t, const U& u, const char* hint)
 	{
-		++s_nAssertsTotal;
+		++_nAssertsTotal;
 		if (!(t == u))
 		{
-			++s_nAssertsFailedInTest;
-			++s_nAssertsFailedTotal;
+			++_nAssertsFailedInTest;
+			++_nAssertsFailedTotal;
 			print(hint);
 			print_nextline();
 		}
@@ -73,19 +73,19 @@ public:
 	template <class TestFunc>
 	static void runTest(TestFunc testFunc, const char* test_name)
 	{
-		++s_nTestsTotal;
-		s_nAssertsFailedInTest = 0;
+		++_nTestsTotal;
+		_nAssertsFailedInTest = 0;
 		testFunc();
-		if (s_nAssertsFailedInTest == 0)
+		if (_nAssertsFailedInTest == 0)
 		{
-			++s_nTestsPassed;
+			++_nTestsPassed;
 			print("[ PASSED ] ");
 			print(test_name);
 			print_nextline();
 		}
 		else
 		{
-			++s_nTestsFailed;
+			++_nTestsFailed;
 			print("[ FAILED ] ");
 			print(test_name);
 			print_nextline();
@@ -97,16 +97,16 @@ public:
 		print_nextline();
 
 		char str[64] = {0};
-		snprintf(str, 63, "Asserts: %d failed, %d passed", s_nAssertsFailedTotal, s_nAssertsTotal - s_nAssertsFailedTotal);
+		snprintf(str, 63, "Asserts: %d failed, %d passed", _nAssertsFailedTotal, _nAssertsTotal - _nAssertsFailedTotal);
 		print(str);
 		print_nextline();
 
 		memset(str, 0, 64);
-		snprintf(str, 63, "Tests:   %d failed, %d passed", s_nTestsFailed, s_nTestsPassed);
+		snprintf(str, 63, "Tests:   %d failed, %d passed", _nTestsFailed, _nTestsPassed);
 		print(str);
 		print_nextline();
 
-		if (s_nTestsFailed == 0)
+		if (_nTestsFailed == 0)
 		{
 			print("OK");
 			print_nextline();
@@ -120,7 +120,7 @@ public:
 
 	static bool passed()
 	{
-		if (s_nTestsFailed == 0)
+		if (_nTestsFailed == 0)
 		{
 			return true;
 		}

@@ -33,33 +33,35 @@ namespace emb {
 class DurationLogger_us
 {
 private:
-	static uint64_t (*s_timeNowFunc)();
-	char m_message[32];
-	volatile uint64_t m_start;
+	static uint64_t (*_timeNowFunc)();
+	static const size_t _messageLenMax = 32;
+	char _message[_messageLenMax];
+	volatile uint64_t _timepointStart;
 
 public:
 	explicit DurationLogger_us(const char* message)
 	{
-		strcpy(m_message, message);
-		m_start = s_timeNowFunc();
+		strncpy(_message, message, _messageLenMax-1);
+		_message[_messageLenMax-1] = '\0';
+		_timepointStart = _timeNowFunc();
 	}
 
 	~DurationLogger_us()
 	{
-		volatile uint64_t finish = s_timeNowFunc();
-		if (finish < m_start)
+		volatile uint64_t timepointFinish = _timeNowFunc();
+		if (timepointFinish < _timepointStart)
 		{
-			printf("%s: timer overflow\n", m_message);
+			printf("%s: timer overflow\n", _message);
 		}
 		else
 		{
-			printf("%s: %.3f us\n", m_message, float(finish - m_start) / 1000.f);
+			printf("%s: %.3f us\n", _message, float(timepointFinish - _timepointStart) / 1000.f);
 		}
 	}
 
 	static void init(uint64_t (*timeNowFunc_ns)(void))
 	{
-		s_timeNowFunc = timeNowFunc_ns;
+		_timeNowFunc = timeNowFunc_ns;
 	}
 };
 
@@ -74,33 +76,35 @@ public:
 class DurationLogger_clk
 {
 private:
-	static uint32_t (*s_timeNowFunc)();
-	char m_message[32];
-	volatile uint32_t m_start;
+	static uint32_t (*_timeNowFunc)();
+	static const size_t _messageLenMax = 32;
+	char _message[_messageLenMax];
+	volatile uint32_t _timepointStart;
 
 public:
 	explicit DurationLogger_clk(const char* message)
 	{
-		strcpy(m_message, message);
-		m_start = s_timeNowFunc();
+		strncpy(_message, message, _messageLenMax-1);
+		_message[_messageLenMax-1] = '\0';
+		_timepointStart = _timeNowFunc();
 	}
 
 	~DurationLogger_clk()
 	{
-		volatile uint32_t finish = s_timeNowFunc();
-		if (finish > m_start)
+		volatile uint32_t timepointFinish = _timeNowFunc();
+		if (timepointFinish > _timepointStart)
 		{
-			printf("%s: timer overflow\n", m_message);
+			printf("%s: timer overflow\n", _message);
 		}
 		else
 		{
-			printf("%s: %lu clock cycles\n", m_message, m_start - finish);
+			printf("%s: %lu clock cycles\n", _message, _timepointStart - timepointFinish);
 		}
 	}
 
 	static void init(uint32_t (*timeNowFunc_clk)(void))
 	{
-		s_timeNowFunc = timeNowFunc_clk;
+		_timeNowFunc = timeNowFunc_clk;
 	}
 };
 
@@ -115,8 +119,8 @@ public:
 class DurationLoggerAsync_us
 {
 private:
-	static uint64_t (*s_timeNowFunc)();
-	static const size_t s_capacity = 10;
+	static uint64_t (*_timeNowFunc)();
+	static const size_t _capacity = 10;
 
 	struct DurationData
 	{
@@ -125,43 +129,43 @@ private:
 		DurationData() : value(0) {}
 	};
 
-	static DurationData s_durations_us[s_capacity];
+	static DurationData _durations_us[_capacity];
 
-	const size_t m_channel;
-	volatile uint64_t m_start;
+	const size_t _channel;
+	volatile uint64_t _timepointStart;
 public:
 	DurationLoggerAsync_us(const char* message, size_t channel)
-		: m_channel(channel)
+		: _channel(channel)
 	{
-		s_durations_us[m_channel].message = message;
-		m_start = s_timeNowFunc();
+		_durations_us[_channel].message = message;
+		_timepointStart = _timeNowFunc();
 	}
 
 	~DurationLoggerAsync_us()
 	{
-		volatile uint64_t finish = s_timeNowFunc();
-		if (finish < m_start)
+		volatile uint64_t timepointFinish = _timeNowFunc();
+		if (timepointFinish < _timepointStart)
 		{
-			s_durations_us[m_channel].value = 0;
+			_durations_us[_channel].value = 0;
 		}
 		else
 		{
-			s_durations_us[m_channel].value = float(finish - m_start) / 1000.f;
+			_durations_us[_channel].value = float(timepointFinish - _timepointStart) / 1000.f;
 		}
 	}
 
 	static void init(uint64_t (*timeNowFunc)(void))
 	{
-		s_timeNowFunc = timeNowFunc;
+		_timeNowFunc = timeNowFunc;
 	}
 
 	static void print()
 	{
-		for (size_t i = 0; i < s_capacity; ++i)
+		for (size_t i = 0; i < _capacity; ++i)
 		{
-			if (s_durations_us[i].value != 0)
+			if (_durations_us[i].value != 0)
 			{
-				printf("%s: %.3f us\n", s_durations_us[i].message, s_durations_us[i].value);
+				printf("%s: %.3f us\n", _durations_us[i].message, _durations_us[i].value);
 			}
 		}
 	}

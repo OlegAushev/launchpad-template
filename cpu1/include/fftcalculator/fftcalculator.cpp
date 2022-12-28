@@ -52,7 +52,7 @@ void FftCalculator::init()
 
 	RFFT_f32_sincostable(m_handle);         //Calculate twiddle factor
 
-	set_initialized();
+	_set_initialized();
 
 	FftCalculator fftCalculator;
 	fftCalculator.reset();
