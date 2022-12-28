@@ -81,7 +81,7 @@ void main()
 	/*#############*/
 	/*# SCI & CLI #*/
 	/*#############*/
-	mcu::sci::Configuration sciBConf =
+	mcu::sci::Config sciBConf =
 	{
 		.baudrate = mcu::sci::Baudrate::Baudrate9600,
 		.wordLen = mcu::sci::WordLen::Word8Bit,

@@ -99,7 +99,7 @@ SCOPED_ENUM_DECLARE_END(AutoBaudMode)
 /**
  * @brief SCI unit config.
  */
-struct Configuration
+struct Config
 {
 	Baudrate baudrate;
 	WordLen wordLen;
@@ -120,8 +120,8 @@ struct Module
 	uint32_t base;
 	uint32_t pieRxIntNum;
 	uint16_t pieIntGroup;
-	Module(uint32_t _base, uint32_t _pieRxIntNum, uint16_t _pieIntGroup)
-		: base(_base), pieRxIntNum(_pieRxIntNum), pieIntGroup(_pieIntGroup) {}
+	Module(uint32_t base_, uint32_t pieRxIntNum_, uint16_t pieIntGroup_)
+		: base(base_), pieRxIntNum(pieRxIntNum_), pieIntGroup(pieIntGroup_) {}
 };
 
 
@@ -140,49 +140,49 @@ template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, public emb::IUart, private emb::noncopyable
 {
 private:
-	impl::Module m_module;
+	impl::Module _module;
 public:
 	/**
 	 * @brief Initializes MCU SCI module.
 	 * @param rxPin
 	 * @param txPin
-	 * @param conf
+	 * @param config
 	 */
 	Module(const gpio::Config& rxPin, const gpio::Config& txPin,
-			const Configuration& conf)
+			const Config& config)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
-		, m_module(impl::sciBases[Instance],
+		, _module(impl::sciBases[Instance],
 				impl::sciRxPieIntNums[Instance],
 				impl::sciPieIntGroups[Instance])
 	{
 #ifdef CPU1
-		initPins(rxPin, txPin);
+		_initPins(rxPin, txPin);
 #endif
-		SCI_disableModule(m_module.base);
+		SCI_disableModule(_module.base);
 
-		uint32_t configFlags = static_cast<uint32_t>(conf.wordLen.underlying_value())
-				| static_cast<uint32_t>(conf.stopBits.underlying_value())
-				| static_cast<uint32_t>(conf.parityMode.underlying_value());
+		uint32_t configFlags = static_cast<uint32_t>(config.wordLen.underlying_value())
+				| static_cast<uint32_t>(config.stopBits.underlying_value())
+				| static_cast<uint32_t>(config.parityMode.underlying_value());
 
-		SCI_setConfig(m_module.base, DEVICE_LSPCLK_FREQ,
-				static_cast<uint32_t>(conf.baudrate.underlying_value()),
+		SCI_setConfig(_module.base, DEVICE_LSPCLK_FREQ,
+				static_cast<uint32_t>(config.baudrate.underlying_value()),
 				configFlags);
 
-		SCI_resetChannels(m_module.base);
-		SCI_resetRxFIFO(m_module.base);
-		SCI_resetTxFIFO(m_module.base);
+		SCI_resetChannels(_module.base);
+		SCI_resetRxFIFO(_module.base);
+		SCI_resetTxFIFO(_module.base);
 
-		SCI_clearInterruptStatus(m_module.base, SCI_INT_TXFF | SCI_INT_RXFF);
-		SCI_setFIFOInterruptLevel(m_module.base, SCI_FIFO_TX8, SCI_FIFO_RX8);
-		SCI_enableFIFO(m_module.base);
-		SCI_enableModule(m_module.base);
-		SCI_performSoftwareReset(m_module.base);
+		SCI_clearInterruptStatus(_module.base, SCI_INT_TXFF | SCI_INT_RXFF);
+		SCI_setFIFOInterruptLevel(_module.base, SCI_FIFO_TX8, SCI_FIFO_RX8);
+		SCI_enableFIFO(_module.base);
+		SCI_enableModule(_module.base);
+		SCI_performSoftwareReset(_module.base);
 
-		if (conf.autoBaudMode == AutoBaudMode::Enabled)
+		if (config.autoBaudMode == AutoBaudMode::Enabled)
 		{
 			// Perform an autobaud lock.
 			// SCI expects an 'a' or 'A' to lock the baud rate.
-			SCI_lockAutobaud(m_module.base);
+			SCI_lockAutobaud(_module.base);
 		}
 	}
 
@@ -195,7 +195,7 @@ public:
 	 */
 	static void transferControlToCpu2(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
-		initPins(rxPin, txPin);
+		_initPins(rxPin, txPin);
 		GPIO_setMasterCore(rxPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(txPin.no, GPIO_CORE_CPU2);
 		SysCtl_selectCPUForPeripheral(SYSCTL_CPUSEL5_SCI,
@@ -208,7 +208,7 @@ public:
 	 * @param (none)
 	 * @return Base of SPI-unit.
 	 */
-	uint32_t base() const { return m_module.base; }
+	uint32_t base() const { return _module.base; }
 
 	/**
 	 * @brief Resets SCI-unit.
@@ -217,7 +217,7 @@ public:
 	 */
 	virtual void reset()
 	{
-		SCI_performSoftwareReset(m_module.base);
+		SCI_performSoftwareReset(_module.base);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public:
 	 */
 	virtual bool hasRxError() const
 	{
-		return SCI_getRxStatus(m_module.base) & SCI_RXSTATUS_ERROR;
+		return SCI_getRxStatus(_module.base) & SCI_RXSTATUS_ERROR;
 	}
 
 	/**
@@ -237,9 +237,9 @@ public:
 	 */
 	virtual int recv(char& ch)
 	{
-		if (SCI_getRxFIFOStatus(m_module.base) != SCI_FIFO_RX0)
+		if (SCI_getRxFIFOStatus(_module.base) != SCI_FIFO_RX0)
 		{
-			ch = SCI_readCharNonBlocking(m_module.base);
+			ch = SCI_readCharNonBlocking(_module.base);
 			return 1;
 		}
 		return 0;
@@ -275,9 +275,9 @@ public:
 	 */
 	virtual int send(char ch)
 	{
-		if (SCI_getTxFIFOStatus(m_module.base) != SCI_FIFO_TX15)
+		if (SCI_getTxFIFOStatus(_module.base) != SCI_FIFO_TX15)
 		{
-			SCI_writeCharBlockingFIFO(m_module.base, ch);
+			SCI_writeCharBlockingFIFO(_module.base, ch);
 			return 1;
 		}
 		return 0;
@@ -291,7 +291,7 @@ public:
 	 */
 	virtual int send(const char* buf, uint16_t len)
 	{
-		SCI_writeCharArray(m_module.base, reinterpret_cast<const uint16_t*>(buf), len);
+		SCI_writeCharArray(_module.base, reinterpret_cast<const uint16_t*>(buf), len);
 		return len;
 	}
 
@@ -302,10 +302,10 @@ public:
 	 */
 	virtual void registerRxInterruptHandler(void (*handler)(void))
 	{
-		SCI_disableModule(m_module.base);
-		Interrupt_register(m_module.pieRxIntNum, handler);
-		SCI_enableInterrupt(m_module.base, SCI_INT_RXFF);
-		SCI_enableModule(m_module.base);
+		SCI_disableModule(_module.base);
+		Interrupt_register(_module.pieRxIntNum, handler);
+		SCI_enableInterrupt(_module.base, SCI_INT_RXFF);
+		SCI_enableModule(_module.base);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public:
 	 */
 	virtual void enableRxInterrupts()
 	{
-		Interrupt_enable(m_module.pieRxIntNum);
+		Interrupt_enable(_module.pieRxIntNum);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public:
 	 */
 	virtual void disableRxInterrupts()
 	{
-		Interrupt_disable(m_module.pieRxIntNum);
+		Interrupt_disable(_module.pieRxIntNum);
 	}
 
 	/**
@@ -335,12 +335,12 @@ public:
 	 */
 	virtual void acknowledgeRxInterrupt()
 	{
-		SCI_clearInterruptStatus(m_module.base, SPI_INT_RXFF);
-		Interrupt_clearACKGroup(m_module.pieIntGroup);
+		SCI_clearInterruptStatus(_module.base, SPI_INT_RXFF);
+		Interrupt_clearACKGroup(_module.pieIntGroup);
 	}
 
 protected:
-	static void initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
+	static void _initPins(const gpio::Config& rxPin, const gpio::Config& txPin)
 	{
 		GPIO_setPinConfig(rxPin.mux);
 		GPIO_setDirectionMode(rxPin.no, GPIO_DIR_MODE_IN);

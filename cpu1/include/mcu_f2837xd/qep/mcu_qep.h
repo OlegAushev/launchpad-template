@@ -84,7 +84,7 @@ SCOPED_ENUM_DECLARE_END(PositionResetMode)
 /**
  * @brief QEP unit config.
  */
-struct Configuration
+struct Config
 {
 	InputMode inputMode;
 	Resolution resolution;
@@ -112,8 +112,8 @@ struct Module
 	uint32_t base;
 	uint16_t intFlags;
 	uint32_t pieIntNum;
-	Module(uint32_t _base, uint16_t _intFlags, uint32_t _pieIntNum)
-		: base(_base), intFlags(_intFlags), pieIntNum(_pieIntNum) {}
+	Module(uint32_t base_, uint16_t intFlags_, uint32_t pieIntNum_)
+		: base(base_), intFlags(intFlags_), pieIntNum(pieIntNum_) {}
 };
 
 
@@ -131,48 +131,48 @@ template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
-	impl::Module m_module;
+	impl::Module _module;
 public:
 	/**
 	 * @brief Initializes MCU QEP module.
 	 * @param (none)
 	 */
 	Module(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
-			const gpio::Config& qepiPin, const Configuration& conf)
+			const gpio::Config& qepiPin, const Config& config)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
-		, m_module(impl::qepBases[Instance], conf.intFlags, impl::qepPieIntNums[Instance])
+		, _module(impl::qepBases[Instance], config.intFlags, impl::qepPieIntNums[Instance])
 	{
 #ifdef CPU1
-		initPins(qepaPin, qepbPin, qepiPin);
+		_initPins(qepaPin, qepbPin, qepiPin);
 #endif
 
 		// Configure the decoder
-		EQEP_setDecoderConfig(m_module.base,
-				static_cast<uint16_t>(conf.inputMode.underlying_value())
-				| static_cast<uint16_t>(conf.resolution.underlying_value())
-				| static_cast<uint16_t>(conf.swapAB.underlying_value()));
-		EQEP_setEmulationMode(m_module.base, EQEP_EMULATIONMODE_RUNFREE);
+		EQEP_setDecoderConfig(_module.base,
+				static_cast<uint16_t>(config.inputMode.underlying_value())
+				| static_cast<uint16_t>(config.resolution.underlying_value())
+				| static_cast<uint16_t>(config.swapAB.underlying_value()));
+		EQEP_setEmulationMode(_module.base, EQEP_EMULATIONMODE_RUNFREE);
 
 		// Configure the position counter to reset on an index event
-		EQEP_setPositionCounterConfig(m_module.base,
-				static_cast<EQEP_PositionResetMode>(conf.resetMode.underlying_value()), conf.maxPosition);
+		EQEP_setPositionCounterConfig(_module.base,
+				static_cast<EQEP_PositionResetMode>(config.resetMode.underlying_value()), config.maxPosition);
 
 		// Configure initial position
-		EQEP_setPositionInitMode(m_module.base, conf.initMode);
-		EQEP_setInitialPosition(m_module.base, conf.initPosition);
+		EQEP_setPositionInitMode(_module.base, config.initMode);
+		EQEP_setInitialPosition(_module.base, config.initPosition);
 
 		// Enable the unit timer, setting the frequency
-		EQEP_enableUnitTimer(m_module.base, (mcu::sysclkFreq() / conf.timeoutFreq));
+		EQEP_enableUnitTimer(_module.base, (mcu::sysclkFreq() / config.timeoutFreq));
 
 		// Configure the position counter to be latched on a unit time out
-		EQEP_setLatchMode(m_module.base, conf.latchMode);
+		EQEP_setLatchMode(_module.base, config.latchMode);
 
 		// Enable the eQEP1 module
-		EQEP_enableModule(m_module.base);
+		EQEP_enableModule(_module.base);
 
 		// Configure and enable the edge-capture unit.
-		EQEP_setCaptureConfig(m_module.base, conf.capPrescaler, conf.eventPrescaler);
-		EQEP_enableCapture(m_module.base);
+		EQEP_setCaptureConfig(_module.base, config.capPrescaler, config.eventPrescaler);
+		EQEP_enableCapture(_module.base);
 	}
 
 	/**
@@ -180,7 +180,7 @@ public:
 	 * @param (none)
 	 * @return Base of QEP-unit.
 	 */
-	uint32_t base() const { return m_module.base; }
+	uint32_t base() const { return _module.base; }
 
 	/**
 	 * @brief Registers interrupt handler.
@@ -189,8 +189,8 @@ public:
 	 */
 	void registerInterruptHandler(void (*handler)(void))
 	{
-		Interrupt_register(m_module.pieIntNum, handler);
-		EQEP_enableInterrupt(m_module.base, m_module.intFlags);
+		Interrupt_register(_module.pieIntNum, handler);
+		EQEP_enableInterrupt(_module.base, _module.intFlags);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public:
 	 */
 	void enableInterrupts()
 	{
-		Interrupt_enable(m_module.pieIntNum);
+		Interrupt_enable(_module.pieIntNum);
 	}
 
 	/**
@@ -210,12 +210,12 @@ public:
 	 */
 	void disableInterrupts()
 	{
-		Interrupt_disable(m_module.pieIntNum);
+		Interrupt_disable(_module.pieIntNum);
 	}
 
 protected:
 #ifdef CPU1
-	static void initPins(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
+	static void _initPins(const gpio::Config& qepaPin, const gpio::Config& qepbPin,
 			const gpio::Config& qepiPin)
 	{
 		GPIO_setPadConfig(qepaPin.no, GPIO_PIN_TYPE_STD);
