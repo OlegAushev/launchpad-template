@@ -228,7 +228,7 @@ public:
 	 */
 	void registerInterruptCallback(void (*callback)(Module*, uint32_t, uint16_t))
 	{
-		registerInterruptHandler(_onInterrupt);
+		registerInterruptHandler(onInterrupt);
 		_onInterruptCallback = callback;
 	}
 
@@ -269,7 +269,7 @@ protected:
 
 	static void (*_onInterruptCallback)(Module*, uint32_t, uint16_t);
 
-	static interrupt void _onInterrupt()
+	static interrupt void onInterrupt()
 	{
 		uint32_t interruptCause = CAN_getInterruptCause(Module<Instance>::instance()->base());
 		uint16_t status = CAN_getStatus(Module<Instance>::instance()->base());

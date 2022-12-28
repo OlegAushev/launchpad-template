@@ -36,26 +36,26 @@ private:
 	static uint64_t (*_timeNowFunc)();
 	static const size_t _messageLenMax = 32;
 	char _message[_messageLenMax];
-	volatile uint64_t _timepointStart;
+	volatile uint64_t _start;
 
 public:
 	explicit DurationLogger_us(const char* message)
 	{
 		strncpy(_message, message, _messageLenMax-1);
 		_message[_messageLenMax-1] = '\0';
-		_timepointStart = _timeNowFunc();
+		_start = _timeNowFunc();
 	}
 
 	~DurationLogger_us()
 	{
-		volatile uint64_t timepointFinish = _timeNowFunc();
-		if (timepointFinish < _timepointStart)
+		volatile uint64_t finish = _timeNowFunc();
+		if (finish < _start)
 		{
 			printf("%s: timer overflow\n", _message);
 		}
 		else
 		{
-			printf("%s: %.3f us\n", _message, float(timepointFinish - _timepointStart) / 1000.f);
+			printf("%s: %.3f us\n", _message, float(finish - _start) / 1000.f);
 		}
 	}
 
@@ -79,26 +79,26 @@ private:
 	static uint32_t (*_timeNowFunc)();
 	static const size_t _messageLenMax = 32;
 	char _message[_messageLenMax];
-	volatile uint32_t _timepointStart;
+	volatile uint32_t _start;
 
 public:
 	explicit DurationLogger_clk(const char* message)
 	{
 		strncpy(_message, message, _messageLenMax-1);
 		_message[_messageLenMax-1] = '\0';
-		_timepointStart = _timeNowFunc();
+		_start = _timeNowFunc();
 	}
 
 	~DurationLogger_clk()
 	{
-		volatile uint32_t timepointFinish = _timeNowFunc();
-		if (timepointFinish > _timepointStart)
+		volatile uint32_t finish = _timeNowFunc();
+		if (finish > _start)
 		{
 			printf("%s: timer overflow\n", _message);
 		}
 		else
 		{
-			printf("%s: %lu clock cycles\n", _message, _timepointStart - timepointFinish);
+			printf("%s: %lu clock cycles\n", _message, _start - finish);
 		}
 	}
 
@@ -132,25 +132,25 @@ private:
 	static DurationData _durations_us[_capacity];
 
 	const size_t _channel;
-	volatile uint64_t _timepointStart;
+	volatile uint64_t _start;
 public:
 	DurationLoggerAsync_us(const char* message, size_t channel)
 		: _channel(channel)
 	{
 		_durations_us[_channel].message = message;
-		_timepointStart = _timeNowFunc();
+		_start = _timeNowFunc();
 	}
 
 	~DurationLoggerAsync_us()
 	{
-		volatile uint64_t timepointFinish = _timeNowFunc();
-		if (timepointFinish < _timepointStart)
+		volatile uint64_t finish = _timeNowFunc();
+		if (finish < _start)
 		{
 			_durations_us[_channel].value = 0;
 		}
 		else
 		{
-			_durations_us[_channel].value = float(timepointFinish - _timepointStart) / 1000.f;
+			_durations_us[_channel].value = float(finish - _start) / 1000.f;
 		}
 	}
 

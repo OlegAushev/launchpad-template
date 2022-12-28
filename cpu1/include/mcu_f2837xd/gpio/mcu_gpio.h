@@ -227,7 +227,7 @@ public:
 
 	/**
 	 * @brief Initializes GPIO input pin.
-	 * @param conf - pin config
+	 * @param config - pin config
 	 * @return (none)
 	 */
 	void init(const Config& config)
@@ -335,7 +335,7 @@ public:
 
 	/**
 	 * @brief Constructs GPIO output pin.
-	 * @param conf - pin config
+	 * @param config - pin config
 	 */
 	Output(const Config& config)
 	{
@@ -344,7 +344,7 @@ public:
 
 	/**
 	 * @brief Initializes GPIO output pin.
-	 * @param conf - pin config
+	 * @param config - pin config
 	 * @return (none)
 	 */
 	void init(const Config& config)

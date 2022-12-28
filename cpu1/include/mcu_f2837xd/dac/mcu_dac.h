@@ -50,7 +50,7 @@ namespace impl {
 struct Module
 {
 	uint32_t base;
-	Module(uint32_t _base) : base(_base) {}
+	Module(uint32_t base_) : base(base_) {}
 };
 
 
@@ -66,26 +66,26 @@ extern const uint32_t dacBases[3];
 class Input
 {
 private:
-	uint16_t m_tag : 4;
-	uint16_t m_value : 12;
+	uint16_t _tag : 4;
+	uint16_t _value : 12;
 public:
 	Input()
-		: m_tag(0)
-		, m_value(0)
+		: _tag(0)
+		, _value(0)
 	{}
 
 	explicit Input(uint16_t value)
-		: m_tag(0)
-		, m_value(value & 0x0FFF)
+		: _tag(0)
+		, _value(value & 0x0FFF)
 	{}
 
 	Input(uint16_t value, Peripheral peripheral)
-		: m_tag(static_cast<uint16_t>(peripheral.underlying_value()))
-		, m_value(value & 0x0FFF)
+		: _tag(static_cast<uint16_t>(peripheral.underlying_value()))
+		, _value(value & 0x0FFF)
 	{}
 
-	uint16_t value() const { return m_value; }
-	uint16_t tag() const { return m_tag; }
+	uint16_t value() const { return _value; }
+	uint16_t tag() const { return _tag; }
 };
 
 
@@ -96,7 +96,7 @@ template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
-	impl::Module m_module;
+	impl::Module _module;
 public:
 	/**
 	 * @brief Initializes MCU DAC module.
@@ -104,11 +104,11 @@ public:
 	 */
 	Module()
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
-		, m_module(impl::dacBases[Instance])
+		, _module(impl::dacBases[Instance])
 	{
-		DAC_setReferenceVoltage(m_module.base, DAC_REF_ADC_VREFHI);
-		DAC_enableOutput(m_module.base);
-		DAC_setShadowValue(m_module.base, 0);
+		DAC_setReferenceVoltage(_module.base, DAC_REF_ADC_VREFHI);
+		DAC_enableOutput(_module.base);
+		DAC_setShadowValue(_module.base, 0);
 		mcu::delay_us(10);	// Delay for buffered DAC to power up
 	}
 
@@ -119,7 +119,7 @@ public:
 	 */
 	void convert(Input input)
 	{
-		DAC_setShadowValue(m_module.base, input.value());
+		DAC_setShadowValue(_module.base, input.value());
 	}
 };
 

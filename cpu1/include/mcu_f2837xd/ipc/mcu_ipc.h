@@ -55,11 +55,11 @@ SCOPED_ENUM_DECLARE_END(Role)
 class LocalFlag
 {
 private:
-	uint32_t m_mask;
+	uint32_t _mask;
 public:
-	LocalFlag() : m_mask(0) {}
+	LocalFlag() : _mask(0) {}
 	explicit LocalFlag(uint32_t flagNo)
-		: m_mask(1UL << flagNo)
+		: _mask(1UL << flagNo)
 	{
 		assert(flagNo < 32);
 	}
@@ -67,7 +67,7 @@ public:
 	void init(uint32_t flagNo)
 	{
 		assert(flagNo < 32);
-		m_mask = 1UL << flagNo;
+		_mask = 1UL << flagNo;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public:
 	 */
 	void set()
 	{
-		IPCLtoRFlagSet(m_mask);
+		IPCLtoRFlagSet(_mask);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public:
 	 */
 	inline void reset()
 	{
-		IPCLtoRFlagClear(m_mask);
+		IPCLtoRFlagClear(_mask);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 */
 	bool isSet()
 	{
-		return IPCLtoRFlagBusy(m_mask);
+		return IPCLtoRFlagBusy(_mask);
 	}
 };
 
@@ -108,11 +108,11 @@ public:
 class RemoteFlag
 {
 private:
-	uint32_t m_mask;
+	uint32_t _mask;
 public:
-	RemoteFlag() : m_mask(0) {}
+	RemoteFlag() : _mask(0) {}
 	explicit RemoteFlag(uint32_t flagNo)
-		: m_mask(1UL << flagNo)
+		: _mask(1UL << flagNo)
 	{
 		assert(flagNo < 32);
 	}
@@ -120,7 +120,7 @@ public:
 	void init(uint32_t flagNo)
 	{
 		assert(flagNo < 32);
-		m_mask = 1UL << flagNo;
+		_mask = 1UL << flagNo;
 	}
 
 	/**
@@ -130,8 +130,8 @@ public:
 	 */
 	void wait()
 	{
-		while(!IPCRtoLFlagBusy(m_mask));
-		IPCRtoLFlagAcknowledge(m_mask);
+		while(!IPCRtoLFlagBusy(_mask));
+		IPCRtoLFlagAcknowledge(_mask);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public:
 	 */
 	bool isSet()
 	{
-		return IPCRtoLFlagBusy(m_mask);
+		return IPCRtoLFlagBusy(_mask);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public:
 	 */
 	inline void acknowledge()
 	{
-		IPCRtoLFlagAcknowledge(m_mask);
+		IPCRtoLFlagAcknowledge(_mask);
 	}
 };
 
@@ -162,20 +162,20 @@ public:
 class Flag
 {
 private:
-	Mode m_mode;
+	Mode _mode;
 public:
 	LocalFlag local;
 	RemoteFlag remote;
 	Flag() {}
 	explicit Flag(uint32_t flagNo, Mode mode)
-		: m_mode(mode)
+		: _mode(mode)
 		, local(flagNo)
 		, remote(flagNo)
 	{}
 
 	void init(uint32_t flagNo, Mode mode)
 	{
-		m_mode = mode;
+		_mode = mode;
 		local.init(flagNo);
 		remote.init(flagNo);
 	}
@@ -187,7 +187,7 @@ public:
 	 */
 	bool isSet()
 	{
-		switch (m_mode.native_value())
+		switch (_mode.native_value())
 		{
 		case mcu::ipc::Mode::Singlecore:
 			return local.isSet();
@@ -204,7 +204,7 @@ public:
 	 */
 	inline void reset()
 	{
-		switch (m_mode.native_value())
+		switch (_mode.native_value())
 		{
 		case mcu::ipc::Mode::Singlecore:
 			local.reset();

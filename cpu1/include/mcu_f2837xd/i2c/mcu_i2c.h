@@ -68,7 +68,7 @@ SCOPED_ENUM_DECLARE_END(DutyCycle)
 /**
  * @brief I2C module config.
  */
-struct Configuration
+struct Config
 {
 	uint32_t bitrate;
 	BitCount bitCount;
@@ -86,7 +86,7 @@ namespace impl {
 struct Module
 {
 	uint32_t base;
-	Module(uint32_t _base) : base(_base) {}
+	Module(uint32_t base_) : base(base_) {}
 };
 
 
@@ -103,31 +103,31 @@ template <Peripheral::enum_type Instance>
 class Module : public emb::c28x::interrupt_invoker<Module<Instance> >, private emb::noncopyable
 {
 private:
-	impl::Module m_module;
+	impl::Module _module;
 public:
 	/**
 	 * @brief Initializes MCU I2C module.
 	 * @param sdaPin - MCU I2C-SDA pin config
 	 * @param sclPin - MCU I2C-SCL pin config
-	 * @param conf - I2C config
+	 * @param config - I2C config
 	 */
-	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Configuration& conf)
+	Module(const gpio::Config& sdaPin, const gpio::Config& sclPin, const i2c::Config& config)
 		: emb::c28x::interrupt_invoker<Module<Instance> >(this)
-		, m_module(impl::i2cBases[Instance])
+		, _module(impl::i2cBases[Instance])
 	{
 #ifdef CPU1
-		initPins(sdaPin, sclPin);
+		_initPins(sdaPin, sclPin);
 #endif
-		I2C_disableModule(m_module.base);
+		I2C_disableModule(_module.base);
 
-		I2C_initMaster(m_module.base, mcu::sysclkFreq(), conf.bitrate,
-				static_cast<I2C_DutyCycle>(conf.dutyCycle.underlying_value()));
-		I2C_setBitCount(m_module.base, static_cast<I2C_BitCount>(conf.bitCount.underlying_value()));
-		I2C_setSlaveAddress(m_module.base, conf.slaveAddr);
-		I2C_setEmulationMode(m_module.base, I2C_EMULATION_FREE_RUN);
+		I2C_initMaster(_module.base, mcu::sysclkFreq(), config.bitrate,
+				static_cast<I2C_DutyCycle>(config.dutyCycle.underlying_value()));
+		I2C_setBitCount(_module.base, static_cast<I2C_BitCount>(config.bitCount.underlying_value()));
+		I2C_setSlaveAddress(_module.base, config.slaveAddr);
+		I2C_setEmulationMode(_module.base, I2C_EMULATION_FREE_RUN);
 
-		I2C_disableFIFO(m_module.base);
-		I2C_enableModule(m_module.base);
+		I2C_disableFIFO(_module.base);
+		I2C_enableModule(_module.base);
 	}
 
 #ifdef CPU1
@@ -139,7 +139,7 @@ public:
 	 */
 	static void transferControlToCpu2(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
-		initPins(sdaPin, sclPin);
+		_initPins(sdaPin, sclPin);
 		GPIO_setMasterCore(sdaPin.no, GPIO_CORE_CPU2);
 		GPIO_setMasterCore(sclPin.no, GPIO_CORE_CPU2);
 
@@ -152,7 +152,7 @@ public:
 	 * @param (none)
 	 * @return Base of I2C-unit.
 	 */
-	uint32_t base() const { return m_module.base; }
+	uint32_t base() const { return _module.base; }
 
 	/**
 	 * @brief Sets slave address.
@@ -166,18 +166,18 @@ public:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void enable() { I2C_enableModule(m_module.base); }
+	void enable() { I2C_enableModule(_module.base); }
 
 	/**
 	 * @brief Disables unit.
 	 * @param (none)
 	 * @return (none)
 	 */
-	void disable() { I2C_disableModule(m_module.base); }
+	void disable() { I2C_disableModule(_module.base); }
 
 protected:
 #ifdef CPU1
-	static void initPins(const gpio::Config& sdaPin, const gpio::Config& sclPin)
+	static void _initPins(const gpio::Config& sdaPin, const gpio::Config& sclPin)
 	{
 		GPIO_setPadConfig(sdaPin.no, GPIO_PIN_TYPE_PULLUP);
 		GPIO_setQualificationMode(sdaPin.no, GPIO_QUAL_ASYNC);

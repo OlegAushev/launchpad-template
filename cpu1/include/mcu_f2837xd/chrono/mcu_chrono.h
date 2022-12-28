@@ -47,9 +47,9 @@ SCOPED_ENUM_DECLARE_END(TaskStatus)
 class SystemClock : public emb::monostate<SystemClock>
 {
 private:
-	static volatile uint64_t s_time;
-	static const uint32_t s_timeStep = 1;
-	static const size_t s_taskMaxCount = 4;
+	static volatile uint64_t _time;
+	static const uint32_t _timeStep = 1;
+	static const size_t _taskCountMax = 4;
 
 /* ========================================================================== */
 /* = Periodic Tasks = */
@@ -62,7 +62,7 @@ private:
 		TaskStatus (*func)(size_t);
 	};
 	static TaskStatus empty_task() { return TaskStatus::Success; }
-	static emb::StaticVector<Task, s_taskMaxCount> s_tasks;
+	static emb::StaticVector<Task, _taskCountMax> _tasks;
 public:
 	/**
 	 * @brief Registers periodic task.
@@ -73,7 +73,7 @@ public:
 	static void registerTask(TaskStatus (*func)(size_t), uint64_t period)
 	{
 		Task task = {period, now(), func};
-		s_tasks.push_back(task);
+		_tasks.push_back(task);
 	}
 
 	/**
@@ -84,9 +84,9 @@ public:
 	 */
 	static void setTaskPeriod(size_t index, uint64_t period)
 	{
-		if (index < s_tasks.size())
+		if (index < _tasks.size())
 		{
-			s_tasks[index].period = period;
+			_tasks[index].period = period;
 		}
 	}
 
@@ -94,11 +94,11 @@ public:
 /* = Watchdog = */
 /* ========================================================================== */
 private:
-	static bool s_watchdogEnabled;
-	static uint64_t s_watchdogTimer;
-	static uint64_t s_watchdogBound;
-	static bool s_watchdogTimeoutDetected;
-	static TaskStatus (*s_watchdogTask)();
+	static bool _watchdogEnabled;
+	static uint64_t _watchdogTimer;
+	static uint64_t _watchdogBound;
+	static bool _watchdogTimeoutDetected;
+	static TaskStatus (*_watchdogTask)();
 public:
 	/**
 	 * @brief Enable watchdog.
@@ -107,7 +107,7 @@ public:
 	 */
 	static void enableWatchdog()
 	{
-		s_watchdogEnabled = true;
+		_watchdogEnabled = true;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public:
 	 */
 	static void disableWatchdog()
 	{
-		s_watchdogEnabled = false;
+		_watchdogEnabled = false;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public:
 	 */
 	static void setWatchdogBound(uint64_t watchdogBound_ms)
 	{
-		s_watchdogBound = watchdogBound_ms;
+		_watchdogBound = watchdogBound_ms;
 	}
 
 	/**
@@ -137,7 +137,7 @@ public:
 	 */
 	static void resetWatchdogTimer()
 	{
-		s_watchdogTimer = 0;
+		_watchdogTimer = 0;
 	}
 
 	/**
@@ -147,7 +147,7 @@ public:
 	 */
 	static bool watchdogTimeoutDetected()
 	{
-		return s_watchdogTimeoutDetected;
+		return _watchdogTimeoutDetected;
 	}
 
 	/**
@@ -157,7 +157,7 @@ public:
 	 */
 	static void resetWatchdog()
 	{
-		s_watchdogTimeoutDetected = false;
+		_watchdogTimeoutDetected = false;
 		resetWatchdogTimer();
 	}
 
@@ -168,17 +168,17 @@ public:
 	 */
 	static void registerWatchdogTask(TaskStatus (*task)(), uint64_t watchdogBound_ms)
 	{
-		s_watchdogTask = task;
-		s_watchdogBound = watchdogBound_ms;
+		_watchdogTask = task;
+		_watchdogBound = watchdogBound_ms;
 	}
 
 /* ========================================================================== */
 /* = Delayed Task = */
 /* ========================================================================== */
 private:
-	static uint64_t s_delayedTaskStart;
-	static uint64_t s_delayedTaskDelay;
-	static void (*s_delayedTask)();
+	static uint64_t _delayedTaskStart;
+	static uint64_t _delayedTaskDelay;
+	static void (*_delayedTask)();
 	static void empty_delayed_task() {}
 public:
 	/**
@@ -188,9 +188,9 @@ public:
 	 */
 	static void registerDelayedTask(void (*task)(), uint64_t delay)
 	{
-		s_delayedTask = task;
-		s_delayedTaskDelay = delay;
-		s_delayedTaskStart = now();
+		_delayedTask = task;
+		_delayedTaskDelay = delay;
+		_delayedTaskStart = now();
 	}
 
 private:
@@ -212,7 +212,7 @@ public:
 	 */
 	static uint64_t now()
 	{
-		return s_time;
+		return _time;
 	}
 
 	/**
@@ -222,7 +222,7 @@ public:
 	 */
 	static uint32_t step()
 	{
-		return s_timeStep;
+		return _timeStep;
 	}
 
 	/**
@@ -232,10 +232,10 @@ public:
 	 */
 	static void reset()
 	{
-		s_time = 0;
-		for (size_t i = 0; i < s_tasks.size(); ++i)
+		_time = 0;
+		for (size_t i = 0; i < _tasks.size(); ++i)
 		{
-			s_tasks[i].timepoint = now();
+			_tasks[i].timepoint = now();
 		}
 	}
 
@@ -263,8 +263,8 @@ protected:
 class HighResolutionClock : public emb::monostate<HighResolutionClock>
 {
 private:
-	static uint32_t m_period;
-	static const uint32_t DEVICE_SYSCLK_PERIOD_NS = 1000000000 / DEVICE_SYSCLK_FREQ;
+	static uint32_t _period;
+	static const uint32_t deviceSysclkPeriod_ns = 1000000000 / DEVICE_SYSCLK_FREQ;
 public:
 	/**
 	 * @brief Initializes systick timer.
@@ -290,7 +290,7 @@ public:
 	 */
 	static uint64_t now()
 	{
-		return static_cast<uint64_t>(m_period - counter()) * DEVICE_SYSCLK_PERIOD_NS;
+		return static_cast<uint64_t>(_period - counter()) * deviceSysclkPeriod_ns;
 	}
 
 	/**
@@ -337,8 +337,8 @@ private:
 class Timeout
 {
 private:
-	const uint64_t m_timeout;
-	volatile uint64_t m_start;
+	const uint64_t _timeout;
+	volatile uint64_t _start;
 public:
 	/**
 	 * @brief
@@ -346,8 +346,8 @@ public:
 	 * @return (none)
 	 */
 	Timeout(uint64_t timeout = 0)
-		: m_timeout(timeout)
-		, m_start(SystemClock::now())
+		: _timeout(timeout)
+		, _start(SystemClock::now())
 	{}
 
 	/**
@@ -357,11 +357,11 @@ public:
 	 */
 	bool expired() volatile
 	{
-		if (m_timeout == 0)
+		if (_timeout == 0)
 		{
 			return false;
 		}
-		if ((SystemClock::now() - m_start) > m_timeout)
+		if ((SystemClock::now() - _start) > _timeout)
 		{
 			return true;
 		}
@@ -375,7 +375,7 @@ public:
 	 */
 	void reset() volatile
 	{
-		m_start = SystemClock::now();
+		_start = SystemClock::now();
 	}
 };
 
