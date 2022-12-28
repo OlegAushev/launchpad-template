@@ -88,10 +88,10 @@ inline T fromPayload(const can_payload& payload)
 class NodeId
 {
 private:
-	unsigned int m_value;
+	unsigned int _value;
 public:
-	explicit NodeId(unsigned int value) : m_value(value) {}
-	unsigned int value() const { return m_value; }
+	explicit NodeId(unsigned int value) : _value(value) {}
+	unsigned int value() const { return _value; }
 };
 
 

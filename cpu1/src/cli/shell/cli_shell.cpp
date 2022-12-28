@@ -30,9 +30,9 @@ extern char CLI_CMD_OUTPUT[CLI_CMD_OUTPUT_LENGTH] = {0};
 namespace cli {
 
 
-Cmd Shell::COMMANDS[] =
+Cmd Shell::_commands[] =
 {
-{"list",		Shell::list, 		"Prints all available commands."},
+{"list",		Shell::_list, 		"Prints all available commands."},
 {"sysinfo",		cli_sysinfo,		"Prints basic information about system."},
 {"reboot",		cli_reboot,		"Reboots device."},
 {"uptime",		cli_uptime,		"Shows system uptime."},
@@ -40,8 +40,8 @@ Cmd Shell::COMMANDS[] =
 {"sysctl",		cli_sysctl,		"System control utility."},
 };
 
-const size_t Shell::COMMANDS_COUNT = sizeof(Shell::COMMANDS) / sizeof(Shell::COMMANDS[0]);
-Cmd* Shell::COMMANDS_END = Shell::COMMANDS + Shell::COMMANDS_COUNT;
+const size_t Shell::_commandsCount = sizeof(Shell::_commands) / sizeof(Shell::_commands[0]);
+Cmd* Shell::_commandsEnd = Shell::_commands + Shell::_commandsCount;
 
 
 ///
@@ -49,7 +49,7 @@ Cmd* Shell::COMMANDS_END = Shell::COMMANDS + Shell::COMMANDS_COUNT;
 ///
 void Shell::init()
 {
-	std::sort(COMMANDS, COMMANDS_END);
+	std::sort(_commands, _commandsEnd);
 }
 
 
@@ -60,8 +60,8 @@ int Shell::exec(int argc, const char** argv)
 {
 	if (argc == 0) return 0;
 
-	const Cmd* cmd = emb::binary_find(COMMANDS, COMMANDS_END, argv[0]);
-	if (cmd == COMMANDS_END)
+	const Cmd* cmd = emb::binary_find(_commands, _commandsEnd, argv[0]);
+	if (cmd == _commandsEnd)
 	{
 		cli::nextline();
 		cli::print(argv[0]);
@@ -89,14 +89,14 @@ int Shell::exec(int argc, const char** argv)
 ///
 ///
 ///
-int Shell::list(int argc, const char** argv)
+int Shell::_list(int argc, const char** argv)
 {
 	cli::nextline();
 	cli::print("Available commands are:");
-	for (size_t i = 0; i < COMMANDS_COUNT; ++i)
+	for (size_t i = 0; i < _commandsCount; ++i)
 	{
 		cli::nextline();
-		cli::print(COMMANDS[i].name);
+		cli::print(_commands[i].name);
 	}
 	return 0;
 }

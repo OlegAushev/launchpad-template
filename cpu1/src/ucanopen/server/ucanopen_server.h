@@ -89,59 +89,59 @@ template <mcu::can::Peripheral::enum_type CanPeripheral, mcu::ipc::Mode::enum_ty
 class IServer : public emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >
 {
 private:
-	NodeId m_nodeId;
-	mcu::can::Module<CanPeripheral>* m_canModule;
-	NmtState m_nmtState;
+	NodeId _nodeId;
+	mcu::can::Module<CanPeripheral>* _canModule;
+	NmtState _nmtState;
 
-	emb::Array<mcu::can::MessageObject, cobTypeCount> m_messageObjects;
+	emb::Array<mcu::can::MessageObject, cobTypeCount> _messageObjects;
 
 	/* HEARTBEAT */
 private:
-	impl::HeartbeatInfo m_heartbeatInfo;
+	impl::HeartbeatInfo _heartbeatInfo;
 
 	/* TPDO */
 private:
-	emb::Array<impl::TpdoInfo, 4> m_tpdoList;
+	emb::Array<impl::TpdoInfo, 4> _tpdoList;
 protected:
-	void registerTpdo(TpdoType type, uint64_t period)
+	void _registerTpdo(TpdoType type, uint64_t period)
 	{
-		m_tpdoList[type.underlying_value()].period = period;
+		_tpdoList[type.underlying_value()].period = period;
 	}
 
-	virtual can_payload createTpdo1() = 0;
-	virtual can_payload createTpdo2() = 0;
-	virtual can_payload createTpdo3() = 0;
-	virtual can_payload createTpdo4() = 0;
+	virtual can_payload _createTpdo1() = 0;
+	virtual can_payload _createTpdo2() = 0;
+	virtual can_payload _createTpdo3() = 0;
+	virtual can_payload _createTpdo4() = 0;
 
 	/* RPDO */
 private:
-	emb::Array<impl::RpdoInfo, 4>* m_rpdoList;
-	emb::Array<mcu::ipc::Flag, 4> m_rpdoReceived;
+	emb::Array<impl::RpdoInfo, 4>* _rpdoList;
+	emb::Array<mcu::ipc::Flag, 4> _rpdoReceived;
 protected:
-	void registerRpdo(RpdoType type, uint64_t timeout, unsigned int id = 0)
+	void _registerRpdo(RpdoType type, uint64_t timeout, unsigned int id = 0)
 	{
-		m_rpdoList[type.underlying_value()].timeout = timeout;
+		_rpdoList[type.underlying_value()].timeout = timeout;
 		if (id != 0)
 		{
 			CobType cob = toCobType(type);
-			m_messageObjects[cob.underlying_value()].frameId = id;
-			m_canModule->setupMessageObject(m_messageObjects[cob.underlying_value()]);
+			_messageObjects[cob.underlying_value()].frameId = id;
+			_canModule->setupMessageObject(_messageObjects[cob.underlying_value()]);
 		}
 	}
 
-	virtual void handleRpdo1(const can_payload& data) = 0;
-	virtual void handleRpdo2(const can_payload& data) = 0;
-	virtual void handleRpdo3(const can_payload& data) = 0;
-	virtual void handleRpdo4(const can_payload& data) = 0;
+	virtual void _handleRpdo1(const can_payload& data) = 0;
+	virtual void _handleRpdo2(const can_payload& data) = 0;
+	virtual void _handleRpdo3(const can_payload& data) = 0;
+	virtual void _handleRpdo4(const can_payload& data) = 0;
 
 	/* SDO */
 private:
-	ODEntry* m_dictionary;
-	size_t m_dictionaryLen;
-	mcu::ipc::Flag m_rsdoReceived;
-	mcu::ipc::Flag m_tsdoReady;
-	can_payload* m_rsdoData;
-	can_payload* m_tsdoData;
+	ODEntry* _dictionary;
+	size_t _dictionaryLen;
+	mcu::ipc::Flag _rsdoReceived;
+	mcu::ipc::Flag _tsdoReady;
+	can_payload* _rsdoData;
+	can_payload* _tsdoData;
 
 public:
 	/**
@@ -156,54 +156,54 @@ public:
 	IServer(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags,
 			ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
-		, m_nodeId(nodeId)
-		, m_canModule(canModule)
-		, m_dictionary(objectDictionary)
-		, m_dictionaryLen(objectDictionaryLen)
+		, _nodeId(nodeId)
+		, _canModule(canModule)
+		, _dictionary(objectDictionary)
+		, _dictionaryLen(objectDictionaryLen)
 	{
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
-		m_nmtState = NmtState::Initializing;
+		_nmtState = NmtState::Initializing;
 
-		initAllocation();
-		initMessageObjects();
+		_initAllocation();
+		_initMessageObjects();
 
 		for (size_t i = 1; i < cobTypeCount; ++i)	// count from 1 - skip dummy COB
 		{
-			m_canModule->setupMessageObject(m_messageObjects[i]);
+			_canModule->setupMessageObject(_messageObjects[i]);
 		}
 
 		// heartbeat setup
-		m_heartbeatInfo.period = 1000; // default HB period = 1000ms
-		m_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
+		_heartbeatInfo.period = 1000; // default HB period = 1000ms
+		_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
 
 		// tpdo setup
-		for (size_t i = 0; i < m_tpdoList.size(); ++i)
+		for (size_t i = 0; i < _tpdoList.size(); ++i)
 		{
-			m_tpdoList[i].period = 0;
-			m_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
+			_tpdoList[i].period = 0;
+			_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
 		}
 
 		// rpdo setup
-		for (size_t i = 0; i < m_rpdoList->size(); ++i)
+		for (size_t i = 0; i < _rpdoList->size(); ++i)
 		{
-			(*m_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), m_nodeId);
-			(*m_rpdoList)[i].timeout = 0;
-			(*m_rpdoList)[i].timepoint = mcu::chrono::SystemClock::now();
+			(*_rpdoList)[i].id = calculateCobId(toCobType(RpdoType(i)), _nodeId);
+			(*_rpdoList)[i].timeout = 0;
+			(*_rpdoList)[i].timepoint = mcu::chrono::SystemClock::now();
 		}
 
-		m_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
-		m_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
-		m_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
-		m_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
+		_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
+		_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
+		_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
+		_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
 
 		// sdo setup
-		initObjectDictionary();
-		m_rsdoReceived = ipcFlags.rsdoReceived;
-		m_tsdoReady = ipcFlags.tsdoReady;
+		_initObjectDictionary();
+		_rsdoReceived = ipcFlags.rsdoReceived;
+		_tsdoReady = ipcFlags.tsdoReady;
 
-		m_canModule->registerInterruptCallback(onFrameReceived);
+		_canModule->registerInterruptCallback(onFrameReceived);
 
-		m_nmtState = NmtState::PreOperational;
+		_nmtState = NmtState::PreOperational;
 	}
 
 	/**
@@ -215,25 +215,25 @@ public:
 	 */
 	IServer(const IpcFlags& ipcFlags, ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
-		, m_nodeId(NodeId(0))
-		, m_canModule(NULL)
-		, m_ipcFlags(ipcFlags)
-		, m_dictionary(objectDictionary)
-		, m_dictionaryLen(objectDictionaryLen)
+		, _nodeId(NodeId(0))
+		, _canModule(NULL)
+		, _ipcFlags(ipcFlags)
+		, _dictionary(objectDictionary)
+		, _dictionaryLen(objectDictionaryLen)
 	{
 		EMB_STATIC_ASSERT(IpcMode != mcu::ipc::Mode::Singlecore);
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
 
-		initAllocation();
+		_initAllocation();
 
-		m_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
-		m_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
-		m_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
-		m_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
+		_rpdoReceived[RpdoType::Rpdo1] = ipcFlags.rpdo1Received;
+		_rpdoReceived[RpdoType::Rpdo2] = ipcFlags.rpdo2Received;
+		_rpdoReceived[RpdoType::Rpdo3] = ipcFlags.rpdo3Received;
+		_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
 
-		initObjectDictionary();
-		m_rsdoReceived = ipcFlags.rsdoReceived;
-		m_tsdoReady = ipcFlags.tsdoReady;
+		_initObjectDictionary();
+		_rsdoReceived = ipcFlags.rsdoReceived;
+		_tsdoReady = ipcFlags.tsdoReady;
 	}
 
 	/**
@@ -244,8 +244,8 @@ public:
 	 */
 	void enable()
 	{
-		m_canModule->enableInterrupts();
-		m_nmtState = NmtState::Operational;
+		_canModule->enableInterrupts();
+		_nmtState = NmtState::Operational;
 	}
 
 	/**
@@ -256,8 +256,8 @@ public:
 	 */
 	void disable()
 	{
-		m_canModule->disableInterrupts();
-		m_nmtState = NmtState::Stopped;
+		_canModule->disableInterrupts();
+		_nmtState = NmtState::Stopped;
 	}
 
 	/**
@@ -271,21 +271,21 @@ public:
 		switch (IpcMode)
 		{
 		case mcu::ipc::Mode::Singlecore:
-			sendPeriodic();
-			handleRpdo();
-			handleRsdo();
-			sendTsdo();
+			_sendPeriodic();
+			_handleRpdo();
+			_handleRsdo();
+			_sendTsdo();
 			break;
 		case mcu::ipc::Mode::Dualcore:
 			switch (IpcRole)
 			{
 			case mcu::ipc::Role::Primary:
-				sendPeriodic();
-				sendTsdo();
+				_sendPeriodic();
+				_sendTsdo();
 				break;
 			case mcu::ipc::Role::Secondary:
-				handleRpdo();
-				handleRsdo();
+				_handleRpdo();
+				_handleRsdo();
 				break;
 			}
 			break;
@@ -297,44 +297,44 @@ private:
 	 * @brief
 	 *
 	 */
-	void sendPeriodic()
+	void _sendPeriodic()
 	{
-		if (m_heartbeatInfo.period != 0)
+		if (_heartbeatInfo.period != 0)
 		{
-			if (mcu::chrono::SystemClock::now() >= m_heartbeatInfo.timepoint + m_heartbeatInfo.period)
+			if (mcu::chrono::SystemClock::now() >= _heartbeatInfo.timepoint + _heartbeatInfo.period)
 			{
 				can_payload payload;
-				payload[0] = m_nmtState.underlying_value();
-				m_canModule->send(CobType::Heartbeat, payload.data, cobDataLen[CobType::Heartbeat]);
-				m_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
+				payload[0] = _nmtState.underlying_value();
+				_canModule->send(CobType::Heartbeat, payload.data, cobDataLen[CobType::Heartbeat]);
+				_heartbeatInfo.timepoint = mcu::chrono::SystemClock::now();
 			}
 		}
 
-		for (size_t i = 0; i < m_tpdoList.size(); ++i)
+		for (size_t i = 0; i < _tpdoList.size(); ++i)
 		{
-			if (m_tpdoList[i].period == 0) continue;
-			if (mcu::chrono::SystemClock::now() < m_tpdoList[i].timepoint + m_tpdoList[i].period) continue;
+			if (_tpdoList[i].period == 0) continue;
+			if (mcu::chrono::SystemClock::now() < _tpdoList[i].timepoint + _tpdoList[i].period) continue;
 
 			can_payload payload;
 			switch (i)
 			{
 			case 0:
-				payload = createTpdo1();
+				payload = _createTpdo1();
 				break;
 			case 1:
-				payload = createTpdo2();
+				payload = _createTpdo2();
 				break;
 			case 2:
-				payload = createTpdo3();
+				payload = _createTpdo3();
 				break;
 			case 3:
-				payload = createTpdo4();
+				payload = _createTpdo4();
 				break;
 			}
 
 			CobType cob = toCobType(TpdoType(i));
-			m_canModule->send(cob.underlying_value(), payload.data, cobDataLen[cob.underlying_value()]);
-			m_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
+			_canModule->send(cob.underlying_value(), payload.data, cobDataLen[cob.underlying_value()]);
+			_tpdoList[i].timepoint = mcu::chrono::SystemClock::now();
 		}
 	}
 
@@ -342,30 +342,30 @@ private:
 	 * @brief
 	 *
 	 */
-	void handleRpdo()
+	void _handleRpdo()
 	{
-		if (m_rpdoReceived[RpdoType::Rpdo1].isSet())
+		if (_rpdoReceived[RpdoType::Rpdo1].isSet())
 		{
-			handleRpdo1((*m_rpdoList)[RpdoType::Rpdo1].data);
-			m_rpdoReceived[RpdoType::Rpdo1].reset();
+			_handleRpdo1((*_rpdoList)[RpdoType::Rpdo1].data);
+			_rpdoReceived[RpdoType::Rpdo1].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo2].isSet())
+		if (_rpdoReceived[RpdoType::Rpdo2].isSet())
 		{
-			handleRpdo2((*m_rpdoList)[RpdoType::Rpdo2].data);
-			m_rpdoReceived[RpdoType::Rpdo2].reset();
+			_handleRpdo2((*_rpdoList)[RpdoType::Rpdo2].data);
+			_rpdoReceived[RpdoType::Rpdo2].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo3].isSet())
+		if (_rpdoReceived[RpdoType::Rpdo3].isSet())
 		{
-			handleRpdo3((*m_rpdoList)[RpdoType::Rpdo3].data);
-			m_rpdoReceived[RpdoType::Rpdo3].reset();
+			_handleRpdo3((*_rpdoList)[RpdoType::Rpdo3].data);
+			_rpdoReceived[RpdoType::Rpdo3].reset();
 		}
 
-		if (m_rpdoReceived[RpdoType::Rpdo4].isSet())
+		if (_rpdoReceived[RpdoType::Rpdo4].isSet())
 		{
-			handleRpdo4((*m_rpdoList)[RpdoType::Rpdo4].data);
-			m_rpdoReceived[RpdoType::Rpdo4].reset();
+			_handleRpdo4((*_rpdoList)[RpdoType::Rpdo4].data);
+			_rpdoReceived[RpdoType::Rpdo4].reset();
 		}
 	}
 
@@ -374,19 +374,19 @@ private:
 	 *
 	 * @param data
 	 */
-	void handleRsdo()
+	void _handleRsdo()
 	{
-		if (!m_rsdoReceived.isSet()) return;
+		if (!_rsdoReceived.isSet()) return;
 
 		ODAccessStatus status = ODAccessStatus::NoAccess;
-		ODEntry* dictionaryEnd = m_dictionary + m_dictionaryLen;
+		ODEntry* dictionaryEnd = _dictionary + _dictionaryLen;
 
-		CobSdo rsdo = fromPayload<CobSdo>(*m_rsdoData);
+		CobSdo rsdo = fromPayload<CobSdo>(*_rsdoData);
 		CobSdo tsdo;
 
-		m_rsdoReceived.reset();
+		_rsdoReceived.reset();
 
-		const ODEntry* odEntry = emb::binary_find(m_dictionary, dictionaryEnd,
+		const ODEntry* odEntry = emb::binary_find(_dictionary, dictionaryEnd,
 				ODEntryKeyAux(rsdo.index, rsdo.subindex));
 
 		if (odEntry == dictionaryEnd) return;	// OD-entry not found
@@ -443,8 +443,8 @@ private:
 			{
 				return;
 			}
-			toPayload<CobSdo>(*m_tsdoData, tsdo);
-			m_tsdoReady.local.set();
+			toPayload<CobSdo>(*_tsdoData, tsdo);
+			_tsdoReady.local.set();
 			break;
 
 		case ODAccessStatus::Fail:
@@ -457,18 +457,18 @@ private:
 	 * @brief
 	 *
 	 */
-	void sendTsdo()
+	void _sendTsdo()
 	{
-		if (!m_tsdoReady.isSet()) return;
-		m_canModule->send(CobType::Tsdo, m_tsdoData->data, cobDataLen[CobType::Tsdo]);
-		m_tsdoReady.reset();
+		if (!_tsdoReady.isSet()) return;
+		_canModule->send(CobType::Tsdo, _tsdoData->data, cobDataLen[CobType::Tsdo]);
+		_tsdoReady.reset();
 	}
 
 	/**
 	 * @brief Initializes shared or non-shared objects.
 	 *
 	 */
-	void initAllocation()
+	void _initAllocation()
 	{
 		switch (CanPeripheral)
 		{
@@ -476,14 +476,14 @@ private:
 			switch (IpcMode)
 			{
 			case mcu::ipc::Mode::Singlecore:
-				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
-				m_rsdoData = new can_payload;
-				m_tsdoData = new can_payload;
+				_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				_rsdoData = new can_payload;
+				_tsdoData = new can_payload;
 				break;
 			case mcu::ipc::Mode::Dualcore:
-				m_rpdoList = new(impl::cana_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
-				m_rsdoData = new(impl::cana_rsdo_dualcore_alloc) can_payload;
-				m_tsdoData = new(impl::cana_tsdo_dualcore_alloc) can_payload;
+				_rpdoList = new(impl::cana_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				_rsdoData = new(impl::cana_rsdo_dualcore_alloc) can_payload;
+				_tsdoData = new(impl::cana_tsdo_dualcore_alloc) can_payload;
 				break;
 			}
 			break;
@@ -491,14 +491,14 @@ private:
 			switch (IpcMode)
 			{
 			case mcu::ipc::Mode::Singlecore:
-				m_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
-				m_rsdoData = new can_payload;
-				m_tsdoData = new can_payload;
+				_rpdoList = new emb::Array<impl::RpdoInfo, 4>;
+				_rsdoData = new can_payload;
+				_tsdoData = new can_payload;
 				break;
 			case mcu::ipc::Mode::Dualcore:
-				m_rpdoList = new(impl::canb_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
-				m_rsdoData = new(impl::canb_rsdo_dualcore_alloc) can_payload;
-				m_tsdoData = new(impl::canb_tsdo_dualcore_alloc) can_payload;
+				_rpdoList = new(impl::canb_rpdoinfo_dualcore_alloc) emb::Array<impl::RpdoInfo, 4>;
+				_rsdoData = new(impl::canb_rsdo_dualcore_alloc) can_payload;
+				_tsdoData = new(impl::canb_tsdo_dualcore_alloc) can_payload;
 				break;
 			}
 			break;
@@ -511,53 +511,53 @@ private:
 	 * @param (none)
 	 * @return (none)
 	 */
-	void initMessageObjects()
+	void _initMessageObjects()
 	{
 		for (size_t i = 0; i < cobTypeCount; ++i)
 		{
-			m_messageObjects[i].objId = i;
-			m_messageObjects[i].frameId = calculateCobId(CobType(i), m_nodeId);
-			m_messageObjects[i].frameType = CAN_MSG_FRAME_STD;
-			m_messageObjects[i].frameIdMask = 0;
-			m_messageObjects[i].dataLen = cobDataLen[i];
+			_messageObjects[i].objId = i;
+			_messageObjects[i].frameId = calculateCobId(CobType(i), _nodeId);
+			_messageObjects[i].frameType = CAN_MSG_FRAME_STD;
+			_messageObjects[i].frameIdMask = 0;
+			_messageObjects[i].dataLen = cobDataLen[i];
 		}
 
-		m_messageObjects[CobType::Emcy].objType
-				= m_messageObjects[CobType::Tpdo1].objType
-				= m_messageObjects[CobType::Tpdo2].objType
-				= m_messageObjects[CobType::Tpdo3].objType
-				= m_messageObjects[CobType::Tpdo4].objType
-				= m_messageObjects[CobType::Tsdo].objType
-				= m_messageObjects[CobType::Heartbeat].objType
+		_messageObjects[CobType::Emcy].objType
+				= _messageObjects[CobType::Tpdo1].objType
+				= _messageObjects[CobType::Tpdo2].objType
+				= _messageObjects[CobType::Tpdo3].objType
+				= _messageObjects[CobType::Tpdo4].objType
+				= _messageObjects[CobType::Tsdo].objType
+				= _messageObjects[CobType::Heartbeat].objType
 				= CAN_MSG_OBJ_TYPE_TX;
 
-		m_messageObjects[CobType::Nmt].objType
-				= m_messageObjects[CobType::Sync].objType
-				= m_messageObjects[CobType::Time].objType
-				= m_messageObjects[CobType::Rpdo1].objType
-				= m_messageObjects[CobType::Rpdo2].objType
-				= m_messageObjects[CobType::Rpdo3].objType
-				= m_messageObjects[CobType::Rpdo4].objType
-				= m_messageObjects[CobType::Rsdo].objType
+		_messageObjects[CobType::Nmt].objType
+				= _messageObjects[CobType::Sync].objType
+				= _messageObjects[CobType::Time].objType
+				= _messageObjects[CobType::Rpdo1].objType
+				= _messageObjects[CobType::Rpdo2].objType
+				= _messageObjects[CobType::Rpdo3].objType
+				= _messageObjects[CobType::Rpdo4].objType
+				= _messageObjects[CobType::Rsdo].objType
 				= CAN_MSG_OBJ_TYPE_RX;
 
-		m_messageObjects[CobType::Emcy].flags
-				= m_messageObjects[CobType::Tpdo1].flags
-				= m_messageObjects[CobType::Tpdo2].flags
-				= m_messageObjects[CobType::Tpdo3].flags
-				= m_messageObjects[CobType::Tpdo4].flags
-				= m_messageObjects[CobType::Tsdo].flags
-				= m_messageObjects[CobType::Heartbeat].flags
+		_messageObjects[CobType::Emcy].flags
+				= _messageObjects[CobType::Tpdo1].flags
+				= _messageObjects[CobType::Tpdo2].flags
+				= _messageObjects[CobType::Tpdo3].flags
+				= _messageObjects[CobType::Tpdo4].flags
+				= _messageObjects[CobType::Tsdo].flags
+				= _messageObjects[CobType::Heartbeat].flags
 				= CAN_MSG_OBJ_NO_FLAGS;
 
-		m_messageObjects[CobType::Nmt].flags
-				= m_messageObjects[CobType::Sync].flags
-				= m_messageObjects[CobType::Time].flags
-				= m_messageObjects[CobType::Rpdo1].flags
-				= m_messageObjects[CobType::Rpdo2].flags
-				= m_messageObjects[CobType::Rpdo3].flags
-				= m_messageObjects[CobType::Rpdo4].flags
-				= m_messageObjects[CobType::Rsdo].flags
+		_messageObjects[CobType::Nmt].flags
+				= _messageObjects[CobType::Sync].flags
+				= _messageObjects[CobType::Time].flags
+				= _messageObjects[CobType::Rpdo1].flags
+				= _messageObjects[CobType::Rpdo2].flags
+				= _messageObjects[CobType::Rpdo3].flags
+				= _messageObjects[CobType::Rpdo4].flags
+				= _messageObjects[CobType::Rsdo].flags
 				= CAN_MSG_OBJ_RX_INT_ENABLE;
 	}
 
@@ -565,61 +565,61 @@ private:
 	 * @brief
 	 *
 	 */
-	void initObjectDictionary()
+	void _initObjectDictionary()
 	{
 		if (IpcMode == mcu::ipc::Mode::Dualcore
 				&& IpcRole == mcu::ipc::Role::Primary)
 		{
-			assert(m_dictionary == NULL);
+			assert(_dictionary == NULL);
 			return;
 		}
 
-		assert(m_dictionary != NULL);
+		assert(_dictionary != NULL);
 
-		std::sort(m_dictionary, m_dictionary + m_dictionaryLen);
+		std::sort(_dictionary, _dictionary + _dictionaryLen);
 
 		// Check OBJECT DICTIONARY correctness
-		for (size_t i = 0; i < m_dictionaryLen; ++i)
+		for (size_t i = 0; i < _dictionaryLen; ++i)
 		{
 			// OD is sorted
-			if (i < (m_dictionaryLen - 1))
+			if (i < (_dictionaryLen - 1))
 			{
-				assert(m_dictionary[i] < m_dictionary[i+1]);
+				assert(_dictionary[i] < _dictionary[i+1]);
 			}
 
-			for (size_t j = i+1; j < m_dictionaryLen; ++j)
+			for (size_t j = i+1; j < _dictionaryLen; ++j)
 			{
 				// no od-entries with equal {index, subinex}
-				assert((m_dictionary[i].key.index != m_dictionary[j].key.index)
-					|| (m_dictionary[i].key.subindex != m_dictionary[j].key.subindex));
+				assert((_dictionary[i].key.index != _dictionary[j].key.index)
+					|| (_dictionary[i].key.subindex != _dictionary[j].key.subindex));
 
 				// no od-entries with equal {category, subcategory, name}
-				bool categoryEqual = ((strcmp(m_dictionary[i].value.category, m_dictionary[j].value.category) == 0) ? true : false);
-				bool subcategoryEqual = ((strcmp(m_dictionary[i].value.subcategory, m_dictionary[j].value.subcategory) == 0) ? true : false);
-				bool nameEqual = ((strcmp(m_dictionary[i].value.name, m_dictionary[j].value.name) == 0) ? true : false);
+				bool categoryEqual = ((strcmp(_dictionary[i].value.category, _dictionary[j].value.category) == 0) ? true : false);
+				bool subcategoryEqual = ((strcmp(_dictionary[i].value.subcategory, _dictionary[j].value.subcategory) == 0) ? true : false);
+				bool nameEqual = ((strcmp(_dictionary[i].value.name, _dictionary[j].value.name) == 0) ? true : false);
 				assert(!categoryEqual || !subcategoryEqual || !nameEqual);
 			}
 
-			if (m_dictionary[i].hasReadAccess())
+			if (_dictionary[i].hasReadAccess())
 			{
-				assert((m_dictionary[i].value.readAccessFunc != OD_NO_INDIRECT_READ_ACCESS)
-						|| (m_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
+				assert((_dictionary[i].value.readAccessFunc != OD_NO_INDIRECT_READ_ACCESS)
+						|| (_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
 			}
 			else
 			{
-				assert(m_dictionary[i].value.readAccessFunc == OD_NO_INDIRECT_READ_ACCESS
-						&& (m_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
+				assert(_dictionary[i].value.readAccessFunc == OD_NO_INDIRECT_READ_ACCESS
+						&& (_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
 			}
 
-			if (m_dictionary[i].hasWriteAccess())
+			if (_dictionary[i].hasWriteAccess())
 			{
-				assert(m_dictionary[i].value.writeAccessFunc != OD_NO_INDIRECT_WRITE_ACCESS
-						|| (m_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
+				assert(_dictionary[i].value.writeAccessFunc != OD_NO_INDIRECT_WRITE_ACCESS
+						|| (_dictionary[i].value.dataPtr != OD_NO_DIRECT_ACCESS));
 			}
 			else
 			{
-				assert(m_dictionary[i].value.writeAccessFunc == OD_NO_INDIRECT_WRITE_ACCESS
-						&& (m_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
+				assert(_dictionary[i].value.writeAccessFunc == OD_NO_INDIRECT_WRITE_ACCESS
+						&& (_dictionary[i].value.dataPtr == OD_NO_DIRECT_ACCESS));
 			}
 		}
 	}
@@ -659,33 +659,33 @@ private:
 			SysLog::resetWarning(sys::Warning::CanBusError);
 
 			size_t rpdoIdx = (interruptCause - static_cast<size_t>(CobType::Rpdo1)) / 2;
-			(*server->m_rpdoList)[rpdoIdx].timepoint = mcu::chrono::SystemClock::now();
+			(*server->_rpdoList)[rpdoIdx].timepoint = mcu::chrono::SystemClock::now();
 
-			if (server->m_rpdoReceived[rpdoIdx].local.isSet())
+			if (server->_rpdoReceived[rpdoIdx].local.isSet())
 			{
 				SysLog::setWarning(sys::Warning::CanBusOverrun);
 			}
 			else
 			{
 				// there is no unprocessed RPDO of this type
-				canModule->recv(interruptCause, (*server->m_rpdoList)[rpdoIdx].data.data);
-				server->m_rpdoReceived[rpdoIdx].local.set();
+				canModule->recv(interruptCause, (*server->_rpdoList)[rpdoIdx].data.data);
+				server->_rpdoReceived[rpdoIdx].local.set();
 			}
 		}
 
 		case CobType::Rsdo:
 		{
 			SysLog::resetWarning(sys::Warning::CanBusError);
-			if (server->m_rsdoReceived.local.isSet()
-					|| server->m_tsdoReady.isSet())
+			if (server->_rsdoReceived.local.isSet()
+					|| server->_tsdoReady.isSet())
 			{
 				SysLog::setWarning(sys::Warning::CanBusOverrun);
 				SysLog::addMessage(sys::Message::CanSdoRequestLost);
 			}
 			else
 			{
-				canModule->recv(interruptCause, server->m_rsdoData->data);
-				server->m_rsdoReceived.local.set();
+				canModule->recv(interruptCause, server->_rsdoData->data);
+				server->_rsdoReceived.local.set();
 			}
 			break;
 		}

@@ -87,10 +87,10 @@ public:
 			ODEntry* objectDictionary, size_t objectDictionaryLen)
 		: IServer<CanPeripheral, IpcMode, IpcRole>(nodeId, canModule, ipcFlags, objectDictionary, objectDictionaryLen)
 	{
-		this->registerTpdo(TpdoType::Tpdo1, 50);
-		this->registerTpdo(TpdoType::Tpdo2, 100);
-		this->registerTpdo(TpdoType::Tpdo3, 1000);
-		this->registerTpdo(TpdoType::Tpdo4, 100);
+		this->_registerTpdo(TpdoType::Tpdo1, 50);
+		this->_registerTpdo(TpdoType::Tpdo2, 100);
+		this->_registerTpdo(TpdoType::Tpdo3, 1000);
+		this->_registerTpdo(TpdoType::Tpdo4, 100);
 	}
 
 	Server(const IpcFlags& ipcFlags, ODEntry* objectDictionary, size_t objectDictionaryLen)
@@ -100,7 +100,7 @@ public:
 	}
 
 protected:
-	virtual can_payload createTpdo1()
+	virtual can_payload _createTpdo1()
 	{
 		CobTpdo1 tpdo;
 
@@ -109,7 +109,7 @@ protected:
 		return toPayload<CobTpdo1>(tpdo);
 	}
 
-	virtual can_payload createTpdo2()
+	virtual can_payload _createTpdo2()
 	{
 		CobTpdo2 tpdo;
 
@@ -119,7 +119,7 @@ protected:
 		return toPayload<CobTpdo2>(tpdo);
 	}
 
-	virtual can_payload createTpdo3()
+	virtual can_payload _createTpdo3()
 	{
 		const emb::Array<unsigned int, 2> heartbeatValues = {0x55, 0xAA};
 		static size_t heartbeatIndex = 0;
@@ -132,7 +132,7 @@ protected:
 		return toPayload<CobTpdo3>(tpdo);
 	}
 
-	virtual can_payload createTpdo4()
+	virtual can_payload _createTpdo4()
 	{
 		CobTpdo4 tpdo;
 
@@ -142,22 +142,22 @@ protected:
 		return toPayload<CobTpdo4>(tpdo);
 	}
 
-	virtual void handleRpdo1(const can_payload& data)
+	virtual void _handleRpdo1(const can_payload& data)
 	{
 
 	}
 
-	virtual void handleRpdo2(const can_payload& data)
+	virtual void _handleRpdo2(const can_payload& data)
 	{
 
 	}
 
-	virtual void handleRpdo3(const can_payload& data)
+	virtual void _handleRpdo3(const can_payload& data)
 	{
 
 	}
 
-	virtual void handleRpdo4(const can_payload& data)
+	virtual void _handleRpdo4(const can_payload& data)
 	{
 
 	}

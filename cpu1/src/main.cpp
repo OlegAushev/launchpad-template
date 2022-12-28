@@ -285,11 +285,11 @@ void main()
 #ifdef DUALCORE
 	ucanopen::IpcFlags canIpcFlags =
 	{
-		.rpdo1Reveived = mcu::ipc::Flag(4, mcu::ipc::Mode::Dualcore),
-		.rpdo2Reveived = mcu::ipc::Flag(5, mcu::ipc::Mode::Dualcore),
-		.rpdo3Reveived = mcu::ipc::Flag(6, mcu::ipc::Mode::Dualcore),
-		.rpdo4Reveived = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
-		.rsdoReveived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore),
+		.rpdo1Received = mcu::ipc::Flag(4, mcu::ipc::Mode::Dualcore),
+		.rpdo2Received = mcu::ipc::Flag(5, mcu::ipc::Mode::Dualcore),
+		.rpdo3Received = mcu::ipc::Flag(6, mcu::ipc::Mode::Dualcore),
+		.rpdo4Received = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
+		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore),
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Dualcore)
 	};
 	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;

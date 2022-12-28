@@ -64,14 +64,14 @@ inline bool operator==(const char* name, const Cmd& cmd)
 class Shell
 {
 private:
-	static Cmd COMMANDS[];
-	static const size_t COMMANDS_COUNT;
-	static Cmd* COMMANDS_END;
+	static Cmd _commands[];
+	static const size_t _commandsCount;
+	static Cmd* _commandsEnd;
 public:
 	static void init();
 	static int exec(int argc, const char** argv);
 private:
-	static int list(int argc, const char** argv);
+	static int _list(int argc, const char** argv);
 };
 
 

@@ -15,29 +15,29 @@
 
 
 #ifdef DUALCORE
-emb::Queue<sys::Message::Message, 32> SysLog::s_messages __attribute__((section("shared_syslog_messages"), retain));
+emb::Queue<sys::Message::Message, 32> SysLog::_messages __attribute__((section("shared_syslog_messages"), retain));
 #else
-emb::Queue<sys::Message::Message, 32> SysLog::s_messages;
+emb::Queue<sys::Message::Message, 32> SysLog::_messages;
 #endif
 
 
 #ifdef DUALCORE
-sys::Message::Message SysLog::s_cpu2Message __attribute__((section("shared_syslog_message_cpu2"), retain)) = sys::Message::NoMessage;
+sys::Message::Message SysLog::_cpu2Message __attribute__((section("shared_syslog_message_cpu2"), retain)) = sys::Message::NoMessage;
 #endif
 
 
 #ifdef DUALCORE
-SysLog::Data SysLog::s_cpu1Data __attribute__((section("shared_syslog_data_cpu1"), retain));
-SysLog::Data SysLog::s_cpu2Data __attribute__((section("shared_syslog_data_cpu2"), retain));
+SysLog::Data SysLog::_cpu1Data __attribute__((section("shared_syslog_data_cpu1"), retain));
+SysLog::Data SysLog::_cpu2Data __attribute__((section("shared_syslog_data_cpu2"), retain));
 #else
-SysLog::Data SysLog::s_cpu1Data;
+SysLog::Data SysLog::_cpu1Data;
 #endif
 
 
-SysLog::Data* SysLog::s_thisCpuData;
+SysLog::Data* SysLog::_thisCpuData;
 
 
 // IPC flags
-SysLog::IpcFlags SysLog::s_ipcFlags;
+SysLog::IpcFlags SysLog::_ipcFlags;
 
 

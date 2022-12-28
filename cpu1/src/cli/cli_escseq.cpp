@@ -23,25 +23,25 @@ namespace cli {
 void Server::_escReturn()
 {
 #ifdef CLI_USE_HISTORY
-	if (!s_cmdline.empty())
+	if (!_cmdline.empty())
 	{
-		if (s_history.empty())
+		if (_history.empty())
 		{
-			s_history.push(s_cmdline);
-			s_lastCmdHistoryPos = 0;
+			_history.push(_cmdline);
+			_lastCmdHistoryPos = 0;
 		}
-		else if (s_cmdline != s_history.back())
+		else if (_cmdline != _history.back())
 		{
-			s_history.push(s_cmdline);
-			s_lastCmdHistoryPos = (s_lastCmdHistoryPos + 1) % s_history.capacity();
+			_history.push(_cmdline);
+			_lastCmdHistoryPos = (_lastCmdHistoryPos + 1) % _history.capacity();
 		}
 	}
-	s_newCmdSaved = true;
-	s_historyPosition = s_lastCmdHistoryPos;
+	_newCmdSaved = true;
+	_historyPosition = _lastCmdHistoryPos;
 #endif
 
 	const char* argv[CLI_TOKEN_MAX_COUNT];
-	int argc = tokenize(argv, s_cmdline);
+	int argc = _tokenize(argv, _cmdline);
 
 	switch (argc)
 	{
@@ -52,11 +52,11 @@ void Server::_escReturn()
 	case 0:
 		break;
 	default:
-		exec(argc, argv);
+		_exec(argc, argv);
 		break;
 	}
 
-	printPrompt();
+	_printPrompt();
 }
 
 ///
@@ -64,9 +64,9 @@ void Server::_escReturn()
 ///
 void Server::_escMoveCursorLeft()
 {
-	if (s_cursorPos > 0)
+	if (_cursorPos > 0)
 	{
-		--s_cursorPos;
+		--_cursorPos;
 		print(CLI_ESC"[D");
 	}
 
@@ -78,9 +78,9 @@ void Server::_escMoveCursorLeft()
 ///
 void Server::_escMoveCursorRight()
 {
-	if (s_cursorPos < s_cmdline.lenght())
+	if (_cursorPos < _cmdline.lenght())
 	{
-		++s_cursorPos;
+		++_cursorPos;
 		print(CLI_ESC"[C");
 	}
 }
@@ -91,10 +91,10 @@ void Server::_escMoveCursorRight()
 ///
 void Server::_escHome()
 {
-	if (s_cursorPos > 0)
+	if (_cursorPos > 0)
 	{
-		moveCursor(-s_cursorPos);
-		s_cursorPos = 0;
+		_moveCursor(-_cursorPos);
+		_cursorPos = 0;
 	}
 }
 
@@ -104,10 +104,10 @@ void Server::_escHome()
 ///
 void Server::_escEnd()
 {
-	if (s_cursorPos < s_cmdline.lenght())
+	if (_cursorPos < _cmdline.lenght())
 	{
-		moveCursor(s_cmdline.lenght() - s_cursorPos);
-		s_cursorPos = s_cmdline.lenght();
+		_moveCursor(_cmdline.lenght() - _cursorPos);
+		_cursorPos = _cmdline.lenght();
 	}
 }
 
@@ -117,19 +117,19 @@ void Server::_escEnd()
 ///
 void Server::_escBack()
 {
-	if (s_cursorPos > 0)
+	if (_cursorPos > 0)
 	{
-		memmove(s_cmdline.begin() + s_cursorPos - 1,
-				s_cmdline.begin() + s_cursorPos,
-				s_cmdline.lenght() - s_cursorPos);
-		s_cmdline.pop_back();
-		--s_cursorPos;
+		memmove(_cmdline.begin() + _cursorPos - 1,
+				_cmdline.begin() + _cursorPos,
+				_cmdline.lenght() - _cursorPos);
+		_cmdline.pop_back();
+		--_cursorPos;
 
 		print(CLI_ESC"[D"" "CLI_ESC"[D");	// delete symbol
-		saveCursorPos();
-		print(s_cmdline.begin() + s_cursorPos);
+		_saveCursorPos();
+		print(_cmdline.begin() + _cursorPos);
 		print(" ");				// hide last symbol
-		loadCursorPos();
+		_loadCursorPos();
 	}
 }
 
@@ -139,17 +139,17 @@ void Server::_escBack()
 ///
 void Server::_escDel()
 {
-	if (s_cursorPos < s_cmdline.lenght())
+	if (_cursorPos < _cmdline.lenght())
 	{
-		memmove(s_cmdline.begin() + s_cursorPos,
-				s_cmdline.begin() + s_cursorPos + 1,
-				s_cmdline.lenght() - s_cursorPos);
-		s_cmdline.pop_back();
+		memmove(_cmdline.begin() + _cursorPos,
+				_cmdline.begin() + _cursorPos + 1,
+				_cmdline.lenght() - _cursorPos);
+		_cmdline.pop_back();
 
-		saveCursorPos();
-		print(s_cmdline.begin() + s_cursorPos);
+		_saveCursorPos();
+		print(_cmdline.begin() + _cursorPos);
 		print(" ");
-		loadCursorPos();
+		_loadCursorPos();
 	}
 }
 
@@ -160,9 +160,9 @@ void Server::_escDel()
 void Server::_escUp()
 {
 #ifdef CLI_USE_HISTORY
-	if (!s_history.empty())
+	if (!_history.empty())
 	{
-		searchHistory(CLI_HISTORY_SEARCH_UP);
+		_searchHistory(CLI_HISTORY_SEARCH_UP);
 	}
 #endif
 }
@@ -174,9 +174,9 @@ void Server::_escUp()
 void Server::_escDown()
 {
 #ifdef CLI_USE_HISTORY
-	if (!s_history.empty())
+	if (!_history.empty())
 	{
-		searchHistory(CLI_HISTORY_SEARCH_DOWN);
+		_searchHistory(CLI_HISTORY_SEARCH_DOWN);
 	}
 #endif
 }

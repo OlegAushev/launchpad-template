@@ -38,23 +38,23 @@ class Server
 	friend void print(const char* str);
 	friend void print_blocking(const char* str);
 private:
-	static emb::IUart* s_uart;
-	static emb::gpio::IOutput* s_pinRTS;
-	static emb::gpio::IInput* s_pinCTS;
+	static emb::IUart* _uart;
+	static emb::gpio::IOutput* _pinRTS;
+	static emb::gpio::IInput* _pinCTS;
 
-	static char s_prompt[CLI_PROMPT_MAX_LENGTH];
-	static emb::String<CLI_CMDLINE_MAX_LENGTH> s_cmdline;
-	static emb::String<CLI_ESCSEQ_MAX_LENGTH> s_escseq;
+	static char _prompt[CLI_PROMPT_MAX_LENGTH];
+	static emb::String<CLI_CMDLINE_MAX_LENGTH> _cmdline;
+	static emb::String<CLI_ESCSEQ_MAX_LENGTH> _escseq;
 
-	static size_t s_cursorPos;
+	static size_t _cursorPos;
 
-	static emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> s_outputBuf;
+	static emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> _outputBuf;
 
 #ifdef CLI_USE_HISTORY
-	static emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> s_history;
-	static size_t s_lastCmdHistoryPos;
-	static size_t s_historyPosition;
-	static bool s_newCmdSaved;
+	static emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> _history;
+	static size_t _lastCmdHistoryPos;
+	static size_t _historyPosition;
+	static bool _newCmdSaved;
 #endif
 
 private:
@@ -64,33 +64,33 @@ public:
 	Server(const char* deviceName, emb::IUart* uart, emb::gpio::IOutput* pinRTS, emb::gpio::IInput* pinCTS);
 
 	void run();
-	void registerExecCallback(int (*_exec)(int argc, const char** argv))
+	void registerExecCallback(int (*exec_)(int argc, const char** argv))
 	{
-		exec = _exec;
+		_exec = exec_;
 	}
 
 private:
-	static void print(char ch);
-	static void print(const char* str);
-	static void printBlocking(const char* str);
+	static void _print(char ch);
+	static void _print(const char* str);
+	static void _printBlocking(const char* str);
 
-	static void processChar(char ch);
-	static void saveCursorPos() { print(CLI_ESC"[s"); }
-	static void loadCursorPos() { print(CLI_ESC"[u"); }
-	static void moveCursor(int offset);
-	static void printWelcome();
-	static void printPrompt();
-	static int tokenize(const char** argv, emb::String<CLI_CMDLINE_MAX_LENGTH>& cmdline);
+	static void _processChar(char ch);
+	static void _saveCursorPos() { _print(CLI_ESC"[s"); }
+	static void _loadCursorPos() { _print(CLI_ESC"[u"); }
+	static void _moveCursor(int offset);
+	static void _printWelcome();
+	static void _printPrompt();
+	static int _tokenize(const char** argv, emb::String<CLI_CMDLINE_MAX_LENGTH>& cmdline);
 
-	static int (*exec)(int argc, const char** argv);
-	static int execNull(int argc, const char** argv)
+	static int (*_exec)(int argc, const char** argv);
+	static int _execNull(int argc, const char** argv)
 	{
-		print(CLI_ENDL"error: exec-callback not registered");
-		print(CLI_ENDL"tokens:");
+		_print(CLI_ENDL"error: exec-callback not registered");
+		_print(CLI_ENDL"tokens:");
 		for (size_t i= 0; i < argc; ++i)
 		{
-			print(CLI_ENDL);
-			print(argv[i]);
+			_print(CLI_ENDL);
+			_print(argv[i]);
 		}
 		return -1;
 	}
@@ -105,7 +105,7 @@ public:
 		size_t len;
 		void (*handler)();
 	};
-	static const EscSeq ESCSEQ_LIST[];
+	static const EscSeq escSeqList[];
 private:
 	static void _escReturn();
 	static void _escMoveCursorLeft();
@@ -124,14 +124,14 @@ private:
 		CLI_HISTORY_SEARCH_UP,
 		CLI_HISTORY_SEARCH_DOWN,
 	};
-	static void searchHistory(HistorySearchDirection dir);
+	static void _searchHistory(HistorySearchDirection dir);
 #endif
 };
 
 
 inline void print(const char* str)
 {
-	Server::print(str);
+	Server::_print(str);
 }
 
 
@@ -143,7 +143,7 @@ inline void nextline()
 
 inline void print_blocking(const char* str)
 {
-	Server::printBlocking(str);
+	Server::_printBlocking(str);
 }
 
 
