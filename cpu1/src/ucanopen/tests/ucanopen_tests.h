@@ -40,8 +40,8 @@ struct CobTpdo1
 
 struct CobTpdo2
 {
-	uint32_t seconds;
 	uint32_t milliseconds;
+	uint32_t seconds;
 	CobTpdo2()
 	{
 		EMB_STATIC_ASSERT(sizeof(CobTpdo2) == 4);
