@@ -23,7 +23,7 @@
 #include "mcu_f2837xd/system/mcu_system.h"
 #include "mcu_f2837xd/ipc/mcu_ipc.h"
 
-#include "syslog_conf.h"
+#include "syslog_config.h"
 
 
 /// @addtogroup syslog

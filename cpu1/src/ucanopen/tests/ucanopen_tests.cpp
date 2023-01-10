@@ -80,9 +80,8 @@ ODEntry objectDictionary[] = {
 {{0x5FFF, 0x00}, {"system", "info", "firmware_version", "", OD_STRING_4CHARS, OD_ACCESS_RO, OD_NO_DIRECT_ACCESS, od::getFirmwareVersion, OD_NO_INDIRECT_WRITE_ACCESS}},
 {{0x5FFF, 0x01}, {"system", "info", "build_configuration", "", OD_STRING_4CHARS, OD_ACCESS_RO, OD_NO_DIRECT_ACCESS, od::getBuildConfiguration, OD_NO_INDIRECT_WRITE_ACCESS}},
 
-{{0x2000, 0x00}, {"system", "syslog", "message", "", OD_UINT32, OD_ACCESS_RO, OD_NO_DIRECT_ACCESS, od::getSyslogMessage, OD_NO_INDIRECT_WRITE_ACCESS}},
-
 {{0x5000, 0x00}, {"watch", "watch", "uptime", "s", OD_FLOAT32, OD_ACCESS_RO, OD_NO_DIRECT_ACCESS, od::getUptime, OD_NO_INDIRECT_WRITE_ACCESS}},
+{{0x5000, 0x01}, {"watch", "watch", "syslog_message", "", OD_UINT32, OD_ACCESS_RO, OD_NO_DIRECT_ACCESS, od::getSyslogMessage, OD_NO_INDIRECT_WRITE_ACCESS}},
 
 };
 

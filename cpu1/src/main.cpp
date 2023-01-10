@@ -157,6 +157,7 @@ void main()
 		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::Mode::Dualcore)
 	};
 	SysLog::init(syslogIpcFlags);
+	SysLog::addMessage(sys::Message::DeviceCpu1Booting);
 	SysLog::addMessage(sys::Message::DeviceCpu1BootSuccess);
 
 	cli::print_blocking("done.");
@@ -231,7 +232,7 @@ void main()
 	cli::print_blocking("CPU2 boot... ");
 
 	mcu::bootCpu2();
-	SysLog::addMessage(sys::Message::DeviceCpu2Boot);
+	SysLog::addMessage(sys::Message::DeviceCpu2Booting);
 	mcu::ipc::flags::cpu2Booted.remote.wait();
 	SysLog::addMessage(sys::Message::DeviceCpu2BootSuccess);
 
@@ -304,7 +305,7 @@ void main()
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Singlecore)
 	};
 	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
-			ucanopen::NodeId(0x142), &canB, canIpcFlags,
+			ucanopen::NodeId(0x1), &canB, canIpcFlags,
 			ucanopen::tests::objectDictionary, ucanopen::tests::objectDictionaryLen);
 #endif
 

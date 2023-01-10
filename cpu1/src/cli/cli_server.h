@@ -22,7 +22,7 @@
 #include "emb/emb_string.h"
 #include "emb/emb_circularbuffer.h"
 
-#include "cli_conf.h"
+#include "cli_config.h"
 
 
 namespace cli {

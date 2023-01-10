@@ -51,15 +51,15 @@ const uint32_t fatalWarnings = 0;
 SCOPED_ENUM_UT_DECLARE_BEGIN(Message, uint32_t)
 {
 	NoMessage,
-	DeviceCpu1Boot,
+	DeviceCpu1Booting,
 	DeviceCpu1BootSuccess,
-	DeviceCpu2Boot,
+	DeviceCpu2Booting,
 	DeviceCpu2BootSuccess,
 	DeviceCpu1Ready,
 	DeviceCpu2Ready,
 	DeviceReady,
 	DeviceBusy,
-	DeviceSoftwareReset,
+	DeviceSoftwareResetting,
 	CanSdoRequestLost,
 }
 SCOPED_ENUM_DECLARE_END(Message)
