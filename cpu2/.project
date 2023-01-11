@@ -40,6 +40,11 @@
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/cpu1/src/sys</locationURI>
 		</link>
+		<link>
+			<name>src/ucanopen</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/cpu1/src/ucanopen</locationURI>
+		</link>
 	</linkedResources>
 	<variableList>
 		<variable>

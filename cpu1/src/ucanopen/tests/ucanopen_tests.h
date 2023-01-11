@@ -83,20 +83,24 @@ template <mcu::can::Peripheral::enum_type CanPeripheral, mcu::ipc::Mode::enum_ty
 class Server : public IServer<CanPeripheral, IpcMode, IpcRole>
 {
 public:
-	Server(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags,
-			ODEntry* objectDictionary, size_t objectDictionaryLen)
-		: IServer<CanPeripheral, IpcMode, IpcRole>(nodeId, canModule, ipcFlags, objectDictionary, objectDictionaryLen)
+	Server(NodeId nodeId, mcu::can::Module<CanPeripheral>* canModule, const IpcFlags& ipcFlags)
+		: IServer<CanPeripheral, IpcMode, IpcRole>(nodeId, canModule, ipcFlags,
+				IpcMode == mcu::ipc::Mode::Singlecore ? objectDictionary : NULL,
+				IpcMode == mcu::ipc::Mode::Singlecore ? objectDictionaryLen : 0)
 	{
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
+
 		this->_registerTpdo(TpdoType::Tpdo1, 50);
 		this->_registerTpdo(TpdoType::Tpdo2, 100);
 		this->_registerTpdo(TpdoType::Tpdo3, 1000);
 		this->_registerTpdo(TpdoType::Tpdo4, 100);
 	}
 
-	Server(const IpcFlags& ipcFlags, ODEntry* objectDictionary, size_t objectDictionaryLen)
+	Server(const IpcFlags& ipcFlags)
 		: IServer<CanPeripheral, IpcMode, IpcRole>(ipcFlags, objectDictionary, objectDictionaryLen)
 	{
-
+		EMB_STATIC_ASSERT(IpcMode == mcu::ipc::Mode::Dualcore);
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
 	}
 
 protected:

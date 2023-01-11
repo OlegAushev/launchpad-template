@@ -118,7 +118,7 @@ public:
 			_messages.push(msg);
 		}
 #else
-		if (_ipcFlags.ipcAddMessage.local.check())
+		if (_ipcFlags.ipcAddMessage.local.isSet())
 		{
 			return;
 		}
@@ -192,7 +192,7 @@ public:
 		}
 #endif
 #ifdef CPU2
-		if (_ipcFlags.ipcResetErrorsWarnings.remote.check())
+		if (_ipcFlags.ipcResetErrorsWarnings.remote.isSet())
 		{
 			resetErrorsWarnings();
 			_ipcFlags.ipcResetErrorsWarnings.remote.acknowledge();

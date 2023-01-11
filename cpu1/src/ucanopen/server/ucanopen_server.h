@@ -105,6 +105,7 @@ private:
 protected:
 	void _registerTpdo(TpdoType type, uint64_t period)
 	{
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
 		_tpdoList[type.underlying_value()].period = period;
 	}
 
@@ -120,6 +121,7 @@ private:
 protected:
 	void _registerRpdo(RpdoType type, uint64_t timeout, unsigned int id = 0)
 	{
+		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Primary);
 		_rpdoList[type.underlying_value()].timeout = timeout;
 		if (id != 0)
 		{
@@ -197,7 +199,15 @@ public:
 		_rpdoReceived[RpdoType::Rpdo4] = ipcFlags.rpdo4Received;
 
 		// sdo setup
-		_initObjectDictionary();
+		if (IpcMode == mcu::ipc::Mode::Dualcore
+				&& IpcRole == mcu::ipc::Role::Primary)
+		{
+			assert(_dictionary == NULL);
+		}
+		else
+		{
+			_initObjectDictionary();
+		}
 		_rsdoReceived = ipcFlags.rsdoReceived;
 		_tsdoReady = ipcFlags.tsdoReady;
 
@@ -217,11 +227,10 @@ public:
 		: emb::c28x::interrupt_invoker<IServer<CanPeripheral, IpcMode, IpcRole> >(this)
 		, _nodeId(NodeId(0))
 		, _canModule(NULL)
-		, _ipcFlags(ipcFlags)
 		, _dictionary(objectDictionary)
 		, _dictionaryLen(objectDictionaryLen)
 	{
-		EMB_STATIC_ASSERT(IpcMode != mcu::ipc::Mode::Singlecore);
+		EMB_STATIC_ASSERT(IpcMode == mcu::ipc::Mode::Dualcore);
 		EMB_STATIC_ASSERT(IpcRole == mcu::ipc::Role::Secondary);
 
 		_initAllocation();
@@ -567,13 +576,6 @@ private:
 	 */
 	void _initObjectDictionary()
 	{
-		if (IpcMode == mcu::ipc::Mode::Dualcore
-				&& IpcRole == mcu::ipc::Role::Primary)
-		{
-			assert(_dictionary == NULL);
-			return;
-		}
-
 		assert(_dictionary != NULL);
 
 		std::sort(_dictionary, _dictionary + _dictionaryLen);

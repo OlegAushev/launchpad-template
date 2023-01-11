@@ -19,10 +19,34 @@
 #include "mcu_f2837xd/spi/mcu_spi.h"
 #include "mcu_f2837xd/dac/mcu_dac.h"
 
+#include "mcu_f2837xd/can/mcu_can.h"
+#include "ucanopen/server/ucanopen_server.h"
+#include "ucanopen/tests/ucanopen_tests.h"
+
 #include "sys/syslog/syslog.h"
 #include "clocktasks/clocktasks_cpu2.h"
 
 #include "bsp_launchxl_f28379d/bsp_launchxl_f28379d.h"
+
+
+/* ========================================================================== */
+/* ============================ SYSTEM INFO ================================= */
+/* ========================================================================== */
+const char* SysInfo::deviceName = "LaunchPad template project";
+const char* SysInfo::deviceNameShort = "C28x";
+const char* SysInfo::firmwareVersion = GIT_DESCRIBE;
+const uint32_t SysInfo::firmwareVersionNum = GIT_COMMIT_NUM;
+
+#if defined(ON_TARGET_TEST_BUILD)
+const char* SysInfo::buildConfiguration = "TEST";
+const char* SysInfo::buildConfigurationShort = "TEST";
+#elif defined(DEBUG)
+const char* SysInfo::buildConfiguration = "DEBUG";
+const char* SysInfo::buildConfigurationShort = "DBG";
+#else
+const char* SysInfo::buildConfiguration = "RELEASE";
+const char* SysInfo::buildConfigurationShort = "RLS";
+#endif
 
 
 /* ========================================================================== */
@@ -50,9 +74,9 @@ void main()
 	/*##########*/
 	SysLog::IpcFlags syslogIpcFlags =
 	{
-		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::IpcMode::Dualcore),
-		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::IpcMode::Dualcore),
-		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::IpcMode::Dualcore)
+		.ipcResetErrorsWarnings = mcu::ipc::Flag(10, mcu::ipc::Mode::Dualcore),
+		.ipcAddMessage = mcu::ipc::Flag(11, mcu::ipc::Mode::Dualcore),
+		.ipcPopMessage = mcu::ipc::Flag(12, mcu::ipc::Mode::Dualcore)
 	};
 	SysLog::init(syslogIpcFlags);
 
@@ -78,6 +102,28 @@ void main()
 	}
 
 /*############################################################################*/
+	/*#######*/
+	/*# CAN #*/
+	/*#######*/
+	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
+			mcu::gpio::Config(17, GPIO_17_CANRXB),
+			mcu::gpio::Config(12, GPIO_12_CANTXB),
+			mcu::can::Bitrate::Bitrate125K,
+			mcu::can::Mode::Normal);
+
+	ucanopen::IpcFlags canIpcFlags =
+	{
+		.rpdo1Received = mcu::ipc::Flag(4, mcu::ipc::Mode::Dualcore),
+		.rpdo2Received = mcu::ipc::Flag(5, mcu::ipc::Mode::Dualcore),
+		.rpdo3Received = mcu::ipc::Flag(6, mcu::ipc::Mode::Dualcore),
+		.rpdo4Received = mcu::ipc::Flag(7, mcu::ipc::Mode::Dualcore),
+		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore),
+		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Dualcore)
+	};
+	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Primary> canServer(
+			ucanopen::NodeId(0x1), &canB, canIpcFlags);
+
+/*############################################################################*/
 	mcu::ipc::flags::cpu2PeripheryConfigured.local.set();
 	mcu::ipc::flags::cpu1PeripheryConfigured.remote.wait();
 
@@ -86,10 +132,13 @@ void main()
 	mcu::enableMaskableInterrupts();
 	mcu::enableDebugEvents();
 
+	canServer.enable();
+
 	while (true)
 	{
 		SysLog::processIpcSignals();
 		mcu::chrono::SystemClock::runTasks();
+		canServer.run();
 	}
 }
 

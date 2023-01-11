@@ -107,7 +107,7 @@ void main()
 	cli::print_blocking(SysInfo::firmwareVersion);
 	cli::print_blocking(CLI_COLOR_OFF);
 	cli::nextline_blocking();
-	cli::print_blocking("CPU1 boot... success.");
+	cli::print_blocking("Boot CPU1... success.");
 
 /*############################################################################*/
 	/*#######*/
@@ -229,7 +229,7 @@ void main()
 	cli::print_blocking("success.");
 
 	cli::nextline_blocking();
-	cli::print_blocking("CPU2 boot... ");
+	cli::print_blocking("Boot CPU2... ");
 
 	mcu::bootCpu2();
 	SysLog::addMessage(sys::Message::DeviceCpu2Booting);
@@ -277,12 +277,6 @@ void main()
 	cli::nextline_blocking();
 	cli::print_blocking("Configuring CAN... ");
 
-	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
-			mcu::gpio::Config(17, GPIO_17_CANRXB),
-			mcu::gpio::Config(12, GPIO_12_CANTXB),
-			mcu::can::Bitrate::Bitrate125K,
-			mcu::can::Mode::Normal);
-
 #ifdef DUALCORE
 	ucanopen::IpcFlags canIpcFlags =
 	{
@@ -293,8 +287,14 @@ void main()
 		.rsdoReceived = mcu::ipc::Flag(8, mcu::ipc::Mode::Dualcore),
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Dualcore)
 	};
-	ucanopen::IServer<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer;
+	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Dualcore, mcu::ipc::Role::Secondary> canServer(canIpcFlags);
 #else
+	mcu::can::Module<mcu::can::Peripheral::CanB> canB(
+			mcu::gpio::Config(17, GPIO_17_CANRXB),
+			mcu::gpio::Config(12, GPIO_12_CANTXB),
+			mcu::can::Bitrate::Bitrate125K,
+			mcu::can::Mode::Normal);
+
 	ucanopen::IpcFlags canIpcFlags =
 	{
 		.rpdo1Received = mcu::ipc::Flag(4, mcu::ipc::Mode::Singlecore),
@@ -305,8 +305,7 @@ void main()
 		.tsdoReady = mcu::ipc::Flag(9, mcu::ipc::Mode::Singlecore)
 	};
 	ucanopen::tests::Server<mcu::can::Peripheral::CanB, mcu::ipc::Mode::Singlecore, mcu::ipc::Role::Primary> canServer(
-			ucanopen::NodeId(0x1), &canB, canIpcFlags,
-			ucanopen::tests::objectDictionary, ucanopen::tests::objectDictionaryLen);
+			ucanopen::NodeId(0x1), &canB, canIpcFlags);
 #endif
 
 	cli::print_blocking("done.");
